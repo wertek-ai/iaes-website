@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/asset.health",
+  "title": "IAES asset.health",
+  "description": "AI diagnosis or health state change for an industrial asset",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "asset.health" },
+    "data": {
+      "type": "object",
+      "required": ["health_index", "severity"],
+      "properties": {
+        "health_index": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Normalized health score (0 = failed, 1 = healthy)"
+        },
+        "anomaly_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Probability of anomaly (0 = normal, 1 = anomalous)"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "low", "medium", "high", "critical"],
+          "description": "Severity classification"
+        },
+        "failure_mode": {
+          "type": ["string", "null"],
+          "description": "Classified fault type",
+          "examples": [
+            "bearing_inner_race", "bearing_outer_race", "bearing_ball",
+            "misalignment", "unbalance", "looseness", "gear_mesh",
+            "electrical_fault", "cavitation", "overheating"
+          ]
+        },
+        "fault_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Confidence in the fault classification"
+        },
+        "rul_days": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Remaining Useful Life in days"
+        },
+        "recommended_action": {
+          "type": ["string", "null"],
+          "description": "Human-readable recommended action"
+        },
+        "estimated_downtime_hours": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Estimated repair/intervention duration in hours"
+        }
+      }
+    }
+  }
+}

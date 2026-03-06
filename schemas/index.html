@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES v1.0 — JSON Schemas</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c1117; --bg-raised: #131920; --bg-code: #0d1520;
+      --border: rgba(56, 189, 248, 0.10); --border-strong: rgba(56, 189, 248, 0.20);
+      --text: #c9d5e3; --text-bright: #e8eef5; --text-dim: #6b7f96;
+      --accent: #00BCD4; --accent-dim: rgba(0, 188, 212, 0.12);
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Fira Code', 'Consolas', monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafb; --bg-raised: #ffffff; --bg-code: #edf2f7;
+        --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+        --text: #334155; --text-bright: #0f172a; --text-dim: #94a3b8;
+        --accent: #0891b2; --accent-dim: rgba(8,145,178,0.08);
+      }
+    }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; }
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(12,17,23,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+    @media (prefers-color-scheme: light) { .nav { background: rgba(248,250,251,0.85); } }
+    .nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; color: var(--accent); text-decoration: none; letter-spacing: 0.06em; }
+    .nav-brand span { color: var(--text-dim); font-weight: 400; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text-bright); }
+    .page { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-bright); margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 2rem; }
+    .schema-card {
+      background: var(--bg-raised); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1.2rem 1.5rem; margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      transition: border-color 0.2s;
+    }
+    .schema-card:hover { border-color: var(--border-strong); }
+    .schema-info h3 { font-size: 1rem; font-weight: 600; color: var(--text-bright); margin-bottom: 0.2rem; }
+    .schema-info p { font-size: 0.85rem; color: var(--text-dim); margin: 0; }
+    .schema-link {
+      font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent);
+      text-decoration: none; background: var(--accent-dim); padding: 0.4rem 0.8rem;
+      border-radius: 6px; white-space: nowrap; transition: opacity 0.2s;
+    }
+    .schema-link:hover { opacity: 0.8; text-decoration: none; }
+    pre {
+      background: var(--bg-code); border: 1px solid var(--border); border-radius: 8px;
+      padding: 1rem 1.2rem; overflow-x: auto; font-family: var(--font-mono);
+      font-size: 0.8rem; line-height: 1.6; color: var(--text); margin-top: 0.6rem;
+      white-space: pre; overflow-wrap: normal;
+    }
+    details { margin-bottom: 1rem; }
+    summary { cursor: pointer; color: var(--accent); font-size: 0.82rem; font-weight: 500; padding: 0.3rem 0; }
+    summary:hover { text-decoration: underline; }
+    .footer { border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 3rem; text-align: center; color: var(--text-dim); font-size: 0.82rem; }
+    .footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 600px) {
+      .schema-card { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="/" class="nav-brand">IAES <span>v1.0</span></a>
+  <div class="nav-links">
+    <a href="/spec/">Specification</a>
+    <a href="/schemas/" style="color: var(--text-bright)">Schemas</a>
+    <a href="/examples/">Examples</a>
+    <a href="https://github.com/wertek-ai/iaes">GitHub</a>
+  </div>
+</div></nav>
+
+<main class="page">
+  <h1>JSON Schemas</h1>
+  <p class="subtitle">Machine-readable definitions for all IAES v1.0 event types. Use these to validate events in your pipeline.</p>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>Common Envelope</h3>
+      <p>Base envelope shared by all IAES v1 events. Defines spec_version, event_type, event_id, correlation_id, timestamp, source, content_hash, and asset identity.</p>
+    </div>
+    <a href="iaes-envelope.schema.json" class="schema-link">envelope.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>asset.measurement</h3>
+      <p>Physical sensor reading from an industrial asset. Required fields: measurement_type, value, unit.</p>
+    </div>
+    <a href="asset-measurement.schema.json" class="schema-link">measurement.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>asset.health</h3>
+      <p>AI diagnosis, rule engine alert, or human expert health assessment. Required fields: health_index, severity.</p>
+    </div>
+    <a href="asset-health.schema.json" class="schema-link">health.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>maintenance.work_order_intent</h3>
+      <p>Declares intent to create a maintenance work order. Required fields: title, priority.</p>
+    </div>
+    <a href="maintenance-work-order-intent.schema.json" class="schema-link">intent.json</a>
+  </div>
+
+  <h3 style="margin-top: 2.5rem; color: var(--text-bright);">Validation Example</h3>
+  <p style="font-size: 0.9rem;">Use any JSON Schema validator (Python, Node.js, Go, etc.):</p>
+  <pre>pip install jsonschema
+
+python -c "
+import json, jsonschema
+schema = json.load(open('iaes-envelope.schema.json'))
+event  = json.load(open('../examples/asset-health-ai.json'))
+jsonschema.validate(event, schema)
+print('Valid IAES event')
+"</pre>
+
+  <div class="footer">
+    <a href="/">Home</a> &middot; <a href="/spec/">Specification</a> &middot; <a href="/examples/">Examples</a> &middot; <a href="https://github.com/wertek-ai/iaes">GitHub</a>
+  </div>
+</main>
+</body>
+</html>

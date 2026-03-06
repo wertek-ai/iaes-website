@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES — Industrial Asset Event Standard</title>
+  <meta name="description" content="IAES is a vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <meta name="theme-color" content="#0b1020">
+  <meta property="og:title" content="IAES — Industrial Asset Event Standard">
+  <meta property="og:description" content="A vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev">
+  <link rel="canonical" href="https://iaes.dev">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #101830;
+      --card: rgba(255,255,255,0.035);
+      --card-strong: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.08);
+      --border-bright: rgba(255,255,255,0.14);
+      --text: #e8edf5;
+      --muted: #8a9bbd;
+      --accent: #7cc4ff;
+      --accent-2: #6ee7b7;
+      --accent-3: #fbbf24;
+      --max: 1120px;
+      --radius: 16px;
+      --font-body: 'DM Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse at 18% 8%, rgba(124,196,255,0.12) 0%, transparent 35%),
+        radial-gradient(ellipse at 82% 85%, rgba(110,231,183,0.07) 0%, transparent 30%);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .w { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+
+    /* ── Nav ── */
+    .nav {
+      position: sticky; top: 0; z-index: 30;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(11,16,32,0.75);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      width: min(var(--max), calc(100% - 32px)); margin: 0 auto;
+      height: 64px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .brand-badge {
+      width: 34px; height: 34px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #07111d; font-size: 12px; font-weight: 900;
+    }
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { color: var(--muted); font-size: 13px; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero { padding: 80px 0 48px; }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border: 1px solid var(--border); border-radius: 999px;
+      background: rgba(255,255,255,0.025); color: var(--muted);
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 12px var(--accent-2); }
+    h1 { margin: 18px 0 16px; font-size: clamp(2.2rem,5.5vw,4.2rem); line-height: 1.05; letter-spacing: -0.04em; font-weight: 800; }
+    h1 .hl { color: var(--accent); }
+    .lead { color: var(--muted); font-size: 1.05rem; max-width: 680px; margin-bottom: 14px; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 14px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 18px; border-radius: 12px; font-weight: 700; font-size: 14px;
+      border: 1px solid var(--border); transition: transform 0.15s; text-decoration: none !important;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-p { background: linear-gradient(135deg, var(--accent), #a0d8ff); color: #07111d; border-color: transparent; }
+    .btn-s { background: rgba(255,255,255,0.03); color: var(--text); }
+    .hero-note { color: var(--muted); font-size: 13px; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+    }
+    .card h3 { font-size: 1.05rem; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .card p { color: var(--muted); font-size: 14px; margin: 0; }
+
+    /* Hero stack */
+    .mini-stack { display: grid; gap: 10px; }
+    .stack-box {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 13px 16px; background: rgba(255,255,255,0.025);
+    }
+    .stack-box strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .stack-box .m { color: var(--muted); font-size: 12px; }
+    .stack-box--core { border-color: rgba(124,196,255,0.4); background: rgba(124,196,255,0.06); }
+    .stack-arrow { text-align: center; color: var(--muted); font-size: 16px; line-height: 1; }
+
+    /* ── Sections ── */
+    section { padding: 48px 0; }
+    .sh { max-width: 720px; margin-bottom: 24px; }
+    .sh h2 { font-size: clamp(1.6rem,3.5vw,2.4rem); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 10px; }
+    .sh p { color: var(--muted); }
+
+    /* Grids */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    /* Lists */
+    .pl { padding-left: 18px; color: var(--muted); font-size: 14px; }
+    .pl li { margin-bottom: 6px; }
+
+    /* Pills */
+    .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .pill {
+      font-family: var(--font-mono); font-size: 11px;
+      padding: 4px 10px; border-radius: 6px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+      color: var(--muted);
+    }
+
+    /* Event cards */
+    .ev { position: relative; overflow: hidden; padding-left: 26px; }
+    .ev::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 4px; }
+    .ev--meas::before { background: var(--accent); }
+    .ev--health::before { background: var(--accent-2); }
+    .ev--wo::before { background: var(--accent-3); }
+    .ev .label {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .ev--meas .label { color: var(--accent); }
+    .ev--health .label { color: var(--accent-2); }
+    .ev--wo .label { color: var(--accent-3); }
+
+    /* Code */
+    .code {
+      font-family: var(--font-mono); font-size: 12px;
+      white-space: pre; overflow-x: auto;
+      background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px; color: #c8d8f0;
+      line-height: 1.55;
+    }
+    .code .k { color: var(--accent); }
+    .code .s { color: var(--accent-2); }
+    .code .n { color: var(--accent-3); }
+
+    /* Diagram */
+    .diagram { padding: 24px; overflow-x: auto; }
+    .dia-row { display: flex; align-items: center; gap: 0; min-width: 900px; }
+    .dia-node {
+      flex: 1; min-width: 140px; padding: 16px 14px;
+      border: 1px solid var(--border); border-radius: 14px;
+      background: rgba(255,255,255,0.025); text-align: center;
+    }
+    .dia-node strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .dia-node span { color: var(--muted); font-size: 12px; }
+    .dia-core { border-color: rgba(124,196,255,0.45); background: rgba(124,196,255,0.07); }
+    .dia-arr { flex: 0 0 40px; text-align: center; color: var(--muted); font-size: 18px; }
+
+    /* Spec grid */
+    .sg { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 18px; }
+
+    /* Footer */
+    .footer { padding: 32px 0 48px; color: var(--muted); font-size: 13px; }
+    .footer-inner {
+      display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      padding-top: 20px; border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--muted); }
+    .footer a:hover { color: var(--text); }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .hero-grid, .g2, .g3, .sg { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding-top: 48px; }
+      .card { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><div class="brand-badge">IA</div> IAES</div>
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#solution">Solution</a>
+      <a href="#events">Events</a>
+      <a href="#envelope">Envelope</a>
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#spec">Specification</a>
+      <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="w hero-grid">
+    <div>
+      <div class="eyebrow"><span class="dot"></span> Open Specification v1.0</div>
+      <h1>Industrial Asset<br><span class="hl">Event Standard</span></h1>
+      <p class="lead">A vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.</p>
+      <p class="lead">IAES standardizes how signals, health assessments, and maintenance actions move across heterogeneous systems — AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
+      <div class="cta-row">
+        <a class="btn btn-p" href="/spec/">Read the Specification</a>
+        <a class="btn btn-s" href="#solution">Reference Architecture</a>
+        <a class="btn btn-s" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
+      </div>
+      <p class="hero-note">Open standard. Neutral data model. Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>.</p>
+    </div>
+    <div class="card" style="padding:20px;">
+      <div class="mini-stack">
+        <div class="stack-box"><strong>Signals</strong><span class="m">Sensors, video, SCADA, gateways</span></div>
+        <div class="stack-arrow">&#8595;</div>
+        <div class="stack-box"><strong>Intelligence</strong><span class="m">AI diagnosis, rules, human experts</span></div>
+        <div class="stack-arrow">&#8595;</div>
+        <div class="stack-box stack-box--core"><strong>IAES Standard</strong><span class="m">Neutral event model</span></div>
+        <div class="stack-arrow">&#8595;</div>
+        <div class="stack-box"><strong>Connectors</strong><span class="m">Mapping, sync, retry, audit</span></div>
+        <div class="stack-arrow">&#8595;</div>
+        <div class="stack-box"><strong>Enterprise Systems</strong><span class="m">SAP PM, PI System, Odoo, Fracttal, MaintainX</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Problem -->
+<section id="problem">
+  <div class="w">
+    <div class="sh">
+      <h2>Industrial systems don't speak the same language</h2>
+      <p>Maintenance data flows through dozens of incompatible systems. Each uses its own model, schema, API, and semantics &mdash; making it hard to turn observations into operational action.</p>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <h3>Typical data sources</h3>
+        <ul class="pl">
+          <li>Vibration, temperature, and pressure sensors</li>
+          <li>Video and acoustic diagnostic systems</li>
+          <li>SCADA, PLC, and historian infrastructure</li>
+          <li>Inspection apps and technician inputs</li>
+          <li>AI models, rule engines, and expert analysis</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Typical enterprise destinations</h3>
+        <ul class="pl">
+          <li>CMMS and EAM platforms (SAP, Odoo, MaintainX, Fracttal)</li>
+          <li>Historians and industrial data hubs (PI, AVEVA)</li>
+          <li>Dashboards and BI tools (Grafana, Power BI)</li>
+          <li>Digital twin and reliability applications</li>
+          <li>Maintenance planning and scheduling systems</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Solution -->
+<section id="solution">
+  <div class="w">
+    <div class="sh">
+      <h2>IAES introduces a neutral event layer</h2>
+      <p>Instead of building custom integrations between every system, producers emit IAES events and consumers map them to their native format. One standard, many systems.</p>
+    </div>
+    <div class="card diagram">
+      <div class="dia-row">
+        <div class="dia-node"><strong>Signals</strong><span>Sensors, video, SCADA</span></div>
+        <div class="dia-arr">&rarr;</div>
+        <div class="dia-node"><strong>Intelligence</strong><span>AI, rules, human experts</span></div>
+        <div class="dia-arr">&rarr;</div>
+        <div class="dia-node dia-core"><strong>IAES Standard</strong><span>Neutral event envelope</span></div>
+        <div class="dia-arr">&rarr;</div>
+        <div class="dia-node"><strong>Connectors</strong><span>Map, sync, retry, audit</span></div>
+        <div class="dia-arr">&rarr;</div>
+        <div class="dia-node"><strong>Enterprise</strong><span>CMMS, historian, BI, apps</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Events -->
+<section id="events">
+  <div class="w">
+    <div class="sh">
+      <h2>Three core event types</h2>
+      <p>IAES v1 stays intentionally minimal. Three event types cover the full path from observation to operational intent.</p>
+    </div>
+    <div class="g3">
+      <div class="card ev ev--meas">
+        <div class="label">asset.measurement</div>
+        <h3>Physical observation</h3>
+        <p>Raw or normalized sensor readings from industrial assets. Vibration, temperature, current, pressure, flow, speed.</p>
+        <div class="pills">
+          <span class="pill">measurement_type</span>
+          <span class="pill">value</span>
+          <span class="pill">unit</span>
+          <span class="pill">sensor_id</span>
+          <span class="pill">location</span>
+        </div>
+      </div>
+      <div class="card ev ev--health">
+        <div class="label">asset.health</div>
+        <h3>Diagnostic assessment</h3>
+        <p>AI or expert interpretation of asset condition. Health score, fault classification, RUL, and recommended action.</p>
+        <div class="pills">
+          <span class="pill">health_index</span>
+          <span class="pill">anomaly_score</span>
+          <span class="pill">severity</span>
+          <span class="pill">failure_mode</span>
+          <span class="pill">rul_days</span>
+          <span class="pill">recommended_action</span>
+        </div>
+      </div>
+      <div class="card ev ev--wo">
+        <div class="label">maintenance.work_order_intent</div>
+        <h3>Operational intent</h3>
+        <p>Declares the intent to create a work order. The consumer decides whether and how to act &mdash; IAES doesn't prescribe.</p>
+        <div class="pills">
+          <span class="pill">title</span>
+          <span class="pill">description</span>
+          <span class="pill">priority</span>
+          <span class="pill">recommended_due_days</span>
+          <span class="pill">triggered_by</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Envelope -->
+<section id="envelope">
+  <div class="w">
+    <div class="sh">
+      <h2>Common event envelope</h2>
+      <p>Every IAES event shares a common envelope for traceability, deduplication, and interoperability.</p>
+    </div>
+    <div class="sg">
+      <div class="card" style="padding:0; overflow:hidden;">
+        <div class="code">{
+  <span class="k">"spec_version"</span>: <span class="s">"1.0"</span>,
+  <span class="k">"event_type"</span>: <span class="s">"asset.health"</span>,
+  <span class="k">"event_id"</span>: <span class="s">"a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1"</span>,
+  <span class="k">"correlation_id"</span>: <span class="s">"3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12"</span>,
+  <span class="k">"source_event_id"</span>: <span class="s">"f4ce4f8c-26fd-4f15-8b2f-2c9425ad1110"</span>,
+  <span class="k">"timestamp"</span>: <span class="s">"2026-03-06T17:50:17Z"</span>,
+  <span class="k">"source"</span>: <span class="s">"wertek.ai.diagnosis"</span>,
+  <span class="k">"content_hash"</span>: <span class="s">"8a3f9c2e1b4d7e6f"</span>,
+  <span class="k">"asset"</span>: {
+    <span class="k">"asset_id"</span>: <span class="s">"MOTOR-001"</span>,
+    <span class="k">"asset_name"</span>: <span class="s">"Pump Motor P-101"</span>,
+    <span class="k">"plant"</span>: <span class="s">"Pesqueria"</span>,
+    <span class="k">"area"</span>: <span class="s">"Turbines"</span>
+  },
+  <span class="k">"data"</span>: {
+    <span class="k">"health_index"</span>: <span class="n">0.16</span>,
+    <span class="k">"anomaly_score"</span>: <span class="n">0.92</span>,
+    <span class="k">"severity"</span>: <span class="s">"critical"</span>,
+    <span class="k">"failure_mode"</span>: <span class="s">"bearing_inner_race"</span>,
+    <span class="k">"rul_days"</span>: <span class="n">5</span>,
+    <span class="k">"recommended_action"</span>: <span class="s">"Replace bearing immediately"</span>
+  }
+}</div>
+      </div>
+      <div class="card">
+        <h3>Envelope fields</h3>
+        <ul class="pl">
+          <li><strong>spec_version</strong> &mdash; IAES version (currently "1.0")</li>
+          <li><strong>event_type</strong> &mdash; canonical event name</li>
+          <li><strong>event_id</strong> &mdash; unique event identifier (UUID)</li>
+          <li><strong>correlation_id</strong> &mdash; links related events in a flow</li>
+          <li><strong>source_event_id</strong> &mdash; traces causal origin</li>
+          <li><strong>timestamp</strong> &mdash; ISO 8601, when the event occurred</li>
+          <li><strong>source</strong> &mdash; dot-notation producer identity</li>
+          <li><strong>content_hash</strong> &mdash; SHA-256 prefix for deduplication</li>
+          <li><strong>asset</strong> &mdash; neutral asset identity block</li>
+          <li><strong>data</strong> &mdash; event-type-specific payload</li>
+        </ul>
+        <h3 style="margin-top:18px;">Shared semantics</h3>
+        <div class="pills">
+          <span class="pill">severity: info | low | medium | high | critical</span>
+          <span class="pill">health_index: 0.0 &ndash; 1.0</span>
+          <span class="pill">anomaly_score: 0.0 &ndash; 1.0</span>
+          <span class="pill">rul_days: integer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ecosystem -->
+<section id="ecosystem">
+  <div class="w">
+    <div class="sh">
+      <h2>Connecting the industrial ecosystem</h2>
+      <p>IAES events can be produced by any source &mdash; sensor, AI engine, or human expert &mdash; and consumed by any operational system.</p>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <h3>Producers</h3>
+        <div class="pills">
+          <span class="pill">Vibration sensors</span>
+          <span class="pill">Temperature sensors</span>
+          <span class="pill">Acoustic systems</span>
+          <span class="pill">Cameras / video</span>
+          <span class="pill">Edge gateways</span>
+          <span class="pill">AI diagnosis engines</span>
+          <span class="pill">Rule engines</span>
+          <span class="pill">Inspection apps</span>
+          <span class="pill">Technician assessments</span>
+          <span class="pill">Lab analysis</span>
+          <span class="pill">SCADA / PLC</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Consumers</h3>
+        <div class="pills">
+          <span class="pill">SAP PM</span>
+          <span class="pill">Odoo Maintenance</span>
+          <span class="pill">MaintainX</span>
+          <span class="pill">Fracttal</span>
+          <span class="pill">PI System</span>
+          <span class="pill">AVEVA Data Hub</span>
+          <span class="pill">Grafana</span>
+          <span class="pill">Power BI</span>
+          <span class="pill">Digital Twin platforms</span>
+          <span class="pill">Time-series databases</span>
+          <span class="pill">MQTT brokers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Spec -->
+<section id="spec">
+  <div class="w">
+    <div class="sh">
+      <h2>Open specification</h2>
+      <p>IAES is an open technical specification designed to enable interoperability across industrial maintenance systems and vendors.</p>
+    </div>
+    <div class="g3">
+      <div class="card">
+        <h3>Specification</h3>
+        <p>Full documentation describing the event model, semantics, and implementation guidance.</p>
+        <p style="margin-top:12px;"><a href="/spec/">Read the spec &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3>JSON Schema</h3>
+        <p>Machine-readable schemas for validation, code generation, and API contracts.</p>
+        <p style="margin-top:12px;"><a href="/schemas/">Browse schemas &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3>Examples</h3>
+        <p>Real event examples for measurements, health diagnostics, and work order intent flows.</p>
+        <p style="margin-top:12px;"><a href="/examples/">View examples &rarr;</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reference impl -->
+<section>
+  <div class="w">
+    <div class="card" style="display:flex; gap:24px; align-items:center; flex-wrap:wrap;">
+      <div style="flex:1; min-width:280px;">
+        <h3>Reference implementation</h3>
+        <p>The first reference implementation of IAES is developed within the <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a> platform, where IAES connects asset intelligence with enterprise operational systems across 6 connectors.</p>
+      </div>
+      <div>
+        <a class="btn btn-s" href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a>
+        <a class="btn btn-s" href="https://github.com/wertek-ai/wertek-integrations" target="_blank" rel="noreferrer" style="margin-left:8px;">Integration SDK</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="w footer-inner">
+    <div><strong style="color:var(--text);">IAES</strong> &mdash; Industrial Asset Event Standard<br>Open specification for industrial asset events.</div>
+    <div>
+      <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a> &nbsp;&middot;&nbsp;
+      <a href="/spec/">Specification</a> &nbsp;&middot;&nbsp;
+      <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

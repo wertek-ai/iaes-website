@@ -1,0 +1,22 @@
+{
+  "spec_version": "1.0",
+  "event_type": "asset.measurement",
+  "event_id": "d1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6a",
+  "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+  "timestamp": "2026-03-06T17:50:15Z",
+  "source": "banner.dxm100",
+  "content_hash": "4b7e2a9f1c8d3e6a",
+  "asset": {
+    "asset_id": "MOTOR-001",
+    "asset_name": "Motor Bomba P-101",
+    "plant": "Pesqueria",
+    "area": "Turbinas"
+  },
+  "data": {
+    "measurement_type": "vibration_velocity",
+    "value": 4.2,
+    "unit": "mm/s",
+    "sensor_id": "SENSOR-045",
+    "location": "bearing_drive_end"
+  }
+}

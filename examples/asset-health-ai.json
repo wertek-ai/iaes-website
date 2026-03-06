@@ -1,0 +1,26 @@
+{
+  "spec_version": "1.0",
+  "event_type": "asset.health",
+  "event_id": "a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1",
+  "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+  "source_event_id": "f1a2b3c4-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+  "timestamp": "2026-03-06T17:50:17Z",
+  "source": "wertek.ai.vibration",
+  "content_hash": "8a3f9c2e1b4d7e6f",
+  "asset": {
+    "asset_id": "MOTOR-001",
+    "asset_name": "Motor Bomba P-101",
+    "plant": "Pesqueria",
+    "area": "Turbinas"
+  },
+  "data": {
+    "health_index": 0.16,
+    "anomaly_score": 0.92,
+    "severity": "critical",
+    "failure_mode": "bearing_inner_race",
+    "fault_confidence": 0.87,
+    "rul_days": 5,
+    "recommended_action": "Replace bearing immediately",
+    "estimated_downtime_hours": 4
+  }
+}

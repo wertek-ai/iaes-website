@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES v1.0 — Examples</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0c1117; --bg-raised: #131920; --bg-code: #0d1520;
+      --border: rgba(56, 189, 248, 0.10); --border-strong: rgba(56, 189, 248, 0.20);
+      --text: #c9d5e3; --text-bright: #e8eef5; --text-dim: #6b7f96; --text-code: #a5c4e0;
+      --accent: #00BCD4; --accent-dim: rgba(0, 188, 212, 0.12);
+      --green: #10b981; --green-dim: rgba(16,185,129,0.12);
+      --amber: #f59e0b; --amber-dim: rgba(245,158,11,0.12);
+      --purple: #8b5cf6; --purple-dim: rgba(139,92,246,0.12);
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Fira Code', 'Consolas', monospace;
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8fafb; --bg-raised: #ffffff; --bg-code: #edf2f7;
+        --border: rgba(0,0,0,0.08); --border-strong: rgba(0,0,0,0.14);
+        --text: #334155; --text-bright: #0f172a; --text-dim: #94a3b8; --text-code: #1e40af;
+        --accent: #0891b2; --accent-dim: rgba(8,145,178,0.08);
+      }
+    }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; }
+    .nav { position: sticky; top: 0; z-index: 100; background: rgba(12,17,23,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); padding: 0 2rem; }
+    @media (prefers-color-scheme: light) { .nav { background: rgba(248,250,251,0.85); } }
+    .nav-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-brand { font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem; color: var(--accent); text-decoration: none; letter-spacing: 0.06em; }
+    .nav-brand span { color: var(--text-dim); font-weight: 400; }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.82rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text-bright); }
+    .page { max-width: 960px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    h1 { font-size: 1.8rem; font-weight: 700; color: var(--text-bright); margin-bottom: 0.5rem; }
+    .subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 2.5rem; }
+    h2 { font-size: 1.2rem; font-weight: 600; color: var(--text-bright); margin-bottom: 0.8rem; margin-top: 2.5rem; }
+
+    .example-block {
+      background: var(--bg-raised); border: 1px solid var(--border); border-radius: 10px;
+      margin-bottom: 1.5rem; overflow: hidden;
+    }
+    .example-header {
+      padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .example-header h3 { font-size: 0.9rem; font-weight: 600; color: var(--text-bright); }
+    .example-badge {
+      font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
+      padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.03em;
+    }
+    .example-desc { padding: 0.8rem 1.2rem; font-size: 0.85rem; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+    .example-code {
+      padding: 1rem 1.2rem; overflow-x: auto; font-family: var(--font-mono);
+      font-size: 0.78rem; line-height: 1.6; color: var(--text-code);
+      background: var(--bg-code); white-space: pre; overflow-wrap: normal; max-height: 400px;
+    }
+    .example-footer {
+      padding: 0.5rem 1.2rem; border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end;
+    }
+    .example-footer a {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent); text-decoration: none;
+    }
+    .example-footer a:hover { text-decoration: underline; }
+
+    .key { color: #7dd3fc; }
+    .str { color: #86efac; }
+    .num { color: #fbbf24; }
+    .null { color: #94a3b8; }
+    .comment { color: #4b5e72; font-style: italic; }
+
+    .footer { border-top: 1px solid var(--border); padding-top: 2rem; margin-top: 3rem; text-align: center; color: var(--text-dim); font-size: 0.82rem; }
+    .footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="/" class="nav-brand">IAES <span>v1.0</span></a>
+  <div class="nav-links">
+    <a href="/spec/">Specification</a>
+    <a href="/schemas/">Schemas</a>
+    <a href="/examples/" style="color: var(--text-bright)">Examples</a>
+    <a href="https://github.com/wertek-ai/iaes">GitHub</a>
+  </div>
+</div></nav>
+
+<main class="page">
+  <h1>Examples</h1>
+  <p class="subtitle">Real-world IAES events demonstrating the three event types — from sensor readings to AI diagnoses to work order intents.</p>
+
+  <!-- Measurement -->
+  <h2>Sensor Reading</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Vibration measurement from wireless sensor</h3>
+      <span class="example-badge" style="background: var(--green-dim); color: var(--green);">asset.measurement</span>
+    </div>
+    <div class="example-desc">A Banner DXM100 gateway reports 4.2 mm/s vibration velocity from the drive-end bearing of a motor pump.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"banner.dxm100"</span>
+<span class="key">"asset"</span>: { <span class="key">"asset_id"</span>: <span class="str">"MOTOR-001"</span>, <span class="key">"plant"</span>: <span class="str">"Pesqueria"</span> }
+<span class="key">"data"</span>: {
+  <span class="key">"measurement_type"</span>: <span class="str">"vibration_velocity"</span>,
+  <span class="key">"value"</span>: <span class="num">4.2</span>,
+  <span class="key">"unit"</span>: <span class="str">"mm/s"</span>,
+  <span class="key">"sensor_id"</span>: <span class="str">"SENSOR-045"</span>,
+  <span class="key">"location"</span>: <span class="str">"bearing_drive_end"</span>
+}</div>
+    <div class="example-footer"><a href="asset-measurement.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Health: AI -->
+  <h2>AI Diagnosis</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Critical bearing fault detected by AI</h3>
+      <span class="example-badge" style="background: var(--amber-dim); color: var(--amber);">asset.health</span>
+    </div>
+    <div class="example-desc">Wertek AI vibration analysis detects an inner race bearing defect with 87% confidence. Health index at 16%, RUL 5 days. Immediate action recommended.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"wertek.ai.vibration"</span>
+<span class="key">"data"</span>: {
+  <span class="key">"health_index"</span>: <span class="num">0.16</span>,
+  <span class="key">"anomaly_score"</span>: <span class="num">0.92</span>,
+  <span class="key">"severity"</span>: <span class="str">"critical"</span>,
+  <span class="key">"failure_mode"</span>: <span class="str">"bearing_inner_race"</span>,
+  <span class="key">"fault_confidence"</span>: <span class="num">0.87</span>,
+  <span class="key">"rul_days"</span>: <span class="num">5</span>,
+  <span class="key">"recommended_action"</span>: <span class="str">"Replace bearing immediately"</span>,
+  <span class="key">"estimated_downtime_hours"</span>: <span class="num">4</span>
+}</div>
+    <div class="example-footer"><a href="asset-health-ai.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Health: Human -->
+  <h2>Human Expert Assessment</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Technician detects cavitation in centrifugal pump</h3>
+      <span class="example-badge" style="background: var(--amber-dim); color: var(--amber);">asset.health</span>
+    </div>
+    <div class="example-desc">A field technician uses the same <code>asset.health</code> event type to report a pump cavitation issue found during a manual inspection. The <code>source</code> field identifies this as a human assessment, not an AI diagnosis.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"operator.field_assessment"</span>
+<span class="key">"asset"</span>: { <span class="key">"asset_id"</span>: <span class="str">"PUMP-042"</span>, <span class="key">"plant"</span>: <span class="str">"Monterrey Norte"</span> }
+<span class="key">"data"</span>: {
+  <span class="key">"health_index"</span>: <span class="num">0.45</span>,
+  <span class="key">"severity"</span>: <span class="str">"high"</span>,
+  <span class="key">"failure_mode"</span>: <span class="str">"cavitation"</span>,
+  <span class="key">"fault_confidence"</span>: <span class="num">0.70</span>,
+  <span class="key">"recommended_action"</span>: <span class="str">"Check suction line for air leaks, verify NPSH"</span>
+}</div>
+    <div class="example-footer"><a href="asset-health-human.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Work Order Intent -->
+  <h2>Work Order Intent</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>AI-triggered emergency work order</h3>
+      <span class="example-badge" style="background: var(--purple-dim); color: var(--purple);">maintenance.work_order_intent</span>
+    </div>
+    <div class="example-desc">Following the critical bearing diagnosis, the system declares intent to create an emergency work order. The consuming CMMS (SAP, Odoo, MaintainX) decides how to act.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"wertek.ai.cmms"</span>
+<span class="key">"source_event_id"</span>: <span class="str">"a9e3c4b2-..."</span>  <span class="comment">// references the health event</span>
+<span class="key">"data"</span>: {
+  <span class="key">"title"</span>: <span class="str">"Bearing failure predicted — Motor Bomba P-101"</span>,
+  <span class="key">"priority"</span>: <span class="str">"emergency"</span>,
+  <span class="key">"recommended_due_days"</span>: <span class="num">3</span>,
+  <span class="key">"triggered_by"</span>: <span class="str">"ai_diagnosis"</span>
+}</div>
+    <div class="example-footer"><a href="work-order-intent.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Full Flow -->
+  <h2>Complete Flow (3-Event Chain)</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Measurement &rarr; Diagnosis &rarr; Work Order Intent</h3>
+      <span class="example-badge" style="background: var(--accent-dim); color: var(--accent);">full-flow</span>
+    </div>
+    <div class="example-desc">Three events sharing the same <code>correlation_id</code>, demonstrating the complete observation-to-action pipeline. Each event references its predecessor via <code>source_event_id</code>.</div>
+    <div class="example-code"><span class="comment">// All 3 events share correlation_id: 3b2f9d8c-1c33-...</span>
+
+<span class="comment">// Step 1: Sensor reading</span>
+{ <span class="key">"event_type"</span>: <span class="str">"asset.measurement"</span>, <span class="key">"source"</span>: <span class="str">"banner.dxm100"</span> }
+
+<span class="comment">// Step 2: AI diagnosis (source_event_id → measurement)</span>
+{ <span class="key">"event_type"</span>: <span class="str">"asset.health"</span>, <span class="key">"source"</span>: <span class="str">"wertek.ai.vibration"</span> }
+
+<span class="comment">// Step 3: Work order intent (source_event_id → health)</span>
+{ <span class="key">"event_type"</span>: <span class="str">"maintenance.work_order_intent"</span>, <span class="key">"source"</span>: <span class="str">"wertek.ai.cmms"</span> }</div>
+    <div class="example-footer"><a href="full-flow.json">View full 3-event chain &rarr;</a></div>
+  </div>
+
+  <div class="footer">
+    <a href="/">Home</a> &middot; <a href="/spec/">Specification</a> &middot; <a href="/schemas/">Schemas</a> &middot; <a href="https://github.com/wertek-ai/iaes">GitHub</a>
+  </div>
+</main>
+</body>
+</html>

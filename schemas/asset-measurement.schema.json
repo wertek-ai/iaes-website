@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/asset.measurement",
+  "title": "IAES asset.measurement",
+  "description": "Physical sensor reading from an industrial asset",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "asset.measurement" },
+    "data": {
+      "type": "object",
+      "required": ["measurement_type", "value", "unit"],
+      "properties": {
+        "measurement_type": {
+          "type": "string",
+          "description": "Type of measurement",
+          "examples": [
+            "vibration_velocity", "vibration_acceleration", "vibration_displacement",
+            "temperature", "current", "voltage", "power", "energy",
+            "pressure", "flow", "speed"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "description": "Numeric measurement value"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Engineering unit (e.g. mm/s, C, A, kW)",
+          "examples": ["mm/s", "g", "um", "C", "A", "V", "kW", "kWh", "bar", "m3/h", "RPM"]
+        },
+        "sensor_id": {
+          "type": ["string", "null"],
+          "description": "Physical sensor identifier"
+        },
+        "location": {
+          "type": ["string", "null"],
+          "description": "Measurement point on the asset",
+          "examples": ["bearing_drive_end", "bearing_non_drive_end", "motor_frame", "inlet", "outlet"]
+        }
+      }
+    }
+  }
+}

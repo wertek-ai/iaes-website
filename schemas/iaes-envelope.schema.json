@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/envelope",
+  "title": "IAES Common Envelope",
+  "description": "Base envelope shared by all IAES v1 events",
+  "type": "object",
+  "required": ["spec_version", "event_type", "event_id", "correlation_id", "timestamp", "source", "asset", "data"],
+  "properties": {
+    "spec_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "IAES specification version"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": ["asset.measurement", "asset.health", "maintenance.work_order_intent"],
+      "description": "Dot-notation event type"
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique event identifier"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Groups related events in a flow"
+    },
+    "source_event_id": {
+      "type": ["string", "null"],
+      "format": "uuid",
+      "description": "References the originating event"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp"
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.]+$",
+      "description": "Dot-notation producer identity (e.g. wertek.ai.diagnosis)"
+    },
+    "content_hash": {
+      "type": "string",
+      "maxLength": 16,
+      "description": "SHA-256 prefix (16 chars) of data payload"
+    },
+    "asset": {
+      "$ref": "#/$defs/asset_identity"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event-specific payload"
+    }
+  },
+  "$defs": {
+    "asset_identity": {
+      "type": "object",
+      "required": ["asset_id"],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "description": "Asset identifier in the source system"
+        },
+        "asset_name": {
+          "type": ["string", "null"],
+          "description": "Human-readable asset name"
+        },
+        "plant": {
+          "type": ["string", "null"],
+          "description": "Plant or facility name"
+        },
+        "area": {
+          "type": ["string", "null"],
+          "description": "Area or zone within the plant"
+        }
+      }
+    }
+  }
+}

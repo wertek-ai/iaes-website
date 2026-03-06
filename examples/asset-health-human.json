@@ -1,0 +1,22 @@
+{
+  "spec_version": "1.0",
+  "event_type": "asset.health",
+  "event_id": "c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+  "correlation_id": "c7d8e9f0-1a2b-3c4d-5e6f-7a8b9c0d1e2f",
+  "timestamp": "2026-03-06T14:22:00Z",
+  "source": "operator.field_assessment",
+  "content_hash": "2c4f8a1e3b6d9e7f",
+  "asset": {
+    "asset_id": "PUMP-042",
+    "asset_name": "Bomba Centrifuga BC-042",
+    "plant": "Monterrey Norte",
+    "area": "Utilities"
+  },
+  "data": {
+    "health_index": 0.45,
+    "severity": "high",
+    "failure_mode": "cavitation",
+    "fault_confidence": 0.70,
+    "recommended_action": "Check suction line for air leaks, verify NPSH"
+  }
+}
