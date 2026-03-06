@@ -205,7 +205,7 @@
   <div class="nav-inner">
     <div class="brand"><div class="brand-badge">IA</div> IAES</div>
     <div class="nav-links">
-      <a href="#problem">Problem</a>
+      <a href="#why">Why</a>
       <a href="#solution">Solution</a>
       <a href="#events">Events</a>
       <a href="#envelope">Envelope</a>
@@ -222,8 +222,8 @@
     <div>
       <div class="eyebrow"><span class="dot"></span> Open Specification v1.0</div>
       <h1>Industrial Asset<br><span class="hl">Event Standard</span></h1>
-      <p class="lead">A vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.</p>
-      <p class="lead">IAES standardizes how signals, health assessments, and maintenance actions move across heterogeneous systems — AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
+      <p class="lead" style="font-size:1.2rem; color:var(--text); font-weight:500;">A standard event model for industrial maintenance systems.</p>
+      <p class="lead">IAES is a vendor-neutral event specification that standardizes how signals, health assessments, and maintenance actions move across heterogeneous systems — AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
       <div class="cta-row">
         <a class="btn btn-p" href="/spec/">Read the Specification</a>
         <a class="btn btn-s" href="#solution">Reference Architecture</a>
@@ -275,6 +275,20 @@
           <li>Maintenance planning and scheduling systems</li>
         </ul>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why IAES -->
+<section id="why" style="padding-bottom:24px;">
+  <div class="w">
+    <div class="sh">
+      <h2>Why IAES exists</h2>
+    </div>
+    <div class="card" style="max-width:720px; font-size:15px; line-height:1.8; color:var(--muted);">
+      <p>Industrial systems integrate through custom mappings.</p>
+      <p style="margin-top:10px;">Sensor vendors, AI diagnostics, CMMS systems, and historians all use incompatible schemas. Every new connection requires a bespoke adapter, and every adapter is a maintenance burden.</p>
+      <p style="margin-top:10px;">IAES exists to provide a <strong style="color:var(--text);">neutral event model</strong> that allows these systems to interoperate &mdash; without knowing anything about each other's implementation.</p>
     </div>
   </div>
 </section>
@@ -501,7 +515,7 @@
 <!-- Footer -->
 <footer class="footer">
   <div class="w footer-inner">
-    <div><strong style="color:var(--text);">IAES</strong> &mdash; Industrial Asset Event Standard<br>Open specification for industrial asset events.</div>
+    <div><strong style="color:var(--text);">IAES</strong> &mdash; Industrial Asset Event Standard<br>Open specification for industrial asset events.<br><span style="font-size:12px;">Created by the <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a> team.</span></div>
     <div>
       <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a> &nbsp;&middot;&nbsp;
       <a href="/spec/">Specification</a> &nbsp;&middot;&nbsp;
