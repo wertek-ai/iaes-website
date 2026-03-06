@@ -920,8 +920,9 @@
       <div class="section-title">Producers</div>
     </div>
     <h2>Event Producers</h2>
-    <p>IAES events can originate from any source &mdash; not just AI systems:</p>
+    <p>IAES events are produced by systems capable of <strong>interpreting</strong> operational signals &mdash; not by the signals themselves. A PLC knows <code>vibration_rms = 4.6</code>. That is telemetry. IAES begins where interpretation begins.</p>
 
+    <h3 style="margin: 2rem 0 1rem; font-size: 0.95rem; color: var(--text-bright);">Intelligence layer producers</h3>
     <div class="producers-grid">
       <div class="producer-item">
         <div class="producer-icon" style="background: var(--blue-dim); color: var(--blue);">
@@ -939,15 +940,6 @@
         <div class="producer-info">
           <span class="prod-name">Rule / Threshold Engine</span>
           <span class="prod-source">acme.rule_engine</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: var(--green-dim); color: var(--green);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6"/><path d="M9 13h6"/><path d="M9 17h4"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Sensor Gateway</span>
-          <span class="prod-source">banner.dxm100</span>
         </div>
       </div>
       <div class="producer-item">
@@ -978,17 +970,31 @@
         </div>
       </div>
       <div class="producer-item">
-        <div class="producer-icon" style="background: var(--red-dim); color: var(--red);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        <div class="producer-icon" style="background: var(--green-dim); color: var(--green);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
         </div>
         <div class="producer-info">
-          <span class="prod-name">SCADA / PLC</span>
-          <span class="prod-source">scada.plc_01</span>
+          <span class="prod-name">Maintenance Application</span>
+          <span class="prod-source">wertek.ai.cmms</span>
         </div>
       </div>
     </div>
 
-    <p>The <code>source</code> field is what makes IAES vendor-neutral. A technician with a stethoscope and an AI model both produce the same <code>asset.health</code> event &mdash; the consumer doesn't need to know the difference.</p>
+    <h3 style="margin: 2rem 0 0.8rem; font-size: 0.95rem; color: var(--text-bright);">Signal sources (upstream of IAES)</h3>
+    <p style="margin-bottom: 1rem;">Operational systems such as PLCs, SCADA platforms, sensor gateways, and historians emit raw signals or measurements. These are converted into IAES events by downstream intelligence layers.</p>
+    <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; color: var(--text-code); margin-bottom: 1rem; white-space: pre; overflow-x: auto;">Industrial Signals              IAES Events
+(PLC / Sensors / SCADA)         (semantic, interpreted)
+        |                               |
+        v                               v
+  Telemetry Layer                 CMMS, Dashboards,
+  (OPC UA / Modbus / MQTT)        Historians, Integrations
+        |                               ^
+        v                               |
+  Intelligence Layer  ─────────────────-+
+  (AI / rules / human expert)</div>
+    <p style="font-size: 0.88rem; color: var(--text-dim);">An edge device MAY produce IAES events directly if it has sufficient intelligence (edge AI, embedded rule engine). But the typical flow is: signals are ingested by an intelligence layer, which then emits IAES events.</p>
+
+    <p style="margin-top: 1.5rem;">The <code>source</code> field is what makes IAES vendor-neutral. A technician with a stethoscope and an AI model both produce the same <code>asset.health</code> event &mdash; the consumer doesn't need to know the difference.</p>
   </section>
 
   <div class="divider"></div>
