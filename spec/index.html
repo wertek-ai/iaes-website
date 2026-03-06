@@ -529,6 +529,12 @@
       section:nth-child(10) { animation-delay: 0.5s; }
       section:nth-child(11) { animation-delay: 0.55s; }
       section:nth-child(12) { animation-delay: 0.6s; }
+      section:nth-child(13) { animation-delay: 0.65s; }
+      section:nth-child(14) { animation-delay: 0.7s; }
+      section:nth-child(15) { animation-delay: 0.75s; }
+      section:nth-child(16) { animation-delay: 0.8s; }
+      section:nth-child(17) { animation-delay: 0.85s; }
+      section:nth-child(18) { animation-delay: 0.9s; }
     }
   </style>
 </head>
@@ -540,10 +546,10 @@
     <div class="nav-links">
       <a href="#envelope">Envelope</a>
       <a href="#events">Events</a>
-      <a href="#severity">Severity</a>
-      <a href="#producers">Producers</a>
+      <a href="#producer-guidelines">Producers</a>
+      <a href="#consumer-guidelines">Consumers</a>
+      <a href="#versioning">Versioning</a>
       <a href="/schemas/">Schemas</a>
-      <a href="/examples/">Examples</a>
     </div>
   </div>
 </nav>
@@ -587,10 +593,37 @@
     </ol>
   </section>
 
+  <!-- Terminology -->
+  <section id="terminology">
+    <div class="section-label">
+      <div class="section-num">3</div>
+      <div class="section-title">Terminology</div>
+    </div>
+    <h2>Terminology</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Term</th><th>Definition</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Event</strong></td><td>A self-contained JSON object describing something that happened to an industrial asset.</td></tr>
+          <tr><td><strong>Producer</strong></td><td>Any system that creates IAES events &mdash; sensor gateways, AI engines, rule engines, human inspectors, SCADA systems.</td></tr>
+          <tr><td><strong>Consumer</strong></td><td>Any system that receives and acts on IAES events &mdash; CMMS, historians, dashboards, digital twin platforms.</td></tr>
+          <tr><td><strong>Envelope</strong></td><td>The common wrapper fields shared by all IAES events (<code>spec_version</code>, <code>event_type</code>, <code>event_id</code>, etc.).</td></tr>
+          <tr><td><strong>Correlation</strong></td><td>A group of related events sharing the same <code>correlation_id</code>, representing a single observation-to-action flow.</td></tr>
+          <tr><td><strong>Source</strong></td><td>A dot-notation string identifying the producer of an event (e.g. <code>wertek.ai.vibration</code>, <code>operator.field_assessment</code>).</td></tr>
+          <tr><td><strong>Intent</strong></td><td>A declaration that an action should be considered, without prescribing how the consumer should act. Used in <code>maintenance.work_order_intent</code>.</td></tr>
+          <tr><td><strong>Health Index</strong></td><td>A normalized 0-1 score representing asset condition (0 = failed, 1 = healthy).</td></tr>
+          <tr><td><strong>RUL</strong></td><td>Remaining Useful Life &mdash; estimated days until the asset requires intervention.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- Common Envelope -->
   <section id="envelope">
     <div class="section-label">
-      <div class="section-num">3</div>
+      <div class="section-num">4</div>
       <div class="section-title">Common Envelope</div>
     </div>
     <h2>Common Envelope</h2>
@@ -705,7 +738,7 @@
   <!-- Event Types -->
   <section id="events">
     <div class="section-label">
-      <div class="section-num">4</div>
+      <div class="section-num">5</div>
       <div class="section-title">Event Types</div>
     </div>
     <h2>Event Types (v1.0)</h2>
@@ -828,7 +861,7 @@
   <!-- Severity Standard -->
   <section id="severity">
     <div class="section-label">
-      <div class="section-num">5</div>
+      <div class="section-num">6</div>
       <div class="section-title">Severity Standard</div>
     </div>
     <h2>Severity Levels</h2>
@@ -865,7 +898,7 @@
   <!-- Idempotency -->
   <section id="idempotency">
     <div class="section-label">
-      <div class="section-num">6</div>
+      <div class="section-num">7</div>
       <div class="section-title">Idempotency</div>
     </div>
     <h2>Idempotency &amp; Deduplication</h2>
@@ -883,7 +916,7 @@
   <!-- Producers -->
   <section id="producers">
     <div class="section-label">
-      <div class="section-num">7</div>
+      <div class="section-num">8</div>
       <div class="section-title">Producers</div>
     </div>
     <h2>Event Producers</h2>
@@ -960,10 +993,84 @@
 
   <div class="divider"></div>
 
+  <!-- Producer Guidelines -->
+  <section id="producer-guidelines">
+    <div class="section-label">
+      <div class="section-num">9</div>
+      <div class="section-title">Producer Guidelines</div>
+    </div>
+    <h2>Producer Guidelines</h2>
+    <p>Systems that emit IAES events MUST follow these rules:</p>
+
+    <h3>Required behavior</h3>
+    <ol class="principles">
+      <li><strong>Set all required envelope fields.</strong> Every event MUST include <code>spec_version</code>, <code>event_type</code>, <code>event_id</code>, <code>correlation_id</code>, <code>timestamp</code>, <code>source</code>, <code>asset</code> (with at least <code>asset_id</code>), and <code>data</code>.</li>
+      <li><strong>Generate unique <code>event_id</code> values.</strong> Each event MUST have a globally unique <code>event_id</code> (UUID v4 recommended). Never reuse an <code>event_id</code> across events.</li>
+      <li><strong>Use dot-notation for <code>source</code>.</strong> The <code>source</code> field MUST follow the pattern <code>vendor.system[.subsystem]</code>. Use lowercase, alphanumeric characters, dots, and underscores only.</li>
+      <li><strong>Use ISO 8601 for timestamps.</strong> The <code>timestamp</code> field MUST be in UTC with timezone designator (e.g. <code>2026-03-06T17:50:17Z</code>).</li>
+      <li><strong>Do not assume consumer behavior.</strong> A <code>maintenance.work_order_intent</code> declares intent &mdash; the producer MUST NOT assume the consumer will create a work order, or create it in any specific format.</li>
+    </ol>
+
+    <h3>Recommended behavior</h3>
+    <ol class="principles">
+      <li><strong>Set <code>correlation_id</code> to group related events.</strong> When a measurement triggers a diagnosis that triggers a work order intent, all three events SHOULD share the same <code>correlation_id</code>.</li>
+      <li><strong>Set <code>source_event_id</code> for causal chains.</strong> When an event is caused by another event, set <code>source_event_id</code> to the <code>event_id</code> of the cause.</li>
+      <li><strong>Compute <code>content_hash</code> for deduplication.</strong> Producers SHOULD compute <code>content_hash</code> as the first 16 characters of the SHA-256 hex digest of the serialized <code>data</code> payload (canonical JSON, sorted keys).</li>
+      <li><strong>Include <code>asset_name</code>, <code>plant</code>, and <code>area</code> when available.</strong> These fields are optional but significantly improve human readability in logs, dashboards, and audit trails.</li>
+      <li><strong>Use standard <code>failure_mode</code> values when possible.</strong> Common values: <code>bearing_inner_race</code>, <code>bearing_outer_race</code>, <code>misalignment</code>, <code>unbalance</code>, <code>looseness</code>, <code>cavitation</code>, <code>overheating</code>, <code>electrical_fault</code>. Custom values are allowed.</li>
+    </ol>
+  </section>
+
+  <!-- Consumer Guidelines -->
+  <section id="consumer-guidelines">
+    <div class="section-label">
+      <div class="section-num">10</div>
+      <div class="section-title">Consumer Guidelines</div>
+    </div>
+    <h2>Consumer Guidelines</h2>
+    <p>Systems that receive IAES events MUST follow these rules:</p>
+
+    <h3>Required behavior</h3>
+    <ol class="principles">
+      <li><strong>Tolerate unknown fields.</strong> Consumers MUST ignore fields in <code>data</code> that they do not recognize. Never reject an event because it contains extra fields. This is essential for forward compatibility.</li>
+      <li><strong>Tolerate unknown <code>event_type</code> values.</strong> If a consumer receives an event with an <code>event_type</code> it does not support (e.g. a future <code>asset.hierarchy</code>), it MUST NOT error. It MAY log the event and skip processing.</li>
+      <li><strong>Validate <code>spec_version</code>.</strong> Consumers SHOULD check <code>spec_version</code> and MAY reject events from unsupported major versions.</li>
+    </ol>
+
+    <h3>Recommended behavior</h3>
+    <ol class="principles">
+      <li><strong>Deduplicate using <code>content_hash</code>.</strong> Consumers SHOULD detect duplicate events using <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code>. If <code>content_hash</code> is not present, fall back to <code>event_id</code> uniqueness.</li>
+      <li><strong>Use <code>correlation_id</code> to reconstruct flows.</strong> Consumers that display or analyze event chains SHOULD group events by <code>correlation_id</code> and order by <code>timestamp</code>.</li>
+      <li><strong>Use <code>source_event_id</code> for traceability.</strong> When displaying a work order intent, consumers SHOULD link back to the health event that triggered it.</li>
+      <li><strong>Map severity to native priority.</strong> Consumers SHOULD map IAES severity levels to their native priority system:</li>
+    </ol>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>IAES severity</th><th>SAP PM</th><th>MaintainX</th><th>Odoo</th><th>General</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>info</code></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>No action</td></tr>
+          <tr><td><code>low</code></td><td>Priority 4</td><td>LOW</td><td>0 (Not Urgent)</td><td>Low</td></tr>
+          <tr><td><code>medium</code></td><td>Priority 3</td><td>MEDIUM</td><td>1 (Normal)</td><td>Medium</td></tr>
+          <tr><td><code>high</code></td><td>Priority 2</td><td>HIGH</td><td>2 (Urgent)</td><td>High</td></tr>
+          <tr><td><code>critical</code></td><td>Priority 1</td><td>HIGH</td><td>3 (Very Urgent)</td><td>Critical</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Intent semantics:</strong> A <code>maintenance.work_order_intent</code> is a suggestion, not a command. Consumers MAY apply filters, rules, or approval workflows before creating native work orders. The consumer is the authority on what gets created in its system.
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- Typical Flow -->
   <section id="flow">
     <div class="section-label">
-      <div class="section-num">8</div>
+      <div class="section-num">11</div>
       <div class="section-title">Typical Flow</div>
     </div>
     <h2>Event Flow</h2>
@@ -1000,7 +1107,7 @@
   <!-- System Compatibility -->
   <section id="compatibility">
     <div class="section-label">
-      <div class="section-num">9</div>
+      <div class="section-num">12</div>
       <div class="section-title">Compatibility</div>
     </div>
     <h2>System Compatibility</h2>
@@ -1026,7 +1133,7 @@
   <!-- Future -->
   <section id="future">
     <div class="section-label">
-      <div class="section-num">10</div>
+      <div class="section-num">13</div>
       <div class="section-title">Roadmap</div>
     </div>
     <h2>Future (v1.1)</h2>
@@ -1046,10 +1153,36 @@
     </div>
   </section>
 
+  <!-- Versioning -->
+  <section id="versioning">
+    <div class="section-label">
+      <div class="section-num">14</div>
+      <div class="section-title">Versioning</div>
+    </div>
+    <h2>Versioning</h2>
+    <p>IAES uses semantic versioning for the specification:</p>
+    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
+      <li><strong>Minor versions</strong> (1.1, 1.2) add new optional fields or event types. They never remove or change required fields. Consumers built for 1.0 SHOULD accept events from 1.x without error.</li>
+      <li><strong>Major versions</strong> (2.0) may introduce breaking changes: removing fields, changing required fields, or renaming event types. Consumers MAY reject events from unsupported major versions.</li>
+      <li><strong>Producers</strong> MUST set <code>spec_version</code> to the version they implement.</li>
+      <li><strong>Consumers</strong> SHOULD accept events where the major version matches, even if the minor version is higher than what they support.</li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Version</th><th>Date</th><th>Changes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>1.0</code></td><td>March 2026</td><td>Initial release. 3 event types, common envelope, JSON Schema.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- Footer -->
   <div class="spec-footer">
     <p>IAES v1.0 &mdash; March 2026</p>
-    <p>Reference implementation: <a href="https://github.com/wertek-ai/wertek-integrations">Wertek Integration Framework</a></p>
+    <p>Created by the <a href="https://wertek.ai">Wertek AI</a> team. Reference implementation: <a href="https://github.com/wertek-ai/wertek-integrations">Wertek Integration Framework</a></p>
     <p style="margin-top: 0.5rem; font-size: 0.78rem;">
       <a href="/">Home</a> &middot;
       <a href="/schemas/">JSON Schemas</a> &middot;
