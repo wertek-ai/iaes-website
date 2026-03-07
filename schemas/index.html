@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.0 — JSON Schemas</title>
+  <title>IAES v1.1 — JSON Schemas</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,7 +68,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand">IAES <span>v1.0</span></a>
+  <a href="/" class="nav-brand">IAES <span>v1.1</span></a>
   <div class="nav-links">
     <a href="/spec/">Specification</a>
     <a href="/schemas/" style="color: var(--text-bright)">Schemas</a>
@@ -79,7 +79,7 @@
 
 <main class="page">
   <h1>JSON Schemas</h1>
-  <p class="subtitle">Machine-readable definitions for all IAES v1.0 event types. Use these to validate events in your pipeline.</p>
+  <p class="subtitle">Machine-readable definitions for all IAES v1.1 event types. Use these to validate events in your pipeline.</p>
 
   <div class="schema-card">
     <div class="schema-info">
@@ -111,6 +111,38 @@
       <p>Declares intent to create a maintenance work order. Required fields: title, priority.</p>
     </div>
     <a href="maintenance-work-order-intent.schema.json" class="schema-link">intent.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>maintenance.completion</h3>
+      <p>Work order completion acknowledgment with outcome details. Required fields: status, work_order_id.</p>
+    </div>
+    <a href="maintenance-completion.schema.json" class="schema-link">completion.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>asset.hierarchy</h3>
+      <p>Asset hierarchy structure sync — organizations, plants, areas, and equipment. Required fields: hierarchy_level, relationship_type.</p>
+    </div>
+    <a href="asset-hierarchy.schema.json" class="schema-link">hierarchy.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>sensor.registration</h3>
+      <p>Sensor discovery, onboarding, and lifecycle events. Required fields: sensor_id, registration_status.</p>
+    </div>
+    <a href="sensor-registration.schema.json" class="schema-link">sensor-reg.json</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>maintenance.spare_part_usage</h3>
+      <p>Spare parts consumed during maintenance activities. Required fields: work_order_id, spare_part_id, quantity_used.</p>
+    </div>
+    <a href="maintenance-spare-part-usage.schema.json" class="schema-link">spare-parts.json</a>
   </div>
 
   <h3 style="margin-top: 2.5rem; color: var(--text-bright);">Validation Example</h3>

@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/asset.hierarchy",
+  "title": "IAES asset.hierarchy",
+  "description": "Asset hierarchy structure sync — organizations, plants, areas, and equipment",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "asset.hierarchy" },
+    "data": {
+      "type": "object",
+      "required": ["hierarchy_level", "relationship_type"],
+      "properties": {
+        "hierarchy_level": {
+          "type": "string",
+          "enum": ["organization", "plant", "area", "equipment"],
+          "description": "Level in the asset hierarchy"
+        },
+        "relationship_type": {
+          "type": "string",
+          "enum": ["parent_of", "child_of", "sibling_of", "depends_on"],
+          "description": "Relationship to the referenced asset"
+        },
+        "parent_asset_id": {
+          "type": ["string", "null"],
+          "description": "Identifier of the parent node in the hierarchy"
+        },
+        "asset_type": {
+          "type": ["string", "null"],
+          "description": "Equipment type classification (e.g. motor, pump, compressor)"
+        },
+        "serial_number": {
+          "type": ["string", "null"],
+          "description": "Manufacturer serial number"
+        },
+        "manufacturer": {
+          "type": ["string", "null"],
+          "description": "Equipment manufacturer"
+        },
+        "model": {
+          "type": ["string", "null"],
+          "description": "Equipment model"
+        },
+        "location": {
+          "type": ["string", "null"],
+          "description": "Physical location description"
+        },
+        "is_active": {
+          "type": ["boolean", "null"],
+          "description": "Whether the asset is currently active/operational"
+        }
+      }
+    }
+  }
+}

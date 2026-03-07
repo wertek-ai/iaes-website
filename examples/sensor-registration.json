@@ -1,0 +1,30 @@
+{
+  "spec_version": "1.1",
+  "event_type": "sensor.registration",
+  "event_id": "s1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+  "correlation_id": "ff112233-4455-6677-8899-aabbccddeeff",
+  "timestamp": "2026-03-07T14:30:00Z",
+  "source": "wertek.edge.mcsa",
+  "content_hash": "5e6f7a8b9c0d1e2f",
+  "asset": {
+    "asset_id": "MOTOR-001",
+    "asset_name": "Motor Bomba P-101",
+    "plant": "Pesqueria",
+    "area": "Turbinas"
+  },
+  "data": {
+    "sensor_id": "MCSA-T41-001",
+    "registration_status": "registered",
+    "sensor_model": "Wertek MCSA CT Module",
+    "device_serial": "T41-2026-00042",
+    "firmware_version": "1.0.3",
+    "measurement_capabilities": [
+      "current_waveform",
+      "current_spectrum",
+      "current_rms",
+      "thd"
+    ],
+    "calibration_date": "2026-03-05",
+    "communication_protocol": "mqtt"
+  }
+}

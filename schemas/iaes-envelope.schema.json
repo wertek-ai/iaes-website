@@ -8,13 +8,25 @@
   "properties": {
     "spec_version": {
       "type": "string",
-      "const": "1.0",
+      "enum": ["1.0", "1.1"],
       "description": "IAES specification version"
     },
     "event_type": {
       "type": "string",
-      "enum": ["asset.measurement", "asset.health", "maintenance.work_order_intent"],
+      "enum": [
+        "asset.measurement",
+        "asset.health",
+        "maintenance.work_order_intent",
+        "maintenance.completion",
+        "asset.hierarchy",
+        "sensor.registration",
+        "maintenance.spare_part_usage"
+      ],
       "description": "Dot-notation event type"
+    },
+    "batch_id": {
+      "type": "string",
+      "description": "Optional identifier for grouping events in a batch operation"
     },
     "event_id": {
       "type": "string",
@@ -43,8 +55,9 @@
     },
     "content_hash": {
       "type": "string",
+      "minLength": 16,
       "maxLength": 16,
-      "description": "SHA-256 prefix (16 chars) of data payload"
+      "description": "SHA-256 prefix (exactly 16 chars) of data payload"
     },
     "asset": {
       "$ref": "#/$defs/asset_identity"

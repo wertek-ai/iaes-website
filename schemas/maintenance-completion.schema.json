@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/maintenance.completion",
+  "title": "IAES maintenance.completion",
+  "description": "Work order completion acknowledgment with outcome details",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "maintenance.completion" },
+    "data": {
+      "type": "object",
+      "required": ["status", "work_order_id"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["completed", "partially_completed", "cancelled", "deferred"],
+          "description": "Completion status of the work order"
+        },
+        "work_order_id": {
+          "type": "string",
+          "description": "Identifier of the completed work order"
+        },
+        "actual_duration_seconds": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Actual time spent on the work order in seconds"
+        },
+        "technician_id": {
+          "type": ["string", "null"],
+          "description": "Identifier of the technician who completed the work"
+        },
+        "checklist_completion_pct": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Percentage of checklist items completed (0-100)"
+        },
+        "completion_notes": {
+          "type": ["string", "null"],
+          "description": "Free-text notes from the technician"
+        },
+        "spare_parts_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "description": "Number of spare parts consumed (detail in spare_part_usage events)"
+        },
+        "failure_confirmed": {
+          "type": ["boolean", "null"],
+          "description": "Whether the predicted failure mode was confirmed during maintenance"
+        },
+        "failure_mode": {
+          "type": ["string", "null"],
+          "description": "Confirmed or observed failure mode (see Appendix A: Failure Mode Taxonomy)"
+        }
+      }
+    }
+  }
+}

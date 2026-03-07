@@ -1,0 +1,92 @@
+[
+  {
+    "_comment": "Level 1: Organization",
+    "spec_version": "1.1",
+    "event_type": "asset.hierarchy",
+    "event_id": "h1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+    "correlation_id": "aabb1122-3344-5566-7788-99aabbccddee",
+    "timestamp": "2026-03-07T10:00:00Z",
+    "source": "wertek.ai.hierarchy",
+    "content_hash": "1a2b3c4d5e6f7a8b",
+    "asset": {
+      "asset_id": "ORG-TECHGEN",
+      "asset_name": "TechGen Pesqueria"
+    },
+    "data": {
+      "hierarchy_level": "organization",
+      "relationship_type": "parent_of"
+    }
+  },
+  {
+    "_comment": "Level 2: Plant (child of Organization)",
+    "spec_version": "1.1",
+    "event_type": "asset.hierarchy",
+    "event_id": "h2b3c4d5-e6f7-8a9b-0c1d-2e3f4a5b6c7d",
+    "correlation_id": "aabb1122-3344-5566-7788-99aabbccddee",
+    "source_event_id": "h1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+    "timestamp": "2026-03-07T10:00:01Z",
+    "source": "wertek.ai.hierarchy",
+    "content_hash": "2b3c4d5e6f7a8b9c",
+    "asset": {
+      "asset_id": "PLANT-PESQUERIA",
+      "asset_name": "Planta Pesqueria",
+      "plant": "Pesqueria"
+    },
+    "data": {
+      "hierarchy_level": "plant",
+      "relationship_type": "child_of",
+      "parent_asset_id": "ORG-TECHGEN",
+      "location": "Pesqueria, Nuevo Leon, Mexico"
+    }
+  },
+  {
+    "_comment": "Level 3: Area (child of Plant)",
+    "spec_version": "1.1",
+    "event_type": "asset.hierarchy",
+    "event_id": "h3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e",
+    "correlation_id": "aabb1122-3344-5566-7788-99aabbccddee",
+    "source_event_id": "h2b3c4d5-e6f7-8a9b-0c1d-2e3f4a5b6c7d",
+    "timestamp": "2026-03-07T10:00:02Z",
+    "source": "wertek.ai.hierarchy",
+    "content_hash": "3c4d5e6f7a8b9c0d",
+    "asset": {
+      "asset_id": "AREA-TURBINAS",
+      "asset_name": "Turbinas",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "hierarchy_level": "area",
+      "relationship_type": "child_of",
+      "parent_asset_id": "PLANT-PESQUERIA",
+      "location": "Building B, Floor 1"
+    }
+  },
+  {
+    "_comment": "Level 4: Equipment (child of Area)",
+    "spec_version": "1.1",
+    "event_type": "asset.hierarchy",
+    "event_id": "h4d5e6f7-a8b9-0c1d-2e3f-4a5b6c7d8e9f",
+    "correlation_id": "aabb1122-3344-5566-7788-99aabbccddee",
+    "source_event_id": "h3c4d5e6-f7a8-9b0c-1d2e-3f4a5b6c7d8e",
+    "timestamp": "2026-03-07T10:00:03Z",
+    "source": "wertek.ai.hierarchy",
+    "content_hash": "4d5e6f7a8b9c0d1e",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "hierarchy_level": "equipment",
+      "relationship_type": "child_of",
+      "parent_asset_id": "AREA-TURBINAS",
+      "asset_type": "motor",
+      "serial_number": "WEG-2024-78432",
+      "manufacturer": "WEG",
+      "model": "W22 Premium 75HP",
+      "is_active": true
+    }
+  }
+]

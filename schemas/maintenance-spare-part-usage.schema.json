@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/maintenance.spare_part_usage",
+  "title": "IAES maintenance.spare_part_usage",
+  "description": "Spare parts consumed during a maintenance activity",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "maintenance.spare_part_usage" },
+    "data": {
+      "type": "object",
+      "required": ["work_order_id", "spare_part_id", "quantity_used"],
+      "properties": {
+        "work_order_id": {
+          "type": "string",
+          "description": "Identifier of the work order that consumed the part"
+        },
+        "spare_part_id": {
+          "type": "string",
+          "description": "Identifier of the spare part in the inventory system"
+        },
+        "quantity_used": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Quantity consumed"
+        },
+        "part_number": {
+          "type": ["string", "null"],
+          "description": "Manufacturer part number (e.g. SKF 6205-2RS)"
+        },
+        "part_name": {
+          "type": ["string", "null"],
+          "description": "Human-readable part name"
+        },
+        "unit_cost": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Cost per unit"
+        },
+        "currency": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code (e.g. USD, MXN, BRL)"
+        },
+        "total_cost": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Total cost (quantity_used * unit_cost)"
+        }
+      }
+    }
+  }
+}

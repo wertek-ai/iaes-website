@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.0 — Examples</title>
+  <title>IAES v1.1 — Examples</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -80,7 +80,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand">IAES <span>v1.0</span></a>
+  <a href="/" class="nav-brand">IAES <span>v1.1</span></a>
   <div class="nav-links">
     <a href="/spec/">Specification</a>
     <a href="/schemas/">Schemas</a>
@@ -91,7 +91,7 @@
 
 <main class="page">
   <h1>Examples</h1>
-  <p class="subtitle">Real-world IAES events demonstrating the three event types — from sensor readings to AI diagnoses to work order intents.</p>
+  <p class="subtitle">Real-world IAES events demonstrating all seven event types — from sensor readings to AI diagnoses, work order intents, completion, hierarchy, sensor registration, and spare parts.</p>
 
   <!-- Measurement -->
   <h2>Sensor Reading</h2>
@@ -174,14 +174,92 @@
     <div class="example-footer"><a href="work-order-intent.json">View full event &rarr;</a></div>
   </div>
 
-  <!-- Full Flow -->
-  <h2>Complete Flow (3-Event Chain)</h2>
+  <!-- v1.1 Events -->
+  <h2 style="margin-top:3rem; border-top:1px solid var(--border); padding-top:2rem;">IAES v1.1 Event Types</h2>
+
+  <!-- Completion -->
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Work order completed with failure confirmation</h3>
+      <span class="example-badge" style="background: var(--green-dim); color: var(--green);">maintenance.completion</span>
+    </div>
+    <div class="example-desc">A technician completes a bearing replacement, confirms the AI-predicted failure mode, and logs 2 hours of work with full checklist completion.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"wertek.ai.cmms"</span>
+<span class="key">"data"</span>: {
+  <span class="key">"status"</span>: <span class="str">"completed"</span>,
+  <span class="key">"work_order_id"</span>: <span class="str">"WO-2026-001"</span>,
+  <span class="key">"actual_duration_seconds"</span>: <span class="num">7200</span>,
+  <span class="key">"checklist_completion_pct"</span>: <span class="num">100</span>,
+  <span class="key">"failure_confirmed"</span>: <span class="num">true</span>,
+  <span class="key">"failure_mode"</span>: <span class="str">"bearing_inner_race"</span>,
+  <span class="key">"spare_parts_count"</span>: <span class="num">1</span>
+}</div>
+    <div class="example-footer"><a href="maintenance-completion.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Hierarchy -->
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Asset hierarchy — 4-level structure sync</h3>
+      <span class="example-badge" style="background: var(--amber-dim); color: var(--amber);">asset.hierarchy</span>
+    </div>
+    <div class="example-desc">Four events define an asset tree: Organization &rarr; Plant &rarr; Area &rarr; Equipment. Each node declares its level, parent, and relationship type.</div>
+    <div class="example-code"><span class="comment">// 4 events, same batch_id and correlation_id</span>
+
+{ <span class="key">"hierarchy_level"</span>: <span class="str">"organization"</span>, <span class="key">"relationship_type"</span>: <span class="str">"parent_of"</span> }
+{ <span class="key">"hierarchy_level"</span>: <span class="str">"plant"</span>, <span class="key">"relationship_type"</span>: <span class="str">"child_of"</span> }
+{ <span class="key">"hierarchy_level"</span>: <span class="str">"area"</span>, <span class="key">"relationship_type"</span>: <span class="str">"child_of"</span> }
+{ <span class="key">"hierarchy_level"</span>: <span class="str">"equipment"</span>, <span class="key">"relationship_type"</span>: <span class="str">"child_of"</span> }</div>
+    <div class="example-footer"><a href="asset-hierarchy.json">View full 4-event batch &rarr;</a></div>
+  </div>
+
+  <!-- Sensor Registration -->
+  <div class="example-block">
+    <div class="example-header">
+      <h3>MCSA current sensor registered</h3>
+      <span class="example-badge" style="background: var(--purple-dim); color: var(--purple);">sensor.registration</span>
+    </div>
+    <div class="example-desc">A Teensy 4.1-based MCSA current transformer is registered on a motor asset, with firmware version, capabilities, and calibration date.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"wertek.ai.sensors"</span>
+<span class="key">"data"</span>: {
+  <span class="key">"sensor_id"</span>: <span class="str">"MCSA-CT-001"</span>,
+  <span class="key">"registration_status"</span>: <span class="str">"registered"</span>,
+  <span class="key">"sensor_model"</span>: <span class="str">"Teensy 4.1 + SCT-013"</span>,
+  <span class="key">"firmware_version"</span>: <span class="str">"1.0.3"</span>,
+  <span class="key">"measurement_capabilities"</span>: [<span class="str">"current"</span>, <span class="str">"vibration_acceleration"</span>],
+  <span class="key">"communication_protocol"</span>: <span class="str">"mqtt"</span>
+}</div>
+    <div class="example-footer"><a href="sensor-registration.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Spare Part Usage -->
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Bearing consumed during maintenance</h3>
+      <span class="example-badge" style="background: var(--green-dim); color: var(--green);">maintenance.spare_part_usage</span>
+    </div>
+    <div class="example-desc">Records consumption of an SKF 6205 bearing during a work order, with unit cost and currency for inventory and cost tracking.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"wertek.ai.cmms"</span>
+<span class="key">"data"</span>: {
+  <span class="key">"work_order_id"</span>: <span class="str">"WO-2026-001"</span>,
+  <span class="key">"spare_part_id"</span>: <span class="str">"SP-SKF-6205"</span>,
+  <span class="key">"quantity_used"</span>: <span class="num">1</span>,
+  <span class="key">"part_number"</span>: <span class="str">"SKF 6205-2RS"</span>,
+  <span class="key">"part_name"</span>: <span class="str">"Deep groove ball bearing"</span>,
+  <span class="key">"unit_cost"</span>: <span class="num">28.50</span>,
+  <span class="key">"currency"</span>: <span class="str">"USD"</span>
+}</div>
+    <div class="example-footer"><a href="spare-part-usage.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- Full Flow v1.0 -->
+  <h2 style="margin-top:3rem;">Complete Flow (3-Event Chain)</h2>
   <div class="example-block">
     <div class="example-header">
       <h3>Measurement &rarr; Diagnosis &rarr; Work Order Intent</h3>
       <span class="example-badge" style="background: var(--accent-dim); color: var(--accent);">full-flow</span>
     </div>
-    <div class="example-desc">Three events sharing the same <code>correlation_id</code>, demonstrating the complete observation-to-action pipeline. Each event references its predecessor via <code>source_event_id</code>.</div>
+    <div class="example-desc">Three events sharing the same <code>correlation_id</code>, demonstrating the core observation-to-action pipeline. Each event references its predecessor via <code>source_event_id</code>.</div>
     <div class="example-code"><span class="comment">// All 3 events share correlation_id: 3b2f9d8c-1c33-...</span>
 
 <span class="comment">// Step 1: Sensor reading</span>
@@ -193,6 +271,33 @@
 <span class="comment">// Step 3: Work order intent (source_event_id → health)</span>
 { <span class="key">"event_type"</span>: <span class="str">"maintenance.work_order_intent"</span>, <span class="key">"source"</span>: <span class="str">"wertek.ai.cmms"</span> }</div>
     <div class="example-footer"><a href="full-flow.json">View full 3-event chain &rarr;</a></div>
+  </div>
+
+  <!-- Full Flow v1.1 -->
+  <h2>Complete Flow v1.1 (5-Event Chain)</h2>
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Measurement &rarr; Health &rarr; Work Order &rarr; Completion &rarr; Spare Part</h3>
+      <span class="example-badge" style="background: var(--accent-dim); color: var(--accent);">full-flow-v1.1</span>
+    </div>
+    <div class="example-desc">Five events sharing the same <code>correlation_id</code>, demonstrating the complete lifecycle from sensor reading through maintenance closure and inventory impact. Uses <code>batch_id</code> for the measurement batch.</div>
+    <div class="example-code"><span class="comment">// 5 events, same correlation_id, batch_id on measurement</span>
+
+<span class="comment">// Step 1: Sensor reading (batch_id groups concurrent readings)</span>
+{ <span class="key">"event_type"</span>: <span class="str">"asset.measurement"</span>, <span class="key">"batch_id"</span>: <span class="str">"BATCH-001"</span> }
+
+<span class="comment">// Step 2: AI diagnosis</span>
+{ <span class="key">"event_type"</span>: <span class="str">"asset.health"</span>, <span class="key">"severity"</span>: <span class="str">"critical"</span> }
+
+<span class="comment">// Step 3: Work order intent</span>
+{ <span class="key">"event_type"</span>: <span class="str">"maintenance.work_order_intent"</span>, <span class="key">"priority"</span>: <span class="str">"emergency"</span> }
+
+<span class="comment">// Step 4: Completion (failure confirmed)</span>
+{ <span class="key">"event_type"</span>: <span class="str">"maintenance.completion"</span>, <span class="key">"failure_confirmed"</span>: <span class="num">true</span> }
+
+<span class="comment">// Step 5: Spare part consumed</span>
+{ <span class="key">"event_type"</span>: <span class="str">"maintenance.spare_part_usage"</span>, <span class="key">"quantity_used"</span>: <span class="num">1</span> }</div>
+    <div class="example-footer"><a href="full-flow-v1.1.json">View full 5-event chain &rarr;</a></div>
   </div>
 
   <div class="footer">

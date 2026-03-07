@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.wertek.ai/schema/v1/sensor.registration",
+  "title": "IAES sensor.registration",
+  "description": "Sensor discovery, onboarding, and lifecycle events",
+  "allOf": [
+    { "$ref": "iaes-envelope.schema.json" }
+  ],
+  "properties": {
+    "event_type": { "const": "sensor.registration" },
+    "data": {
+      "type": "object",
+      "required": ["sensor_id", "registration_status"],
+      "properties": {
+        "sensor_id": {
+          "type": "string",
+          "description": "Unique identifier for the sensor"
+        },
+        "registration_status": {
+          "type": "string",
+          "enum": ["discovered", "registered", "calibrated", "decommissioned"],
+          "description": "Current registration state of the sensor"
+        },
+        "sensor_model": {
+          "type": ["string", "null"],
+          "description": "Sensor hardware model"
+        },
+        "device_serial": {
+          "type": ["string", "null"],
+          "description": "Device serial number"
+        },
+        "firmware_version": {
+          "type": ["string", "null"],
+          "description": "Current firmware version"
+        },
+        "measurement_capabilities": {
+          "type": ["array", "null"],
+          "items": { "type": "string" },
+          "description": "List of measurement types this sensor can provide"
+        },
+        "calibration_date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "Last calibration date (ISO 8601 date)"
+        },
+        "communication_protocol": {
+          "type": ["string", "null"],
+          "description": "Communication protocol (mqtt, modbus_tcp, opcua, lorawan, etc.)"
+        }
+      }
+    }
+  }
+}

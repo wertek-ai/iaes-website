@@ -220,7 +220,7 @@
 <header class="hero">
   <div class="w hero-grid">
     <div>
-      <div class="eyebrow"><span class="dot"></span> Open Specification v1.0</div>
+      <div class="eyebrow"><span class="dot"></span> Open Specification v1.1</div>
       <h1>Industrial Asset<br><span class="hl">Event Standard</span></h1>
       <p class="lead" style="font-size:1.2rem; color:var(--text); font-weight:500;">A standard event model for industrial maintenance systems.</p>
       <p class="lead">IAES is a vendor-neutral event specification that standardizes how signals, health assessments, and maintenance actions move across heterogeneous systems — AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
@@ -320,8 +320,8 @@
 <section id="events">
   <div class="w">
     <div class="sh">
-      <h2>Three core event types</h2>
-      <p>IAES v1 stays intentionally minimal. Three event types cover the full path from observation to operational intent.</p>
+      <h2>Seven event types</h2>
+      <p>IAES v1.1 covers the full lifecycle from physical observation to maintenance closure and inventory impact.</p>
     </div>
     <div class="g3">
       <div class="card ev ev--meas">
@@ -361,6 +361,53 @@
           <span class="pill">triggered_by</span>
         </div>
       </div>
+      <div class="card ev ev--health">
+        <div class="label">maintenance.completion</div>
+        <h3>Work order closure</h3>
+        <p>Acknowledges work order completion with outcome details, duration, checklist status, and failure confirmation.</p>
+        <div class="pills">
+          <span class="pill">status</span>
+          <span class="pill">work_order_id</span>
+          <span class="pill">actual_duration_seconds</span>
+          <span class="pill">failure_confirmed</span>
+          <span class="pill">spare_parts_count</span>
+        </div>
+      </div>
+      <div class="card ev ev--meas">
+        <div class="label">asset.hierarchy</div>
+        <h3>Hierarchy structure</h3>
+        <p>Synchronizes the asset tree &mdash; organizations, plants, areas, and equipment &mdash; across systems.</p>
+        <div class="pills">
+          <span class="pill">hierarchy_level</span>
+          <span class="pill">relationship_type</span>
+          <span class="pill">parent_asset_id</span>
+          <span class="pill">manufacturer</span>
+          <span class="pill">is_active</span>
+        </div>
+      </div>
+      <div class="card ev ev--wo">
+        <div class="label">sensor.registration</div>
+        <h3>Sensor lifecycle</h3>
+        <p>Tracks sensor discovery, registration, calibration, and decommissioning across the asset fleet.</p>
+        <div class="pills">
+          <span class="pill">sensor_id</span>
+          <span class="pill">registration_status</span>
+          <span class="pill">measurement_capabilities</span>
+          <span class="pill">firmware_version</span>
+        </div>
+      </div>
+      <div class="card ev ev--health">
+        <div class="label">maintenance.spare_part_usage</div>
+        <h3>Parts consumption</h3>
+        <p>Records spare parts consumed during maintenance. Linked to work orders for cost tracking and inventory planning.</p>
+        <div class="pills">
+          <span class="pill">work_order_id</span>
+          <span class="pill">spare_part_id</span>
+          <span class="pill">quantity_used</span>
+          <span class="pill">unit_cost</span>
+          <span class="pill">currency</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -375,7 +422,7 @@
     <div class="sg">
       <div class="card" style="padding:0; overflow:hidden;">
         <div class="code">{
-  <span class="k">"spec_version"</span>: <span class="s">"1.0"</span>,
+  <span class="k">"spec_version"</span>: <span class="s">"1.1"</span>,
   <span class="k">"event_type"</span>: <span class="s">"asset.health"</span>,
   <span class="k">"event_id"</span>: <span class="s">"a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1"</span>,
   <span class="k">"correlation_id"</span>: <span class="s">"3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12"</span>,
@@ -402,11 +449,12 @@
       <div class="card">
         <h3>Envelope fields</h3>
         <ul class="pl">
-          <li><strong>spec_version</strong> &mdash; IAES version (currently "1.0")</li>
+          <li><strong>spec_version</strong> &mdash; IAES version (currently "1.1")</li>
           <li><strong>event_type</strong> &mdash; canonical event name</li>
           <li><strong>event_id</strong> &mdash; unique event identifier (UUID)</li>
           <li><strong>correlation_id</strong> &mdash; links related events in a flow</li>
           <li><strong>source_event_id</strong> &mdash; traces causal origin</li>
+          <li><strong>batch_id</strong> &mdash; groups events from a single batch operation (v1.1)</li>
           <li><strong>timestamp</strong> &mdash; ISO 8601, when the event occurred</li>
           <li><strong>source</strong> &mdash; dot-notation producer identity</li>
           <li><strong>content_hash</strong> &mdash; SHA-256 prefix for deduplication</li>

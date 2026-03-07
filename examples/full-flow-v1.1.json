@@ -1,0 +1,132 @@
+[
+  {
+    "_comment": "Step 1: Sensor reading arrives (batch of measurements from same gateway poll)",
+    "spec_version": "1.1",
+    "event_type": "asset.measurement",
+    "event_id": "d1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6a",
+    "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+    "batch_id": "BATCH-DXM100-20260307-001",
+    "timestamp": "2026-03-07T08:00:00Z",
+    "source": "banner.dxm100",
+    "content_hash": "4b7e2a9f1c8d3e6a",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "measurement_type": "vibration_velocity",
+      "value": 4.2,
+      "unit": "mm/s",
+      "sensor_id": "SENSOR-045",
+      "location": "bearing_drive_end"
+    }
+  },
+  {
+    "_comment": "Step 2: AI diagnosis produces health event",
+    "spec_version": "1.1",
+    "event_type": "asset.health",
+    "event_id": "a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1",
+    "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+    "source_event_id": "d1e2f3a4-b5c6-7d8e-9f0a-1b2c3d4e5f6a",
+    "timestamp": "2026-03-07T08:00:02Z",
+    "source": "wertek.ai.vibration",
+    "content_hash": "8a3f9c2e1b4d7e6f",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "health_index": 0.16,
+      "anomaly_score": 0.92,
+      "severity": "critical",
+      "failure_mode": "bearing_inner_race",
+      "fault_confidence": 0.87,
+      "rul_days": 5,
+      "recommended_action": "Replace bearing immediately",
+      "estimated_downtime_hours": 4
+    }
+  },
+  {
+    "_comment": "Step 3: Work order intent created",
+    "spec_version": "1.1",
+    "event_type": "maintenance.work_order_intent",
+    "event_id": "e2f3a4b5-c6d7-8e9f-0a1b-2c3d4e5f6a7b",
+    "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+    "source_event_id": "a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1",
+    "timestamp": "2026-03-07T08:00:03Z",
+    "source": "wertek.ai.cmms",
+    "content_hash": "9d2e5a8f3c1b7e4a",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "title": "Bearing failure predicted — Motor Bomba P-101",
+      "description": "Inner race defect detected by AI vibration diagnosis. Health index 0.16, RUL 5 days.",
+      "priority": "emergency",
+      "recommended_due_days": 3,
+      "triggered_by": "ai_diagnosis"
+    }
+  },
+  {
+    "_comment": "Step 4: Work order completed by technician",
+    "spec_version": "1.1",
+    "event_type": "maintenance.completion",
+    "event_id": "c4d5e6f7-a8b9-0c1d-2e3f-4a5b6c7d8e9f",
+    "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+    "source_event_id": "e2f3a4b5-c6d7-8e9f-0a1b-2c3d4e5f6a7b",
+    "timestamp": "2026-03-07T09:15:00Z",
+    "source": "wertek.ai.cmms",
+    "content_hash": "7c4e9a2f1d6b3e8a",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "status": "completed",
+      "work_order_id": "WO-2026-0042",
+      "actual_duration_seconds": 7200,
+      "technician_id": "TECH-003",
+      "checklist_completion_pct": 100,
+      "completion_notes": "Bearing replaced. Vibration test post-repair: 0.8 mm/s RMS.",
+      "spare_parts_count": 1,
+      "failure_confirmed": true,
+      "failure_mode": "bearing_inner_race"
+    }
+  },
+  {
+    "_comment": "Step 5: Spare part usage recorded (linked to same WO and correlation)",
+    "spec_version": "1.1",
+    "event_type": "maintenance.spare_part_usage",
+    "event_id": "p1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
+    "correlation_id": "3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12",
+    "source_event_id": "c4d5e6f7-a8b9-0c1d-2e3f-4a5b6c7d8e9f",
+    "timestamp": "2026-03-07T09:16:00Z",
+    "source": "wertek.ai.cmms",
+    "content_hash": "6f7a8b9c0d1e2f3a",
+    "asset": {
+      "asset_id": "MOTOR-001",
+      "asset_name": "Motor Bomba P-101",
+      "plant": "Pesqueria",
+      "area": "Turbinas"
+    },
+    "data": {
+      "work_order_id": "WO-2026-0042",
+      "spare_part_id": "SP-SKF-6205",
+      "quantity_used": 1,
+      "part_number": "SKF 6205-2RS",
+      "part_name": "Rodamiento rigido de bolas 6205-2RS",
+      "unit_cost": 28.50,
+      "currency": "USD",
+      "total_cost": 28.50
+    }
+  }
+]
