@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.0 Specification</title>
+  <title>IAES v1.1 Specification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -1136,24 +1136,38 @@
     </div>
   </section>
 
-  <!-- Future -->
-  <section id="future">
+  <!-- Roadmap -->
+  <section id="roadmap">
     <div class="section-label">
       <div class="section-num">13</div>
       <div class="section-title">Roadmap</div>
     </div>
-    <h2>Future (v1.1)</h2>
-    <p>Planned additional event types:</p>
+    <h2>Released in v1.1 (March 2026)</h2>
     <div class="table-wrap">
       <table>
         <thead>
           <tr><th>Event Type</th><th>Description</th></tr>
         </thead>
         <tbody>
-          <tr><td><code>asset.hierarchy</code></td><td>Full asset tree sync</td></tr>
-          <tr><td><code>sensor.registration</code></td><td>Sensor discovery and onboarding</td></tr>
-          <tr><td><code>maintenance.completion</code></td><td>Work order completion acknowledgment</td></tr>
-          <tr><td><code>maintenance.spare_part_usage</code></td><td>Parts consumed during maintenance</td></tr>
+          <tr><td><code>asset.hierarchy</code></td><td>Full asset tree sync (organization, plant, area, equipment)</td></tr>
+          <tr><td><code>sensor.registration</code></td><td>Sensor discovery, onboarding, and lifecycle tracking</td></tr>
+          <tr><td><code>maintenance.completion</code></td><td>Work order completion acknowledgment with outcome details</td></tr>
+          <tr><td><code>maintenance.spare_part_usage</code></td><td>Parts consumed during maintenance activities</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top: 0.75rem;">Also added: <code>batch_id</code> envelope field for grouping related events, and Failure Mode Taxonomy (Appendix A, based on ISO 14224).</p>
+    <h2 style="margin-top: 2rem;">Future (v1.2)</h2>
+    <p>Under consideration:</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Event Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>asset.document</code></td><td>Document attachment and metadata sync</td></tr>
+          <tr><td><code>energy.reading</code></td><td>Power quality and energy consumption events</td></tr>
+          <tr><td><code>asset.decommission</code></td><td>Asset end-of-life and disposal tracking</td></tr>
         </tbody>
       </table>
     </div>
@@ -1180,6 +1194,7 @@
         </thead>
         <tbody>
           <tr><td><code>1.0</code></td><td>March 2026</td><td>Initial release. 3 event types, common envelope, JSON Schema.</td></tr>
+          <tr><td><code>1.1</code></td><td>March 2026</td><td>4 new event types (hierarchy, completion, sensor registration, spare parts). Added <code>batch_id</code> to envelope. Failure Mode Taxonomy (ISO 14224).</td></tr>
         </tbody>
       </table>
     </div>
@@ -1187,7 +1202,7 @@
 
   <!-- Footer -->
   <div class="spec-footer">
-    <p>IAES v1.0 &mdash; March 2026</p>
+    <p>IAES v1.1 &mdash; March 2026</p>
     <p>Created by the <a href="https://wertek.ai">Wertek AI</a> team. Reference implementation: <a href="https://github.com/wertek-ai/wertek-integrations">Wertek Integration Framework</a></p>
     <p style="margin-top: 0.5rem; font-size: 0.78rem;">
       <a href="/">Home</a> &middot;
