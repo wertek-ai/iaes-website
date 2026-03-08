@@ -38,6 +38,21 @@
           "type": ["string", "null"],
           "description": "Measurement point on the asset",
           "examples": ["bearing_drive_end", "bearing_non_drive_end", "motor_frame", "inlet", "outlet"]
+        },
+        "units_qualifier": {
+          "type": ["string", "null"],
+          "enum": ["rms", "peak", "peak_to_peak", "average", "true_rms", null],
+          "description": "Signal processing method applied to the value (ISO 17359 §6.3). Required for vibration measurements to disambiguate."
+        },
+        "sampling_rate_hz": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Sampling rate in Hz used during data acquisition"
+        },
+        "acquisition_duration_s": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "description": "Duration of the measurement acquisition window in seconds"
         }
       }
     }

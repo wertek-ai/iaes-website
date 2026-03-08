@@ -210,6 +210,7 @@
       <a href="#events">Events</a>
       <a href="#envelope">Envelope</a>
       <a href="#ecosystem">Ecosystem</a>
+      <a href="#iso">ISO</a>
       <a href="#spec">Specification</a>
       <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
     </div>
@@ -220,7 +221,7 @@
 <header class="hero">
   <div class="w hero-grid">
     <div>
-      <div class="eyebrow"><span class="dot"></span> Open Specification v1.1</div>
+      <div class="eyebrow"><span class="dot"></span> Open Specification v1.2</div>
       <h1>Industrial Asset<br><span class="hl">Event Standard</span></h1>
       <p class="lead" style="font-size:1.2rem; color:var(--text); font-weight:500;">A standard event model for industrial maintenance systems.</p>
       <p class="lead">IAES is a vendor-neutral event specification that standardizes how signals, health assessments, and maintenance actions move across heterogeneous systems — AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
@@ -321,7 +322,7 @@
   <div class="w">
     <div class="sh">
       <h2>Seven event types</h2>
-      <p>IAES v1.1 covers the full lifecycle from physical observation to maintenance closure and inventory impact.</p>
+      <p>IAES v1.2 covers the full lifecycle from physical observation to maintenance closure and inventory impact.</p>
     </div>
     <div class="g3">
       <div class="card ev ev--meas">
@@ -334,6 +335,8 @@
           <span class="pill">unit</span>
           <span class="pill">sensor_id</span>
           <span class="pill">location</span>
+          <span class="pill" style="border-color:rgba(124,196,255,0.3);">units_qualifier <sup>1.2</sup></span>
+          <span class="pill" style="border-color:rgba(124,196,255,0.3);">sampling_rate_hz <sup>1.2</sup></span>
         </div>
       </div>
       <div class="card ev ev--health">
@@ -347,6 +350,8 @@
           <span class="pill">failure_mode</span>
           <span class="pill">rul_days</span>
           <span class="pill">recommended_action</span>
+          <span class="pill" style="border-color:rgba(110,231,183,0.3);">iso_13374_status <sup>1.2</sup></span>
+          <span class="pill" style="border-color:rgba(110,231,183,0.3);">iso_14224 <sup>1.2</sup></span>
         </div>
       </div>
       <div class="card ev ev--wo">
@@ -371,6 +376,7 @@
           <span class="pill">actual_duration_seconds</span>
           <span class="pill">failure_confirmed</span>
           <span class="pill">spare_parts_count</span>
+          <span class="pill" style="border-color:rgba(110,231,183,0.3);">iso_14224 <sup>1.2</sup></span>
         </div>
       </div>
       <div class="card ev ev--meas">
@@ -422,7 +428,7 @@
     <div class="sg">
       <div class="card" style="padding:0; overflow:hidden;">
         <div class="code">{
-  <span class="k">"spec_version"</span>: <span class="s">"1.1"</span>,
+  <span class="k">"spec_version"</span>: <span class="s">"1.2"</span>,
   <span class="k">"event_type"</span>: <span class="s">"asset.health"</span>,
   <span class="k">"event_id"</span>: <span class="s">"a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1"</span>,
   <span class="k">"correlation_id"</span>: <span class="s">"3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12"</span>,
@@ -449,7 +455,7 @@
       <div class="card">
         <h3>Envelope fields</h3>
         <ul class="pl">
-          <li><strong>spec_version</strong> &mdash; IAES version (currently "1.1")</li>
+          <li><strong>spec_version</strong> &mdash; IAES version (currently "1.2")</li>
           <li><strong>event_type</strong> &mdash; canonical event name</li>
           <li><strong>event_id</strong> &mdash; unique event identifier (UUID)</li>
           <li><strong>correlation_id</strong> &mdash; links related events in a flow</li>
@@ -511,6 +517,49 @@
           <span class="pill">Digital Twin platforms</span>
           <span class="pill">Time-series databases</span>
           <span class="pill">MQTT brokers</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ISO Alignment -->
+<section id="iso">
+  <div class="w">
+    <div class="sh">
+      <h2>ISO standards alignment</h2>
+      <p>IAES v1.2 aligns with four ISO standards for industrial asset management and condition monitoring. All alignment fields are optional &mdash; backward compatible with v1.0 and v1.1.</p>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <h3>ISO 55000 &mdash; Asset Management</h3>
+        <p>IAES embodies AM principles architecturally: value preservation (health_index), alignment (correlation_id traces decisions), assurance (completion events close the feedback loop).</p>
+        <p style="margin-top:8px; font-size:12px; color:var(--accent);">Alignment: Architectural &mdash; no new fields needed</p>
+      </div>
+      <div class="card">
+        <h3>ISO 17359 &mdash; Condition Monitoring</h3>
+        <p>Measurement recording per &sect;6.3: signal processing method, sampling rate, and acquisition duration disambiguate measurement values.</p>
+        <div class="pills" style="margin-top:8px;">
+          <span class="pill">units_qualifier</span>
+          <span class="pill">sampling_rate_hz</span>
+          <span class="pill">acquisition_duration_s</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>ISO 13374 &mdash; CM&amp;D Architecture</h3>
+        <p>7-level health status complements IAES severity: severity is action-oriented (what to do), ISO 13374 status is condition-oriented (what the state is).</p>
+        <div class="pills" style="margin-top:8px;">
+          <span class="pill">iso_13374_status</span>
+          <span class="pill">unknown &rarr; normal &rarr; satisfactory &rarr; unsatisfactory &rarr; unacceptable &rarr; imminent_failure &rarr; failed</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>ISO 14224 &mdash; Failure Classification</h3>
+        <p>Structured failure coding: mechanism (why it failed physically), cause (root cause category), detection method. Coexists with the simpler failure_mode field.</p>
+        <div class="pills" style="margin-top:8px;">
+          <span class="pill">iso_14224.mechanism_code</span>
+          <span class="pill">iso_14224.cause_code</span>
+          <span class="pill">iso_14224.detection_method</span>
         </div>
       </div>
     </div>

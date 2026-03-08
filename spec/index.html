@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.1 Specification</title>
+  <title>IAES v1.2 Specification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -1157,7 +1157,9 @@
       </table>
     </div>
     <p style="margin-top: 0.75rem;">Also added: <code>batch_id</code> envelope field for grouping related events, and Failure Mode Taxonomy (Appendix A, based on ISO 14224).</p>
-    <h2 style="margin-top: 2rem;">Future (v1.2)</h2>
+    <h2 style="margin-top: 2rem;">Released in v1.2 (March 2026)</h2>
+    <p>ISO alignment: optional fields for ISO 17359 (condition monitoring), ISO 13374 (CM&amp;D status), and ISO 14224 (failure classification). New fields: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code>, <code>iso_13374_status</code>, <code>iso_14224</code> object. All backward compatible.</p>
+    <h2 style="margin-top: 2rem;">Future (v1.3)</h2>
     <p>Under consideration:</p>
     <div class="table-wrap">
       <table>
@@ -1195,6 +1197,7 @@
         <tbody>
           <tr><td><code>1.0</code></td><td>March 2026</td><td>Initial release. 3 event types, common envelope, JSON Schema.</td></tr>
           <tr><td><code>1.1</code></td><td>March 2026</td><td>4 new event types (hierarchy, completion, sensor registration, spare parts). Added <code>batch_id</code> to envelope. Failure Mode Taxonomy (ISO 14224).</td></tr>
+          <tr><td><code>1.2</code></td><td>March 2026</td><td>ISO alignment: ISO 17359 (units_qualifier, sampling_rate_hz, acquisition_duration_s), ISO 13374 (iso_13374_status), ISO 14224 (iso_14224 object). All optional, backward compatible.</td></tr>
         </tbody>
       </table>
     </div>
@@ -1202,7 +1205,7 @@
 
   <!-- Footer -->
   <div class="spec-footer">
-    <p>IAES v1.1 &mdash; March 2026</p>
+    <p>IAES v1.2 &mdash; March 2026</p>
     <p>Created by the <a href="https://wertek.ai">Wertek AI</a> team. Reference implementation: <a href="https://github.com/wertek-ai/wertek-integrations">Wertek Integration Framework</a></p>
     <p style="margin-top: 0.5rem; font-size: 0.78rem;">
       <a href="/">Home</a> &middot;

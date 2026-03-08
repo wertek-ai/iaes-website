@@ -52,6 +52,36 @@
         "failure_mode": {
           "type": ["string", "null"],
           "description": "Confirmed or observed failure mode (see Appendix A: Failure Mode Taxonomy)"
+        },
+        "iso_14224": {
+          "type": ["object", "null"],
+          "description": "ISO 14224 structured failure classification codes confirmed during maintenance",
+          "properties": {
+            "mechanism_code": {
+              "type": "string",
+              "description": "ISO 14224 failure mechanism code (e.g. '1.1' for mechanical wear)"
+            },
+            "mechanism_label": {
+              "type": "string",
+              "description": "Human-readable mechanism description"
+            },
+            "cause_code": {
+              "type": "string",
+              "description": "ISO 14224 failure cause code (1-6)"
+            },
+            "cause_label": {
+              "type": "string",
+              "description": "Human-readable cause description"
+            },
+            "detection_method": {
+              "type": "string",
+              "description": "ISO 14224 detection method code (1-5)"
+            },
+            "detection_label": {
+              "type": "string",
+              "description": "Human-readable detection method description"
+            }
+          }
         }
       }
     }
