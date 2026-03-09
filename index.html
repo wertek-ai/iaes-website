@@ -769,6 +769,93 @@
       text-align: center;
     }
 
+    /* ── Comparison Table ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--cloud);
+      font-size: 14px;
+    }
+    .compare-table thead th {
+      background: var(--charcoal);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 14px 16px;
+      text-align: left;
+      letter-spacing: 0.02em;
+    }
+    .compare-table thead th:first-child {
+      width: 180px;
+    }
+    .compare-table tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--cloud);
+      vertical-align: top;
+      line-height: 1.6;
+      color: var(--steel);
+    }
+    .compare-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .compare-table tbody tr:nth-child(even) {
+      background: var(--snow);
+    }
+    .compare-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .compare-table .std-name {
+      font-weight: 700;
+      color: var(--charcoal);
+      display: block;
+    }
+    .compare-table .std-id {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--slate);
+    }
+    .compare-relationship {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .rel-complement {
+      background: rgba(14,165,233,0.08);
+      color: var(--cyan);
+      border: 1px solid rgba(14,165,233,0.2);
+    }
+    .rel-different {
+      background: rgba(160,174,192,0.1);
+      color: var(--steel);
+      border: 1px solid rgba(160,174,192,0.2);
+    }
+    .compare-summary {
+      margin-top: 24px;
+      padding: 20px 24px;
+      border-radius: var(--radius-card);
+      background: var(--cloud);
+      border-left: 4px solid var(--cyan);
+    }
+    .compare-summary strong {
+      color: var(--charcoal);
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+    .compare-summary p {
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
     /* ── Ecosystem Section ── */
     .eco-pills {
       display: flex;
@@ -1433,9 +1520,75 @@ wire = event.to_dict()</div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     IAES vs OTHER STANDARDS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section id="compare">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="compare.title">How IAES Relates to Other Standards</h2>
+      <p data-i18n="compare.subtitle">IAES is complementary to existing industrial standards. It does not replace them &mdash; it provides the event wire format that connects them.</p>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th data-i18n="compare.col_standard">Standard</th>
+            <th data-i18n="compare.col_scope">What it defines</th>
+            <th data-i18n="compare.col_iaes">How IAES differs</th>
+            <th data-i18n="compare.col_relationship">Relationship</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="std-name">ISO 55000</span><span class="std-id">Asset Management</span></td>
+            <td data-i18n="compare.iso55000_scope">The management framework for the entire asset lifecycle &mdash; strategy, planning, acquisition, operation, disposal.</td>
+            <td data-i18n="compare.iso55000_iaes">IAES is the event wire format that carries operational data within an ISO 55000 management system. ISO 55000 says <em>what</em> to manage; IAES says <em>how events flow</em>.</td>
+            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
+          </tr>
+          <tr>
+            <td><span class="std-name">Asset Administration Shell</span><span class="std-id">AAS / IEC 63278</span></td>
+            <td data-i18n="compare.aas_scope">The digital twin structure &mdash; defines the shell, submodels, and REST interfaces for representing an asset digitally.</td>
+            <td data-i18n="compare.aas_iaes">AAS defines the <em>structure</em> of a digital twin. IAES defines the <em>events that flow through it</em>. An AAS submodel can produce or consume IAES events.</td>
+            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
+          </tr>
+          <tr>
+            <td><span class="std-name">Common Information Model</span><span class="std-id">CIM / IEC 61970</span></td>
+            <td data-i18n="compare.cim_scope">An information model for power systems &mdash; defines data at rest (topology, equipment, measurements).</td>
+            <td data-i18n="compare.cim_iaes">CIM models data <em>at rest</em>. IAES models data <em>in motion</em> &mdash; events that happen to assets. CIM tells you what exists; IAES tells you what happened.</td>
+            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
+          </tr>
+          <tr>
+            <td><span class="std-name">Industrial Data Ontology</span><span class="std-id">IDO / ISO 23726-3</span></td>
+            <td data-i18n="compare.ido_scope">A semantic ontology for industrial data &mdash; enables automated reasoning and knowledge graphs.</td>
+            <td data-i18n="compare.ido_iaes">IDO is for <em>semantic reasoning</em> (RDF, OWL). IAES is for <em>operational event routing</em> (JSON, MQTT, REST). Different layers of the stack.</td>
+            <td><span class="compare-relationship rel-different" data-i18n="compare.different_layer">Different layer</span></td>
+          </tr>
+          <tr>
+            <td><span class="std-name">OPC UA</span><span class="std-id">IEC 62541</span></td>
+            <td data-i18n="compare.opcua_scope">A communication protocol for industrial automation &mdash; defines how machines talk to each other at the device level.</td>
+            <td data-i18n="compare.opcua_iaes">OPC UA is a <em>transport protocol</em> (device-to-device). IAES is an <em>event schema</em> (system-to-system). IAES events can be transported over OPC UA, MQTT, REST, or any protocol.</td>
+            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
+          </tr>
+          <tr>
+            <td><span class="std-name">ISA-95 / IEC 62264</span><span class="std-id">Enterprise Integration</span></td>
+            <td data-i18n="compare.isa95_scope">Defines the levels of integration between enterprise (ERP) and control systems (SCADA/MES).</td>
+            <td data-i18n="compare.isa95_iaes">ISA-95 defines <em>integration architecture</em> (levels 0-4). IAES provides the <em>event contract</em> for levels 2-4 &mdash; the actual data format that crosses those boundaries.</td>
+            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="compare-summary">
+      <strong data-i18n="compare.summary_title">IAES fills a specific gap</strong>
+      <p data-i18n="compare.summary_desc">Existing standards define how to manage assets (ISO 55000), model them digitally (AAS), reason about them (IDO), or transport data between devices (OPC UA). None of them define a standard event format for what happens to an asset &mdash; measurements, diagnoses, maintenance intents, and completions. That's what IAES does.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      ECOSYSTEM
      ════════════════════════════════════════════════════════════════════════════ -->
-<section id="ecosystem">
+<section class="section-light" id="ecosystem">
   <div class="container">
     <div class="section-header center">
       <h2 data-i18n="ecosystem.title">Ecosystem</h2>
