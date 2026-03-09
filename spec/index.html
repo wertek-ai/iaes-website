@@ -3,653 +3,646 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.2 Specification</title>
+  <title>IAES Specification v1.2 — Industrial Asset Event Standard</title>
+  <meta name="description" content="Complete technical reference for the Industrial Asset Event Standard (IAES) v1.2. Vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES Specification v1.2">
+  <meta property="og:description" content="Complete technical reference for the Industrial Asset Event Standard.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/spec/">
+  <link rel="canonical" href="https://iaes.dev/spec/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --bg: #0c1117;
-      --bg-raised: #131920;
-      --bg-surface: #1a2230;
-      --bg-code: #0d1520;
-      --border: rgba(56, 189, 248, 0.10);
-      --border-strong: rgba(56, 189, 248, 0.20);
-      --text: #c9d5e3;
-      --text-bright: #e8eef5;
-      --text-dim: #6b7f96;
-      --text-code: #a5c4e0;
-      --accent: #00BCD4;
-      --accent-dim: rgba(0, 188, 212, 0.12);
-      --accent-glow: rgba(0, 188, 212, 0.06);
-      --green: #10b981;
-      --green-dim: rgba(16, 185, 129, 0.12);
-      --amber: #d97706;
-      --amber-dim: rgba(217, 119, 6, 0.12);
-      --red: #ef4444;
-      --red-dim: rgba(239, 68, 68, 0.12);
-      --blue: #3b82f6;
-      --blue-dim: rgba(59, 130, 246, 0.12);
-      --measurement: #10b981;
-      --health: #f59e0b;
-      --intent: #8b5cf6;
-      --font-body: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'Fira Code', 'Consolas', monospace;
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
     }
 
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: #f8fafb;
-        --bg-raised: #ffffff;
-        --bg-surface: #f0f4f8;
-        --bg-code: #edf2f7;
-        --border: rgba(0, 0, 0, 0.08);
-        --border-strong: rgba(0, 0, 0, 0.14);
-        --text: #334155;
-        --text-bright: #0f172a;
-        --text-dim: #94a3b8;
-        --text-code: #1e40af;
-        --accent: #0891b2;
-        --accent-dim: rgba(8, 145, 178, 0.08);
-        --accent-glow: rgba(8, 145, 178, 0.04);
-      }
-    }
-
-    html { scroll-behavior: smooth; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
     body {
       font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--text);
+      color: var(--charcoal);
+      background: var(--white);
       line-height: 1.7;
-      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Navigation ── */
+    a { color: var(--cyan-dark); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Header ── */
     .nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(12, 17, 23, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-    }
-    @media (prefers-color-scheme: light) {
-      .nav { background: rgba(248, 250, 251, 0.85); }
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
     .nav-inner {
-      max-width: 900px;
+      max-width: 1280px;
       margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
     }
-    .nav-brand {
-      font-family: var(--font-mono);
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: var(--accent);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.02em;
       text-decoration: none;
-      letter-spacing: 0.06em;
     }
-    .nav-brand span { color: var(--text-dim); font-weight: 400; }
-    .nav-links { display: flex; gap: 1.5rem; }
+    .brand:hover { text-decoration: none; }
+    .brand-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-light));
+      color: var(--charcoal-dark);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
     .nav-links a {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
       font-weight: 500;
-      transition: color 0.2s;
+      text-decoration: none;
+      transition: color 0.15s;
     }
-    .nav-links a:hover { color: var(--text-bright); }
+    .nav-links a:hover { color: #fff; text-decoration: none; }
+    .nav-links a.active {
+      color: var(--cyan-light);
+      font-weight: 600;
+    }
+    .nav-lang {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: var(--font-body);
+    }
+    .nav-lang option { background: var(--charcoal); color: #fff; }
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+    }
 
     /* ── Layout ── */
-    .page {
-      max-width: 900px;
+    .page-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      max-width: 1280px;
       margin: 0 auto;
-      padding: 3rem 2rem 6rem;
+      min-height: calc(100vh - 64px);
     }
 
-    /* ── Hero ── */
-    .hero {
-      text-align: center;
-      padding: 2rem 0 3rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 3rem;
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+      padding: 32px 20px 32px 24px;
+      background: var(--snow);
+      border-right: 1px solid var(--silver);
     }
-    .hero-version {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      background: var(--accent-dim);
-      padding: 0.3rem 0.8rem;
-      border-radius: 4px;
-      border: 1px solid rgba(0, 188, 212, 0.15);
-      margin-bottom: 1.2rem;
-      letter-spacing: 0.05em;
-    }
-    .hero h1 {
-      font-size: 2.2rem;
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--silver); border-radius: 4px; }
+    .sidebar-title {
+      font-size: 11px;
       font-weight: 700;
-      color: var(--text-bright);
-      margin-bottom: 0.6rem;
-      letter-spacing: -0.02em;
-    }
-    .hero p {
-      font-size: 1.05rem;
-      color: var(--text-dim);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    /* ── Sections ── */
-    section { margin-bottom: 3rem; }
-    section:target { scroll-margin-top: 72px; }
-
-    .section-label {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin-bottom: 1.2rem;
-    }
-    .section-num {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--accent);
-      background: var(--accent-dim);
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .section-title {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      color: var(--slate);
+      margin-bottom: 16px;
     }
-
-    h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-bright);
-      margin-bottom: 1rem;
-      letter-spacing: -0.01em;
+    .toc-list {
+      list-style: none;
     }
-
-    h3 {
-      font-size: 1.15rem;
+    .toc-list li {
+      margin-bottom: 2px;
+    }
+    .toc-list a {
+      display: block;
+      padding: 5px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--steel);
+      border-left: 3px solid transparent;
+      border-radius: 0 4px 4px 0;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .toc-list a:hover {
+      color: var(--charcoal);
+      background: var(--cloud);
+      text-decoration: none;
+    }
+    .toc-list a.active {
+      color: var(--cyan-dark);
+      border-left-color: var(--cyan);
+      background: rgba(14, 165, 233, 0.06);
       font-weight: 600;
-      color: var(--text-bright);
-      margin-top: 2rem;
-      margin-bottom: 0.8rem;
+    }
+    .toc-list .toc-sub {
+      padding-left: 24px;
+      font-size: 12px;
+    }
+    .toc-list .toc-sub a {
+      padding: 3px 12px;
     }
 
-    p { margin-bottom: 1rem; }
-    p + p { margin-top: 0; }
-
-    strong { color: var(--text-bright); font-weight: 600; }
-
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    /* ── Code blocks ── */
-    pre {
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.2rem 1.4rem;
-      overflow-x: auto;
-      margin: 1rem 0 1.5rem;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      line-height: 1.65;
-      color: var(--text-code);
-      white-space: pre;
-      overflow-wrap: normal;
+    /* Mobile TOC toggle */
+    .toc-mobile-toggle {
+      display: none;
+      width: 100%;
+      padding: 14px 20px;
+      background: var(--snow);
+      border: none;
+      border-bottom: 1px solid var(--silver);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal);
+      cursor: pointer;
+      text-align: left;
     }
-    pre .key { color: #7dd3fc; }
-    pre .str { color: #86efac; }
-    pre .num { color: #fbbf24; }
-    pre .bool { color: #c084fc; }
-    pre .null { color: #94a3b8; }
-    pre .comment { color: #4b5e72; font-style: italic; }
+    .toc-mobile-toggle::after {
+      content: ' \25BC';
+      font-size: 10px;
+      color: var(--slate);
+    }
+    .toc-mobile-toggle.open::after {
+      content: ' \25B2';
+    }
 
-    code {
+    /* ── Content ── */
+    .content {
+      padding: 48px 56px 80px;
+      max-width: 900px;
+    }
+
+    /* ── Typography ── */
+    .spec-hero {
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--silver);
+    }
+    .spec-hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--charcoal-dark);
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .spec-hero .subtitle {
+      font-size: 1.1rem;
+      color: var(--steel);
+      margin-bottom: 8px;
+    }
+    .spec-hero .date {
+      font-size: 13px;
+      color: var(--slate);
+      font-weight: 500;
+    }
+
+    .spec-section {
+      margin-bottom: 48px;
+      padding-top: 24px;
+    }
+    .spec-section h2 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--charcoal-dark);
+      margin-bottom: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--silver);
+    }
+    .spec-section h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+    .spec-section h3 code {
       font-family: var(--font-mono);
-      font-size: 0.85em;
-      background: var(--accent-dim);
-      color: var(--accent);
-      padding: 0.15rem 0.4rem;
+      font-size: 1.05rem;
+      background: var(--cloud);
+      padding: 2px 8px;
       border-radius: 4px;
     }
-    pre code {
-      background: none;
-      color: inherit;
-      padding: 0;
-      font-size: inherit;
+    .spec-section p {
+      margin-bottom: 14px;
+      color: var(--charcoal-light);
+      font-size: 15px;
+    }
+
+    /* ── Badges ── */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 4px;
+      vertical-align: middle;
+      margin-left: 6px;
+    }
+    .badge-cyan {
+      background: rgba(14, 165, 233, 0.12);
+      color: var(--cyan-dark);
+    }
+    .badge-green {
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
     }
 
     /* ── Tables ── */
-    .table-wrap {
-      overflow-x: auto;
-      margin: 1rem 0 1.5rem;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-    }
-    table {
+    .spec-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.88rem;
+      margin: 16px 0 24px;
+      font-size: 14px;
     }
-    thead {
-      background: var(--bg-surface);
-    }
-    th {
+    .spec-table th {
       text-align: left;
-      padding: 0.7rem 1rem;
+      padding: 10px 14px;
+      background: var(--charcoal);
+      color: var(--white);
       font-weight: 600;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
-      border-bottom: 1px solid var(--border-strong);
-      white-space: nowrap;
-    }
-    td {
-      padding: 0.6rem 1rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text);
-      vertical-align: top;
-    }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--accent-glow); }
-    td code {
-      font-size: 0.82rem;
-    }
-
-    .required-badge {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      font-weight: 600;
-      padding: 0.1rem 0.4rem;
-      border-radius: 3px;
+      font-size: 12px;
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
-    .required-yes {
-      color: var(--green);
-      background: var(--green-dim);
+    .spec-table th:first-child { border-radius: 6px 0 0 0; }
+    .spec-table th:last-child { border-radius: 0 6px 0 0; }
+    .spec-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--cloud);
+      vertical-align: top;
     }
-    .required-no {
-      color: var(--text-dim);
-      background: var(--bg-surface);
+    .spec-table tr:nth-child(even) td {
+      background: var(--snow);
     }
-
-    /* ── Event type cards ── */
-    .event-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin: 1.5rem 0;
-    }
-    @media (max-width: 700px) {
-      .event-cards { grid-template-columns: 1fr; }
-    }
-    .event-card {
-      background: var(--bg-raised);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.2rem;
-      border-top: 3px solid var(--card-color, var(--accent));
-    }
-    .event-card h4 {
+    .spec-table tr:last-child td:first-child { border-radius: 0 0 0 6px; }
+    .spec-table tr:last-child td:last-child { border-radius: 0 0 6px 0; }
+    .spec-table code {
       font-family: var(--font-mono);
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--card-color, var(--accent));
-      margin-bottom: 0.5rem;
+      font-size: 12px;
+      background: var(--cloud);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: var(--charcoal);
     }
-    .event-card p {
-      font-size: 0.85rem;
-      color: var(--text-dim);
-      margin-bottom: 0;
+    .spec-table .required {
+      font-weight: 700;
     }
 
-    /* ── Principle list ── */
-    .principles {
-      list-style: none;
-      counter-reset: principle;
-      margin: 1rem 0 1.5rem;
-    }
-    .principles li {
-      counter-increment: principle;
-      padding: 0.8rem 1rem 0.8rem 3.2rem;
+    /* ── Code Blocks ── */
+    .code-block {
       position: relative;
-      border-left: 2px solid var(--border);
-      margin-bottom: 0.5rem;
+      margin: 16px 0 24px;
+      background: var(--charcoal-dark);
+      border: 1px solid var(--charcoal-light);
+      border-radius: 10px;
+      overflow: hidden;
     }
-    .principles li::before {
-      content: counter(principle);
-      position: absolute;
-      left: 0.8rem;
-      top: 0.8rem;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+    .code-block-header {
+      padding: 8px 16px;
+      background: var(--charcoal);
+      font-size: 11px;
       font-weight: 600;
-      color: var(--accent);
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .principles li strong {
-      color: var(--text-bright);
+    .code-block pre {
+      padding: 18px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #CBD5E0;
+      margin: 0;
+    }
+    .code-block .ck { color: var(--cyan-light); }
+    .code-block .cs { color: #6EE7B7; }
+    .code-block .cn { color: #FBBF24; }
+    .code-block .cb { color: #818CF8; }
+
+    /* ── Ordered/Unordered Lists ── */
+    .spec-section ol,
+    .spec-section ul {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+    .spec-section ol li,
+    .spec-section ul li {
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: var(--charcoal-light);
+    }
+    .spec-section ol li strong,
+    .spec-section ul li strong {
+      color: var(--charcoal);
     }
 
-    /* ── Severity levels ── */
-    .severity-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.5rem;
-      margin: 1rem 0 1.5rem;
-    }
-    @media (max-width: 600px) {
-      .severity-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    .severity-item {
-      background: var(--bg-raised);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.8rem;
-      text-align: center;
-    }
-    .severity-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-bottom: 0.4rem;
-    }
-    .severity-item .sev-label {
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-bright);
-      display: block;
-      margin-bottom: 0.25rem;
-    }
-    .severity-item .sev-desc {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-
-    /* ── Flow diagram ── */
-    .flow {
+    /* ── Flow Diagram ── */
+    .flow-diagram {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 0;
-      margin: 2rem 0;
-      flex-wrap: wrap;
+      padding: 24px 16px;
+      overflow-x: auto;
+      margin: 16px 0 24px;
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: 10px;
     }
-    .flow-step {
-      background: var(--bg-raised);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.8rem 1.2rem;
-      text-align: center;
+    .flow-node {
+      flex: 0 0 auto;
       min-width: 140px;
+      padding: 14px 16px;
+      background: var(--white);
+      border: 1px solid var(--silver);
+      border-radius: 10px;
+      text-align: center;
     }
-    .flow-step .step-type {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 500;
+    .flow-node strong {
       display: block;
-      margin-bottom: 0.2rem;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      margin-bottom: 2px;
+      color: var(--charcoal);
     }
-    .flow-step .step-label {
-      font-size: 0.82rem;
-      color: var(--text-dim);
+    .flow-node span {
+      font-size: 11px;
+      color: var(--slate);
+    }
+    .flow-node.flow-highlight {
+      border-color: var(--cyan);
+      background: rgba(14, 165, 233, 0.04);
     }
     .flow-arrow {
-      color: var(--text-dim);
-      font-size: 1.2rem;
-      padding: 0 0.5rem;
-      flex-shrink: 0;
-    }
-    @media (max-width: 700px) {
-      .flow { flex-direction: column; }
-      .flow-arrow { transform: rotate(90deg); padding: 0.3rem 0; }
+      flex: 0 0 40px;
+      text-align: center;
+      color: var(--slate);
+      font-size: 20px;
     }
 
-    /* ── Callout ── */
-    .callout {
-      background: var(--accent-dim);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 6px 6px 0;
-      padding: 1rem 1.2rem;
-      margin: 1.5rem 0;
-      font-size: 0.9rem;
+    /* ── Note boxes ── */
+    .note-box {
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin: 16px 0 20px;
+      border-left: 4px solid;
     }
-    .callout strong { color: var(--accent); }
-
-    /* ── Producers grid ── */
-    .producers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 0.8rem;
-      margin: 1rem 0 1.5rem;
+    .note-box.info {
+      background: rgba(14, 165, 233, 0.06);
+      border-left-color: var(--cyan);
+      color: var(--charcoal-light);
     }
-    .producer-item {
-      background: var(--bg-raised);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.8rem 1rem;
-      display: flex;
-      align-items: start;
-      gap: 0.8rem;
-    }
-    .producer-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 0.9rem;
-    }
-    .producer-info .prod-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-bright);
-      display: block;
-    }
-    .producer-info .prod-source {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-dim);
+    .note-box.warn {
+      background: rgba(251, 191, 36, 0.08);
+      border-left-color: #D97706;
+      color: var(--charcoal-light);
     }
 
     /* ── Footer ── */
-    .spec-footer {
-      border-top: 1px solid var(--border);
-      padding-top: 2rem;
-      margin-top: 4rem;
-      text-align: center;
-      color: var(--text-dim);
-      font-size: 0.85rem;
+    .footer {
+      padding: 24px 0 40px;
+      color: var(--slate);
+      font-size: 13px;
+      background: var(--snow);
+      border-top: 1px solid var(--silver);
     }
-    .spec-footer a { color: var(--accent); }
-
-    /* ── Divider ── */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 3rem 0;
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
     }
+    .footer a { color: var(--slate); }
+    .footer a:hover { color: var(--charcoal); }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
-      .page { padding: 2rem 1rem 4rem; }
-      .hero h1 { font-size: 1.6rem; }
-      h2 { font-size: 1.25rem; }
-      .nav-links { gap: 1rem; }
-      .nav-links a { font-size: 0.75rem; }
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar {
+        position: static;
+        height: auto;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--silver);
+        transition: max-height 0.3s ease, padding 0.3s ease;
+      }
+      .sidebar.open {
+        max-height: 80vh;
+        padding: 20px;
+        overflow-y: auto;
+      }
+      .toc-mobile-toggle { display: block; }
+      .content {
+        padding: 32px 20px 60px;
+      }
     }
-
-    /* ── Animations ── */
-    @media (prefers-reduced-motion: no-preference) {
-      section {
-        opacity: 0;
-        transform: translateY(12px);
-        animation: fadeUp 0.5s ease forwards;
-      }
-      @keyframes fadeUp {
-        to { opacity: 1; transform: translateY(0); }
-      }
-      section:nth-child(1) { animation-delay: 0.05s; }
-      section:nth-child(2) { animation-delay: 0.1s; }
-      section:nth-child(3) { animation-delay: 0.15s; }
-      section:nth-child(4) { animation-delay: 0.2s; }
-      section:nth-child(5) { animation-delay: 0.25s; }
-      section:nth-child(6) { animation-delay: 0.3s; }
-      section:nth-child(7) { animation-delay: 0.35s; }
-      section:nth-child(8) { animation-delay: 0.4s; }
-      section:nth-child(9) { animation-delay: 0.45s; }
-      section:nth-child(10) { animation-delay: 0.5s; }
-      section:nth-child(11) { animation-delay: 0.55s; }
-      section:nth-child(12) { animation-delay: 0.6s; }
-      section:nth-child(13) { animation-delay: 0.65s; }
-      section:nth-child(14) { animation-delay: 0.7s; }
-      section:nth-child(15) { animation-delay: 0.75s; }
-      section:nth-child(16) { animation-delay: 0.8s; }
-      section:nth-child(17) { animation-delay: 0.85s; }
-      section:nth-child(18) { animation-delay: 0.9s; }
+    @media (max-width: 640px) {
+      .spec-hero h1 { font-size: 1.8rem; }
+      .content { padding: 24px 16px 48px; }
+      .flow-diagram { gap: 0; }
+      .flow-node { min-width: 110px; padding: 10px 10px; }
+      .flow-node strong { font-size: 10px; }
     }
   </style>
 </head>
 <body>
 
+<!-- Nav -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="/" class="nav-brand">IAES <span>v1.0</span></a>
+    <a href="/" class="brand"><div class="brand-badge">IA</div> IAES</a>
     <div class="nav-links">
-      <a href="#envelope">Envelope</a>
-      <a href="#events">Events</a>
-      <a href="#producer-guidelines">Producers</a>
-      <a href="#consumer-guidelines">Consumers</a>
-      <a href="#versioning">Versioning</a>
-      <a href="/schemas/">Schemas</a>
+      <a href="/spec/" class="active" data-i18n="nav_spec">Spec</a>
+      <a href="/examples/" data-i18n="nav_examples">Examples</a>
+      <a href="/schemas/" data-i18n="nav_schemas">Schemas</a>
+      <a href="/#install" data-i18n="nav_install">Install</a>
+      <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
+      <select id="iaes-lang-select" class="nav-lang">
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="pt">PT</option>
+      </select>
     </div>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation">&#9776;</button>
   </div>
 </nav>
 
-<main class="page">
+<!-- Mobile TOC Toggle -->
+<button class="toc-mobile-toggle" id="toc-toggle" data-i18n="toc_title">Table of Contents</button>
 
-  <!-- Hero -->
-  <div class="hero">
-    <div class="hero-version">SPEC VERSION 1.0 &mdash; MARCH 2026</div>
-    <h1>Industrial Asset Event Standard</h1>
-    <p>A vendor-neutral event format for industrial asset intelligence. Defines how signals, diagnoses, and maintenance intents are represented across heterogeneous operational systems.</p>
-  </div>
+<div class="page-layout">
 
-  <!-- Purpose -->
-  <section id="purpose">
-    <div class="section-label">
-      <div class="section-num">1</div>
-      <div class="section-title">Purpose</div>
-    </div>
-    <h2>What is IAES?</h2>
-    <p>IAES defines how industrial asset signals, diagnoses, and maintenance intents are represented and transferred across heterogeneous operational systems.</p>
-    <p>IAES is <strong>not</strong> a product. It is a <strong>data contract</strong>. Any system &mdash; sensor platform, AI engine, CMMS, historian, or dashboard &mdash; can produce or consume IAES events without knowing the implementation details of the other side.</p>
-    <div class="callout">
-      <strong>Key insight:</strong> IAES events can originate from any source &mdash; AI models, rule engines, SCADA systems, or human experts performing manual inspections. The <code>source</code> field is what makes the standard vendor-neutral.
-    </div>
-  </section>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title" data-i18n="toc_title">Table of Contents</div>
+    <ul class="toc-list">
+      <li><a href="#purpose" data-i18n="toc_purpose">1. Purpose</a></li>
+      <li><a href="#principles" data-i18n="toc_principles">2. Principles</a></li>
+      <li><a href="#terminology" data-i18n="toc_terminology">3. Terminology</a></li>
+      <li><a href="#envelope" data-i18n="toc_envelope">4. Common Envelope</a></li>
+      <li><a href="#event-types" data-i18n="toc_events">5. Event Types</a></li>
+      <li class="toc-sub"><a href="#asset-measurement">5.1 asset.measurement</a></li>
+      <li class="toc-sub"><a href="#asset-health">5.2 asset.health</a></li>
+      <li class="toc-sub"><a href="#work-order-intent">5.3 maintenance.work_order_intent</a></li>
+      <li class="toc-sub"><a href="#maintenance-completion">5.4 maintenance.completion</a></li>
+      <li class="toc-sub"><a href="#asset-hierarchy">5.5 asset.hierarchy</a></li>
+      <li class="toc-sub"><a href="#sensor-registration">5.6 sensor.registration</a></li>
+      <li class="toc-sub"><a href="#spare-part-usage">5.7 maintenance.spare_part_usage</a></li>
+      <li><a href="#severity" data-i18n="toc_severity">6. Severity Levels</a></li>
+      <li><a href="#idempotency" data-i18n="toc_idempotency">7. Idempotency</a></li>
+      <li><a href="#producer-guidelines" data-i18n="toc_producer">8. Producer Guidelines</a></li>
+      <li><a href="#consumer-guidelines" data-i18n="toc_consumer">9. Consumer Guidelines</a></li>
+      <li><a href="#typical-flow" data-i18n="toc_flow">10. Typical Flow</a></li>
+      <li><a href="#compatibility" data-i18n="toc_compat">11. System Compatibility</a></li>
+      <li><a href="#appendix-a" data-i18n="toc_appendix_a">A. Failure Modes</a></li>
+      <li><a href="#appendix-b" data-i18n="toc_appendix_b">B. ISO 14224</a></li>
+      <li><a href="#appendix-c" data-i18n="toc_appendix_c">C. ISO 13374</a></li>
+      <li><a href="#version-history" data-i18n="toc_versions">Version History</a></li>
+    </ul>
+  </aside>
 
-  <!-- Principles -->
-  <section id="principles">
-    <div class="section-label">
-      <div class="section-num">2</div>
-      <div class="section-title">Design Principles</div>
-    </div>
-    <h2>Principles</h2>
-    <ol class="principles">
-      <li><strong>Vendor neutrality</strong> &mdash; No dependency on SAP, PI System, Odoo, or any specific vendor.</li>
-      <li><strong>Legacy compatibility</strong> &mdash; Events map cleanly to CMMS, historians, SCADA, and IoT platforms.</li>
-      <li><strong>Event-oriented</strong> &mdash; Each object represents something that happened (measurement, diagnosis, intent).</li>
-      <li><strong>Complete traceability</strong> &mdash; Every event traces back to its origin via <code>event_id</code>, <code>correlation_id</code>, <code>source_event_id</code>.</li>
-      <li><strong>Extensibility</strong> &mdash; The <code>data</code> payload and <code>metadata</code> field allow new fields without breaking consumers.</li>
-    </ol>
-  </section>
+  <!-- Content -->
+  <main class="content">
 
-  <!-- Terminology -->
-  <section id="terminology">
-    <div class="section-label">
-      <div class="section-num">3</div>
-      <div class="section-title">Terminology</div>
+    <!-- Hero -->
+    <div class="spec-hero">
+      <h1>IAES Specification v1.2</h1>
+      <p class="subtitle" data-i18n="spec_subtitle">Complete technical reference for the Industrial Asset Event Standard.</p>
+      <p class="date">March 2026</p>
     </div>
-    <h2>Terminology</h2>
-    <div class="table-wrap">
-      <table>
+
+    <!-- 1. Purpose -->
+    <section class="spec-section" id="purpose">
+      <h2 data-i18n="sec_purpose">1. Purpose</h2>
+      <p data-i18n="purpose_p1">IAES defines how industrial asset signals, diagnoses, and maintenance intents are represented and transferred across heterogeneous operational systems.</p>
+      <p data-i18n="purpose_p2">IAES is <strong>not</strong> a product. It is a data contract. Any system &mdash; sensor platform, AI engine, CMMS, historian, or dashboard &mdash; can produce or consume IAES events without knowing the implementation details of the other side.</p>
+    </section>
+
+    <!-- 2. Principles -->
+    <section class="spec-section" id="principles">
+      <h2 data-i18n="sec_principles">2. Principles</h2>
+      <ol>
+        <li><strong data-i18n="principle_1_title">Vendor neutrality</strong> &mdash; <span data-i18n="principle_1_desc">No dependency on SAP, PI System, Odoo, or any specific vendor.</span></li>
+        <li><strong data-i18n="principle_2_title">Legacy compatibility</strong> &mdash; <span data-i18n="principle_2_desc">Events map cleanly to CMMS, historians, SCADA, and IoT platforms.</span></li>
+        <li><strong data-i18n="principle_3_title">Event-oriented</strong> &mdash; <span data-i18n="principle_3_desc">Each object represents something that happened (measurement, diagnosis, intent).</span></li>
+        <li><strong data-i18n="principle_4_title">Complete traceability</strong> &mdash; <span data-i18n="principle_4_desc">Every event traces back to its origin via event_id, correlation_id, source_event_id.</span></li>
+        <li><strong data-i18n="principle_5_title">Extensibility</strong> &mdash; <span data-i18n="principle_5_desc">The data payload and metadata field allow new fields without breaking consumers.</span></li>
+      </ol>
+    </section>
+
+    <!-- 3. Terminology -->
+    <section class="spec-section" id="terminology">
+      <h2 data-i18n="sec_terminology">3. Terminology</h2>
+      <table class="spec-table">
         <thead>
-          <tr><th>Term</th><th>Definition</th></tr>
+          <tr>
+            <th>Term</th>
+            <th>Definition</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><strong>Event</strong></td><td>A self-contained JSON object describing something that happened to an industrial asset.</td></tr>
-          <tr><td><strong>Producer</strong></td><td>Any system that creates IAES events &mdash; sensor gateways, AI engines, rule engines, human inspectors, SCADA systems.</td></tr>
-          <tr><td><strong>Consumer</strong></td><td>Any system that receives and acts on IAES events &mdash; CMMS, historians, dashboards, digital twin platforms.</td></tr>
-          <tr><td><strong>Envelope</strong></td><td>The common wrapper fields shared by all IAES events (<code>spec_version</code>, <code>event_type</code>, <code>event_id</code>, etc.).</td></tr>
-          <tr><td><strong>Correlation</strong></td><td>A group of related events sharing the same <code>correlation_id</code>, representing a single observation-to-action flow.</td></tr>
-          <tr><td><strong>Source</strong></td><td>A dot-notation string identifying the producer of an event (e.g. <code>wertek.ai.vibration</code>, <code>operator.field_assessment</code>).</td></tr>
-          <tr><td><strong>Intent</strong></td><td>A declaration that an action should be considered, without prescribing how the consumer should act. Used in <code>maintenance.work_order_intent</code>.</td></tr>
-          <tr><td><strong>Health Index</strong></td><td>A normalized 0-1 score representing asset condition (0 = failed, 1 = healthy).</td></tr>
-          <tr><td><strong>RUL</strong></td><td>Remaining Useful Life &mdash; estimated days until the asset requires intervention.</td></tr>
+          <tr><td class="required">Event</td><td>A single occurrence: a measurement, a diagnosis, a maintenance intent, or a completion report.</td></tr>
+          <tr><td class="required">Producer</td><td>Any system that creates IAES events (sensor platforms, AI engines, manual entry tools).</td></tr>
+          <tr><td class="required">Consumer</td><td>Any system that receives and acts on IAES events (CMMS, dashboards, historians, ERPs).</td></tr>
+          <tr><td class="required">Envelope</td><td>The common wrapper that every IAES event shares: spec_version, event_type, event_id, timestamps, asset identity, and the data payload.</td></tr>
+          <tr><td class="required">Correlation</td><td>A shared <code>correlation_id</code> that links related events across the lifecycle (measurement &rarr; health &rarr; work order &rarr; completion).</td></tr>
+          <tr><td class="required">Source</td><td>The <code>source</code> field identifying the originating system in dot-notation: <code>vendor.system.subsystem</code>.</td></tr>
+          <tr><td class="required">Intent</td><td>A <code>maintenance.work_order_intent</code> event that recommends a maintenance action. It is not a work order &mdash; the consumer decides whether to create one.</td></tr>
+          <tr><td class="required">Health Index</td><td>A normalized 0.0 &ndash; 1.0 score representing the overall health of an asset (1.0 = perfect, 0.0 = failed).</td></tr>
+          <tr><td class="required">RUL</td><td>Remaining Useful Life. An estimate of how many days an asset can continue operating before failure.</td></tr>
         </tbody>
       </table>
-    </div>
-  </section>
+    </section>
 
-  <!-- Common Envelope -->
-  <section id="envelope">
-    <div class="section-label">
-      <div class="section-num">4</div>
-      <div class="section-title">Common Envelope</div>
-    </div>
-    <h2>Common Envelope</h2>
-    <p>Every IAES event shares this envelope structure:</p>
+    <!-- 4. Common Envelope -->
+    <section class="spec-section" id="envelope">
+      <h2 data-i18n="sec_envelope">4. Common Envelope</h2>
+      <p data-i18n="envelope_intro">Every IAES event is wrapped in a common envelope. The envelope carries identity, traceability, and routing information. The event-specific payload lives inside the <code>data</code> field.</p>
 
-    <pre><code>{
-  <span class="key">"spec_version"</span>: <span class="str">"1.0"</span>,
-  <span class="key">"event_type"</span>: <span class="str">"asset.health"</span>,
-  <span class="key">"event_id"</span>: <span class="str">"uuid"</span>,
-  <span class="key">"correlation_id"</span>: <span class="str">"uuid"</span>,
-  <span class="key">"source_event_id"</span>: <span class="str">"uuid"</span> | <span class="null">null</span>,
-  <span class="key">"timestamp"</span>: <span class="str">"ISO 8601"</span>,
-  <span class="key">"source"</span>: <span class="str">"vendor.system.subsystem"</span>,
-  <span class="key">"content_hash"</span>: <span class="str">"sha256_16char"</span>,
-  <span class="key">"asset"</span>: {
-    <span class="key">"asset_id"</span>: <span class="str">"string"</span>,
-    <span class="key">"asset_name"</span>: <span class="str">"string"</span> | <span class="null">null</span>,
-    <span class="key">"plant"</span>: <span class="str">"string"</span> | <span class="null">null</span>,
-    <span class="key">"area"</span>: <span class="str">"string"</span> | <span class="null">null</span>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; Common Envelope</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"uuid"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"uuid"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"uuid | null"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cs">"string | null"</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"ISO 8601"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"vendor.system.subsystem"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"sha256_16char"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"string"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"string | null"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"string | null"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"string | null"</span>
   },
-  <span class="key">"data"</span>: { }
-}</code></pre>
+  <span class="ck">"data"</span>: {}
+}</pre>
+      </div>
 
-    <h3>Field Definitions</h3>
-    <div class="table-wrap">
-      <table>
+      <h3 data-i18n="envelope_fields_title">Field Definitions</h3>
+      <table class="spec-table">
         <thead>
           <tr>
             <th>Field</th>
@@ -661,561 +654,1455 @@
         <tbody>
           <tr>
             <td><code>spec_version</code></td>
-            <td>string</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>IAES spec version (currently <code>"1.0"</code>)</td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>IAES specification version. Currently <code>"1.2"</code>.</td>
           </tr>
           <tr>
             <td><code>event_type</code></td>
-            <td>string</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Dot-notation event type</td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of the 7 defined event types (e.g. <code>asset.measurement</code>, <code>asset.health</code>).</td>
           </tr>
           <tr>
             <td><code>event_id</code></td>
-            <td>UUID</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Unique identifier for this event</td>
+            <td><code>string (UUID v4)</code></td>
+            <td class="required">Yes</td>
+            <td>Unique identifier for this event. Generated by the producer.</td>
           </tr>
           <tr>
             <td><code>correlation_id</code></td>
-            <td>UUID</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Groups related events in a single flow</td>
+            <td><code>string (UUID v4)</code></td>
+            <td class="required">Yes</td>
+            <td>Shared identifier that links related events in a chain (measurement &rarr; health &rarr; work order &rarr; completion).</td>
           </tr>
           <tr>
             <td><code>source_event_id</code></td>
-            <td>UUID</td>
-            <td><span class="required-badge required-no">no</span></td>
-            <td>References the originating event</td>
+            <td><code>string | null</code></td>
+            <td>No</td>
+            <td>The <code>event_id</code> of the event that directly triggered this one. Null for the first event in a chain.</td>
+          </tr>
+          <tr>
+            <td><code>batch_id</code></td>
+            <td><code>string | null</code></td>
+            <td>No</td>
+            <td>Optional identifier for grouping events that were produced together (e.g. a batch of measurements from one collection run).</td>
           </tr>
           <tr>
             <td><code>timestamp</code></td>
-            <td>ISO 8601</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>When the event occurred</td>
+            <td><code>string (ISO 8601)</code></td>
+            <td class="required">Yes</td>
+            <td>When the event occurred. Must include timezone (preferably UTC). Example: <code>2026-03-08T14:32:00Z</code>.</td>
           </tr>
           <tr>
             <td><code>source</code></td>
-            <td>string</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Dot-notation producer identity (e.g. <code>wertek.ai.diagnosis</code>, <code>operator.manual_inspection</code>)</td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Dot-notation identifier of the producing system: <code>vendor.system.subsystem</code>. Example: <code>wertek.vibration.ai_engine</code>.</td>
           </tr>
           <tr>
             <td><code>content_hash</code></td>
-            <td>string</td>
-            <td><span class="required-badge required-no">no</span></td>
-            <td>SHA-256 prefix (16 chars) of <code>data</code> payload for dedup</td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>First 16 characters of the SHA-256 hash of the canonical JSON <code>data</code> payload. Used for deduplication.</td>
           </tr>
           <tr>
             <td><code>asset</code></td>
-            <td>object</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Asset identity (see Asset Identity below)</td>
+            <td><code>object</code></td>
+            <td class="required">Yes</td>
+            <td>Asset identity block. Must contain at least <code>asset_id</code>.</td>
           </tr>
           <tr>
             <td><code>data</code></td>
-            <td>object</td>
-            <td><span class="required-badge required-yes">yes</span></td>
-            <td>Event-specific payload</td>
+            <td><code>object</code></td>
+            <td class="required">Yes</td>
+            <td>Event-specific payload. Structure depends on <code>event_type</code>.</td>
           </tr>
         </tbody>
       </table>
-    </div>
 
-    <h3 id="asset-identity">Asset Identity</h3>
-    <pre><code>{
-  <span class="key">"asset_id"</span>: <span class="str">"MOTOR-001"</span>,
-  <span class="key">"asset_name"</span>: <span class="str">"Motor Bomba P-101"</span>,
-  <span class="key">"plant"</span>: <span class="str">"Pesqueria"</span>,
-  <span class="key">"area"</span>: <span class="str">"Turbinas"</span>
-}</code></pre>
-    <p>The standard deliberately does <strong>not</strong> define a full asset hierarchy. Different organizations model hierarchies differently (ISO 14224, ISA-95, custom). IAES only requires enough context to identify the asset.</p>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Event Types -->
-  <section id="events">
-    <div class="section-label">
-      <div class="section-num">5</div>
-      <div class="section-title">Event Types</div>
-    </div>
-    <h2>Event Types (v1.0)</h2>
-    <p>IAES v1.0 defines three event types covering the full observe &rarr; diagnose &rarr; act pipeline:</p>
-
-    <div class="event-cards">
-      <div class="event-card" style="--card-color: var(--measurement)">
-        <h4>asset.measurement</h4>
-        <p>Physical sensor reading. Raw data from vibration sensors, temperature probes, current transformers, or manual instruments.</p>
-      </div>
-      <div class="event-card" style="--card-color: var(--health)">
-        <h4>asset.health</h4>
-        <p>Diagnosis or health assessment. Produced by AI engines, rule engines, or human experts. Includes recommended actions.</p>
-      </div>
-      <div class="event-card" style="--card-color: var(--intent)">
-        <h4>maintenance.work_order_intent</h4>
-        <p>Declares the intent to create a work order. The consumer (CMMS, ERP) decides how to act on the intent.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- asset.measurement -->
-  <section id="measurement">
-    <h3 style="margin-top: 0"><code style="font-size: 1rem; background: var(--green-dim); color: var(--measurement)">asset.measurement</code></h3>
-    <p>A physical sensor reading.</p>
-    <pre><code>{
-  <span class="key">"event_type"</span>: <span class="str">"asset.measurement"</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"measurement_type"</span>: <span class="str">"vibration_rms"</span>,
-    <span class="key">"value"</span>: <span class="num">4.2</span>,
-    <span class="key">"unit"</span>: <span class="str">"mm/s"</span>,
-    <span class="key">"sensor_id"</span>: <span class="str">"SENSOR-045"</span>,
-    <span class="key">"location"</span>: <span class="str">"bearing_drive_end"</span>
+      <h3 data-i18n="asset_identity_title">Asset Identity</h3>
+      <p data-i18n="asset_identity_desc">The <code>asset</code> block identifies the target asset. Only <code>asset_id</code> is required; the remaining fields provide human-readable context and hierarchical location.</p>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; Asset Identity</div>
+        <pre>{
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
   }
-}</code></pre>
-    <div class="table-wrap">
-      <table>
+}</pre>
+      </div>
+    </section>
+
+    <!-- 5. Event Types -->
+    <section class="spec-section" id="event-types">
+      <h2 data-i18n="sec_events">5. Event Types</h2>
+      <p data-i18n="events_intro">IAES v1.2 defines 7 event types organized into 3 domains: asset signals, maintenance actions, and sensor lifecycle.</p>
+
+      <!-- 5.1 asset.measurement -->
+      <h3 id="asset-measurement"><code>asset.measurement</code> <span class="badge badge-green">v1.0</span></h3>
+      <p data-i18n="measurement_desc">A single measurement reading from an asset. This is the most fundamental event type &mdash; it captures raw sensor data from vibration, temperature, current, pressure, or any other measurable quantity.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>measurement_type</code></td><td>string</td><td><span class="required-badge required-yes">yes</span></td><td>Type of measurement (vibration_velocity, temperature, current, etc.)</td></tr>
-          <tr><td><code>value</code></td><td>number</td><td><span class="required-badge required-yes">yes</span></td><td>Numeric value</td></tr>
-          <tr><td><code>unit</code></td><td>string</td><td><span class="required-badge required-yes">yes</span></td><td>Engineering unit</td></tr>
-          <tr><td><code>sensor_id</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>Physical sensor identifier</td></tr>
-          <tr><td><code>location</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>Measurement point on the asset</td></tr>
+          <tr>
+            <td><code>measurement_type</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Type of measurement (e.g. <code>vibration_velocity</code>, <code>temperature</code>, <code>current_rms</code>, <code>pressure</code>).</td>
+          </tr>
+          <tr>
+            <td><code>value</code></td>
+            <td><code>number</code></td>
+            <td class="required">Yes</td>
+            <td>The measured value.</td>
+          </tr>
+          <tr>
+            <td><code>unit</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Unit of measurement (e.g. <code>mm/s</code>, <code>&deg;C</code>, <code>A</code>, <code>bar</code>).</td>
+          </tr>
+          <tr>
+            <td><code>sensor_id</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Identifier of the sensor that took the measurement.</td>
+          </tr>
+          <tr>
+            <td><code>location</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Measurement location on the asset (e.g. <code>bearing_drive_end</code>, <code>motor_frame</code>).</td>
+          </tr>
+          <tr>
+            <td><code>units_qualifier</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Qualifier for the unit value (e.g. <code>rms</code>, <code>peak</code>, <code>peak_to_peak</code>). <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
+          <tr>
+            <td><code>sampling_rate_hz</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Sampling rate in Hz used for the acquisition. <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
+          <tr>
+            <td><code>acquisition_duration_s</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Duration of the acquisition window in seconds. <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- asset.health -->
-  <section id="health">
-    <h3 style="margin-top: 0"><code style="font-size: 1rem; background: var(--amber-dim); color: var(--health)">asset.health</code></h3>
-    <p>AI diagnosis, rule engine alert, or human expert health assessment. Includes recommended action.</p>
-    <pre><code>{
-  <span class="key">"event_type"</span>: <span class="str">"asset.health"</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"health_index"</span>: <span class="num">0.16</span>,
-    <span class="key">"anomaly_score"</span>: <span class="num">0.92</span>,
-    <span class="key">"severity"</span>: <span class="str">"critical"</span>,
-    <span class="key">"failure_mode"</span>: <span class="str">"bearing_inner_race"</span>,
-    <span class="key">"fault_confidence"</span>: <span class="num">0.87</span>,
-    <span class="key">"rul_days"</span>: <span class="num">5</span>,
-    <span class="key">"recommended_action"</span>: <span class="str">"Replace bearing immediately"</span>,
-    <span class="key">"estimated_downtime_hours"</span>: <span class="num">4</span>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; asset.measurement example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.measurement"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"e7f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a5b"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.collector"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"a3f8c1e2b4d6f790"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"measurement_type"</span>: <span class="cs">"vibration_velocity"</span>,
+    <span class="ck">"value"</span>: <span class="cn">4.2</span>,
+    <span class="ck">"unit"</span>: <span class="cs">"mm/s"</span>,
+    <span class="ck">"units_qualifier"</span>: <span class="cs">"rms"</span>,
+    <span class="ck">"sensor_id"</span>: <span class="cs">"SENSOR-045"</span>,
+    <span class="ck">"location"</span>: <span class="cs">"bearing_drive_end"</span>,
+    <span class="ck">"sampling_rate_hz"</span>: <span class="cn">25600</span>,
+    <span class="ck">"acquisition_duration_s"</span>: <span class="cn">2.0</span>
   }
-}</code></pre>
-    <div class="table-wrap">
-      <table>
+}</pre>
+      </div>
+
+      <!-- 5.2 asset.health -->
+      <h3 id="asset-health"><code>asset.health</code> <span class="badge badge-green">v1.0</span></h3>
+      <p data-i18n="health_desc">A health assessment for an asset. Produced by AI engines, rule-based systems, or human experts. Links to the measurement(s) that triggered it via <code>source_event_id</code> and <code>correlation_id</code>.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>health_index</code></td><td>float 0-1</td><td><span class="required-badge required-yes">yes</span></td><td>Normalized health (0 = failed, 1 = healthy)</td></tr>
-          <tr><td><code>anomaly_score</code></td><td>float 0-1</td><td><span class="required-badge required-no">no</span></td><td>Probability of anomaly</td></tr>
-          <tr><td><code>severity</code></td><td>enum</td><td><span class="required-badge required-yes">yes</span></td><td>info, low, medium, high, critical</td></tr>
-          <tr><td><code>failure_mode</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>Classified fault type</td></tr>
-          <tr><td><code>fault_confidence</code></td><td>float 0-1</td><td><span class="required-badge required-no">no</span></td><td>Classification confidence</td></tr>
-          <tr><td><code>rul_days</code></td><td>integer</td><td><span class="required-badge required-no">no</span></td><td>Remaining Useful Life in days</td></tr>
-          <tr><td><code>recommended_action</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>Human-readable action suggestion</td></tr>
-          <tr><td><code>estimated_downtime_hours</code></td><td>float</td><td><span class="required-badge required-no">no</span></td><td>Estimated repair duration</td></tr>
+          <tr>
+            <td><code>health_index</code></td>
+            <td><code>number</code></td>
+            <td class="required">Yes</td>
+            <td>Normalized health score from <code>0.0</code> (failed) to <code>1.0</code> (perfect).</td>
+          </tr>
+          <tr>
+            <td><code>anomaly_score</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Anomaly detection score from <code>0.0</code> (normal) to <code>1.0</code> (highly anomalous).</td>
+          </tr>
+          <tr>
+            <td><code>severity</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>info</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>critical</code>.</td>
+          </tr>
+          <tr>
+            <td><code>failure_mode</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Detected failure mode from the taxonomy (see Appendix A). Example: <code>bearing_inner_race</code>.</td>
+          </tr>
+          <tr>
+            <td><code>fault_confidence</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Confidence in the failure mode classification, <code>0.0</code> to <code>1.0</code>.</td>
+          </tr>
+          <tr>
+            <td><code>rul_days</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Estimated Remaining Useful Life in days.</td>
+          </tr>
+          <tr>
+            <td><code>recommended_action</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Human-readable recommended action.</td>
+          </tr>
+          <tr>
+            <td><code>estimated_downtime_hours</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Estimated downtime if the recommended action is taken.</td>
+          </tr>
+          <tr>
+            <td><code>iso_13374_status</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>ISO 13374 health status level (see Appendix C). <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
+          <tr>
+            <td><code>iso_14224</code></td>
+            <td><code>object</code></td>
+            <td>No</td>
+            <td>ISO 14224 classification object (see Appendix B). <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- maintenance.work_order_intent -->
-  <section id="work-order">
-    <h3 style="margin-top: 0"><code style="font-size: 1rem; background: rgba(139, 92, 246, 0.12); color: var(--intent)">maintenance.work_order_intent</code></h3>
-    <p>Declares the <strong>intent</strong> to create a work order. The consumer decides whether and how to act.</p>
-    <pre><code>{
-  <span class="key">"event_type"</span>: <span class="str">"maintenance.work_order_intent"</span>,
-  <span class="key">"data"</span>: {
-    <span class="key">"title"</span>: <span class="str">"Bearing failure predicted"</span>,
-    <span class="key">"description"</span>: <span class="str">"Inner race defect detected by AI diagnosis"</span>,
-    <span class="key">"priority"</span>: <span class="str">"critical"</span>,
-    <span class="key">"recommended_due_days"</span>: <span class="num">3</span>,
-    <span class="key">"triggered_by"</span>: <span class="str">"alert"</span>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; asset.health example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"e7f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a5b"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:05Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.ai_engine"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"f7e6d5c4b3a29180"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"health_index"</span>: <span class="cn">0.16</span>,
+    <span class="ck">"anomaly_score"</span>: <span class="cn">0.92</span>,
+    <span class="ck">"severity"</span>: <span class="cs">"critical"</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_inner_race"</span>,
+    <span class="ck">"fault_confidence"</span>: <span class="cn">0.87</span>,
+    <span class="ck">"rul_days"</span>: <span class="cn">5</span>,
+    <span class="ck">"recommended_action"</span>: <span class="cs">"Replace bearing immediately"</span>,
+    <span class="ck">"estimated_downtime_hours"</span>: <span class="cn">4</span>,
+    <span class="ck">"iso_13374_status"</span>: <span class="cs">"imminent_failure"</span>,
+    <span class="ck">"iso_14224"</span>: {
+      <span class="ck">"mechanism_code"</span>: <span class="cs">"1.1"</span>,
+      <span class="ck">"mechanism_label"</span>: <span class="cs">"Mechanical wear"</span>,
+      <span class="ck">"detection_method"</span>: <span class="cs">"2"</span>,
+      <span class="ck">"detection_label"</span>: <span class="cs">"Condition monitoring"</span>
+    }
   }
-}</code></pre>
-    <div class="table-wrap">
-      <table>
+}</pre>
+      </div>
+
+      <!-- 5.3 maintenance.work_order_intent -->
+      <h3 id="work-order-intent"><code>maintenance.work_order_intent</code> <span class="badge badge-green">v1.0</span></h3>
+      <p data-i18n="wo_intent_desc">A recommendation to create a maintenance work order. This is an <em>intent</em>, not a work order itself. The receiving CMMS decides whether to accept, modify, or reject it. This decoupling is fundamental to IAES &mdash; the AI or rule engine recommends, the CMMS decides.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Field</th><th>Type</th><th>Required</th><th>Description</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>title</code></td><td>string</td><td><span class="required-badge required-yes">yes</span></td><td>Work order title</td></tr>
-          <tr><td><code>description</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>Detailed description</td></tr>
-          <tr><td><code>priority</code></td><td>enum</td><td><span class="required-badge required-yes">yes</span></td><td>low, medium, high, emergency</td></tr>
-          <tr><td><code>recommended_due_days</code></td><td>integer</td><td><span class="required-badge required-no">no</span></td><td>Suggested deadline in days</td></tr>
-          <tr><td><code>triggered_by</code></td><td>string</td><td><span class="required-badge required-no">no</span></td><td>What caused this intent (alert, schedule, manual, threshold, ai_diagnosis)</td></tr>
+          <tr>
+            <td><code>title</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Short title for the work order.</td>
+          </tr>
+          <tr>
+            <td><code>description</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Detailed description of the issue and recommended action.</td>
+          </tr>
+          <tr>
+            <td><code>priority</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>low</code>, <code>medium</code>, <code>high</code>, <code>emergency</code>.</td>
+          </tr>
+          <tr>
+            <td><code>recommended_due_days</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Suggested deadline in days from now.</td>
+          </tr>
+          <tr>
+            <td><code>triggered_by</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>What triggered this intent (e.g. <code>ai_diagnosis</code>, <code>threshold_rule</code>, <code>manual</code>).</td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <div class="divider"></div>
-
-  <!-- Severity Standard -->
-  <section id="severity">
-    <div class="section-label">
-      <div class="section-num">6</div>
-      <div class="section-title">Severity Standard</div>
-    </div>
-    <h2>Severity Levels</h2>
-    <p>IAES defines five severity levels:</p>
-    <div class="severity-grid">
-      <div class="severity-item">
-        <div class="severity-dot" style="background: #94a3b8;"></div>
-        <span class="sev-label">info</span>
-        <span class="sev-desc">Informational, no action needed</span>
+      <div class="note-box info">
+        <strong>Severity vs. Priority:</strong> <code>severity</code> (in <code>asset.health</code>) describes the <em>condition</em> of the asset. <code>priority</code> (in <code>work_order_intent</code>) describes the <em>urgency</em> of the maintenance action. A <code>high</code> severity issue on a non-critical pump might only warrant a <code>medium</code> priority work order if a backup pump is available.
       </div>
-      <div class="severity-item">
-        <div class="severity-dot" style="background: #22d3ee;"></div>
-        <span class="sev-label">low</span>
-        <span class="sev-desc">Schedule for next planned maintenance</span>
+
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; maintenance.work_order_intent example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"maintenance.work_order_intent"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:10Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.ai_engine"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"d4e5f6a7b8c9d0e1"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"title"</span>: <span class="cs">"Bearing failure predicted"</span>,
+    <span class="ck">"description"</span>: <span class="cs">"Inner race defect detected by AI diagnosis"</span>,
+    <span class="ck">"priority"</span>: <span class="cs">"emergency"</span>,
+    <span class="ck">"recommended_due_days"</span>: <span class="cn">3</span>,
+    <span class="ck">"triggered_by"</span>: <span class="cs">"ai_diagnosis"</span>
+  }
+}</pre>
       </div>
-      <div class="severity-item">
-        <div class="severity-dot" style="background: #fbbf24;"></div>
-        <span class="sev-label">medium</span>
-        <span class="sev-desc">Plan intervention within weeks</span>
-      </div>
-      <div class="severity-item">
-        <div class="severity-dot" style="background: #f97316;"></div>
-        <span class="sev-label">high</span>
-        <span class="sev-desc">Plan intervention within days</span>
-      </div>
-      <div class="severity-item">
-        <div class="severity-dot" style="background: #ef4444;"></div>
-        <span class="sev-label">critical</span>
-        <span class="sev-desc">Immediate action required</span>
-      </div>
-    </div>
-  </section>
 
-  <!-- Idempotency -->
-  <section id="idempotency">
-    <div class="section-label">
-      <div class="section-num">7</div>
-      <div class="section-title">Idempotency</div>
-    </div>
-    <h2>Idempotency &amp; Deduplication</h2>
-    <p>Every event includes:</p>
-    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
-      <li><code>event_id</code> &mdash; unique, never reused</li>
-      <li><code>content_hash</code> &mdash; SHA-256 of the <code>data</code> payload (16-char prefix)</li>
-      <li><code>correlation_id</code> &mdash; groups related events in a flow</li>
-    </ul>
-    <div class="callout">
-      Consumers <strong>SHOULD</strong> use <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code> to detect duplicate events across retries.
-    </div>
-  </section>
+      <!-- 5.4 maintenance.completion -->
+      <h3 id="maintenance-completion"><code>maintenance.completion</code> <span class="badge badge-cyan">v1.1</span></h3>
+      <p data-i18n="completion_desc">Reports the completion (or cancellation/deferral) of a maintenance activity. Links back to the original work order via <code>correlation_id</code> and provides outcome data for reliability analytics.</p>
 
-  <!-- Producers -->
-  <section id="producers">
-    <div class="section-label">
-      <div class="section-num">8</div>
-      <div class="section-title">Producers</div>
-    </div>
-    <h2>Event Producers</h2>
-    <p>IAES events are produced by systems capable of <strong>interpreting</strong> operational signals &mdash; not by the signals themselves. A PLC knows <code>vibration_rms = 4.6</code>. That is telemetry. IAES begins where interpretation begins.</p>
-
-    <h3 style="margin: 2rem 0 1rem; font-size: 0.95rem; color: var(--text-bright);">Intelligence layer producers</h3>
-    <div class="producers-grid">
-      <div class="producer-item">
-        <div class="producer-icon" style="background: var(--blue-dim); color: var(--blue);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v4a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/><path d="M9 18h6"/><path d="M12 18v4"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">AI Diagnosis Engine</span>
-          <span class="prod-source">wertek.ai.vibration</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: var(--amber-dim); color: var(--amber);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Rule / Threshold Engine</span>
-          <span class="prod-source">acme.rule_engine</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: rgba(236, 72, 153, 0.12); color: #ec4899;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Manual Inspection</span>
-          <span class="prod-source">operator.manual_inspection</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: rgba(236, 72, 153, 0.12); color: #ec4899;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Technician Assessment</span>
-          <span class="prod-source">operator.field_assessment</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: rgba(168, 85, 247, 0.12); color: #a855f7;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Lab Analysis</span>
-          <span class="prod-source">lab.oil_analysis</span>
-        </div>
-      </div>
-      <div class="producer-item">
-        <div class="producer-icon" style="background: var(--green-dim); color: var(--green);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-        </div>
-        <div class="producer-info">
-          <span class="prod-name">Maintenance Application</span>
-          <span class="prod-source">wertek.ai.cmms</span>
-        </div>
-      </div>
-    </div>
-
-    <h3 style="margin: 2rem 0 0.8rem; font-size: 0.95rem; color: var(--text-bright);">Signal sources (upstream of IAES)</h3>
-    <p style="margin-bottom: 1rem;">Operational systems such as PLCs, SCADA platforms, sensor gateways, and historians emit raw signals or measurements. These are converted into IAES events by downstream intelligence layers.</p>
-    <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.6; color: var(--text-code); margin-bottom: 1rem; white-space: pre; overflow-x: auto;">Industrial Signals              IAES Events
-(PLC / Sensors / SCADA)         (semantic, interpreted)
-        |                               |
-        v                               v
-  Telemetry Layer                 CMMS, Dashboards,
-  (OPC UA / Modbus / MQTT)        Historians, Integrations
-        |                               ^
-        v                               |
-  Intelligence Layer  ─────────────────-+
-  (AI / rules / human expert)</div>
-    <p style="font-size: 0.88rem; color: var(--text-dim);">An edge device MAY produce IAES events directly if it has sufficient intelligence (edge AI, embedded rule engine). But the typical flow is: signals are ingested by an intelligence layer, which then emits IAES events.</p>
-
-    <p style="margin-top: 1.5rem;">The <code>source</code> field is what makes IAES vendor-neutral. A technician with a stethoscope and an AI model both produce the same <code>asset.health</code> event &mdash; the consumer doesn't need to know the difference.</p>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- Producer Guidelines -->
-  <section id="producer-guidelines">
-    <div class="section-label">
-      <div class="section-num">9</div>
-      <div class="section-title">Producer Guidelines</div>
-    </div>
-    <h2>Producer Guidelines</h2>
-    <p>Systems that emit IAES events MUST follow these rules:</p>
-
-    <h3>Required behavior</h3>
-    <ol class="principles">
-      <li><strong>Set all required envelope fields.</strong> Every event MUST include <code>spec_version</code>, <code>event_type</code>, <code>event_id</code>, <code>correlation_id</code>, <code>timestamp</code>, <code>source</code>, <code>asset</code> (with at least <code>asset_id</code>), and <code>data</code>.</li>
-      <li><strong>Generate unique <code>event_id</code> values.</strong> Each event MUST have a globally unique <code>event_id</code> (UUID v4 recommended). Never reuse an <code>event_id</code> across events.</li>
-      <li><strong>Use dot-notation for <code>source</code>.</strong> The <code>source</code> field MUST follow the pattern <code>vendor.system[.subsystem]</code>. Use lowercase, alphanumeric characters, dots, and underscores only.</li>
-      <li><strong>Use ISO 8601 for timestamps.</strong> The <code>timestamp</code> field MUST be in UTC with timezone designator (e.g. <code>2026-03-06T17:50:17Z</code>).</li>
-      <li><strong>Do not assume consumer behavior.</strong> A <code>maintenance.work_order_intent</code> declares intent &mdash; the producer MUST NOT assume the consumer will create a work order, or create it in any specific format.</li>
-    </ol>
-
-    <h3>Recommended behavior</h3>
-    <ol class="principles">
-      <li><strong>Set <code>correlation_id</code> to group related events.</strong> When a measurement triggers a diagnosis that triggers a work order intent, all three events SHOULD share the same <code>correlation_id</code>.</li>
-      <li><strong>Set <code>source_event_id</code> for causal chains.</strong> When an event is caused by another event, set <code>source_event_id</code> to the <code>event_id</code> of the cause.</li>
-      <li><strong>Compute <code>content_hash</code> for deduplication.</strong> Producers SHOULD compute <code>content_hash</code> as the first 16 characters of the SHA-256 hex digest of the serialized <code>data</code> payload (canonical JSON, sorted keys).</li>
-      <li><strong>Include <code>asset_name</code>, <code>plant</code>, and <code>area</code> when available.</strong> These fields are optional but significantly improve human readability in logs, dashboards, and audit trails.</li>
-      <li><strong>Use standard <code>failure_mode</code> values when possible.</strong> Common values: <code>bearing_inner_race</code>, <code>bearing_outer_race</code>, <code>misalignment</code>, <code>unbalance</code>, <code>looseness</code>, <code>cavitation</code>, <code>overheating</code>, <code>electrical_fault</code>. Custom values are allowed.</li>
-    </ol>
-  </section>
-
-  <!-- Consumer Guidelines -->
-  <section id="consumer-guidelines">
-    <div class="section-label">
-      <div class="section-num">10</div>
-      <div class="section-title">Consumer Guidelines</div>
-    </div>
-    <h2>Consumer Guidelines</h2>
-    <p>Systems that receive IAES events MUST follow these rules:</p>
-
-    <h3>Required behavior</h3>
-    <ol class="principles">
-      <li><strong>Tolerate unknown fields.</strong> Consumers MUST ignore fields in <code>data</code> that they do not recognize. Never reject an event because it contains extra fields. This is essential for forward compatibility.</li>
-      <li><strong>Tolerate unknown <code>event_type</code> values.</strong> If a consumer receives an event with an <code>event_type</code> it does not support (e.g. a future <code>asset.hierarchy</code>), it MUST NOT error. It MAY log the event and skip processing.</li>
-      <li><strong>Validate <code>spec_version</code>.</strong> Consumers SHOULD check <code>spec_version</code> and MAY reject events from unsupported major versions.</li>
-    </ol>
-
-    <h3>Recommended behavior</h3>
-    <ol class="principles">
-      <li><strong>Deduplicate using <code>content_hash</code>.</strong> Consumers SHOULD detect duplicate events using <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code>. If <code>content_hash</code> is not present, fall back to <code>event_id</code> uniqueness.</li>
-      <li><strong>Use <code>correlation_id</code> to reconstruct flows.</strong> Consumers that display or analyze event chains SHOULD group events by <code>correlation_id</code> and order by <code>timestamp</code>.</li>
-      <li><strong>Use <code>source_event_id</code> for traceability.</strong> When displaying a work order intent, consumers SHOULD link back to the health event that triggered it.</li>
-      <li><strong>Map severity to native priority.</strong> Consumers SHOULD map IAES severity levels to their native priority system:</li>
-    </ol>
-
-    <div class="table-wrap">
-      <table>
+      <table class="spec-table">
         <thead>
-          <tr><th>IAES severity</th><th>SAP PM</th><th>MaintainX</th><th>Odoo</th><th>General</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>info</code></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>No action</td></tr>
-          <tr><td><code>low</code></td><td>Priority 4</td><td>LOW</td><td>0 (Not Urgent)</td><td>Low</td></tr>
-          <tr><td><code>medium</code></td><td>Priority 3</td><td>MEDIUM</td><td>1 (Normal)</td><td>Medium</td></tr>
-          <tr><td><code>high</code></td><td>Priority 2</td><td>HIGH</td><td>2 (Urgent)</td><td>High</td></tr>
-          <tr><td><code>critical</code></td><td>Priority 1</td><td>HIGH</td><td>3 (Very Urgent)</td><td>Critical</td></tr>
+          <tr>
+            <td><code>status</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>completed</code>, <code>partially_completed</code>, <code>cancelled</code>, <code>deferred</code>.</td>
+          </tr>
+          <tr>
+            <td><code>work_order_id</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>The CMMS work order ID that was executed.</td>
+          </tr>
+          <tr>
+            <td><code>actual_duration_seconds</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Actual time spent on the maintenance activity, in seconds.</td>
+          </tr>
+          <tr>
+            <td><code>technician_id</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Identifier of the technician who performed the work.</td>
+          </tr>
+          <tr>
+            <td><code>checklist_completion_pct</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Percentage of checklist items completed (0&ndash;100).</td>
+          </tr>
+          <tr>
+            <td><code>completion_notes</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Free-text notes from the technician.</td>
+          </tr>
+          <tr>
+            <td><code>spare_parts_count</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Number of distinct spare parts used.</td>
+          </tr>
+          <tr>
+            <td><code>failure_confirmed</code></td>
+            <td><code>boolean</code></td>
+            <td>No</td>
+            <td>Whether the predicted failure was confirmed during maintenance.</td>
+          </tr>
+          <tr>
+            <td><code>failure_mode</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Confirmed failure mode (may differ from the predicted one).</td>
+          </tr>
+          <tr>
+            <td><code>iso_14224</code></td>
+            <td><code>object</code></td>
+            <td>No</td>
+            <td>ISO 14224 classification of the confirmed failure (see Appendix B). <span class="badge badge-cyan">v1.2</span></td>
+          </tr>
         </tbody>
       </table>
-    </div>
 
-    <div class="callout">
-      <strong>Intent semantics:</strong> A <code>maintenance.work_order_intent</code> is a suggestion, not a command. Consumers MAY apply filters, rules, or approval workflows before creating native work orders. The consumer is the authority on what gets created in its system.
-    </div>
-  </section>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; maintenance.completion example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"maintenance.completion"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-09T10:15:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.work_orders"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"e5f6a7b8c9d0e1f2"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"status"</span>: <span class="cs">"completed"</span>,
+    <span class="ck">"work_order_id"</span>: <span class="cs">"WO-2026-0042"</span>,
+    <span class="ck">"actual_duration_seconds"</span>: <span class="cn">7200</span>,
+    <span class="ck">"technician_id"</span>: <span class="cs">"TECH-003"</span>,
+    <span class="ck">"checklist_completion_pct"</span>: <span class="cn">100</span>,
+    <span class="ck">"completion_notes"</span>: <span class="cs">"Bearing replaced. Post-repair vibration 0.8 mm/s."</span>,
+    <span class="ck">"spare_parts_count"</span>: <span class="cn">1</span>,
+    <span class="ck">"failure_confirmed"</span>: <span class="cn">true</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_inner_race"</span>
+  }
+}</pre>
+      </div>
 
-  <div class="divider"></div>
+      <!-- 5.5 asset.hierarchy -->
+      <h3 id="asset-hierarchy"><code>asset.hierarchy</code> <span class="badge badge-cyan">v1.1</span></h3>
+      <p data-i18n="hierarchy_desc">Declares or updates the hierarchical position of an asset within an organization. Used to synchronize asset trees across systems (CMMS, historians, digital twins).</p>
 
-  <!-- Typical Flow -->
-  <section id="flow">
-    <div class="section-label">
-      <div class="section-num">11</div>
-      <div class="section-title">Typical Flow</div>
-    </div>
-    <h2>Event Flow</h2>
-    <p>A complete observation-to-action pipeline:</p>
-
-    <div class="flow">
-      <div class="flow-step">
-        <span class="step-type" style="color: var(--text-dim)">Observation</span>
-        <span class="step-label">Sensor / AI / Human</span>
-      </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-step">
-        <span class="step-type" style="color: var(--measurement)">asset.measurement</span>
-        <span class="step-label">Raw signal data</span>
-      </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-step">
-        <span class="step-type" style="color: var(--health)">asset.health</span>
-        <span class="step-label">Diagnosis / assessment</span>
-      </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-step">
-        <span class="step-type" style="color: var(--intent)">work_order_intent</span>
-        <span class="step-label">Maintenance intent</span>
-      </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-step">
-        <span class="step-type" style="color: var(--text-dim)">Connector</span>
-        <span class="step-label">SAP / Odoo / PI</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- System Compatibility -->
-  <section id="compatibility">
-    <div class="section-label">
-      <div class="section-num">12</div>
-      <div class="section-title">Compatibility</div>
-    </div>
-    <h2>System Compatibility</h2>
-    <div class="table-wrap">
-      <table>
+      <table class="spec-table">
         <thead>
-          <tr><th>System</th><th>IAES Mapping</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><strong>SAP PM</strong></td><td>Maintenance Notification / Order</td></tr>
-          <tr><td><strong>PI System</strong></td><td>Tag value writes</td></tr>
-          <tr><td><strong>AVEVA Data Hub</strong></td><td>SDS Stream writes</td></tr>
-          <tr><td><strong>Odoo</strong></td><td>maintenance.request</td></tr>
-          <tr><td><strong>MaintainX</strong></td><td>User Variables</td></tr>
-          <tr><td><strong>Fracttal</strong></td><td>Custom fields + OT</td></tr>
-          <tr><td><strong>Grafana</strong></td><td>Dashboard metrics</td></tr>
-          <tr><td><strong>Any MQTT broker</strong></td><td>JSON payload</td></tr>
+          <tr>
+            <td><code>hierarchy_level</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>organization</code>, <code>plant</code>, <code>area</code>, <code>equipment</code>.</td>
+          </tr>
+          <tr>
+            <td><code>relationship_type</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>parent_of</code>, <code>child_of</code>, <code>sibling_of</code>, <code>depends_on</code>.</td>
+          </tr>
+          <tr>
+            <td><code>parent_asset_id</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>The <code>asset_id</code> of the parent node in the hierarchy.</td>
+          </tr>
+          <tr>
+            <td><code>asset_type</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Equipment type classification (e.g. <code>motor</code>, <code>pump</code>, <code>compressor</code>).</td>
+          </tr>
+          <tr>
+            <td><code>serial_number</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Manufacturer serial number.</td>
+          </tr>
+          <tr>
+            <td><code>manufacturer</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Equipment manufacturer name.</td>
+          </tr>
+          <tr>
+            <td><code>model</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Equipment model designation.</td>
+          </tr>
+          <tr>
+            <td><code>location</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Physical location description.</td>
+          </tr>
+          <tr>
+            <td><code>is_active</code></td>
+            <td><code>boolean</code></td>
+            <td>No</td>
+            <td>Whether the asset is currently active/in-service.</td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- Roadmap -->
-  <section id="roadmap">
-    <div class="section-label">
-      <div class="section-num">13</div>
-      <div class="section-title">Roadmap</div>
-    </div>
-    <h2>Released in v1.1 (March 2026)</h2>
-    <div class="table-wrap">
-      <table>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; asset.hierarchy example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.hierarchy"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-07T09:00:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.asset_registry"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"a7b8c9d0e1f2a3b4"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"MOTOR-042"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Pump Drive Motor 42"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Turbine Hall"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"hierarchy_level"</span>: <span class="cs">"equipment"</span>,
+    <span class="ck">"relationship_type"</span>: <span class="cs">"child_of"</span>,
+    <span class="ck">"parent_asset_id"</span>: <span class="cs">"AREA-TURBINAS"</span>,
+    <span class="ck">"asset_type"</span>: <span class="cs">"motor"</span>,
+    <span class="ck">"serial_number"</span>: <span class="cs">"WEG-2024-78432"</span>,
+    <span class="ck">"manufacturer"</span>: <span class="cs">"WEG"</span>,
+    <span class="ck">"model"</span>: <span class="cs">"W22 Premium 75HP"</span>,
+    <span class="ck">"is_active"</span>: <span class="cn">true</span>
+  }
+}</pre>
+      </div>
+
+      <!-- 5.6 sensor.registration -->
+      <h3 id="sensor-registration"><code>sensor.registration</code> <span class="badge badge-cyan">v1.1</span></h3>
+      <p data-i18n="sensor_desc">Declares or updates a sensor's lifecycle state. Tracks sensors from discovery through calibration to decommissioning, enabling fleet management and audit trails for measurement provenance.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Event Type</th><th>Description</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>asset.hierarchy</code></td><td>Full asset tree sync (organization, plant, area, equipment)</td></tr>
-          <tr><td><code>sensor.registration</code></td><td>Sensor discovery, onboarding, and lifecycle tracking</td></tr>
-          <tr><td><code>maintenance.completion</code></td><td>Work order completion acknowledgment with outcome details</td></tr>
-          <tr><td><code>maintenance.spare_part_usage</code></td><td>Parts consumed during maintenance activities</td></tr>
+          <tr>
+            <td><code>sensor_id</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Unique identifier for the sensor.</td>
+          </tr>
+          <tr>
+            <td><code>registration_status</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>One of: <code>discovered</code>, <code>registered</code>, <code>calibrated</code>, <code>decommissioned</code>.</td>
+          </tr>
+          <tr>
+            <td><code>sensor_model</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Model name or designation of the sensor.</td>
+          </tr>
+          <tr>
+            <td><code>device_serial</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Hardware serial number of the device.</td>
+          </tr>
+          <tr>
+            <td><code>firmware_version</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Current firmware version running on the sensor.</td>
+          </tr>
+          <tr>
+            <td><code>measurement_capabilities</code></td>
+            <td><code>string[]</code></td>
+            <td>No</td>
+            <td>List of measurement types this sensor can produce.</td>
+          </tr>
+          <tr>
+            <td><code>calibration_date</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Date of last calibration (ISO 8601 date).</td>
+          </tr>
+          <tr>
+            <td><code>communication_protocol</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Communication protocol used (e.g. <code>mqtt</code>, <code>modbus_tcp</code>, <code>opcua</code>).</td>
+          </tr>
         </tbody>
       </table>
-    </div>
-    <p style="margin-top: 0.75rem;">Also added: <code>batch_id</code> envelope field for grouping related events, and Failure Mode Taxonomy (Appendix A, based on ISO 14224).</p>
-    <h2 style="margin-top: 2rem;">Released in v1.2 (March 2026)</h2>
-    <p>ISO alignment: optional fields for ISO 17359 (condition monitoring), ISO 13374 (CM&amp;D status), and ISO 14224 (failure classification). New fields: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code>, <code>iso_13374_status</code>, <code>iso_14224</code> object. All backward compatible.</p>
-    <h2 style="margin-top: 2rem;">Future (v1.3)</h2>
-    <p>Under consideration:</p>
-    <div class="table-wrap">
-      <table>
+
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; sensor.registration example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"sensor.registration"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-05T11:20:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.iot.gateway"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"b8c9d0e1f2a3b4c5"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"MOTOR-042"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Pump Drive Motor 42"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Turbine Hall"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"sensor_id"</span>: <span class="cs">"MCSA-T41-001"</span>,
+    <span class="ck">"registration_status"</span>: <span class="cs">"registered"</span>,
+    <span class="ck">"sensor_model"</span>: <span class="cs">"Wertek MCSA CT Module"</span>,
+    <span class="ck">"device_serial"</span>: <span class="cs">"T41-2026-00042"</span>,
+    <span class="ck">"firmware_version"</span>: <span class="cs">"1.0.3"</span>,
+    <span class="ck">"measurement_capabilities"</span>: [<span class="cs">"current_waveform"</span>, <span class="cs">"current_spectrum"</span>, <span class="cs">"current_rms"</span>, <span class="cs">"thd"</span>],
+    <span class="ck">"calibration_date"</span>: <span class="cs">"2026-03-05"</span>,
+    <span class="ck">"communication_protocol"</span>: <span class="cs">"mqtt"</span>
+  }
+}</pre>
+      </div>
+
+      <!-- 5.7 maintenance.spare_part_usage -->
+      <h3 id="spare-part-usage"><code>maintenance.spare_part_usage</code> <span class="badge badge-cyan">v1.1</span></h3>
+      <p data-i18n="spare_part_desc">Records the consumption of a spare part during a maintenance activity. Links to the work order via <code>work_order_id</code> and enables inventory tracking, cost analytics, and procurement automation.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Event Type</th><th>Description</th></tr>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>asset.document</code></td><td>Document attachment and metadata sync</td></tr>
-          <tr><td><code>energy.reading</code></td><td>Power quality and energy consumption events</td></tr>
-          <tr><td><code>asset.decommission</code></td><td>Asset end-of-life and disposal tracking</td></tr>
+          <tr>
+            <td><code>work_order_id</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>The CMMS work order ID this part was used in.</td>
+          </tr>
+          <tr>
+            <td><code>spare_part_id</code></td>
+            <td><code>string</code></td>
+            <td class="required">Yes</td>
+            <td>Internal spare part identifier.</td>
+          </tr>
+          <tr>
+            <td><code>quantity_used</code></td>
+            <td><code>number</code></td>
+            <td class="required">Yes</td>
+            <td>Number of units consumed.</td>
+          </tr>
+          <tr>
+            <td><code>part_number</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Manufacturer part number.</td>
+          </tr>
+          <tr>
+            <td><code>part_name</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Human-readable part name.</td>
+          </tr>
+          <tr>
+            <td><code>unit_cost</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Cost per unit.</td>
+          </tr>
+          <tr>
+            <td><code>currency</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>ISO 4217 currency code (e.g. <code>USD</code>, <code>MXN</code>, <code>EUR</code>).</td>
+          </tr>
+          <tr>
+            <td><code>total_cost</code></td>
+            <td><code>number</code></td>
+            <td>No</td>
+            <td>Total cost (<code>unit_cost &times; quantity_used</code>).</td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
 
-  <!-- Versioning -->
-  <section id="versioning">
-    <div class="section-label">
-      <div class="section-num">14</div>
-      <div class="section-title">Versioning</div>
-    </div>
-    <h2>Versioning</h2>
-    <p>IAES uses semantic versioning for the specification:</p>
-    <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text);">
-      <li><strong>Minor versions</strong> (1.1, 1.2) add new optional fields or event types. They never remove or change required fields. Consumers built for 1.0 SHOULD accept events from 1.x without error.</li>
-      <li><strong>Major versions</strong> (2.0) may introduce breaking changes: removing fields, changing required fields, or renaming event types. Consumers MAY reject events from unsupported major versions.</li>
-      <li><strong>Producers</strong> MUST set <code>spec_version</code> to the version they implement.</li>
-      <li><strong>Consumers</strong> SHOULD accept events where the major version matches, even if the minor version is higher than what they support.</li>
-    </ul>
-    <div class="table-wrap">
-      <table>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; maintenance.spare_part_usage example</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"maintenance.spare_part_usage"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-09T10:15:30Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.inventory"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"f6a7b8c9d0e1f2a3"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Plant A - Monterrey"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Cooling Tower Area"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"work_order_id"</span>: <span class="cs">"WO-2026-0042"</span>,
+    <span class="ck">"spare_part_id"</span>: <span class="cs">"SP-SKF-6205"</span>,
+    <span class="ck">"quantity_used"</span>: <span class="cn">1</span>,
+    <span class="ck">"part_number"</span>: <span class="cs">"SKF 6205-2RS"</span>,
+    <span class="ck">"part_name"</span>: <span class="cs">"Deep groove ball bearing 6205-2RS"</span>,
+    <span class="ck">"unit_cost"</span>: <span class="cn">28.50</span>,
+    <span class="ck">"currency"</span>: <span class="cs">"USD"</span>,
+    <span class="ck">"total_cost"</span>: <span class="cn">28.50</span>
+  }
+}</pre>
+      </div>
+    </section>
+
+    <!-- 6. Severity Levels -->
+    <section class="spec-section" id="severity">
+      <h2 data-i18n="sec_severity">6. Severity Levels</h2>
+      <p data-i18n="severity_intro">IAES defines 5 severity levels used in <code>asset.health</code> events. These represent the <em>condition</em> of the asset, not the urgency of the maintenance response.</p>
+
+      <table class="spec-table">
         <thead>
-          <tr><th>Version</th><th>Date</th><th>Changes</th></tr>
+          <tr>
+            <th>Severity</th>
+            <th>Health Index Range</th>
+            <th>Meaning</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td><code>1.0</code></td><td>March 2026</td><td>Initial release. 3 event types, common envelope, JSON Schema.</td></tr>
-          <tr><td><code>1.1</code></td><td>March 2026</td><td>4 new event types (hierarchy, completion, sensor registration, spare parts). Added <code>batch_id</code> to envelope. Failure Mode Taxonomy (ISO 14224).</td></tr>
-          <tr><td><code>1.2</code></td><td>March 2026</td><td>ISO alignment: ISO 17359 (units_qualifier, sampling_rate_hz, acquisition_duration_s), ISO 13374 (iso_13374_status), ISO 14224 (iso_14224 object). All optional, backward compatible.</td></tr>
+          <tr>
+            <td><code>info</code></td>
+            <td>0.90 &ndash; 1.00</td>
+            <td>Normal operating condition. No action needed.</td>
+          </tr>
+          <tr>
+            <td><code>low</code></td>
+            <td>0.70 &ndash; 0.89</td>
+            <td>Minor deviation detected. Monitor and schedule inspection during next planned downtime.</td>
+          </tr>
+          <tr>
+            <td><code>medium</code></td>
+            <td>0.50 &ndash; 0.69</td>
+            <td>Moderate degradation. Plan corrective action within weeks.</td>
+          </tr>
+          <tr>
+            <td><code>high</code></td>
+            <td>0.25 &ndash; 0.49</td>
+            <td>Significant degradation. Schedule maintenance within days.</td>
+          </tr>
+          <tr>
+            <td><code>critical</code></td>
+            <td>0.00 &ndash; 0.24</td>
+            <td>Imminent failure or failed. Immediate action required.</td>
+          </tr>
         </tbody>
       </table>
-    </div>
-  </section>
+    </section>
 
-  <!-- Footer -->
-  <div class="spec-footer">
-    <p>IAES v1.2 &mdash; March 2026</p>
-    <p>Created by the <a href="https://wertek.ai">Wertek AI</a> team. Reference implementation: <a href="https://github.com/wertek-ai/wertek-integrations">Wertek Integration Framework</a></p>
-    <p style="margin-top: 0.5rem; font-size: 0.78rem;">
-      <a href="/">Home</a> &middot;
-      <a href="/schemas/">JSON Schemas</a> &middot;
-      <a href="/examples/">Examples</a> &middot;
-      <a href="https://github.com/wertek-ai/iaes">GitHub</a>
-    </p>
+    <!-- 7. Idempotency -->
+    <section class="spec-section" id="idempotency">
+      <h2 data-i18n="sec_idempotency">7. Idempotency</h2>
+      <p data-i18n="idempotency_intro">IAES provides three mechanisms for deduplication and idempotent processing:</p>
+
+      <ol>
+        <li><strong><code>event_id</code></strong> &mdash; Every event has a globally unique UUID. Consumers must track processed event IDs to avoid reprocessing.</li>
+        <li><strong><code>content_hash</code></strong> &mdash; A deterministic hash of the <code>data</code> payload. Two events with the same content_hash for the same asset and event type are semantically identical.</li>
+        <li><strong><code>correlation_id</code></strong> &mdash; Links related events. If a consumer already has a work order for a given correlation_id, it should not create a duplicate.</li>
+      </ol>
+
+      <h3>content_hash Computation</h3>
+      <p>The <code>content_hash</code> is computed as follows:</p>
+      <ol>
+        <li>Serialize the <code>data</code> object as canonical JSON (keys sorted alphabetically, no whitespace).</li>
+        <li>Compute the SHA-256 hash of the resulting string.</li>
+        <li>Take the first 16 hexadecimal characters.</li>
+      </ol>
+
+      <div class="note-box info">
+        <strong>Deduplication rule:</strong> An event is a duplicate if an existing event shares the same <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code> combination.
+      </div>
+    </section>
+
+    <!-- 8. Producer Guidelines -->
+    <section class="spec-section" id="producer-guidelines">
+      <h2 data-i18n="sec_producer">8. Producer Guidelines</h2>
+
+      <h3 data-i18n="producer_required">Required</h3>
+      <ol>
+        <li>Generate a unique <code>event_id</code> (UUID v4) for every event.</li>
+        <li>Set <code>spec_version</code> to <code>"1.2"</code> (or the version you implement).</li>
+        <li>Compute and include a valid <code>content_hash</code> for every event.</li>
+        <li>Use ISO 8601 timestamps with timezone information (UTC preferred).</li>
+        <li>Include all required fields for the chosen <code>event_type</code>.</li>
+      </ol>
+
+      <h3 data-i18n="producer_recommended">Recommended</h3>
+      <ol>
+        <li>Set <code>correlation_id</code> = <code>event_id</code> for the first event in a chain; propagate the same <code>correlation_id</code> for subsequent linked events.</li>
+        <li>Set <code>source_event_id</code> to the <code>event_id</code> of the directly upstream event.</li>
+        <li>Use the dot-notation format for <code>source</code>: <code>vendor.system.subsystem</code>.</li>
+        <li>Use failure modes from Appendix A when applicable.</li>
+        <li>Include ISO 14224 and ISO 13374 fields when the data is available to maximize interoperability.</li>
+      </ol>
+    </section>
+
+    <!-- 9. Consumer Guidelines -->
+    <section class="spec-section" id="consumer-guidelines">
+      <h2 data-i18n="sec_consumer">9. Consumer Guidelines</h2>
+
+      <h3 data-i18n="consumer_required">Required</h3>
+      <ol>
+        <li>Validate <code>spec_version</code> and reject events from unsupported versions.</li>
+        <li>Implement deduplication using <code>event_id</code> or <code>content_hash</code> (see Section 7).</li>
+        <li>Ignore unknown fields in <code>data</code> without raising errors (forward compatibility).</li>
+      </ol>
+
+      <h3 data-i18n="consumer_recommended">Recommended</h3>
+      <ol>
+        <li>Use <code>correlation_id</code> to group related events for display and analytics.</li>
+        <li>Map IAES severity to your system's native priority/urgency model.</li>
+        <li>Store the full IAES event as an audit record, even after mapping to native format.</li>
+        <li>Implement retry logic with exponential backoff for transient processing failures.</li>
+        <li>Log rejected or malformed events for troubleshooting.</li>
+      </ol>
+
+      <h3>Severity Mapping Reference</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>IAES Severity</th>
+            <th>SAP PM</th>
+            <th>MaintainX</th>
+            <th>Odoo</th>
+            <th>General</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>info</code></td>
+            <td>Priority 4</td>
+            <td>None</td>
+            <td>0 (Normal)</td>
+            <td>Informational</td>
+          </tr>
+          <tr>
+            <td><code>low</code></td>
+            <td>Priority 3</td>
+            <td>Low</td>
+            <td>0 (Normal)</td>
+            <td>Low</td>
+          </tr>
+          <tr>
+            <td><code>medium</code></td>
+            <td>Priority 2</td>
+            <td>Medium</td>
+            <td>1 (Urgent)</td>
+            <td>Medium</td>
+          </tr>
+          <tr>
+            <td><code>high</code></td>
+            <td>Priority 1</td>
+            <td>High</td>
+            <td>2 (Very Urgent)</td>
+            <td>High</td>
+          </tr>
+          <tr>
+            <td><code>critical</code></td>
+            <td>Priority 1 + Breakdown</td>
+            <td>Critical</td>
+            <td>3 (Emergency)</td>
+            <td>Critical / Emergency</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 10. Typical Flow -->
+    <section class="spec-section" id="typical-flow">
+      <h2 data-i18n="sec_flow">10. Typical Flow</h2>
+      <p data-i18n="flow_intro">A typical IAES event chain follows this pattern. All events in the chain share the same <code>correlation_id</code>, and each event references its direct predecessor via <code>source_event_id</code>.</p>
+
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <strong>asset.measurement</strong>
+          <span>Sensor data collected</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node flow-highlight">
+          <strong>asset.health</strong>
+          <span>AI diagnosis</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <strong>work_order_intent</strong>
+          <span>Maintenance recommended</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <strong>completion</strong>
+          <span>Work executed</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <strong>spare_part_usage</strong>
+          <span>Parts consumed</span>
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">Correlation Chain</div>
+        <pre><span class="cb">// All events share the same correlation_id</span>
+<span class="ck">correlation_id</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>
+
+<span class="cb">// Event chain via source_event_id:</span>
+<span class="cs">measurement</span>  (event_id: <span class="cn">AAA</span>, source_event_id: <span class="cn">null</span>)
+    &darr;
+<span class="cs">health</span>       (event_id: <span class="cn">BBB</span>, source_event_id: <span class="cn">AAA</span>)
+    &darr;
+<span class="cs">wo_intent</span>    (event_id: <span class="cn">CCC</span>, source_event_id: <span class="cn">BBB</span>)
+    &darr;
+<span class="cs">completion</span>   (event_id: <span class="cn">DDD</span>, source_event_id: <span class="cn">CCC</span>)
+    &darr;
+<span class="cs">spare_part</span>   (event_id: <span class="cn">EEE</span>, source_event_id: <span class="cn">DDD</span>)</pre>
+      </div>
+    </section>
+
+    <!-- 11. System Compatibility -->
+    <section class="spec-section" id="compatibility">
+      <h2 data-i18n="sec_compat">11. System Compatibility</h2>
+      <p data-i18n="compat_intro">IAES events are designed to map naturally to common industrial systems. The table below shows how IAES concepts map to each platform.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>System</th>
+            <th>IAES Mapping</th>
+            <th>Transport</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SAP PM</strong></td>
+            <td>Notification (health), Work Order (intent), Confirmation (completion), BOM (spare parts)</td>
+            <td>RFC / OData / IDoc</td>
+          </tr>
+          <tr>
+            <td><strong>PI System (OSIsoft)</strong></td>
+            <td>PI Points (measurement values), Event Frames (health), AF Elements (hierarchy)</td>
+            <td>PI Web API / OMF</td>
+          </tr>
+          <tr>
+            <td><strong>AVEVA Data Hub</strong></td>
+            <td>Streams (measurements), Assets (hierarchy), Events (health/completion)</td>
+            <td>REST API</td>
+          </tr>
+          <tr>
+            <td><strong>Odoo</strong></td>
+            <td>Maintenance Request (intent), Equipment (hierarchy), Product (spare parts)</td>
+            <td>XML-RPC / JSON-RPC</td>
+          </tr>
+          <tr>
+            <td><strong>MaintainX</strong></td>
+            <td>Work Order (intent), Parts (spare parts), Asset (hierarchy), Meter Reading (measurement)</td>
+            <td>REST API</td>
+          </tr>
+          <tr>
+            <td><strong>Fracttal</strong></td>
+            <td>Work Order (intent), Asset (hierarchy), Variable Reading (measurement)</td>
+            <td>REST API</td>
+          </tr>
+          <tr>
+            <td><strong>Grafana</strong></td>
+            <td>Time series (measurements), Annotations (health/intent events)</td>
+            <td>Data source plugin / HTTP API</td>
+          </tr>
+          <tr>
+            <td><strong>MQTT Broker</strong></td>
+            <td>Topic per event_type: <code>iaes/{org_id}/{asset_id}/{event_type}</code></td>
+            <td>MQTT 3.1.1 / 5.0</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Appendix A -->
+    <section class="spec-section" id="appendix-a">
+      <h2 data-i18n="sec_appendix_a">Appendix A: Failure Mode Taxonomy</h2>
+      <p data-i18n="appendix_a_intro">Standardized failure mode values for the <code>failure_mode</code> field in <code>asset.health</code> and <code>maintenance.completion</code> events. Organized by equipment domain.</p>
+
+      <h3>Rotating Equipment</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>bearing_inner_race</code></td><td>Inner race defect on rolling element bearing</td></tr>
+          <tr><td><code>bearing_outer_race</code></td><td>Outer race defect on rolling element bearing</td></tr>
+          <tr><td><code>bearing_ball_spin</code></td><td>Ball spin / rolling element defect</td></tr>
+          <tr><td><code>bearing_cage</code></td><td>Cage / retainer defect</td></tr>
+          <tr><td><code>bearing_lubrication</code></td><td>Inadequate or degraded lubrication</td></tr>
+          <tr><td><code>misalignment_angular</code></td><td>Angular misalignment between coupled shafts</td></tr>
+          <tr><td><code>misalignment_parallel</code></td><td>Parallel (offset) misalignment</td></tr>
+          <tr><td><code>unbalance</code></td><td>Mass unbalance on rotating component</td></tr>
+          <tr><td><code>looseness_mechanical</code></td><td>Mechanical looseness (base, bolts, foundation)</td></tr>
+          <tr><td><code>looseness_structural</code></td><td>Structural looseness or resonance</td></tr>
+          <tr><td><code>gear_wear</code></td><td>Gear tooth wear or pitting</td></tr>
+          <tr><td><code>gear_broken_tooth</code></td><td>Broken or chipped gear tooth</td></tr>
+          <tr><td><code>belt_wear</code></td><td>Belt wear, cracking, or glazing</td></tr>
+          <tr><td><code>belt_misalignment</code></td><td>Belt/pulley misalignment</td></tr>
+          <tr><td><code>cavitation</code></td><td>Cavitation in pumps or hydraulic systems</td></tr>
+          <tr><td><code>shaft_crack</code></td><td>Shaft crack or fatigue</td></tr>
+          <tr><td><code>resonance</code></td><td>Structural or natural frequency resonance</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Electrical</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>stator_winding</code></td><td>Stator winding insulation degradation or short</td></tr>
+          <tr><td><code>rotor_bar</code></td><td>Broken rotor bar(s) in induction motor</td></tr>
+          <tr><td><code>eccentricity_static</code></td><td>Static air gap eccentricity</td></tr>
+          <tr><td><code>eccentricity_dynamic</code></td><td>Dynamic air gap eccentricity</td></tr>
+          <tr><td><code>phase_unbalance</code></td><td>Voltage or current phase unbalance</td></tr>
+          <tr><td><code>harmonic_distortion</code></td><td>Excessive harmonic distortion (THD)</td></tr>
+          <tr><td><code>insulation_degradation</code></td><td>General insulation resistance degradation</td></tr>
+          <tr><td><code>vfd_fault</code></td><td>Variable frequency drive fault or malfunction</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Fluid &amp; Thermal</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>overheating</code></td><td>Abnormal temperature rise beyond operating limits</td></tr>
+          <tr><td><code>thermal_gradient</code></td><td>Abnormal temperature differential across component</td></tr>
+          <tr><td><code>leak_external</code></td><td>External fluid/gas leak</td></tr>
+          <tr><td><code>leak_internal</code></td><td>Internal seal or valve leak</td></tr>
+          <tr><td><code>blockage</code></td><td>Flow restriction or blockage in piping/filter</td></tr>
+          <tr><td><code>corrosion</code></td><td>Internal or external corrosion</td></tr>
+          <tr><td><code>erosion</code></td><td>Material erosion from fluid flow</td></tr>
+          <tr><td><code>fouling</code></td><td>Surface fouling or deposit buildup</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Appendix B -->
+    <section class="spec-section" id="appendix-b">
+      <h2 data-i18n="sec_appendix_b">Appendix B: ISO 14224 Codes</h2>
+      <p data-i18n="appendix_b_intro">The <code>iso_14224</code> object provides standardized failure classification per ISO 14224:2016 (Petroleum, petrochemical and natural gas industries &mdash; Collection and exchange of reliability and maintenance data). This object can appear in <code>asset.health</code> and <code>maintenance.completion</code> events.</p>
+
+      <h3>iso_14224 Object Structure</h3>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; iso_14224 object</div>
+        <pre>{
+  <span class="ck">"iso_14224"</span>: {
+    <span class="ck">"mechanism_code"</span>: <span class="cs">"string"</span>,
+    <span class="ck">"mechanism_label"</span>: <span class="cs">"string"</span>,
+    <span class="ck">"cause_code"</span>: <span class="cs">"string | null"</span>,
+    <span class="ck">"cause_label"</span>: <span class="cs">"string | null"</span>,
+    <span class="ck">"detection_method"</span>: <span class="cs">"string | null"</span>,
+    <span class="ck">"detection_label"</span>: <span class="cs">"string | null"</span>
+  }
+}</pre>
+      </div>
+
+      <h3>Failure Mechanism Codes</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Mechanism</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>1.1</code></td><td>Mechanical wear</td></tr>
+          <tr><td><code>1.2</code></td><td>Fatigue</td></tr>
+          <tr><td><code>1.3</code></td><td>Corrosion</td></tr>
+          <tr><td><code>1.4</code></td><td>Erosion</td></tr>
+          <tr><td><code>1.5</code></td><td>Deformation</td></tr>
+          <tr><td><code>1.6</code></td><td>Fracture</td></tr>
+          <tr><td><code>1.7</code></td><td>Material degradation</td></tr>
+          <tr><td><code>2.1</code></td><td>Electrical short circuit</td></tr>
+          <tr><td><code>2.2</code></td><td>Open circuit</td></tr>
+          <tr><td><code>2.3</code></td><td>Insulation breakdown</td></tr>
+          <tr><td><code>2.4</code></td><td>Earth / ground fault</td></tr>
+          <tr><td><code>3.1</code></td><td>Blockage / plugged</td></tr>
+          <tr><td><code>3.2</code></td><td>Leakage</td></tr>
+          <tr><td><code>3.3</code></td><td>Vibration</td></tr>
+          <tr><td><code>3.4</code></td><td>Overheating</td></tr>
+          <tr><td><code>9.0</code></td><td>Other / unknown</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Failure Cause Codes</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Cause</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>A</code></td><td>Design-related</td></tr>
+          <tr><td><code>B</code></td><td>Fabrication / manufacturing</td></tr>
+          <tr><td><code>C</code></td><td>Installation / commissioning</td></tr>
+          <tr><td><code>D</code></td><td>Operation / maintenance</td></tr>
+          <tr><td><code>E</code></td><td>Management / organizational</td></tr>
+          <tr><td><code>F</code></td><td>Miscellaneous / other</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Detection Method Codes</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Detection Method</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>1</code></td><td>Periodic maintenance</td></tr>
+          <tr><td><code>2</code></td><td>Condition monitoring</td></tr>
+          <tr><td><code>3</code></td><td>Corrective maintenance</td></tr>
+          <tr><td><code>4</code></td><td>Inspection / testing</td></tr>
+          <tr><td><code>5</code></td><td>Production interference</td></tr>
+          <tr><td><code>6</code></td><td>Casual observation</td></tr>
+          <tr><td><code>7</code></td><td>Demand / operational test</td></tr>
+          <tr><td><code>9</code></td><td>Other / unknown</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Appendix C -->
+    <section class="spec-section" id="appendix-c">
+      <h2 data-i18n="sec_appendix_c">Appendix C: ISO 13374 Mapping</h2>
+      <p data-i18n="appendix_c_intro">ISO 13374 (Condition monitoring and diagnostics of machines) defines a 6-block processing model for condition monitoring. IAES maps naturally to this standard. The <code>iso_13374_status</code> field in <code>asset.health</code> events provides explicit alignment.</p>
+
+      <h3>iso_13374_status Levels</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>iso_13374_status</th>
+            <th>Description</th>
+            <th>Nearest IAES Severity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>normal</code></td>
+            <td>Operating within acceptable parameters</td>
+            <td><code>info</code></td>
+          </tr>
+          <tr>
+            <td><code>satisfactory</code></td>
+            <td>Minor deviations, within limits</td>
+            <td><code>low</code></td>
+          </tr>
+          <tr>
+            <td><code>unsatisfactory</code></td>
+            <td>Outside normal limits, monitoring required</td>
+            <td><code>medium</code></td>
+          </tr>
+          <tr>
+            <td><code>unacceptable</code></td>
+            <td>Exceeds limits, corrective action needed</td>
+            <td><code>high</code></td>
+          </tr>
+          <tr>
+            <td><code>imminent_failure</code></td>
+            <td>Failure expected imminently</td>
+            <td><code>critical</code></td>
+          </tr>
+          <tr>
+            <td><code>failed</code></td>
+            <td>Equipment has failed</td>
+            <td><code>critical</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Usage Example</h3>
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; Combined severity + ISO 13374 + ISO 14224</div>
+        <pre>{
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"data"</span>: {
+    <span class="ck">"health_index"</span>: <span class="cn">0.16</span>,
+    <span class="ck">"severity"</span>: <span class="cs">"critical"</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_inner_race"</span>,
+    <span class="ck">"iso_13374_status"</span>: <span class="cs">"imminent_failure"</span>,
+    <span class="ck">"iso_14224"</span>: {
+      <span class="ck">"mechanism_code"</span>: <span class="cs">"1.1"</span>,
+      <span class="ck">"mechanism_label"</span>: <span class="cs">"Mechanical wear"</span>,
+      <span class="ck">"cause_code"</span>: <span class="cs">"D"</span>,
+      <span class="ck">"cause_label"</span>: <span class="cs">"Operation / maintenance"</span>,
+      <span class="ck">"detection_method"</span>: <span class="cs">"2"</span>,
+      <span class="ck">"detection_label"</span>: <span class="cs">"Condition monitoring"</span>
+    }
+  }
+}</pre>
+      </div>
+
+      <h3>ISO 13374 Processing Model &rarr; IAES Events</h3>
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>ISO 13374 Block</th>
+            <th>Function</th>
+            <th>IAES Event</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Block 1: Data Acquisition</td>
+            <td>Sensor data collection</td>
+            <td><code>sensor.registration</code></td>
+          </tr>
+          <tr>
+            <td>Block 2: Data Manipulation</td>
+            <td>Signal processing, filtering</td>
+            <td><code>asset.measurement</code></td>
+          </tr>
+          <tr>
+            <td>Block 3: State Detection</td>
+            <td>Threshold comparison, anomaly detection</td>
+            <td><code>asset.health</code> (health_index, anomaly_score)</td>
+          </tr>
+          <tr>
+            <td>Block 4: Health Assessment</td>
+            <td>Diagnosis, severity, failure mode</td>
+            <td><code>asset.health</code> (severity, failure_mode, rul_days)</td>
+          </tr>
+          <tr>
+            <td>Block 5: Prognostics</td>
+            <td>RUL estimation, trend prediction</td>
+            <td><code>asset.health</code> (rul_days, recommended_action)</td>
+          </tr>
+          <tr>
+            <td>Block 6: Advisory Generation</td>
+            <td>Recommended actions, work orders</td>
+            <td><code>maintenance.work_order_intent</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Version History -->
+    <section class="spec-section" id="version-history">
+      <h2 data-i18n="sec_versions">Version History</h2>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Version</th>
+            <th>Date</th>
+            <th>Changes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>v1.0</strong></td>
+            <td>January 2026</td>
+            <td>Initial release. 3 event types: <code>asset.measurement</code>, <code>asset.health</code>, <code>maintenance.work_order_intent</code>. Common envelope, severity levels, idempotency, producer/consumer guidelines.</td>
+          </tr>
+          <tr>
+            <td><strong>v1.1</strong></td>
+            <td>February 2026</td>
+            <td>Added 4 event types: <code>maintenance.completion</code>, <code>asset.hierarchy</code>, <code>sensor.registration</code>, <code>maintenance.spare_part_usage</code>. Added <code>batch_id</code> to envelope. Failure Mode Taxonomy (Appendix A).</td>
+          </tr>
+          <tr>
+            <td><strong>v1.2</strong></td>
+            <td>March 2026</td>
+            <td>ISO alignment: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> (ISO 17359) on measurements. <code>iso_13374_status</code> (ISO 13374) on health. <code>iso_14224</code> object (ISO 14224) on health and completion. All new fields optional &mdash; fully backward compatible. Added Appendix B (ISO 14224 codes) and Appendix C (ISO 13374 mapping).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span>IAES &mdash; Industrial Asset Event Standard &middot; Open Specification</span>
+    <span>
+      <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a> &middot;
+      <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>
+    </span>
   </div>
+</footer>
 
-</main>
+<script>
+  // Mobile TOC toggle
+  const tocToggle = document.getElementById('toc-toggle');
+  const sidebar = document.getElementById('sidebar');
+  if (tocToggle && sidebar) {
+    tocToggle.addEventListener('click', function() {
+      sidebar.classList.toggle('open');
+      tocToggle.classList.toggle('open');
+    });
+    // Close sidebar when a link is clicked on mobile
+    sidebar.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        if (window.innerWidth <= 960) {
+          sidebar.classList.remove('open');
+          tocToggle.classList.remove('open');
+        }
+      });
+    });
+  }
 
+  // Mobile nav hamburger
+  const hamburger = document.getElementById('nav-hamburger');
+  const navLinks = document.querySelector('.nav-links');
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', function() {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      navLinks.style.position = 'absolute';
+      navLinks.style.top = '64px';
+      navLinks.style.right = '16px';
+      navLinks.style.background = '#2C3338';
+      navLinks.style.flexDirection = 'column';
+      navLinks.style.padding = '16px 20px';
+      navLinks.style.borderRadius = '8px';
+      navLinks.style.gap = '12px';
+      navLinks.style.border = '1px solid rgba(255,255,255,0.1)';
+      navLinks.style.zIndex = '200';
+    });
+  }
+
+  // Active TOC link on scroll
+  (function() {
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const sections = [];
+    tocLinks.forEach(function(link) {
+      var id = link.getAttribute('href');
+      if (id && id.startsWith('#')) {
+        var el = document.querySelector(id);
+        if (el) sections.push({ el: el, link: link });
+      }
+    });
+
+    function updateActive() {
+      var scrollPos = window.scrollY + 120;
+      var current = null;
+      for (var i = sections.length - 1; i >= 0; i--) {
+        if (sections[i].el.offsetTop <= scrollPos) {
+          current = sections[i];
+          break;
+        }
+      }
+      tocLinks.forEach(function(l) { l.classList.remove('active'); });
+      if (current) current.link.classList.add('active');
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          updateActive();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+    updateActive();
+  })();
+</script>
+<script src="/js/i18n.js" defer></script>
 </body>
 </html>
