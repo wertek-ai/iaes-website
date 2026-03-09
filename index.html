@@ -847,6 +847,73 @@
       text-align: center;
     }
 
+    /* ── Landscape Table ── */
+    .landscape-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--silver);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+    .landscape-table thead th {
+      background: var(--charcoal);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 12px 20px;
+      text-align: left;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .landscape-table tbody td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--cloud);
+      color: var(--steel);
+    }
+    .landscape-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .landscape-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--charcoal);
+      width: 140px;
+    }
+    .landscape-iaes-row {
+      background: rgba(14,165,233,0.06);
+    }
+    .landscape-iaes-row td {
+      color: var(--cyan-dark) !important;
+    }
+    .landscape-iaes-row td:first-child {
+      color: var(--cyan-dark) !important;
+    }
+    .landscape-scope {
+      text-align: center;
+      margin-top: 8px;
+    }
+    .landscape-scope p {
+      color: var(--steel);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .scope-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+    .scope-pill {
+      background: var(--cloud);
+      color: var(--charcoal);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
     /* ── Comparison Table ── */
     .compare-table {
       width: 100%;
@@ -1136,6 +1203,70 @@
       <a class="btn btn-outline" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="hero.cta_github">GitHub</a>
     </div>
     <p class="hero-attribution" data-i18n="hero.attribution">Open standard. Vendor-neutral. Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     LANDSCAPE — Where IAES fits
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="landscape">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="landscape.title">IAES in the Industrial Standards Landscape</h2>
+      <p class="section-subtitle" data-i18n="landscape.subtitle">IAES doesn't compete with existing standards. It occupies a different layer.</p>
+    </div>
+
+    <div style="overflow-x:auto;max-width:700px;margin:0 auto">
+      <table class="landscape-table">
+        <thead>
+          <tr>
+            <th data-i18n="landscape.col_standard">Standard</th>
+            <th data-i18n="landscape.col_purpose">Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ISO 55000</td>
+            <td data-i18n="landscape.iso55">Asset management principles</td>
+          </tr>
+          <tr>
+            <td>AAS (I4.0)</td>
+            <td data-i18n="landscape.aas">Digital twin structure</td>
+          </tr>
+          <tr>
+            <td>ISA-95</td>
+            <td data-i18n="landscape.isa95">Manufacturing operations architecture</td>
+          </tr>
+          <tr>
+            <td>OPC UA</td>
+            <td data-i18n="landscape.opcua">Machine-to-machine communication</td>
+          </tr>
+          <tr class="landscape-iaes-row">
+            <td><strong>IAES</strong></td>
+            <td data-i18n="landscape.iaes"><strong>Event language for industrial assets</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Scope: not just manufacturing -->
+    <div class="landscape-scope">
+      <p data-i18n="landscape.scope_label">IAES covers events across all industrial domains:</p>
+      <div class="scope-pills">
+        <span class="scope-pill" data-i18n="landscape.scope_energy">Energy &amp; Power Quality</span>
+        <span class="scope-pill" data-i18n="landscape.scope_maintenance">Maintenance</span>
+        <span class="scope-pill" data-i18n="landscape.scope_reliability">Reliability</span>
+        <span class="scope-pill" data-i18n="landscape.scope_diagnostics">Diagnostics &amp; AI</span>
+        <span class="scope-pill" data-i18n="landscape.scope_iot">IoT &amp; Telemetry</span>
+        <span class="scope-pill" data-i18n="landscape.scope_condition">Condition Monitoring</span>
+        <span class="scope-pill" data-i18n="landscape.scope_manufacturing">Manufacturing</span>
+        <span class="scope-pill" data-i18n="landscape.scope_oil">Oil &amp; Gas</span>
+        <span class="scope-pill" data-i18n="landscape.scope_mining">Mining</span>
+        <span class="scope-pill" data-i18n="landscape.scope_utilities">Utilities</span>
+        <span class="scope-pill" data-i18n="landscape.scope_buildings">Buildings &amp; Facilities</span>
+      </div>
+    </div>
+
   </div>
 </section>
 
