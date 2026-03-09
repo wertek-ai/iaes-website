@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IAES — Industrial Asset Event Standard</title>
-  <meta name="description" content="IAES is a vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents. Open standard with ISO alignment.">
+  <meta name="description" content="IAES is a minimal, vendor-neutral event language for industrial assets. It names what happens to equipment — measurements, diagnoses, failures, maintenance — so any system can produce and consume asset events.">
   <meta name="theme-color" content="#1B2024">
   <meta property="og:title" content="IAES — Industrial Asset Event Standard">
-  <meta property="og:description" content="A vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <meta property="og:description" content="A minimal, vendor-neutral event language for industrial assets. Names what happens to equipment so any system can produce and consume asset events.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev">
   <link rel="canonical" href="https://iaes.dev">
@@ -604,6 +604,81 @@
       line-height: 1.6;
     }
 
+    /* ── What IAES Is / Is Not ── */
+    .is-isnot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .is-box, .isnot-box {
+      border-radius: var(--radius-card);
+      padding: 32px;
+    }
+    .is-box {
+      background: rgba(14,165,233,0.06);
+      border: 2px solid rgba(14,165,233,0.2);
+    }
+    .isnot-box {
+      background: var(--snow);
+      border: 2px solid var(--cloud);
+    }
+    .is-box h3, .isnot-box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .is-box h3 { color: var(--cyan-dark); }
+    .isnot-box h3 { color: var(--steel); }
+    .is-box ul, .isnot-box ul {
+      list-style: none;
+      padding: 0;
+    }
+    .is-box li, .isnot-box li {
+      padding: 8px 0;
+      font-size: 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.5;
+    }
+    .is-box li:last-child, .isnot-box li:last-child { border-bottom: none; }
+    .is-box li::before {
+      content: '\2713';
+      color: var(--cyan);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .isnot-box li::before {
+      content: '\2717';
+      color: var(--slate);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .is-box li { color: var(--charcoal); }
+    .isnot-box li { color: var(--steel); }
+    .definition-line {
+      text-align: center;
+      margin-top: 28px;
+      padding: 16px 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      background: var(--cloud);
+      border-radius: var(--radius-card);
+      line-height: 1.6;
+    }
+    .definition-line code {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      background: var(--charcoal-dark);
+      color: var(--cyan-light);
+      padding: 3px 10px;
+      border-radius: 6px;
+    }
+
     /* ── Event Cards ── */
     .event-card {
       position: relative;
@@ -980,6 +1055,7 @@
       .hero-subtitle { font-size: 1rem; }
       .grid-2, .grid-3, .envelope-grid { grid-template-columns: 1fr; }
       .silos-grid { grid-template-columns: repeat(4, 1fr); }
+      .is-isnot-grid { grid-template-columns: 1fr; }
       .inequality-row { flex-direction: column; align-items: center; }
       .inequality-neq { transform: rotate(90deg); padding: 4px 0; }
       .inequality-item { max-width: 100%; }
@@ -1048,7 +1124,7 @@
       <span data-i18n="hero.badge">Open Specification v1.2</span>
     </div>
     <h1 data-i18n="hero.title">Industrial Asset<br>Event Standard</h1>
-    <p class="hero-subtitle" data-i18n="hero.subtitle">A vendor-neutral event specification that standardizes how measurements, health assessments, and maintenance actions move across heterogeneous industrial systems &mdash; AI engines, CMMS platforms, historians, dashboards, and enterprise tools.</p>
+    <p class="hero-subtitle" data-i18n="hero.subtitle">A minimal, vendor-neutral event language for industrial assets. IAES names what happens to equipment &mdash; measurements, diagnoses, failures, maintenance actions &mdash; so any system can produce, route, and consume asset events without custom integration.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/spec/" data-i18n="hero.cta_spec">Read the Specification</a>
       <a class="btn btn-outline" href="#install" data-i18n="hero.cta_install">Install SDK</a>
@@ -1288,6 +1364,44 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     WHAT IAES IS / IS NOT
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section id="definition">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="definition.title">What IAES Is</h2>
+    </div>
+    <div class="is-isnot-grid">
+      <div class="is-box">
+        <h3>IAES <span style="color:var(--cyan);">is</span></h3>
+        <ul>
+          <li data-i18n="definition.is_1">An event language &mdash; it names what happens to assets</li>
+          <li data-i18n="definition.is_2">A JSON schema &mdash; minimal, self-describing, machine-readable</li>
+          <li data-i18n="definition.is_3">Transport-agnostic &mdash; works over MQTT, REST, OPC UA, Kafka, files</li>
+          <li data-i18n="definition.is_4">Domain-spanning &mdash; vibration, energy, maintenance, diagnostics, telemetry</li>
+          <li data-i18n="definition.is_5">Event-driven &mdash; each event is independent, traceable, and meaningful</li>
+          <li data-i18n="definition.is_6">Open &mdash; CC BY 4.0, no vendor lock-in, free to implement</li>
+        </ul>
+      </div>
+      <div class="isnot-box">
+        <h3>IAES is <span style="color:var(--critical);">not</span></h3>
+        <ul>
+          <li data-i18n="definition.not_1">Not a protocol &mdash; IAES does not define how bytes move on a wire</li>
+          <li data-i18n="definition.not_2">Not a historian &mdash; IAES does not store or query time-series data</li>
+          <li data-i18n="definition.not_3">Not a CMMS &mdash; IAES does not manage work orders or schedules</li>
+          <li data-i18n="definition.not_4">Not a digital twin framework &mdash; IAES does not model asset structure</li>
+          <li data-i18n="definition.not_5">Not a data model &mdash; IAES describes events in motion, not data at rest</li>
+          <li data-i18n="definition.not_6">Not limited to manufacturing &mdash; works in energy, O&amp;G, mining, utilities, buildings</li>
+        </ul>
+      </div>
+    </div>
+    <div class="definition-line">
+      <span data-i18n="definition.oneliner">IAES is simply an event language for industrial assets.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      EVENT TYPES
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-light" id="events">
@@ -1472,120 +1586,6 @@ wire = event.to_dict()</div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     ISO ALIGNMENT
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="iso">
-  <div class="container">
-    <div class="section-header center">
-      <h2><span data-i18n="iso.title">ISO Aligned</span> <span class="iso-badge">v1.2</span></h2>
-      <p data-i18n="iso.subtitle">IAES v1.2 aligns with three ISO standards for condition monitoring and failure classification. All ISO fields are optional &mdash; full backward compatibility with v1.0 and v1.1.</p>
-    </div>
-    <div class="grid-3">
-
-      <!-- ISO 17359 -->
-      <div class="card card-dark">
-        <h3>ISO 17359</h3>
-        <p data-i18n="iso.17359_desc">Condition Monitoring &mdash; measurement recording per &sect;6.3. Signal processing method, sampling rate, and acquisition duration disambiguate measurement values.</p>
-        <div class="iso-fields">
-          <span class="iso-field">units_qualifier</span>
-          <span class="iso-field">sampling_rate_hz</span>
-          <span class="iso-field">acquisition_duration_s</span>
-        </div>
-      </div>
-
-      <!-- ISO 13374 -->
-      <div class="card card-dark">
-        <h3>ISO 13374</h3>
-        <p data-i18n="iso.13374_desc">Condition Monitoring &amp; Diagnostics Architecture &mdash; 7-level health status complements IAES severity. Severity is action-oriented, ISO 13374 status is condition-oriented.</p>
-        <div class="iso-fields">
-          <span class="iso-field">iso_13374_status</span>
-          <span class="iso-field">normal &rarr; satisfactory &rarr; unacceptable &rarr; failed</span>
-        </div>
-      </div>
-
-      <!-- ISO 14224 -->
-      <div class="card card-dark">
-        <h3>ISO 14224</h3>
-        <p data-i18n="iso.14224_desc">Failure Classification &mdash; structured failure coding with mechanism (why it failed physically), cause (root cause category), and detection method. Coexists with the simpler failure_mode field.</p>
-        <div class="iso-fields">
-          <span class="iso-field">iso_14224.mechanism_code</span>
-          <span class="iso-field">iso_14224.cause_code</span>
-          <span class="iso-field">iso_14224.detection_method</span>
-        </div>
-      </div>
-
-    </div>
-    <div class="iso-note" data-i18n="iso.note">All ISO fields are optional. Full backward compatibility with v1.0/v1.1.</div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     IAES vs OTHER STANDARDS
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section id="compare">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="compare.title">How IAES Relates to Other Standards</h2>
-      <p data-i18n="compare.subtitle">IAES is complementary to existing industrial standards. It does not replace them &mdash; it provides the event wire format that connects them.</p>
-    </div>
-    <div style="overflow-x:auto;">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th data-i18n="compare.col_standard">Standard</th>
-            <th data-i18n="compare.col_scope">What it defines</th>
-            <th data-i18n="compare.col_iaes">How IAES differs</th>
-            <th data-i18n="compare.col_relationship">Relationship</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><span class="std-name">ISO 55000</span><span class="std-id">Asset Management</span></td>
-            <td data-i18n="compare.iso55000_scope">The management framework for the entire asset lifecycle &mdash; strategy, planning, acquisition, operation, disposal.</td>
-            <td data-i18n="compare.iso55000_iaes">IAES is the event wire format that carries operational data within an ISO 55000 management system. ISO 55000 says <em>what</em> to manage; IAES says <em>how events flow</em>.</td>
-            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
-          </tr>
-          <tr>
-            <td><span class="std-name">Asset Administration Shell</span><span class="std-id">AAS / IEC 63278</span></td>
-            <td data-i18n="compare.aas_scope">The digital twin structure &mdash; defines the shell, submodels, and REST interfaces for representing an asset digitally.</td>
-            <td data-i18n="compare.aas_iaes">AAS defines the <em>structure</em> of a digital twin. IAES defines the <em>events that flow through it</em>. An AAS submodel can produce or consume IAES events.</td>
-            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
-          </tr>
-          <tr>
-            <td><span class="std-name">Common Information Model</span><span class="std-id">CIM / IEC 61970</span></td>
-            <td data-i18n="compare.cim_scope">An information model for power systems &mdash; defines data at rest (topology, equipment, measurements).</td>
-            <td data-i18n="compare.cim_iaes">CIM models data <em>at rest</em>. IAES models data <em>in motion</em> &mdash; events that happen to assets. CIM tells you what exists; IAES tells you what happened.</td>
-            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
-          </tr>
-          <tr>
-            <td><span class="std-name">Industrial Data Ontology</span><span class="std-id">IDO / ISO 23726-3</span></td>
-            <td data-i18n="compare.ido_scope">A semantic ontology for industrial data &mdash; enables automated reasoning and knowledge graphs.</td>
-            <td data-i18n="compare.ido_iaes">IDO is for <em>semantic reasoning</em> (RDF, OWL). IAES is for <em>operational event routing</em> (JSON, MQTT, REST). Different layers of the stack.</td>
-            <td><span class="compare-relationship rel-different" data-i18n="compare.different_layer">Different layer</span></td>
-          </tr>
-          <tr>
-            <td><span class="std-name">OPC UA</span><span class="std-id">IEC 62541</span></td>
-            <td data-i18n="compare.opcua_scope">A communication protocol for industrial automation &mdash; defines how machines talk to each other at the device level.</td>
-            <td data-i18n="compare.opcua_iaes">OPC UA is a <em>transport protocol</em> (device-to-device). IAES is an <em>event schema</em> (system-to-system). IAES events can be transported over OPC UA, MQTT, REST, or any protocol.</td>
-            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
-          </tr>
-          <tr>
-            <td><span class="std-name">ISA-95 / IEC 62264</span><span class="std-id">Enterprise Integration</span></td>
-            <td data-i18n="compare.isa95_scope">Defines the levels of integration between enterprise (ERP) and control systems (SCADA/MES).</td>
-            <td data-i18n="compare.isa95_iaes">ISA-95 defines <em>integration architecture</em> (levels 0-4). IAES provides the <em>event contract</em> for levels 2-4 &mdash; the actual data format that crosses those boundaries.</td>
-            <td><span class="compare-relationship rel-complement" data-i18n="compare.complement">Complementary</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="compare-summary">
-      <strong data-i18n="compare.summary_title">IAES fills a specific gap</strong>
-      <p data-i18n="compare.summary_desc">Existing standards define how to manage assets (ISO 55000), model them digitally (AAS), reason about them (IDO), or transport data between devices (OPC UA). None of them define a standard event format for what happens to an asset &mdash; measurements, diagnoses, maintenance intents, and completions. That's what IAES does.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
      ECOSYSTEM
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-light" id="ecosystem">
@@ -1631,6 +1631,82 @@ wire = event.to_dict()</div>
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     STANDARDS ALIGNMENT (combined ISO + comparison — complementary section)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="standards">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="standards.title">Standards Alignment</h2>
+      <p class="section-subtitle" data-i18n="standards.subtitle">IAES doesn't replace existing standards — it speaks their language in event form.</p>
+    </div>
+
+    <!-- ISO Cards -->
+    <div class="grid-3" style="margin-bottom:48px">
+      <div class="card">
+        <div class="card-icon">17359</div>
+        <h3 data-i18n="iso.17359_title">ISO 17359</h3>
+        <p data-i18n="iso.17359_desc">Condition monitoring guidelines. IAES maps <code>units_qualifier</code>, <code>sampling_rate_hz</code>, and <code>acquisition_duration_s</code> directly from ISO 17359 measurement practice.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">13374</div>
+        <h3 data-i18n="iso.13374_title">ISO 13374</h3>
+        <p data-i18n="iso.13374_desc">Condition monitoring data processing. IAES <code>iso_13374_status</code> field maps health events to the 6-layer OSA-CBM architecture (DA → DM → SD → HA → PA → AG).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">14224</div>
+        <h3 data-i18n="iso.14224_title">ISO 14224</h3>
+        <p data-i18n="iso.14224_desc">Equipment reliability data. IAES <code>iso_14224</code> object carries failure mode, mechanism, and cause codes for maintenance completion events.</p>
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <h3 style="text-align:center;margin-bottom:24px;color:var(--white)" data-i18n="compare.heading">How IAES Relates to Other Standards</h3>
+    <div style="overflow-x:auto">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th data-i18n="compare.col_standard">Standard</th>
+            <th data-i18n="compare.col_scope">Scope</th>
+            <th data-i18n="compare.col_relation">Relationship to IAES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ISO 55000</strong></td>
+            <td data-i18n="compare.iso55_scope">Asset management system</td>
+            <td data-i18n="compare.iso55_rel">IAES events feed ISO 55000 decision processes — the standard says <em>what</em> to manage, IAES carries the <em>signals</em>.</td>
+          </tr>
+          <tr>
+            <td><strong>AAS (I4.0)</strong></td>
+            <td data-i18n="compare.aas_scope">Digital twin shell</td>
+            <td data-i18n="compare.aas_rel">AAS describes asset <em>structure</em>. IAES describes asset <em>events</em>. They are complementary — events can flow into AAS submodels.</td>
+          </tr>
+          <tr>
+            <td><strong>CCOM / IDO</strong></td>
+            <td data-i18n="compare.ccom_scope">Equipment data ontology</td>
+            <td data-i18n="compare.ccom_rel">CCOM defines equipment <em>taxonomy</em>. IAES defines what <em>happens</em> to that equipment. IAES events can reference CCOM class IDs.</td>
+          </tr>
+          <tr>
+            <td><strong>OPC UA</strong></td>
+            <td data-i18n="compare.opcua_scope">Machine-to-machine protocol</td>
+            <td data-i18n="compare.opcua_rel">OPC UA moves raw data from PLCs. IAES carries <em>interpreted events</em> above that layer. An OPC UA subscriber can produce IAES events.</td>
+          </tr>
+          <tr>
+            <td><strong>ISA-95</strong></td>
+            <td data-i18n="compare.isa95_scope">Enterprise-control integration</td>
+            <td data-i18n="compare.isa95_rel">ISA-95 defines <em>levels</em> (L0–L4). IAES events flow across those levels — from shop-floor intelligence to enterprise systems.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout" style="margin-top:32px;text-align:center;max-width:700px;margin-left:auto;margin-right:auto">
+      <p data-i18n="compare.summary"><strong>IAES fills a specific gap:</strong> a minimal, vendor-neutral event vocabulary for industrial assets. Existing standards define structure, taxonomy, protocols, and management frameworks. IAES defines the <em>events</em> — what happened, to which asset, with what severity.</p>
     </div>
   </div>
 </section>
