@@ -1670,48 +1670,57 @@
 
       <!-- Python -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python</h3>
+        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.0</span></h3>
         <div class="code-block">pip install iaes</div>
-        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> MeasurementEvent, Severity
+        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> Client, AssetMeasurement
 
-event = MeasurementEvent(
+client = Client(<span class="cs">"https://your-endpoint.com"</span>, api_key=<span class="cs">"key"</span>)
+
+event = AssetMeasurement(
     asset_id=<span class="cs">"MOTOR-001"</span>,
     measurement_type=<span class="cs">"vibration_velocity"</span>,
     value=<span class="cn">4.2</span>,
     unit=<span class="cs">"mm/s"</span>,
     source=<span class="cs">"acme.sensors"</span>,
 )
-wire = event.to_dict()</div>
+result = client.publish(event)</div>
         <p style="margin-top:12px;"><a href="https://pypi.org/project/iaes/" target="_blank" rel="noreferrer">PyPI &rarr;</a></p>
       </div>
 
       <!-- TypeScript -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript</h3>
+        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.0</span></h3>
         <div class="code-block">npm install @iaes/sdk</div>
-        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">import</span> { MeasurementEvent } <span class="ck">from</span> <span class="cs">"@iaes/sdk"</span>;
+        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">import</span> { IaesClient, AssetMeasurement } <span class="ck">from</span> <span class="cs">"@iaes/sdk"</span>;
 
-<span class="ck">const</span> event = <span class="ck">new</span> MeasurementEvent({
+<span class="ck">const</span> client = <span class="ck">new</span> IaesClient(<span class="cs">"https://your-endpoint.com"</span>, {
+  apiKey: <span class="cs">"key"</span>,
+});
+
+<span class="ck">const</span> event = <span class="ck">new</span> AssetMeasurement({
   asset_id: <span class="cs">"MOTOR-001"</span>,
   measurement_type: <span class="cs">"vibration_velocity"</span>,
   value: <span class="cn">4.2</span>,
   unit: <span class="cs">"mm/s"</span>,
   source: <span class="cs">"acme.sensors"</span>,
 });
-<span class="ck">const</span> wire = event.toJSON();</div>
+<span class="ck">const</span> result = <span class="ck">await</span> client.publish(event);</div>
         <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/@iaes/sdk" target="_blank" rel="noreferrer">npm &rarr;</a></p>
       </div>
 
       <!-- Node-RED -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED</h3>
+        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.0</span></h3>
         <div class="code-block">npm install node-red-contrib-iaes</div>
-        <p style="margin-top:14px;" data-i18n="install.nodered_desc">4 visual nodes for industrial flows. Drag, drop, and wire MQTT sensor data into standardized IAES events &mdash; then route to any enterprise system.</p>
+        <p style="margin-top:14px;" data-i18n="install.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
         <div class="eco-pills" style="margin-top:12px;">
           <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">iaes measurement</span>
           <span class="eco-pill" style="border-color:rgba(231,76,60,0.3);color:var(--critical);">iaes health</span>
           <span class="eco-pill" style="border-color:rgba(243,156,18,0.3);color:var(--warning);">iaes work order</span>
           <span class="eco-pill" style="border-color:rgba(39,174,96,0.3);color:var(--good);">iaes validate</span>
+          <span class="eco-pill" style="border-color:rgba(245,158,11,0.3);color:#f59e0b;">iaes sparkplug</span>
+          <span class="eco-pill" style="border-color:rgba(139,92,246,0.3);color:#8b5cf6;">iaes publish</span>
+          <span class="eco-pill" style="border-color:rgba(99,102,241,0.3);color:#6366f1;">iaes route</span>
         </div>
         <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/node-red-contrib-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
       </div>

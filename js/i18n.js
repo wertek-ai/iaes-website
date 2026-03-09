@@ -148,7 +148,7 @@ const iaesTranslations = {
     // Install
     "install.title": "Install",
     "install.subtitle": "IAES ships SDKs for Python, TypeScript, and Node-RED. Zero required dependencies. Install and start emitting events in minutes.",
-    "install.nodered_desc": "4 visual nodes for industrial flows. Drag, drop, and wire MQTT sensor data into standardized IAES events — then route to any enterprise system.",
+    "install.nodered_desc": "7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.",
     "install.note": "Cross-language compatible — Python and TypeScript produce identical content_hash for the same event. Validate with shared JSON schemas.",
     // Standards Alignment (combined section)
     "standards.title": "Standards Alignment",
@@ -423,7 +423,7 @@ const iaesTranslations = {
     "envelope.field_data": "Payload espec\u00edfico del tipo de evento",
     "install.title": "Instalar",
     "install.subtitle": "IAES incluye SDKs para Python, TypeScript y Node-RED. Cero dependencias requeridas. Instala y comienza a emitir eventos en minutos.",
-    "install.nodered_desc": "4 nodos visuales para flujos industriales. Arrastra, suelta y conecta datos de sensores MQTT en eventos IAES estandarizados \u2014 luego enr\u00fatalos a cualquier sistema empresarial.",
+    "install.nodered_desc": "7 nodos visuales para flujos industriales. Crea, valida, enruta, publica y conecta datos Sparkplug B en eventos IAES estandarizados.",
     "install.note": "Compatible entre lenguajes \u2014 Python y TypeScript producen content_hash id\u00e9ntico para el mismo evento. Valida con esquemas JSON compartidos.",
     "standards.title": "Alineación con Estándares",
     "standards.subtitle": "IAES no reemplaza estándares existentes — habla su lenguaje en forma de eventos.",
@@ -692,7 +692,7 @@ const iaesTranslations = {
     "envelope.field_data": "Payload espec\u00edfico do tipo de evento",
     "install.title": "Instalar",
     "install.subtitle": "IAES inclui SDKs para Python, TypeScript e Node-RED. Zero depend\u00eancias obrigat\u00f3rias. Instale e comece a emitir eventos em minutos.",
-    "install.nodered_desc": "4 n\u00f3s visuais para fluxos industriais. Arraste, solte e conecte dados de sensores MQTT em eventos IAES padronizados \u2014 depois roteie para qualquer sistema empresarial.",
+    "install.nodered_desc": "7 n\u00f3s visuais para fluxos industriais. Crie, valide, roteie, publique e conecte dados Sparkplug B em eventos IAES padronizados.",
     "install.note": "Compat\u00edvel entre linguagens \u2014 Python e TypeScript produzem content_hash id\u00eantico para o mesmo evento. Valide com esquemas JSON compartilhados.",
     "standards.title": "Alinhamento com Padrões",
     "standards.subtitle": "IAES não substitui padrões existentes — fala a linguagem deles em forma de eventos.",
@@ -899,7 +899,7 @@ const iaesTranslations = {
     "envelope.field_data": "Payload sp\u00e9cifique au type d'\u00e9v\u00e9nement",
     "install.title": "Installer",
     "install.subtitle": "IAES fournit des SDKs pour Python, TypeScript et Node-RED. Z\u00e9ro d\u00e9pendance requise. Installez et commencez \u00e0 \u00e9mettre des \u00e9v\u00e9nements en quelques minutes.",
-    "install.nodered_desc": "4 n\u0153uds visuels pour les flux industriels. Glissez, d\u00e9posez et connectez les donn\u00e9es de capteurs MQTT en \u00e9v\u00e9nements IAES standardis\u00e9s \u2014 puis routez vers n'importe quel syst\u00e8me d'entreprise.",
+    "install.nodered_desc": "7 n\u0153uds visuels pour les flux industriels. Cr\u00e9ez, validez, routez, publiez et connectez les donn\u00e9es Sparkplug B en \u00e9v\u00e9nements IAES standardis\u00e9s.",
     "install.note": "Compatible entre langages \u2014 Python et TypeScript produisent un content_hash identique pour le m\u00eame \u00e9v\u00e9nement. Validez avec les sch\u00e9mas JSON partag\u00e9s.",
     "iso.title": "Align\u00e9 ISO",
     "iso.subtitle": "IAES v1.2 s'aligne sur trois normes ISO pour la surveillance d'\u00e9tat et la classification des d\u00e9faillances. Tous les champs ISO sont optionnels \u2014 compatibilit\u00e9 totale avec v1.0 et v1.1.",
@@ -1159,7 +1159,7 @@ const iaesTranslations = {
     "envelope.field_data": "Event-typ-spezifischer Payload",
     "install.title": "Installieren",
     "install.subtitle": "IAES liefert SDKs f\u00fcr Python, TypeScript und Node-RED. Keine Abh\u00e4ngigkeiten erforderlich. Installieren und in Minuten Events emittieren.",
-    "install.nodered_desc": "4 visuelle Knoten f\u00fcr industrielle Abl\u00e4ufe. Ziehen, ablegen und MQTT-Sensordaten zu standardisierten IAES-Events verdrahten \u2014 dann an jedes Unternehmenssystem weiterleiten.",
+    "install.nodered_desc": "7 visuelle Knoten f\u00fcr industrielle Abl\u00e4ufe. Erstellen, validieren, routen, ver\u00f6ffentlichen und Sparkplug B-Sensordaten in standardisierte IAES-Events \u00fcberf\u00fchren.",
     "install.note": "Sprach\u00fcbergreifend kompatibel \u2014 Python und TypeScript erzeugen identische content_hash f\u00fcr dasselbe Event. Validierung mit gemeinsamen JSON-Schemas.",
     "iso.title": "ISO-ausgerichtet",
     "iso.subtitle": "IAES v1.2 richtet sich an drei ISO-Normen f\u00fcr Zustands\u00fcberwachung und Fehlerklassifikation aus. Alle ISO-Felder sind optional \u2014 volle R\u00fcckw\u00e4rtskompatibilit\u00e4t mit v1.0 und v1.1.",
@@ -1418,7 +1418,7 @@ const iaesTranslations = {
     "envelope.field_data": "Payload specifico del tipo di evento",
     "install.title": "Installa",
     "install.subtitle": "IAES fornisce SDK per Python, TypeScript e Node-RED. Zero dipendenze richieste. Installa e inizia a emettere eventi in pochi minuti.",
-    "install.nodered_desc": "4 nodi visuali per flussi industriali. Trascina, rilascia e collega dati sensori MQTT in eventi IAES standardizzati \u2014 poi instradali verso qualsiasi sistema aziendale.",
+    "install.nodered_desc": "7 nodi visuali per flussi industriali. Crea, valida, instrada, pubblica e collega dati Sparkplug B in eventi IAES standardizzati.",
     "install.note": "Compatibile tra linguaggi \u2014 Python e TypeScript producono content_hash identico per lo stesso evento. Valida con schemi JSON condivisi.",
     "iso.title": "Allineato ISO",
     "iso.subtitle": "IAES v1.2 si allinea a tre standard ISO per il monitoraggio delle condizioni e la classificazione dei guasti. Tutti i campi ISO sono opzionali \u2014 piena retrocompatibilit\u00e0 con v1.0 e v1.1.",
@@ -1677,7 +1677,7 @@ const iaesTranslations = {
     "envelope.field_data": "\uc774\ubca4\ud2b8 \uc720\ud615\ubcc4 \ud398\uc774\ub85c\ub4dc",
     "install.title": "\uc124\uce58",
     "install.subtitle": "IAES\ub294 Python, TypeScript \ubc0f Node-RED\uc6a9 SDK\ub97c \uc81c\uacf5\ud569\ub2c8\ub2e4. \ud544\uc218 \uc885\uc18d\uc131 \uc5c6\uc74c. \uc124\uce58\ud558\uace0 \uba87 \ubd84 \ub0b4\uc5d0 \uc774\ubca4\ud2b8 \ubc1c\ud589\uc744 \uc2dc\uc791\ud558\uc138\uc694.",
-    "install.nodered_desc": "\uc0b0\uc5c5 \ud750\ub984\uc744 \uc704\ud55c 4\uac1c\uc758 \uc2dc\uac01\uc801 \ub178\ub4dc. MQTT \uc13c\uc11c \ub370\uc774\ud130\ub97c \ud45c\uc900\ud654\ub41c IAES \uc774\ubca4\ud2b8\ub85c \ub4dc\ub798\uadf8, \ub4dc\ub86d, \uc5f0\uacb0\ud55c \ud6c4 \ubaa8\ub4e0 \uc5d4\ud130\ud504\ub77c\uc774\uc988 \uc2dc\uc2a4\ud15c\uc73c\ub85c \ub77c\uc6b0\ud305\ud569\ub2c8\ub2e4.",
+    "install.nodered_desc": "\uc0b0\uc5c5 \ud750\ub984\uc744 \uc704\ud55c 7\uac1c\uc758 \uc2dc\uac01\uc801 \ub178\ub4dc. Sparkplug B \uc13c\uc11c \ub370\uc774\ud130\ub97c \ud45c\uc900\ud654\ub41c IAES \uc774\ubca4\ud2b8\ub85c \uc0dd\uc131, \uac80\uc99d, \ub77c\uc6b0\ud305, \ubc1c\ud589 \ubc0f \ube0c\ub9ac\uc9c0\ud569\ub2c8\ub2e4.",
     "install.note": "\uad50\ucc28 \uc5b8\uc5b4 \ud638\ud658 \u2014 Python\uacfc TypeScript\ub294 \ub3d9\uc77c\ud55c \uc774\ubca4\ud2b8\uc5d0 \ub300\ud574 \ub3d9\uc77c\ud55c content_hash\ub97c \uc0dd\uc131\ud569\ub2c8\ub2e4. \uacf5\uc720 JSON \uc2a4\ud0a4\ub9c8\ub85c \uac80\uc99d\ud558\uc138\uc694.",
     "iso.title": "ISO \uc815\ub82c",
     "iso.subtitle": "IAES v1.2\ub294 \uc0c1\ud0dc \ubaa8\ub2c8\ud130\ub9c1 \ubc0f \uacb0\ud568 \ubd84\ub958\ub97c \uc704\ud55c \uc138 \uac00\uc9c0 ISO \ud45c\uc900\uc5d0 \ub9de\ucdb0\uc838 \uc788\uc2b5\ub2c8\ub2e4. \ubaa8\ub4e0 ISO \ud544\ub4dc\ub294 \uc120\ud0dd \uc0ac\ud56d\uc774\uba70 v1.0 \ubc0f v1.1\uacfc \uc644\uc804\ud55c \ud558\uc704 \ud638\ud658\uc131\uc744 \uc720\uc9c0\ud569\ub2c8\ub2e4.",
@@ -1988,7 +1988,7 @@ const iaesTranslations = {
     // Install
     "install.title": "Установка",
     "install.subtitle": "IAES поставляет SDK для Python, TypeScript и Node-RED. Без обязательных зависимостей. Установите и начните генерировать события за минуты.",
-    "install.nodered_desc": "4 визуальных узла для промышленных потоков. Перетащите и свяжите данные MQTT-датчиков в стандартизированные события IAES — затем направьте в любую корпоративную систему.",
+    "install.nodered_desc": "7 визуальных узлов для промышленных потоков. Создавайте, валидируйте, маршрутизируйте, публикуйте и соединяйте данные Sparkplug B в стандартизированные события IAES.",
     "install.note": "Кросс-языковая совместимость — Python и TypeScript генерируют идентичный content_hash для одного и того же события. Проверяйте с помощью общих JSON-схем.",
     // Standards
     "standards.title": "Соответствие стандартам",
@@ -2249,7 +2249,7 @@ const iaesTranslations = {
     // Install
     "install.title": "安装",
     "install.subtitle": "IAES 提供 Python、TypeScript 和 Node-RED 的 SDK。零必需依赖。安装后即可在几分钟内开始发送事件。",
-    "install.nodered_desc": "4 个用于工业流程的可视化节点。拖放并连接 MQTT 传感器数据为标准化 IAES 事件——然后路由到任何企业系统。",
+    "install.nodered_desc": "7 个用于工业流程的可视化节点。创建、验证、路由、发布和桥接 Sparkplug B 传感器数据为标准化 IAES 事件。",
     "install.note": "跨语言兼容——Python 和 TypeScript 对相同事件生成相同的 content_hash。使用共享 JSON 模式验证。",
     // Standards
     "standards.title": "标准对齐",
@@ -2510,7 +2510,7 @@ const iaesTranslations = {
     // Install
     "install.title": "インストール",
     "install.subtitle": "IAES は Python、TypeScript、Node-RED 用の SDK を提供します。必須依存関係ゼロ。インストールして数分でイベント発行を開始できます。",
-    "install.nodered_desc": "産業フロー用の 4 つのビジュアルノード。MQTT センサーデータを標準化 IAES イベントにドラッグ＆ドロップで接続 — 任意のエンタープライズシステムにルーティング。",
+    "install.nodered_desc": "産業フロー用の 7 つのビジュアルノード。Sparkplug B センサーデータを標準化 IAES イベントに作成、検証、ルーティング、公開、ブリッジ。",
     "install.note": "クロス言語互換 — Python と TypeScript は同じイベントに対して同一の content_hash を生成。共有 JSON スキーマで検証。",
     // Standards
     "standards.title": "標準準拠",
@@ -2771,7 +2771,7 @@ const iaesTranslations = {
     // Install
     "install.title": "التثبيت",
     "install.subtitle": "IAES يوفر حزم SDK لـ Python وTypeScript وNode-RED. بدون تبعيات مطلوبة. ثبّت وابدأ بإرسال الأحداث في دقائق.",
-    "install.nodered_desc": "4 عُقد بصرية للتدفقات الصناعية. اسحب وأفلت وصِل بيانات مستشعرات MQTT إلى أحداث IAES معيارية — ثم وجّهها لأي نظام مؤسسي.",
+    "install.nodered_desc": "7 عُقد بصرية للتدفقات الصناعية. أنشئ وتحقق ووجّه وانشر واربط بيانات Sparkplug B في أحداث IAES معيارية.",
     "install.note": "متوافق بين اللغات — Python وTypeScript ينتجان content_hash متطابق لنفس الحدث. تحقق باستخدام مخططات JSON المشتركة.",
     // Standards
     "standards.title": "التوافق مع المعايير",
@@ -3032,7 +3032,7 @@ const iaesTranslations = {
     // Install
     "install.title": "इंस्टॉल",
     "install.subtitle": "IAES Python, TypeScript और Node-RED के लिए SDK प्रदान करता है। शून्य आवश्यक निर्भरताएँ। इंस्टॉल करें और मिनटों में इवेंट भेजना शुरू करें।",
-    "install.nodered_desc": "औद्योगिक प्रवाहों के लिए 4 विज़ुअल नोड। MQTT सेंसर डेटा को मानकीकृत IAES इवेंट में ड्रैग, ड्रॉप और वायर करें — फिर किसी भी एंटरप्राइज़ सिस्टम में रूट करें।",
+    "install.nodered_desc": "औद्योगिक प्रवाहों के लिए 7 विज़ुअल नोड। Sparkplug B सेंसर डेटा को मानकीकृत IAES इवेंट में बनाएं, मान्य करें, रूट करें, प्रकाशित करें और ब्रिज करें।",
     "install.note": "क्रॉस-भाषा संगत — Python और TypeScript एक ही इवेंट के लिए समान content_hash उत्पन्न करते हैं। साझा JSON स्कीमा से सत्यापित करें।",
     // Standards
     "standards.title": "मानक संरेखण",
@@ -3293,7 +3293,7 @@ const iaesTranslations = {
     // Install
     "install.title": "Instalacja",
     "install.subtitle": "IAES dostarcza SDK dla Python, TypeScript i Node-RED. Zero wymaganych zależności. Zainstaluj i zacznij emitować zdarzenia w minuty.",
-    "install.nodered_desc": "4 wizualne węzły dla przepływów przemysłowych. Przeciągnij, upuść i połącz dane czujników MQTT w standaryzowane zdarzenia IAES — następnie kieruj do dowolnego systemu korporacyjnego.",
+    "install.nodered_desc": "7 wizualnych węzłów dla przepływów przemysłowych. Twórz, waliduj, kieruj, publikuj i łącz dane Sparkplug B w standaryzowane zdarzenia IAES.",
     "install.note": "Kompatybilność międzyjęzykowa — Python i TypeScript produkują identyczny content_hash dla tego samego zdarzenia. Waliduj wspólnymi schematami JSON.",
     // Standards
     "standards.title": "Zgodność ze standardami",
@@ -3554,7 +3554,7 @@ const iaesTranslations = {
     // Install
     "install.title": "Kurulum",
     "install.subtitle": "IAES Python, TypeScript ve Node-RED için SDK'lar sunar. Sıfır gerekli bağımlılık. Kurun ve dakikalar içinde olay göndermeye başlayın.",
-    "install.nodered_desc": "Endüstriyel akışlar için 4 görsel düğüm. MQTT sensör verilerini sürükle, bırak ve standartlaştırılmış IAES olaylarına bağla — sonra herhangi bir kurumsal sisteme yönlendir.",
+    "install.nodered_desc": "Endüstriyel akışlar için 7 görsel düğüm. Sparkplug B sensör verilerini standartlaştırılmış IAES olaylarına oluşturun, doğrulayın, yönlendirin, yayınlayın ve köprüleyin.",
     "install.note": "Çapraz dil uyumlu — Python ve TypeScript aynı olay için aynı content_hash üretir. Paylaşılan JSON şemalarıyla doğrulayın.",
     // Standards
     "standards.title": "Standartlarla Uyum",
