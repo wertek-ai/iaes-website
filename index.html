@@ -211,6 +211,7 @@
       <a href="#envelope">Envelope</a>
       <a href="#ecosystem">Ecosystem</a>
       <a href="#iso">ISO</a>
+      <a href="#install">Install</a>
       <a href="#spec">Specification</a>
       <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
     </div>
@@ -566,6 +567,64 @@
   </div>
 </section>
 
+<!-- Install -->
+<section id="install">
+  <div class="w">
+    <div class="sh">
+      <h2>Install</h2>
+      <p>IAES ships SDKs for Python, TypeScript, and Node-RED. Zero required dependencies. Install and start emitting events in minutes.</p>
+    </div>
+    <div class="g3">
+      <div class="card">
+        <h3 style="display:flex;align-items:center;gap:8px;"><span style="color:var(--accent-3);">&#9679;</span> Python</h3>
+        <div class="code" style="margin:12px 0 10px;font-size:13px;">pip install iaes</div>
+        <div class="code" style="font-size:12px;"><span class="k">from</span> iaes <span class="k">import</span> AssetMeasurement
+
+event = AssetMeasurement(
+    asset_id=<span class="s">"MOTOR-001"</span>,
+    measurement_type=<span class="s">"vibration_velocity"</span>,
+    value=<span class="n">4.2</span>,
+    unit=<span class="s">"mm/s"</span>,
+    source=<span class="s">"acme.sensors"</span>,
+)
+wire = event.to_dict()  <span class="k"># IAES envelope</span></div>
+        <p style="margin-top:10px;"><a href="https://pypi.org/project/iaes/" target="_blank" rel="noreferrer">PyPI &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3 style="display:flex;align-items:center;gap:8px;"><span style="color:var(--accent);">&#9679;</span> TypeScript</h3>
+        <div class="code" style="margin:12px 0 10px;font-size:13px;">npm install @iaes/sdk</div>
+        <div class="code" style="font-size:12px;"><span class="k">import</span> { AssetMeasurement } <span class="k">from</span> <span class="s">"@iaes/sdk"</span>;
+
+<span class="k">const</span> event = <span class="k">new</span> AssetMeasurement({
+  asset_id: <span class="s">"MOTOR-001"</span>,
+  measurement_type: <span class="s">"vibration_velocity"</span>,
+  value: <span class="n">4.2</span>,
+  unit: <span class="s">"mm/s"</span>,
+  source: <span class="s">"acme.sensors"</span>,
+});
+<span class="k">const</span> wire = event.toJSON();</div>
+        <p style="margin-top:10px;"><a href="https://www.npmjs.com/package/@iaes/sdk" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3 style="display:flex;align-items:center;gap:8px;"><span style="color:var(--accent-2);">&#9679;</span> Node-RED</h3>
+        <div class="code" style="margin:12px 0 10px;font-size:13px;">npm install node-red-contrib-iaes</div>
+        <p style="margin-top:12px;">4 visual nodes for industrial flows:</p>
+        <div class="pills" style="margin-top:8px;">
+          <span class="pill" style="border-color:rgba(37,99,235,0.4);color:#60a5fa;">iaes measurement</span>
+          <span class="pill" style="border-color:rgba(220,38,38,0.4);color:#f87171;">iaes health</span>
+          <span class="pill" style="border-color:rgba(245,158,11,0.4);color:#fbbf24;">iaes work order</span>
+          <span class="pill" style="border-color:rgba(22,163,74,0.4);color:#4ade80;">iaes validate</span>
+        </div>
+        <p style="margin-top:10px;color:var(--muted);font-size:13px;">Drag, drop, wire. Sensor MQTT &rarr; IAES event &rarr; enterprise system.</p>
+        <p style="margin-top:10px;"><a href="https://www.npmjs.com/package/node-red-contrib-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;text-align:center;padding:16px;">
+      <p style="color:var(--muted);font-size:14px;">Cross-language compatible &mdash; Python and TypeScript produce identical <code style="font-family:var(--font-mono);font-size:12px;background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;">content_hash</code> for the same event. Validate with shared JSON schemas.</p>
+    </div>
+  </div>
+</section>
+
 <!-- Spec -->
 <section id="spec">
   <div class="w">
@@ -573,7 +632,7 @@
       <h2>Open specification</h2>
       <p>IAES is an open technical specification designed to enable interoperability across industrial maintenance systems and vendors.</p>
     </div>
-    <div class="g3">
+    <div class="g2">
       <div class="card">
         <h3>Specification</h3>
         <p>Full documentation describing the event model, semantics, and implementation guidance.</p>
@@ -588,6 +647,11 @@
         <h3>Examples</h3>
         <p>Real event examples for measurements, health diagnostics, and work order intent flows.</p>
         <p style="margin-top:12px;"><a href="/examples/">View examples &rarr;</a></p>
+      </div>
+      <div class="card">
+        <h3>SDKs</h3>
+        <p>Python, TypeScript, and Node-RED packages — ready to install from PyPI and npm.</p>
+        <p style="margin-top:12px;"><a href="#install">Install SDKs &rarr;</a></p>
       </div>
     </div>
   </div>
