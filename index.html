@@ -294,12 +294,14 @@
 
     /* ── Problem Section — Isolated Systems ── */
     .silos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 12px;
       margin-bottom: 32px;
     }
     .silo-box {
+      width: 130px;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: var(--radius);
@@ -1054,7 +1056,7 @@
       .hero h1 { font-size: 2rem; }
       .hero-subtitle { font-size: 1rem; }
       .grid-2, .grid-3, .envelope-grid { grid-template-columns: 1fr; }
-      .silos-grid { grid-template-columns: repeat(4, 1fr); }
+      .silo-box { width: 110px; }
       .is-isnot-grid { grid-template-columns: 1fr; }
       .inequality-row { flex-direction: column; align-items: center; }
       .inequality-neq { transform: rotate(90deg); padding: 4px 0; }
