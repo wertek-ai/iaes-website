@@ -292,97 +292,316 @@
       gap: 20px;
     }
 
-    /* ── Problem Section ── */
-    .problem-columns {
+    /* ── Problem Section — Isolated Systems ── */
+    .silos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .silo-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--silver);
+    }
+    .silo-box .silo-icon {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 6px;
+      font-family: var(--font-body);
+    }
+    .inequality-row {
+      display: flex;
+      align-items: stretch;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .inequality-item {
+      flex: 1;
+      min-width: 200px;
+      max-width: 320px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 20px;
+    }
+    .inequality-item .iq-system {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--slate);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .inequality-item .iq-event {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--cyan-light);
+      margin-bottom: 8px;
+    }
+    .inequality-item .iq-desc {
+      font-size: 13px;
+      color: var(--slate);
+      line-height: 1.5;
+    }
+    .inequality-neq {
+      display: flex;
+      align-items: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--critical);
+      flex: 0 0 auto;
+      padding: 0 4px;
+    }
+    .inequality-result {
+      text-align: center;
+      margin-top: 32px;
+      padding: 20px;
+      border-radius: var(--radius-card);
+      background: rgba(231,76,60,0.06);
+      border: 1px solid rgba(231,76,60,0.15);
+    }
+    .inequality-result strong {
+      color: var(--critical);
+      font-size: 1.1rem;
+    }
+    .inequality-result p {
+      color: var(--slate);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .each-uses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+      margin-bottom: 24px;
+    }
+    .each-uses-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      color: var(--slate);
+      font-size: 14px;
+    }
+    .each-uses-item strong {
+      color: var(--silver);
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    /* ── Architecture Section ── */
+    .arch-diagram {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .arch-sources {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 0;
+    }
+    .arch-source {
+      background: var(--white);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 14px 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--steel);
+    }
+    .arch-arrows-down {
+      text-align: center;
+      padding: 8px 0;
+      color: var(--slate);
+      font-size: 16px;
+      letter-spacing: 24px;
+    }
+    .arch-bus {
+      background: var(--cyan);
+      color: var(--white);
+      border-radius: var(--radius-card);
+      padding: 20px 24px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 24px rgba(14,165,233,0.3);
+      margin: 4px 0;
+    }
+    .arch-bus small {
+      display: block;
+      font-weight: 400;
+      font-size: 13px;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+    .arch-events {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 8px;
+      margin: 12px 0 4px;
+    }
+    .arch-event-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      background: var(--cloud);
+      color: var(--cyan-dark);
+      text-align: center;
+      font-weight: 500;
+    }
+    .arch-destinations {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 0;
+    }
+    .arch-dest {
+      background: var(--white);
+      border: 1px solid var(--cloud);
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 14px 12px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--good);
+    }
+
+    /* ── Implementation Flow Section ── */
+    .impl-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .impl-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .impl-step-num {
+      flex: 0 0 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .impl-step-content h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .impl-step-content p {
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .impl-step-content .code-block {
+      margin-top: 12px;
+      font-size: 11px;
+      padding: 16px;
+    }
+    .impl-destinations {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .impl-dest-pill {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--cloud);
+      color: var(--good);
+    }
+
+    /* ── Producer Section ── */
+    .producer-diagram {
+      max-width: 700px;
+      margin: 32px auto 0;
+    }
+    .producer-layer {
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      gap: 24px;
+      gap: 16px;
       align-items: center;
+      margin-bottom: 16px;
     }
-    .problem-connector {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: var(--slate);
-    }
-    .problem-connector-line {
-      width: 2px;
-      height: 40px;
-      background: var(--silver);
-    }
-    .problem-connector-gap {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--critical);
-      background: rgba(231,76,60,0.08);
-      border: 1px solid rgba(231,76,60,0.2);
-      padding: 6px 16px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-    .source-list, .dest-list {
-      padding: 0;
-    }
-    .source-list li, .dest-list li {
-      padding: 8px 0;
-      color: var(--steel);
-      font-size: 14px;
-      border-bottom: 1px solid var(--cloud);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .source-list li:last-child, .dest-list li:last-child { border-bottom: none; }
-    .list-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .list-dot-source { background: var(--cyan); }
-    .list-dot-dest { background: var(--good); }
-
-    /* ── Flow Diagram ── */
-    .flow-diagram {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      overflow-x: auto;
-      padding: 24px 0;
-    }
-    .flow-node {
-      flex: 1;
-      min-width: 160px;
-      padding: 20px 16px;
-      border: 1px solid var(--cloud);
-      border-radius: var(--radius-card);
-      background: var(--white);
+    .producer-raw {
+      background: var(--cloud);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius);
+      padding: 16px;
       text-align: center;
     }
-    .flow-node strong {
-      display: block;
+    .producer-raw h4 {
       font-size: 14px;
-      font-weight: 600;
       margin-bottom: 4px;
-      color: var(--charcoal);
-    }
-    .flow-node span {
       color: var(--steel);
+    }
+    .producer-raw p {
+      font-family: var(--font-mono);
       font-size: 12px;
-    }
-    .flow-node-core {
-      border-color: var(--cyan);
-      background: rgba(14,165,233,0.04);
-      box-shadow: 0 0 0 3px rgba(14,165,233,0.08);
-    }
-    .flow-node-core strong { color: var(--cyan-dark); }
-    .flow-arrow {
-      flex: 0 0 48px;
-      text-align: center;
       color: var(--slate);
-      font-size: 20px;
-      line-height: 1;
+    }
+    .producer-transform {
+      text-align: center;
+      color: var(--cyan);
+      font-size: 24px;
+    }
+    .producer-event {
+      background: rgba(14,165,233,0.06);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius: var(--radius);
+      padding: 16px;
+      text-align: center;
+    }
+    .producer-event h4 {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--cyan-dark);
+    }
+    .producer-event p {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--steel);
+    }
+    .producer-callout {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: var(--cloud);
+      border-radius: var(--radius-card);
+      border-left: 4px solid var(--cyan);
+    }
+    .producer-callout strong {
+      color: var(--charcoal);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .producer-callout p {
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.6;
     }
 
     /* ── Event Cards ── */
@@ -673,21 +892,12 @@
       .hero h1 { font-size: 2rem; }
       .hero-subtitle { font-size: 1rem; }
       .grid-2, .grid-3, .envelope-grid { grid-template-columns: 1fr; }
-      .problem-columns { grid-template-columns: 1fr; }
-      .problem-connector {
-        flex-direction: row;
-        justify-content: center;
-      }
-      .problem-connector-line {
-        width: 40px;
-        height: 2px;
-      }
-      .flow-diagram { flex-direction: column; gap: 0; align-items: stretch; }
-      .flow-node { min-width: auto; }
-      .flow-arrow {
-        flex: 0 0 32px;
-        transform: rotate(90deg);
-      }
+      .silos-grid { grid-template-columns: repeat(4, 1fr); }
+      .inequality-row { flex-direction: column; align-items: center; }
+      .inequality-neq { transform: rotate(90deg); padding: 4px 0; }
+      .inequality-item { max-width: 100%; }
+      .arch-sources, .arch-destinations { grid-template-columns: repeat(3, 1fr); }
+      .impl-steps { grid-template-columns: 1fr; }
       section { padding: 48px 0; }
       .container { padding: 0 16px; }
       .code-block { font-size: 11px; padding: 16px; }
@@ -762,78 +972,230 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     PROBLEM
+     THE REAL PROBLEM
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="problem">
+<section class="section-dark" id="problem">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="problem.title">Industrial systems don't speak the same language</h2>
-      <p data-i18n="problem.subtitle">Maintenance data flows through dozens of incompatible systems. Each uses its own model, schema, API, and semantics &mdash; making it nearly impossible to turn observations into coordinated operational action.</p>
+      <h2 data-i18n="problem.title">Industrial systems cannot share asset events</h2>
+      <p data-i18n="problem.subtitle">In every industrial plant, critical systems operate in isolation. Each one generates events about the same assets &mdash; but in completely different formats, APIs, and semantics.</p>
     </div>
-    <div class="problem-columns">
-      <div class="card">
-        <h3 data-i18n="problem.sources_title">Data Sources</h3>
-        <ul class="source-list">
-          <li><span class="list-dot list-dot-source"></span> <span data-i18n="problem.source_1">Vibration, temperature, and pressure sensors</span></li>
-          <li><span class="list-dot list-dot-source"></span> <span data-i18n="problem.source_2">Video and acoustic diagnostic systems</span></li>
-          <li><span class="list-dot list-dot-source"></span> <span data-i18n="problem.source_3">SCADA, PLC, and historian infrastructure</span></li>
-          <li><span class="list-dot list-dot-source"></span> <span data-i18n="problem.source_4">Inspection apps and technician inputs</span></li>
-          <li><span class="list-dot list-dot-source"></span> <span data-i18n="problem.source_5">AI models, rule engines, and expert analysis</span></li>
-        </ul>
+
+    <!-- Isolated Systems Grid -->
+    <div class="silos-grid">
+      <div class="silo-box"><span class="silo-icon">&#9881;</span>SCADA</div>
+      <div class="silo-box"><span class="silo-icon">&#9879;</span>PLC</div>
+      <div class="silo-box"><span class="silo-icon">&#128295;</span>CMMS</div>
+      <div class="silo-box"><span class="silo-icon">&#128202;</span>Historian</div>
+      <div class="silo-box"><span class="silo-icon">&#129302;</span>AI Engine</div>
+      <div class="silo-box"><span class="silo-icon">&#9889;</span>Energy</div>
+      <div class="silo-box"><span class="silo-icon">&#128225;</span>IoT Sensors</div>
+      <div class="silo-box"><span class="silo-icon">&#128188;</span>ERP</div>
+    </div>
+
+    <div class="each-uses">
+      <div class="each-uses-item"><strong data-i18n="problem.each_formats">Different formats</strong>JSON, XML, OPC UA, Modbus, CSV, proprietary</div>
+      <div class="each-uses-item"><strong data-i18n="problem.each_apis">Different APIs</strong>REST, SOAP, MQTT, gRPC, file drops</div>
+      <div class="each-uses-item"><strong data-i18n="problem.each_semantics">Different semantics</strong><span data-i18n="problem.each_semantics_desc">"alarm" &ne; "alert" &ne; "event" &ne; "notification"</span></div>
+    </div>
+
+    <!-- The ≠ visualization -->
+    <div class="inequality-row">
+      <div class="inequality-item">
+        <div class="iq-system">SCADA</div>
+        <div class="iq-event">alarm_high_vibration</div>
+        <div class="iq-desc" data-i18n="problem.iq_scada">A register change in a PLC tag. No context, no asset identity, no severity model.</div>
       </div>
-      <div class="problem-connector">
-        <div class="problem-connector-line"></div>
-        <div class="problem-connector-gap" data-i18n="problem.gap">Incompatible</div>
-        <div class="problem-connector-line"></div>
+      <div class="inequality-neq">&ne;</div>
+      <div class="inequality-item">
+        <div class="iq-system">SAP PM</div>
+        <div class="iq-event">TECO notification</div>
+        <div class="iq-desc" data-i18n="problem.iq_sap">A work order closed in a transactional system. Different schema, different lifecycle.</div>
       </div>
-      <div class="card">
-        <h3 data-i18n="problem.destinations_title">Destinations</h3>
-        <ul class="dest-list">
-          <li><span class="list-dot list-dot-dest"></span> <span data-i18n="problem.dest_1">CMMS and EAM platforms (SAP, Odoo, MaintainX)</span></li>
-          <li><span class="list-dot list-dot-dest"></span> <span data-i18n="problem.dest_2">Historians and data hubs (PI System, AVEVA)</span></li>
-          <li><span class="list-dot list-dot-dest"></span> <span data-i18n="problem.dest_3">Dashboards and BI tools (Grafana, Power BI)</span></li>
-          <li><span class="list-dot list-dot-dest"></span> <span data-i18n="problem.dest_4">Digital twin and reliability platforms</span></li>
-          <li><span class="list-dot list-dot-dest"></span> <span data-i18n="problem.dest_5">Maintenance planning and scheduling systems</span></li>
-        </ul>
+      <div class="inequality-neq">&ne;</div>
+      <div class="inequality-item">
+        <div class="iq-system">AI Engine</div>
+        <div class="iq-event">bearing_fault_predicted</div>
+        <div class="iq-desc" data-i18n="problem.iq_ai">A probabilistic diagnosis with confidence score, RUL, and recommended action. Incompatible with both.</div>
+      </div>
+    </div>
+
+    <div class="inequality-result">
+      <strong data-i18n="problem.result_title">Same asset. Same event. Three incompatible representations.</strong>
+      <p data-i18n="problem.result_desc">There is no common language for asset events in industry. IAES provides one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ARCHITECTURE
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="arch.title">Architecture</h2>
+      <p data-i18n="arch.subtitle">Edge systems and intelligence layers produce IAES events. Any application can consume them.</p>
+    </div>
+    <div class="arch-diagram">
+      <!-- Sources -->
+      <div class="arch-sources">
+        <div class="arch-source">PLC / SCADA</div>
+        <div class="arch-source">AI Engine</div>
+        <div class="arch-source">IoT Sensors</div>
+        <div class="arch-source">Energy Meters</div>
+        <div class="arch-source">Inspection Apps</div>
+        <div class="arch-source">Rule Engine</div>
+      </div>
+      <div class="arch-arrows-down">&darr; &darr; &darr; &darr; &darr; &darr;</div>
+
+      <!-- IAES Bus -->
+      <div class="arch-bus">
+        IAES EVENT BUS
+        <small data-i18n="arch.bus_desc">Standardized event envelope &mdash; vendor-neutral, self-describing, traceable</small>
+      </div>
+
+      <!-- Example Events -->
+      <div class="arch-events">
+        <div class="arch-event-pill">vibration.anomaly</div>
+        <div class="arch-event-pill">energy.power_factor.low</div>
+        <div class="arch-event-pill">asset.failure.predicted</div>
+        <div class="arch-event-pill">temperature.overheat</div>
+        <div class="arch-event-pill">maintenance.work_order.created</div>
+        <div class="arch-event-pill">asset.health.critical</div>
+      </div>
+
+      <div class="arch-arrows-down">&darr; &darr; &darr; &darr; &darr; &darr;</div>
+
+      <!-- Destinations -->
+      <div class="arch-destinations">
+        <div class="arch-dest">SAP PM</div>
+        <div class="arch-dest">CMMS</div>
+        <div class="arch-dest">Historian</div>
+        <div class="arch-dest">Grafana</div>
+        <div class="arch-dest">Digital Twin</div>
+        <div class="arch-dest">AI Pipeline</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     SOLUTION / HOW IT WORKS
+     HOW IT WORKS — REAL IMPLEMENTATION FLOW
      ════════════════════════════════════════════════════════════════════════════ -->
-<section id="solution">
+<section class="section-light" id="how-it-works">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="solution.title">One standard. Every system.</h2>
-      <p data-i18n="solution.subtitle">Instead of building custom integrations between every pair of systems, producers emit IAES events and consumers map them to their native format. One neutral event layer connects the entire stack.</p>
+      <h2 data-i18n="how.title">How It Works</h2>
+      <p data-i18n="how.subtitle">PLCs and sensors don't know IAES exists. The intelligence layer &mdash; AI models, rule engines, gateways &mdash; translates raw signals into standardized events.</p>
     </div>
-    <div class="flow-diagram">
-      <div class="flow-node">
-        <strong data-i18n="solution.node_signals">Signals</strong>
-        <span data-i18n="solution.node_signals_desc">Sensors, video, SCADA</span>
+    <div class="impl-steps">
+      <!-- Left: Steps -->
+      <div>
+        <div class="impl-step">
+          <div class="impl-step-num">1</div>
+          <div class="impl-step-content">
+            <h4 data-i18n="how.step1_title">Edge system detects a condition</h4>
+            <p data-i18n="how.step1_desc">A vibration sensor reads 12.4 mm/s on compressor C-12. An energy meter detects power factor dropping to 0.87. A thermal camera sees 94°C on a bearing housing.</p>
+          </div>
+        </div>
+        <div class="impl-step">
+          <div class="impl-step-num">2</div>
+          <div class="impl-step-content">
+            <h4 data-i18n="how.step2_title">Intelligence layer generates an IAES event</h4>
+            <p data-i18n="how.step2_desc">An AI model, rule engine, or gateway interprets the raw data and emits a standardized IAES event with asset identity, severity, and recommended action.</p>
+          </div>
+        </div>
+        <div class="impl-step">
+          <div class="impl-step-num">3</div>
+          <div class="impl-step-content">
+            <h4 data-i18n="how.step3_title">Event is consumed by any system</h4>
+            <p data-i18n="how.step3_desc">The same event can simultaneously create a work order in SAP, trigger an alert in Grafana, update a digital twin, and feed an AI model for trending.</p>
+            <div class="impl-destinations">
+              <span class="impl-dest-pill">SAP PM</span>
+              <span class="impl-dest-pill">MaintainX</span>
+              <span class="impl-dest-pill">Grafana</span>
+              <span class="impl-dest-pill">AI Engine</span>
+              <span class="impl-dest-pill">Historian</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node">
-        <strong data-i18n="solution.node_intelligence">Intelligence</strong>
-        <span data-i18n="solution.node_intelligence_desc">AI, rules, human experts</span>
+      <!-- Right: Real JSON example -->
+      <div>
+        <div class="code-block" style="font-size:12px;">{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"a9e3c4b2-..."</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-09T14:30:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"acme.ai.vibration"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"COMPRESSOR-12"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Air Compressor C-12"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Pesqueria"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Utilities"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"severity"</span>: <span class="cs">"warning"</span>,
+    <span class="ck">"health_index"</span>: <span class="cn">0.42</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_wear"</span>,
+    <span class="ck">"rul_days"</span>: <span class="cn">21</span>,
+    <span class="ck">"recommended_action"</span>:
+      <span class="cs">"Schedule bearing replacement"</span>,
+    <span class="ck">"iso_13374_status"</span>: <span class="cs">"unsatisfactory"</span>
+  }
+}</div>
+        <div class="producer-callout" style="margin-top:16px;">
+          <strong data-i18n="how.key_insight">Key insight</strong>
+          <p data-i18n="how.key_insight_desc">The PLC doesn't know IAES exists. The AI engine reads raw vibration data, interprets it, and emits an IAES event. IAES is the language of the intelligence layer &mdash; not the device layer.</p>
+        </div>
       </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node flow-node-core">
-        <strong>IAES Standard</strong>
-        <span data-i18n="solution.node_standard_desc">Neutral event envelope</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     EVENT LANGUAGE — The Ontology
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="event-language">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="ontology.title">An Event Language for Industrial Assets</h2>
+      <p data-i18n="ontology.subtitle">IAES is more than an integration format. It is an event ontology &mdash; a common vocabulary that names everything that happens to an industrial asset.</p>
+    </div>
+    <div class="grid-3" style="margin-bottom:24px;">
+      <div class="card card-dark">
+        <h3 style="color:var(--cyan-light);" data-i18n="ontology.condition">Condition Monitoring</h3>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
+          <span class="arch-event-pill" style="text-align:left;">vibration.anomaly</span>
+          <span class="arch-event-pill" style="text-align:left;">temperature.overheat</span>
+          <span class="arch-event-pill" style="text-align:left;">pressure.out_of_range</span>
+          <span class="arch-event-pill" style="text-align:left;">acoustic.ultrasound.leak</span>
+          <span class="arch-event-pill" style="text-align:left;">current.signature.fault</span>
+        </div>
       </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node">
-        <strong data-i18n="solution.node_connectors">Connectors</strong>
-        <span data-i18n="solution.node_connectors_desc">Map, sync, retry, audit</span>
+      <div class="card card-dark">
+        <h3 style="color:var(--cyan-light);" data-i18n="ontology.energy">Energy &amp; Power Quality</h3>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
+          <span class="arch-event-pill" style="text-align:left;">energy.power_factor.low</span>
+          <span class="arch-event-pill" style="text-align:left;">energy.voltage.sag</span>
+          <span class="arch-event-pill" style="text-align:left;">energy.thd.exceeded</span>
+          <span class="arch-event-pill" style="text-align:left;">energy.demand.peak</span>
+          <span class="arch-event-pill" style="text-align:left;">energy.consumption.anomaly</span>
+        </div>
       </div>
-      <div class="flow-arrow">&rarr;</div>
-      <div class="flow-node">
-        <strong data-i18n="solution.node_enterprise">Enterprise</strong>
-        <span data-i18n="solution.node_enterprise_desc">CMMS, historian, BI, apps</span>
+      <div class="card card-dark">
+        <h3 style="color:var(--cyan-light);" data-i18n="ontology.maintenance">Maintenance &amp; Lifecycle</h3>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
+          <span class="arch-event-pill" style="text-align:left;">asset.failure.predicted</span>
+          <span class="arch-event-pill" style="text-align:left;">maintenance.work_order.created</span>
+          <span class="arch-event-pill" style="text-align:left;">maintenance.completed</span>
+          <span class="arch-event-pill" style="text-align:left;">asset.inspected</span>
+          <span class="arch-event-pill" style="text-align:left;">spare_part.consumed</span>
+        </div>
       </div>
+    </div>
+    <div class="iso-note" style="background:rgba(14,165,233,0.08);border-color:rgba(14,165,233,0.2);">
+      <span data-i18n="ontology.note">Every event name follows the same pattern: <code style="font-family:var(--font-mono);background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px;">domain.subject.condition</code>. A common vocabulary that any system can produce and any system can consume.</span>
     </div>
   </div>
 </section>
