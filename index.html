@@ -287,8 +287,9 @@
       gap: 20px;
     }
     .grid-5 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
     }
 
@@ -853,11 +854,11 @@
       border-spacing: 0;
       border-radius: var(--radius-card);
       overflow: hidden;
-      border: 1px solid var(--cloud);
+      border: 1px solid rgba(255,255,255,0.12);
       font-size: 14px;
     }
     .compare-table thead th {
-      background: var(--charcoal);
+      background: rgba(255,255,255,0.08);
       color: var(--white);
       font-weight: 600;
       font-size: 13px;
@@ -870,20 +871,20 @@
     }
     .compare-table tbody td {
       padding: 14px 16px;
-      border-bottom: 1px solid var(--cloud);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
       vertical-align: top;
       line-height: 1.6;
-      color: var(--steel);
+      color: var(--silver);
     }
     .compare-table tbody tr:last-child td {
       border-bottom: none;
     }
     .compare-table tbody tr:nth-child(even) {
-      background: var(--snow);
+      background: rgba(255,255,255,0.03);
     }
     .compare-table tbody td:first-child {
       font-weight: 600;
-      color: var(--charcoal);
+      color: var(--white);
     }
     .compare-table .std-name {
       font-weight: 700;
@@ -954,6 +955,8 @@
     .philosophy-card {
       text-align: center;
       padding: 28px 20px;
+      width: 220px;
+      flex: 0 0 220px;
     }
     .philosophy-accent {
       width: 48px;
@@ -1072,7 +1075,7 @@
       .hero-ctas { flex-direction: column; align-items: center; }
       .btn { width: 100%; justify-content: center; max-width: 280px; }
       .grid-auto { grid-template-columns: 1fr; }
-      .grid-5 { grid-template-columns: 1fr 1fr; }
+      .philosophy-card { width: 100%; flex: 0 0 100%; }
     }
   </style>
 </head>
