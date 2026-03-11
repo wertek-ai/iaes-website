@@ -8,8 +8,8 @@
   "properties": {
     "spec_version": {
       "type": "string",
-      "enum": ["1.0", "1.1", "1.2"],
-      "description": "IAES specification version"
+      "pattern": "^1\\.[0-9]+$",
+      "description": "IAES specification version (any 1.x minor version)"
     },
     "event_type": {
       "type": "string",

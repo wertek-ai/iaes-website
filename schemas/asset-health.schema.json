@@ -58,6 +58,11 @@
           "minimum": 0,
           "description": "Estimated repair/intervention duration in hours"
         },
+        "condition_trend": {
+          "type": ["string", "null"],
+          "enum": ["worsening", "stable", "improving", null],
+          "description": "Temporal trend of the assessed condition relative to the previous assessment. Based on ISO 13374-4 §5.3 presentation states that distinguish stable from worsening conditions. (v1.3)"
+        },
         "iso_13374_status": {
           "type": ["string", "null"],
           "enum": ["unknown", "normal", "satisfactory", "unsatisfactory", "unacceptable", "imminent_failure", "failed", null],
