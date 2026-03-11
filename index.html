@@ -1067,6 +1067,197 @@
       margin-top: 16px;
     }
 
+    /* ── Incident Timeline ── */
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 0 0 48px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan), var(--good));
+    }
+    .timeline-event {
+      position: relative;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .timeline-event:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -38px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      z-index: 1;
+    }
+    .timeline-dot-onset { background: var(--warning); }
+    .timeline-dot-escalation { background: var(--critical); }
+    .timeline-dot-wo { background: var(--cyan); }
+    .timeline-dot-recovery { background: var(--good); }
+    .timeline-time {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--slate);
+      flex: 0 0 50px;
+      padding-top: 2px;
+    }
+    .timeline-body { flex: 1; }
+    .timeline-type {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .timeline-type-onset { background: rgba(243,156,18,0.15); color: var(--warning); }
+    .timeline-type-escalation { background: rgba(231,76,60,0.15); color: var(--critical); }
+    .timeline-type-wo { background: rgba(14,165,233,0.15); color: var(--cyan); }
+    .timeline-type-recovery { background: rgba(39,174,96,0.15); color: var(--good); }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--silver);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+    .timeline-correlation {
+      margin-top: 20px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--slate);
+      padding: 10px 20px;
+      border: 1px dashed rgba(160,174,192,0.3);
+      border-radius: var(--radius);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── Integration Pipeline ── */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .pipeline-stage {
+      background: var(--snow);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius-card);
+      padding: 20px 16px;
+      text-align: center;
+      flex: 0 0 150px;
+      min-width: 0;
+    }
+    .pipeline-stage-iaes {
+      background: rgba(14,165,233,0.08);
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.08);
+    }
+    .pipeline-stage h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .pipeline-stage-iaes h4 { color: var(--cyan-dark); }
+    .pipeline-stage p {
+      font-size: 12px;
+      color: var(--steel);
+      line-height: 1.4;
+      font-family: var(--font-mono);
+    }
+    .pipeline-arrow {
+      font-size: 20px;
+      color: var(--slate);
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+    .pipeline-fan {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .pipeline-fan .pipeline-stage {
+      flex: none;
+      padding: 12px 14px;
+    }
+    .pipeline-fan .pipeline-stage h4 { font-size: 13px; }
+    .pipeline-fan .pipeline-stage p { font-size: 11px; }
+
+    /* ── Quickstart Section ── */
+    .quickstart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .quickstart-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .quickstart-num {
+      width: 32px;
+      height: 32px;
+      background: var(--cyan);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .quickstart-step h4 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .quickstart-step p {
+      font-size: 14px;
+      color: var(--steel);
+    }
+    .quickstart-step .code-block {
+      margin-top: 8px;
+      font-size: 12px;
+    }
+    .quickstart-output-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--slate);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+      .pipeline { flex-direction: column; gap: 0; }
+      .pipeline-stage { flex: none; width: 100%; max-width: 280px; }
+      .pipeline-arrow { transform: rotate(90deg); padding: 4px 0; }
+      .pipeline-fan { flex-direction: column; width: 100%; max-width: 280px; }
+      .quickstart-grid { grid-template-columns: 1fr; }
+      .timeline { padding-left: 40px; }
+      .timeline::before { left: 14px; }
+      .timeline-dot { left: -34px; }
+    }
+
     /* ── Footer ── */
     .site-footer {
       background: var(--charcoal-dark);
@@ -1159,7 +1350,7 @@
         <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
         <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
         <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
-        <li><a href="#install" data-i18n="nav.install">Install</a></li>
+        <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
         <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
       </ul>
       <div class="header-actions">
@@ -1199,7 +1390,7 @@
     <p class="hero-subtitle" data-i18n="hero.subtitle">A minimal, vendor-neutral event language for industrial assets. IAES names what happens to equipment &mdash; measurements, diagnoses, failures, maintenance actions &mdash; so any system can produce, route, and consume asset events without custom integration.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/spec/" data-i18n="hero.cta_spec">Read the Specification</a>
-      <a class="btn btn-outline" href="#install" data-i18n="hero.cta_install">Install SDK</a>
+      <a class="btn btn-outline" href="#quickstart" data-i18n="hero.cta_quickstart">Quick Start</a>
       <a class="btn btn-outline" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="hero.cta_github">GitHub</a>
     </div>
     <p class="hero-attribution" data-i18n="hero.attribution">Open standard. Vendor-neutral. Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>.</p>
@@ -1327,53 +1518,47 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     ARCHITECTURE
+     REAL INTEGRATION PIPELINE
      ════════════════════════════════════════════════════════════════════════════ -->
-<section id="architecture">
+<section class="section-light" id="integration">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="arch.title">Architecture</h2>
-      <p data-i18n="arch.subtitle">Edge systems and intelligence layers produce IAES events. Any application can consume them.</p>
+      <h2 data-i18n="integration.title">From Sensor to Action</h2>
+      <p data-i18n="integration.subtitle">A vibration sensor detects bearing wear. An AI model classifies the fault. IAES routes one event to three systems simultaneously.</p>
     </div>
-    <div class="arch-diagram">
-      <!-- Sources -->
-      <div class="arch-sources">
-        <div class="arch-source">PLC / SCADA</div>
-        <div class="arch-source">AI Engine</div>
-        <div class="arch-source">IoT Sensors</div>
-        <div class="arch-source">Energy Meters</div>
-        <div class="arch-source" data-i18n="arch.src_human">Human / App</div>
-        <div class="arch-source">Rule Engine</div>
+    <div class="pipeline">
+      <div class="pipeline-stage">
+        <h4 data-i18n="integration.sensor">Vibration Sensor</h4>
+        <p>12.4 mm/s RMS<br>156 Hz</p>
       </div>
-      <div class="arch-arrows-down">&darr; &darr; &darr; &darr; &darr; &darr;</div>
-
-      <!-- IAES Bus -->
-      <div class="arch-bus">
-        IAES EVENT BUS
-        <small data-i18n="arch.bus_desc">Standardized event envelope &mdash; vendor-neutral, self-describing, traceable</small>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-stage">
+        <h4 data-i18n="integration.ai">AI Model</h4>
+        <p>bearing_inner_race<br>confidence: 0.94</p>
       </div>
-
-      <!-- Example Events -->
-      <div class="arch-events">
-        <div class="arch-event-pill">vibration.anomaly</div>
-        <div class="arch-event-pill">energy.power_factor.low</div>
-        <div class="arch-event-pill">asset.failure.predicted</div>
-        <div class="arch-event-pill">temperature.overheat</div>
-        <div class="arch-event-pill">maintenance.work_order.created</div>
-        <div class="arch-event-pill">asset.health.critical</div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-stage pipeline-stage-iaes">
+        <h4>IAES Event</h4>
+        <p>asset.health<br>severity: critical<br>rul_days: 5</p>
       </div>
-
-      <div class="arch-arrows-down">&darr; &darr; &darr; &darr; &darr; &darr;</div>
-
-      <!-- Destinations -->
-      <div class="arch-destinations">
-        <div class="arch-dest">SAP PM</div>
-        <div class="arch-dest">CMMS</div>
-        <div class="arch-dest">Historian</div>
-        <div class="arch-dest">Grafana</div>
-        <div class="arch-dest">Digital Twin</div>
-        <div class="arch-dest">AI Pipeline</div>
+      <div class="pipeline-arrow">&rarr;</div>
+      <div class="pipeline-fan">
+        <div class="pipeline-stage">
+          <h4>SAP PM</h4>
+          <p data-i18n="integration.sap">IW31 notification</p>
+        </div>
+        <div class="pipeline-stage">
+          <h4>MaintainX</h4>
+          <p data-i18n="integration.maintainx">Work order assigned</p>
+        </div>
+        <div class="pipeline-stage">
+          <h4>Grafana</h4>
+          <p data-i18n="integration.grafana">Alert panel fired</p>
+        </div>
       </div>
+    </div>
+    <div class="iso-note" style="background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15);margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;">
+      <span data-i18n="integration.note">One event, three consumers. No custom integration per target system. The sensor and AI model don't know who consumes the event &mdash; and they don't need to.</span>
     </div>
   </div>
 </section>
@@ -1381,7 +1566,7 @@
 <!-- ════════════════════════════════════════════════════════════════════════════
      HOW IT WORKS — REAL IMPLEMENTATION FLOW
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="how-it-works">
+<section id="how-it-works">
   <div class="container">
     <div class="section-header center">
       <h2 data-i18n="how.title">How It Works</h2>
@@ -1453,49 +1638,49 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     EVENT LANGUAGE — The Ontology
+     INCIDENT LIFECYCLE — A Complete Example
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="event-language">
+<section class="section-dark" id="incident">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="ontology.title">An Event Language for Industrial Assets</h2>
-      <p data-i18n="ontology.subtitle">IAES is more than an integration format. It is an event ontology &mdash; a common vocabulary that names everything that happens to an industrial asset.</p>
+      <h2 data-i18n="incident.title">Incident Lifecycle</h2>
+      <p data-i18n="incident.subtitle">A complete incident from detection to resolution. Four IAES events tell the full story &mdash; no human intervention needed to close the alert.</p>
     </div>
-    <div class="grid-3" style="margin-bottom:24px;">
-      <div class="card card-dark">
-        <h3 style="color:var(--cyan-light);" data-i18n="ontology.condition">Condition Monitoring</h3>
-        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
-          <span class="arch-event-pill" style="text-align:left;">vibration.anomaly</span>
-          <span class="arch-event-pill" style="text-align:left;">temperature.overheat</span>
-          <span class="arch-event-pill" style="text-align:left;">pressure.out_of_range</span>
-          <span class="arch-event-pill" style="text-align:left;">acoustic.ultrasound.leak</span>
-          <span class="arch-event-pill" style="text-align:left;">current.signature.fault</span>
+    <div class="timeline">
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-onset"></div>
+        <div class="timeline-time">08:12</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-onset">asset.health &middot; onset</span>
+          <div class="timeline-desc" data-i18n="incident.onset_desc">Power factor drops to 0.91. Rule engine detects violation. New correlation_id is generated. First alert created.</div>
         </div>
       </div>
-      <div class="card card-dark">
-        <h3 style="color:var(--cyan-light);" data-i18n="ontology.energy">Energy &amp; Power Quality</h3>
-        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
-          <span class="arch-event-pill" style="text-align:left;">energy.power_factor.low</span>
-          <span class="arch-event-pill" style="text-align:left;">energy.voltage.sag</span>
-          <span class="arch-event-pill" style="text-align:left;">energy.thd.exceeded</span>
-          <span class="arch-event-pill" style="text-align:left;">energy.demand.peak</span>
-          <span class="arch-event-pill" style="text-align:left;">energy.consumption.anomaly</span>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-escalation"></div>
+        <div class="timeline-time">08:45</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-escalation">asset.health &middot; escalation</span>
+          <div class="timeline-desc" data-i18n="incident.escalation_desc">Power factor drops further to 0.84. Severity escalated from medium to high. Same correlation_id. No duplicate alert &mdash; existing alert updated.</div>
         </div>
       </div>
-      <div class="card card-dark">
-        <h3 style="color:var(--cyan-light);" data-i18n="ontology.maintenance">Maintenance &amp; Lifecycle</h3>
-        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;">
-          <span class="arch-event-pill" style="text-align:left;">asset.failure.predicted</span>
-          <span class="arch-event-pill" style="text-align:left;">maintenance.work_order.created</span>
-          <span class="arch-event-pill" style="text-align:left;">maintenance.completed</span>
-          <span class="arch-event-pill" style="text-align:left;">asset.inspected</span>
-          <span class="arch-event-pill" style="text-align:left;">spare_part.consumed</span>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-wo"></div>
+        <div class="timeline-time">10:03</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-wo">maintenance.work_order_intent</span>
+          <div class="timeline-desc" data-i18n="incident.wo_desc">Consumer creates a work order in MaintainX. Linked to the same correlation_id. Technician dispatched to inspect capacitor bank.</div>
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-recovery"></div>
+        <div class="timeline-time">14:10</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-recovery">asset.health &middot; recovery</span>
+          <div class="timeline-desc" data-i18n="incident.recovery_desc">Power factor recovers to 0.97 for 5 consecutive readings. Recovery event emitted with severity: info, condition_trend: improving. Alert auto-resolved.</div>
         </div>
       </div>
     </div>
-    <div class="iso-note" style="background:rgba(14,165,233,0.08);border-color:rgba(14,165,233,0.2);">
-      <span data-i18n="ontology.note">Every event name follows the same pattern: <code style="font-family:var(--font-mono);background:rgba(0,0,0,0.3);padding:2px 8px;border-radius:4px;">domain.subject.condition</code>. A common vocabulary that any system can produce and any system can consume.</span>
-    </div>
+    <div class="timeline-correlation" data-i18n="incident.correlation">correlation_id: 3b2f9d8c-1c33-4a8a &mdash; all 4 events share the same ID. One incident, one thread, full traceability.</div>
   </div>
 </section>
 
@@ -1727,6 +1912,85 @@ result = client.publish(event)</div>
 
     </div>
     <div class="install-note" data-i18n="install.note">Cross-language compatible &mdash; Python and TypeScript produce identical <code>content_hash</code> for the same event. Validate with shared JSON schemas.</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     QUICKSTART — 5 Minutes to First Event
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="quickstart">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="quickstart.title">5 Minutes to Your First Event</h2>
+      <p data-i18n="quickstart.subtitle">Install the SDK, create an event, and publish it. Three steps, zero configuration.</p>
+    </div>
+    <div class="quickstart-grid">
+      <div>
+        <div class="quickstart-step">
+          <div class="quickstart-num">1</div>
+          <div>
+            <h4 data-i18n="quickstart.step1_title">Install</h4>
+            <div class="code-block">pip install iaes</div>
+          </div>
+        </div>
+        <div class="quickstart-step">
+          <div class="quickstart-num">2</div>
+          <div>
+            <h4 data-i18n="quickstart.step2_title">Create an event</h4>
+            <div class="code-block" style="font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> AssetHealth
+
+event = AssetHealth(
+    asset_id=<span class="cs">"PUMP-001"</span>,
+    severity=<span class="cs">"warning"</span>,
+    health_index=<span class="cn">0.42</span>,
+    failure_mode=<span class="cs">"bearing_wear"</span>,
+    rul_days=<span class="cn">21</span>,
+    source=<span class="cs">"my-app.diagnostics"</span>,
+)
+<span class="ck">print</span>(event.to_json(indent=<span class="cn">2</span>))</div>
+          </div>
+        </div>
+        <div class="quickstart-step">
+          <div class="quickstart-num">3</div>
+          <div>
+            <h4 data-i18n="quickstart.step3_title">Publish</h4>
+            <p data-i18n="quickstart.step3_desc">Send to any MQTT broker, REST endpoint, or file. IAES is transport-agnostic.</p>
+            <div class="code-block" style="font-size:12px;margin-top:8px;"><span class="ck">import</span> paho.mqtt.client <span class="ck">as</span> mqtt
+
+client = mqtt.Client()
+client.connect(<span class="cs">"broker.local"</span>, <span class="cn">1883</span>)
+client.publish(
+    <span class="cs">"iaes/events"</span>,
+    event.to_json()
+)</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="quickstart-output-label" data-i18n="quickstart.output">Output</div>
+        <div class="code-block" style="font-size:12px;">{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"a9e3c4b2-9d3a-..."</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-11T10:15:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"my-app.diagnostics"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"7f3a9c2e1b4d"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"severity"</span>: <span class="cs">"warning"</span>,
+    <span class="ck">"health_index"</span>: <span class="cn">0.42</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_wear"</span>,
+    <span class="ck">"rul_days"</span>: <span class="cn">21</span>,
+    <span class="ck">"recommended_action"</span>: <span class="ck">null</span>
+  }
+}</div>
+        <div class="iso-note" style="margin-top:16px;background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15);">
+          <span data-i18n="quickstart.note">The SDK auto-generates event_id, timestamp, and content_hash. You only provide the business fields.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
