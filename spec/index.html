@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES Specification v1.2 — Industrial Asset Event Standard</title>
-  <meta name="description" content="Complete technical reference for the Industrial Asset Event Standard (IAES) v1.2. Vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <title>IAES Specification v1.3 — Industrial Asset Event Standard</title>
+  <meta name="description" content="Complete technical reference for the Industrial Asset Event Standard (IAES) v1.3. Vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="IAES Specification v1.2">
+  <meta property="og:title" content="IAES Specification v1.3">
   <meta property="og:description" content="Complete technical reference for the Industrial Asset Event Standard.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/spec/">
@@ -518,20 +518,20 @@
       <a href="/#install" data-i18n="nav_install">Install</a>
       <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer">GitHub</a>
       <select id="iaes-lang-select" class="nav-lang">
+        <option value="ar">AR</option>
+        <option value="de">DE</option>
         <option value="en">EN</option>
         <option value="es">ES</option>
-        <option value="pt">PT</option>
         <option value="fr">FR</option>
-        <option value="de">DE</option>
-        <option value="it">IT</option>
-        <option value="ko">KO</option>
-        <option value="ru">RU</option>
-        <option value="zh">ZH</option>
-        <option value="ja">JA</option>
-        <option value="ar">AR</option>
         <option value="hi">HI</option>
+        <option value="it">IT</option>
+        <option value="ja">JA</option>
+        <option value="ko">KO</option>
         <option value="pl">PL</option>
+        <option value="pt">PT</option>
+        <option value="ru">RU</option>
         <option value="tr">TR</option>
+        <option value="zh">ZH</option>
       </select>
     </div>
     <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle navigation">&#9776;</button>
@@ -577,7 +577,7 @@
 
     <!-- Hero -->
     <div class="spec-hero">
-      <h1>IAES Specification v1.2</h1>
+      <h1>IAES Specification v1.3</h1>
       <p class="subtitle" data-i18n="spec_subtitle">Complete technical reference for the Industrial Asset Event Standard.</p>
       <p class="date">March 2026</p>
     </div>
@@ -633,7 +633,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; Common Envelope</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"uuid"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"uuid"</span>,
@@ -667,7 +667,7 @@
             <td><code>spec_version</code></td>
             <td><code>string</code></td>
             <td class="required">Yes</td>
-            <td>IAES specification version. Currently <code>"1.2"</code>.</td>
+            <td>IAES specification version. Currently <code>"1.3"</code>.</td>
           </tr>
           <tr>
             <td><code>event_type</code></td>
@@ -750,7 +750,7 @@
     <!-- 5. Event Types -->
     <section class="spec-section" id="event-types">
       <h2 data-i18n="sec_events">5. Event Types</h2>
-      <p data-i18n="events_intro">IAES v1.2 defines 7 event types organized into 3 domains: asset signals, maintenance actions, and sensor lifecycle.</p>
+      <p data-i18n="events_intro">IAES v1.3 defines 7 event types organized into 3 domains: asset signals, maintenance actions, and sensor lifecycle.</p>
 
       <!-- 5.1 asset.measurement -->
       <h3 id="asset-measurement"><code>asset.measurement</code> <span class="badge badge-green">v1.0</span></h3>
@@ -820,7 +820,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.measurement example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.measurement"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"e7f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a5b"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
@@ -922,13 +922,19 @@
             <td>No</td>
             <td>ISO 14224 classification object (see Appendix B). <span class="badge badge-cyan">v1.2</span></td>
           </tr>
+          <tr>
+            <td><code>condition_trend</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Temporal trend of the condition: <code>worsening</code>, <code>stable</code>, or <code>improving</code>. Based on ISO 13374-4 &sect;5.3 presentation states. Used for incident lifecycle tracking (onset/escalation/recovery). <span class="badge badge-cyan">v1.3</span></td>
+          </tr>
         </tbody>
       </table>
 
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.health example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
@@ -1017,7 +1023,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.work_order_intent example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.work_order_intent"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
@@ -1122,7 +1128,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.completion example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.completion"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
@@ -1225,7 +1231,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.hierarchy example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.hierarchy"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
@@ -1321,7 +1327,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; sensor.registration example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"sensor.registration"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
@@ -1417,7 +1423,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.spare_part_usage example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.2"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.spare_part_usage"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
@@ -1520,7 +1526,7 @@
       <h3 data-i18n="producer_required">Required</h3>
       <ol>
         <li>Generate a unique <code>event_id</code> (UUID v4) for every event.</li>
-        <li>Set <code>spec_version</code> to <code>"1.2"</code> (or the version you implement).</li>
+        <li>Set <code>spec_version</code> to <code>"1.3"</code> (or the version you implement).</li>
         <li>Compute and include a valid <code>content_hash</code> for every event.</li>
         <li>Use ISO 8601 timestamps with timezone information (UTC preferred).</li>
         <li>Include all required fields for the chosen <code>event_type</code>.</li>
@@ -2018,6 +2024,11 @@
             <td><strong>v1.2</strong></td>
             <td>March 2026</td>
             <td>ISO alignment: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> (ISO 17359) on measurements. <code>iso_13374_status</code> (ISO 13374) on health. <code>iso_14224</code> object (ISO 14224) on health and completion. All new fields optional &mdash; fully backward compatible. Added Appendix B (ISO 14224 codes) and Appendix C (ISO 13374 mapping).</td>
+          </tr>
+          <tr>
+            <td><strong>v1.3</strong></td>
+            <td>March 2026</td>
+            <td>State transition intelligence: <code>condition_trend</code> field on <code>asset.health</code> (<code>worsening</code>/<code>stable</code>/<code>improving</code>) per ISO 13374-4 &sect;5.3. Recovery event pattern (onset &rarr; escalation &rarr; recovery via shared <code>correlation_id</code>). Envelope <code>spec_version</code> changed from enum to pattern (<code>^1\.[0-9]+$</code>) for future-proof minor versions. New example: <code>recovery-event.json</code>. All new fields optional &mdash; fully backward compatible.</td>
           </tr>
         </tbody>
       </table>
