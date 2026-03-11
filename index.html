@@ -815,6 +815,93 @@
       border-radius: 4px;
     }
 
+    /* ── n8n Workflow Card ── */
+    .n8n-card {
+      margin-top: 28px;
+      border: 1px solid rgba(255,107,53,0.25);
+      background: linear-gradient(135deg, rgba(255,107,53,0.04) 0%, rgba(59,130,246,0.04) 100%);
+    }
+    .n8n-card h3 { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .n8n-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px; margin-bottom:20px; }
+    .n8n-header-left { flex:1; min-width:240px; }
+    .n8n-header-right { text-align:right; }
+    .n8n-header-right .code-block { display:inline-block; margin:0; font-size:13px; }
+
+    /* Animated workflow */
+    .n8n-workflow { display:flex; align-items:center; gap:0; overflow-x:auto; padding:20px 8px; }
+    .n8n-wf-node {
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      min-width:100px; position:relative;
+      opacity:0; animation: wfNodeIn 0.4s ease forwards;
+    }
+    .n8n-wf-node:nth-child(1) { animation-delay:0s; }
+    .n8n-wf-node:nth-child(3) { animation-delay:0.3s; }
+    .n8n-wf-node:nth-child(5) { animation-delay:0.6s; }
+    .n8n-wf-node:nth-child(7) { animation-delay:0.9s; }
+    .n8n-wf-node:nth-child(9) { animation-delay:1.2s; }
+    .n8n-wf-box {
+      width:72px; height:72px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+      font-size:28px; border:2px solid rgba(255,255,255,0.08); position:relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .n8n-wf-box:hover { transform:scale(1.1); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+    .n8n-wf-label { font-size:11px; font-weight:600; color:var(--silver); text-align:center; white-space:nowrap; }
+    .n8n-wf-sublabel { font-size:9px; color:var(--steel); text-align:center; margin-top:-4px; }
+    .n8n-wf-arrow {
+      display:flex; align-items:center; color:var(--steel); font-size:18px; padding:0 4px;
+      opacity:0; animation: wfArrowIn 0.3s ease forwards;
+    }
+    .n8n-wf-arrow:nth-child(2) { animation-delay:0.15s; }
+    .n8n-wf-arrow:nth-child(4) { animation-delay:0.45s; }
+    .n8n-wf-arrow:nth-child(6) { animation-delay:0.75s; }
+    .n8n-wf-arrow:nth-child(8) { animation-delay:1.05s; }
+
+    /* Pulse dot on the arrow */
+    .n8n-wf-arrow::after {
+      content:''; width:6px; height:6px; border-radius:50%; background:var(--cyan);
+      position:absolute; animation: pulseDot 2.5s ease-in-out infinite;
+    }
+    .n8n-wf-arrow { position:relative; }
+    .n8n-wf-arrow:nth-child(2)::after { animation-delay:0s; }
+    .n8n-wf-arrow:nth-child(4)::after { animation-delay:0.5s; }
+    .n8n-wf-arrow:nth-child(6)::after { animation-delay:1.0s; }
+    .n8n-wf-arrow:nth-child(8)::after { animation-delay:1.5s; }
+
+    @keyframes wfNodeIn {
+      from { opacity:0; transform:translateY(12px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes wfArrowIn {
+      from { opacity:0; transform:translateX(-6px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity:0; transform:translateX(-10px); }
+      20%      { opacity:1; }
+      80%      { opacity:1; }
+      100%     { opacity:0; transform:translateX(10px); }
+    }
+
+    .n8n-wf-box.plc   { background:linear-gradient(135deg,#334155,#1e293b); border-color:#64748b; }
+    .n8n-wf-box.mqtt   { background:linear-gradient(135deg,#7c3aed,#5b21b6); border-color:#8b5cf6; }
+    .n8n-wf-box.emit   { background:linear-gradient(135deg,#1d4ed8,#1e40af); border-color:#3b82f6; }
+    .n8n-wf-box.life   { background:linear-gradient(135deg,#b45309,#92400e); border-color:#f59e0b; }
+    .n8n-wf-box.out    { background:linear-gradient(135deg,#047857,#065f46); border-color:#10b981; }
+
+    .n8n-compat { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06); }
+    .n8n-compat-pill {
+      font-size:11px; padding:4px 10px; border-radius:20px;
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+      color:var(--silver); font-weight:500;
+    }
+
+    @media (max-width:768px) {
+      .n8n-workflow { flex-wrap:wrap; justify-content:center; gap:8px; }
+      .n8n-wf-arrow { display:none; }
+      .n8n-header { flex-direction:column; }
+      .n8n-header-right { text-align:left; }
+    }
+
     /* ── ISO Section ── */
     .iso-badge {
       display: inline-flex;
@@ -1863,7 +1950,7 @@
 
       <!-- Python -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.0</span></h3>
+        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
         <div class="code-block">pip install iaes</div>
         <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> Client, AssetMeasurement
 
@@ -1882,7 +1969,7 @@ result = client.publish(event)</div>
 
       <!-- TypeScript -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.0</span></h3>
+        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
         <div class="code-block">npm install @iaes/sdk</div>
         <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">import</span> { IaesClient, AssetMeasurement } <span class="ck">from</span> <span class="cs">"@iaes/sdk"</span>;
 
@@ -1903,7 +1990,7 @@ result = client.publish(event)</div>
 
       <!-- Node-RED -->
       <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.0</span></h3>
+        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.1</span></h3>
         <div class="code-block">npm install node-red-contrib-iaes</div>
         <p style="margin-top:14px;" data-i18n="install.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
         <div class="eco-pills" style="margin-top:12px;">
@@ -1919,6 +2006,77 @@ result = client.publish(event)</div>
       </div>
 
     </div>
+
+    <!-- n8n Community Nodes — full width -->
+    <div class="card n8n-card">
+      <div class="n8n-header">
+        <div class="n8n-header-left">
+          <h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#ff6b35"/><text x="12" y="16.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="11" fill="white">n8n</text></svg>
+            <span data-i18n="install.n8n_title">Use IAES with n8n</span>
+            <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.1.1</span>
+          </h3>
+          <p style="color:var(--steel);font-size:14px;margin:0;" data-i18n="install.n8n_desc">3 community nodes for n8n workflows. Emit any IAES event, validate envelopes, and track incident lifecycle &mdash; all visual, zero code.</p>
+        </div>
+        <div class="n8n-header-right">
+          <div class="code-block" style="font-size:14px;padding:12px 20px;">npm install n8n-nodes-iaes</div>
+          <p style="margin-top:8px;font-size:12px;"><a href="https://www.npmjs.com/package/n8n-nodes-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+        </div>
+      </div>
+
+      <!-- Animated workflow: PLC → MQTT → IAES Emit → Lifecycle → CMMS/Slack -->
+      <div class="n8n-workflow">
+        <div class="n8n-wf-node">
+          <div class="n8n-wf-box plc">&#9881;</div>
+          <span class="n8n-wf-label">PLC / SCADA</span>
+          <span class="n8n-wf-sublabel" data-i18n="install.n8n_plc_sub">Raw readings</span>
+        </div>
+        <div class="n8n-wf-arrow">&rarr;</div>
+        <div class="n8n-wf-node">
+          <div class="n8n-wf-box mqtt">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="8" r="3" fill="#c4b5fd"/><circle cx="6" cy="20" r="3" fill="#c4b5fd"/><circle cx="22" cy="20" r="3" fill="#c4b5fd"/><line x1="14" y1="11" x2="14" y2="15" stroke="#c4b5fd" stroke-width="1.5"/><line x1="14" y1="15" x2="6" y2="20" stroke="#c4b5fd" stroke-width="1.5"/><line x1="14" y1="15" x2="22" y2="20" stroke="#c4b5fd" stroke-width="1.5"/></svg>
+          </div>
+          <span class="n8n-wf-label">MQTT Trigger</span>
+          <span class="n8n-wf-sublabel">n8n built-in</span>
+        </div>
+        <div class="n8n-wf-arrow">&rarr;</div>
+        <div class="n8n-wf-node">
+          <div class="n8n-wf-box emit">
+            <svg width="30" height="30" viewBox="0 0 60 60"><polyline points="6,35 14,35 18,18 22,42 26,28 30,32 34,14 38,38 42,25 46,35 54,35" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <span class="n8n-wf-label" style="color:var(--cyan);">IAES Emit</span>
+          <span class="n8n-wf-sublabel" data-i18n="install.n8n_emit_sub">Wrap in envelope</span>
+        </div>
+        <div class="n8n-wf-arrow">&rarr;</div>
+        <div class="n8n-wf-node">
+          <div class="n8n-wf-box life">
+            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" stroke="#fbbf24" stroke-width="2" fill="none"/><polyline points="14,8 14,14 19,14" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="n8n-wf-label" style="color:#f59e0b;">IAES Lifecycle</span>
+          <span class="n8n-wf-sublabel" data-i18n="install.n8n_life_sub">Track incidents</span>
+        </div>
+        <div class="n8n-wf-arrow">&rarr;</div>
+        <div class="n8n-wf-node">
+          <div class="n8n-wf-box out">
+            <svg width="28" height="28" viewBox="0 0 28 28"><path d="M6 8h16v12H6z" stroke="#6ee7b7" stroke-width="1.5" fill="none" rx="2"/><polyline points="6,8 14,15 22,8" stroke="#6ee7b7" stroke-width="1.5" fill="none"/></svg>
+          </div>
+          <span class="n8n-wf-label">CMMS / Slack</span>
+          <span class="n8n-wf-sublabel" data-i18n="install.n8n_out_sub">Alert & dispatch</span>
+        </div>
+      </div>
+
+      <div class="n8n-compat">
+        <span class="n8n-compat-pill" data-i18n="install.n8n_works">Works with:</span>
+        <span class="n8n-compat-pill">Allen-Bradley</span>
+        <span class="n8n-compat-pill">Siemens S7</span>
+        <span class="n8n-compat-pill">Modbus TCP</span>
+        <span class="n8n-compat-pill">OPC-UA</span>
+        <span class="n8n-compat-pill">Sparkplug B</span>
+        <span class="n8n-compat-pill">HTTP / REST</span>
+        <span class="n8n-compat-pill">Webhooks</span>
+      </div>
+    </div>
+
     <div class="install-note" data-i18n="install.note">Cross-language compatible &mdash; Python and TypeScript produce identical <code>content_hash</code> for the same event. Validate with shared JSON schemas.</div>
   </div>
 </section>
