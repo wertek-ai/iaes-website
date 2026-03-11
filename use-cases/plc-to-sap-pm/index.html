@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLC to SAP PM via IAES — Industrial Asset Event Standard</title>
+  <meta name="description" content="Connect PLC sensor data to SAP PM work orders through standardized IAES events. Step-by-step integration guide with code examples.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="PLC to SAP PM via IAES — Industrial Asset Event Standard">
+  <meta property="og:description" content="Connect PLC sensor data to SAP PM work orders through standardized IAES events. Step-by-step integration guide with code examples.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/use-cases/plc-to-sap-pm/">
+  <link rel="canonical" href="https://iaes.dev/use-cases/plc-to-sap-pm/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions { display: flex; align-items: center; }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    /* -- Buttons -- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--cyan); color: var(--white); }
+    .btn-primary:hover { background: var(--cyan-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--silver); border: 1px solid rgba(255,255,255,0.2); }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--white); }
+    .btn-outline-dark { background: transparent; color: var(--charcoal); border: 1px solid var(--silver); }
+    .btn-outline-dark:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* -- Sections -- */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header { margin-bottom: 48px; }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* -- Hero -- */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 80px 0 72px;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 24px;
+    }
+    .breadcrumb a { color: var(--slate); }
+    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+    /* -- Flow Diagrams -- */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding: 12px 0;
+      justify-content: center;
+    }
+    .flow-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 110px;
+      opacity: 0;
+      animation: flowNodeIn 0.4s ease forwards;
+    }
+    .flow-node:nth-child(1)  { animation-delay: 0s; }
+    .flow-node:nth-child(3)  { animation-delay: 0.3s; }
+    .flow-node:nth-child(5)  { animation-delay: 0.6s; }
+    .flow-node:nth-child(7)  { animation-delay: 0.9s; }
+    .flow-node:nth-child(9)  { animation-delay: 1.2s; }
+    .flow-node:nth-child(11) { animation-delay: 1.5s; }
+    .flow-node:nth-child(13) { animation-delay: 1.8s; }
+    .flow-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      border: 2px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .flow-box:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .flow-label { font-size: 11px; font-weight: 600; color: var(--silver); text-align: center; white-space: nowrap; }
+    .flow-sublabel { font-size: 9px; color: var(--steel); text-align: center; margin-top: -4px; }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--steel);
+      font-size: 18px;
+      padding: 0 6px;
+      position: relative;
+      opacity: 0;
+      animation: flowArrowIn 0.3s ease forwards;
+    }
+    .flow-arrow:nth-child(2)  { animation-delay: 0.15s; }
+    .flow-arrow:nth-child(4)  { animation-delay: 0.45s; }
+    .flow-arrow:nth-child(6)  { animation-delay: 0.75s; }
+    .flow-arrow:nth-child(8)  { animation-delay: 1.05s; }
+    .flow-arrow:nth-child(10) { animation-delay: 1.35s; }
+    .flow-arrow:nth-child(12) { animation-delay: 1.65s; }
+    .flow-arrow::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      position: absolute;
+      animation: pulseDot 2.5s ease-in-out infinite;
+    }
+    .flow-arrow:nth-child(2)::after  { animation-delay: 0s; }
+    .flow-arrow:nth-child(4)::after  { animation-delay: 0.4s; }
+    .flow-arrow:nth-child(6)::after  { animation-delay: 0.8s; }
+    .flow-arrow:nth-child(8)::after  { animation-delay: 1.2s; }
+    .flow-arrow:nth-child(10)::after { animation-delay: 1.6s; }
+    .flow-arrow:nth-child(12)::after { animation-delay: 2.0s; }
+
+    @keyframes flowNodeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes flowArrowIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 0; transform: translateX(-10px); }
+      30%      { opacity: 1; }
+      70%      { opacity: 1; }
+      100%     { opacity: 0; transform: translateX(10px); }
+    }
+
+    .flow-box.plc  { background: linear-gradient(135deg, #334155, #1e293b); border-color: #64748b; }
+    .flow-box.gate { background: linear-gradient(135deg, #7c3aed, #5b21b6); border-color: #8b5cf6; }
+    .flow-box.iaes { background: linear-gradient(135deg, #1d4ed8, #1e40af); border-color: #3b82f6; }
+    .flow-box.ai   { background: linear-gradient(135deg, #9333ea, #7e22ce); border-color: #a855f7; }
+    .flow-box.cmms { background: linear-gradient(135deg, #047857, #065f46); border-color: #10b981; }
+    .flow-box.sap  { background: linear-gradient(135deg, #0369a1, #075985); border-color: #38bdf8; }
+
+    /* -- Before/After -- */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .comparison-card {
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .comparison-card.before {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+    }
+    .comparison-card.after {
+      background: rgba(14, 165, 233, 0.05);
+      border: 2px solid var(--cyan);
+    }
+    .comparison-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .comparison-card.before h3 { color: var(--critical); }
+    .comparison-card.after h3 { color: var(--cyan); }
+    .comparison-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .comparison-card li {
+      font-size: 14px;
+      color: var(--steel);
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .comparison-card.before li::before {
+      content: '\2717';
+      position: absolute;
+      left: 0;
+      color: var(--critical);
+      font-weight: 700;
+    }
+    .comparison-card.after li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--good);
+      font-weight: 700;
+    }
+
+    /* -- Event Chain -- */
+    .event-chain {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .event-step {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      padding: 24px;
+    }
+    .event-step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .event-step-header h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--charcoal);
+    }
+    .event-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+    .event-step p {
+      font-size: 13px;
+      color: var(--steel);
+      margin-bottom: 12px;
+    }
+
+    /* -- Code Blocks -- */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
+
+    /* -- CMMS Cards -- */
+    .cmms-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .cmms-card {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cmms-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .cmms-card.active-card {
+      border-color: var(--cyan);
+      border-width: 2px;
+    }
+    .cmms-icon { font-size: 32px; margin-bottom: 12px; }
+    .cmms-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .cmms-card p {
+      font-size: 13px;
+      color: var(--steel);
+      margin-bottom: 12px;
+    }
+    .cmms-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .cmms-badge.this-page {
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+    .cmms-badge.available {
+      background: rgba(39, 174, 96, 0.1);
+      color: var(--good);
+      border: 1px solid rgba(39, 174, 96, 0.2);
+    }
+
+    /* -- CTA Strip -- */
+    .cta-strip {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* -- Footer -- */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* -- Responsive -- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .comparison-grid { grid-template-columns: 1fr; }
+      .event-chain { grid-template-columns: 1fr; }
+      .cmms-grid { grid-template-columns: 1fr 1fr; }
+      .flow-row { flex-wrap: wrap; justify-content: center; gap: 8px; }
+      .flow-arrow { display: none; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .cmms-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/use-cases/" data-i18n="usecase_sap.breadcrumb_usecases">Use Cases</a>
+      <span class="sep">/</span>
+      <span data-i18n="usecase_sap.breadcrumb_current">PLC to SAP PM</span>
+    </div>
+    <h1 data-i18n="usecase_sap.hero_title">PLC to SAP PM</h1>
+    <p class="hero-subtitle" data-i18n="usecase_sap.hero_subtitle">From sensor reading to SAP PM notification in 4 events</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     THE PROBLEM (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="problem">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecase_sap.problem_title">The Problem</h2>
+      <p data-i18n="usecase_sap.problem_subtitle">PLCs generate thousands of readings. SAP PM expects structured notifications. IAES bridges the gap.</p>
+    </div>
+
+    <div class="comparison-grid">
+      <div class="comparison-card before">
+        <h3 data-i18n="usecase_sap.before_title">Without IAES</h3>
+        <ul>
+          <li data-i18n="usecase_sap.before_1">Custom code per PLC vendor</li>
+          <li data-i18n="usecase_sap.before_2">Brittle point-to-point integrations</li>
+          <li data-i18n="usecase_sap.before_3">SAP RFC calls embedded in gateway logic</li>
+          <li data-i18n="usecase_sap.before_4">No standard event format across plants</li>
+        </ul>
+      </div>
+      <div class="comparison-card after">
+        <h3 data-i18n="usecase_sap.after_title">With IAES</h3>
+        <ul>
+          <li data-i18n="usecase_sap.after_1">Standardized events from any PLC</li>
+          <li data-i18n="usecase_sap.after_2">Decoupled: sensor layer and CMMS layer independent</li>
+          <li data-i18n="usecase_sap.after_3">SAP bridge consumes typed IAES events</li>
+          <li data-i18n="usecase_sap.after_4">Same format across Siemens, Allen-Bradley, Mitsubishi</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ARCHITECTURE DIAGRAM (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="architecture">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecase_sap.arch_title">Architecture</h2>
+      <p data-i18n="usecase_sap.arch_subtitle">End-to-end flow from PLC register to SAP PM work order</p>
+    </div>
+
+    <div style="background: rgba(0,0,0,0.2); border-radius: var(--radius-card); padding: 32px 24px;">
+      <div class="flow-row">
+        <!-- PLC -->
+        <div class="flow-node">
+          <div class="flow-box plc">&#9881;</div>
+          <span class="flow-label" data-i18n="usecase_sap.flow_plc">PLC</span>
+          <span class="flow-sublabel">Modbus / OPC-UA</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- Gateway -->
+        <div class="flow-node">
+          <div class="flow-box gate">&#9041;</div>
+          <span class="flow-label" data-i18n="usecase_sap.flow_gateway">Gateway</span>
+          <span class="flow-sublabel">Edge / Node-RED</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- IAES measurement -->
+        <div class="flow-node">
+          <div class="flow-box iaes">&#9632;</div>
+          <span class="flow-label">IAES</span>
+          <span class="flow-sublabel">asset.measurement</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- AI Engine -->
+        <div class="flow-node">
+          <div class="flow-box ai">&#9733;</div>
+          <span class="flow-label" data-i18n="usecase_sap.flow_ai">AI Engine</span>
+          <span class="flow-sublabel">Anomaly Detection</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- IAES health -->
+        <div class="flow-node">
+          <div class="flow-box iaes">&#9632;</div>
+          <span class="flow-label">IAES</span>
+          <span class="flow-sublabel">asset.health</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- Bridge -->
+        <div class="flow-node">
+          <div class="flow-box cmms">&#9741;</div>
+          <span class="flow-label" data-i18n="usecase_sap.flow_bridge">Bridge</span>
+          <span class="flow-sublabel">SAP RFC / OData</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <!-- SAP PM -->
+        <div class="flow-node">
+          <div class="flow-box sap">&#9874;</div>
+          <span class="flow-label">SAP PM</span>
+          <span class="flow-sublabel">IW31 Notification</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     EVENT CHAIN (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="events">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecase_sap.events_title">The 4-Event Chain</h2>
+      <p data-i18n="usecase_sap.events_subtitle">Each step produces a standard IAES event. No proprietary formats.</p>
+    </div>
+
+    <div class="event-chain">
+      <!-- Step 1 -->
+      <div class="event-step">
+        <div class="event-step-header">
+          <span class="step-number">1</span>
+          <div>
+            <h3 data-i18n="usecase_sap.step1_title">Vibration Reading</h3>
+            <span class="event-pill">asset.measurement</span>
+          </div>
+        </div>
+        <p data-i18n="usecase_sap.step1_desc">PLC reads accelerometer via Modbus. Gateway emits IAES event.</p>
+        <div class="code-block">
+<span class="cm">// asset.measurement from PLC</span>
+{
+  "<span class="field">event_type</span>": "<span class="str">asset.measurement</span>",
+  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">PUMP-4401</span>" },
+  "<span class="field">data</span>": {
+    "<span class="field">measurement_type</span>": "<span class="str">vibration</span>",
+    "<span class="field">value</span>": <span class="num">12.4</span>,
+    "<span class="field">unit</span>": "<span class="str">mm/s</span>"
+  }
+}</div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="event-step">
+        <div class="event-step-header">
+          <span class="step-number">2</span>
+          <div>
+            <h3 data-i18n="usecase_sap.step2_title">Health Alert</h3>
+            <span class="event-pill">asset.health</span>
+          </div>
+        </div>
+        <p data-i18n="usecase_sap.step2_desc">AI engine detects anomaly, emits health event with severity.</p>
+        <div class="code-block">
+<span class="cm">// asset.health — anomaly detected</span>
+{
+  "<span class="field">event_type</span>": "<span class="str">asset.health</span>",
+  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">PUMP-4401</span>" },
+  "<span class="field">data</span>": {
+    "<span class="field">health_score</span>": <span class="num">0.35</span>,
+    "<span class="field">severity</span>": "<span class="str">warning</span>",
+    "<span class="field">failure_mode</span>": "<span class="str">bearing_wear</span>"
+  }
+}</div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="event-step">
+        <div class="event-step-header">
+          <span class="step-number">3</span>
+          <div>
+            <h3 data-i18n="usecase_sap.step3_title">Work Order Intent</h3>
+            <span class="event-pill">maintenance.work_order_intent</span>
+          </div>
+        </div>
+        <p data-i18n="usecase_sap.step3_desc">Bridge creates SAP PM notification from health event.</p>
+        <div class="code-block">
+<span class="cm">// maintenance.work_order_intent</span>
+{
+  "<span class="field">event_type</span>": "<span class="str">maintenance.work_order_intent</span>",
+  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">PUMP-4401</span>" },
+  "<span class="field">data</span>": {
+    "<span class="field">title</span>": "<span class="str">Bearing wear — PUMP-4401</span>",
+    "<span class="field">priority</span>": "<span class="str">high</span>",
+    "<span class="field">source</span>": "<span class="str">iaes_sap_bridge</span>"
+  }
+}</div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="event-step">
+        <div class="event-step-header">
+          <span class="step-number">4</span>
+          <div>
+            <h3 data-i18n="usecase_sap.step4_title">Completion</h3>
+            <span class="event-pill">maintenance.completion</span>
+          </div>
+        </div>
+        <p data-i18n="usecase_sap.step4_desc">Technician closes work order in SAP PM. Bridge emits completion.</p>
+        <div class="code-block">
+<span class="cm">// maintenance.completion</span>
+{
+  "<span class="field">event_type</span>": "<span class="str">maintenance.completion</span>",
+  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">PUMP-4401</span>" },
+  "<span class="field">data</span>": {
+    "<span class="field">outcome</span>": "<span class="str">resolved</span>",
+    "<span class="field">actions_taken</span>": "<span class="str">Bearing replaced</span>",
+    "<span class="field">downtime_minutes</span>": <span class="num">45</span>
+  }
+}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     BRIDGE CODE (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="bridge-code">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecase_sap.bridge_title">SAP PM Bridge</h2>
+      <p data-i18n="usecase_sap.bridge_subtitle">~30 lines of Python. Subscribe to IAES health events, create SAP PM notifications.</p>
+    </div>
+
+    <div style="max-width: 760px; margin: 0 auto;">
+      <div class="code-block">
+<span class="kw">from</span> iaes <span class="kw">import</span> <span class="fn">IaesEvent</span>
+
+<span class="cm"># IAES health event &rarr; SAP PM IW31 Notification</span>
+<span class="kw">def</span> <span class="fn">handle_health_event</span>(event: <span class="type">IaesEvent</span>):
+    <span class="kw">if</span> event[<span class="str">"data"</span>][<span class="str">"severity"</span>] <span class="kw">in</span> (<span class="str">"high"</span>, <span class="str">"critical"</span>):
+        sap_notification = {
+            <span class="str">"NotificationType"</span>: <span class="str">"M2"</span>,
+            <span class="str">"Equipment"</span>: event[<span class="str">"asset"</span>][<span class="str">"asset_id"</span>],
+            <span class="str">"ShortText"</span>: <span class="fn">f</span><span class="str">"IAES Alert: {event['data']['failure_mode']}"</span>,
+            <span class="str">"Priority"</span>: <span class="str">"1"</span> <span class="kw">if</span> event[<span class="str">"data"</span>][<span class="str">"severity"</span>] == <span class="str">"critical"</span> <span class="kw">else</span> <span class="str">"2"</span>,
+        }
+        <span class="fn">create_sap_notification</span>(sap_notification)
+
+<span class="cm"># Subscribe to IAES events via MQTT</span>
+<span class="kw">import</span> paho.mqtt.client <span class="kw">as</span> mqtt
+<span class="kw">import</span> json
+
+client = mqtt.<span class="fn">Client</span>()
+client.<span class="fn">connect</span>(<span class="str">"mqtt-broker"</span>, <span class="num">1883</span>)
+client.<span class="fn">subscribe</span>(<span class="str">"iaes/+/asset.health"</span>)
+
+<span class="kw">def</span> <span class="fn">on_message</span>(client, userdata, msg):
+    event = json.<span class="fn">loads</span>(msg.payload)
+    <span class="fn">handle_health_event</span>(event)
+
+client.on_message = on_message
+client.<span class="fn">loop_forever</span>()</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ALTERNATIVES (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="alternatives">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecase_sap.alt_title">Works with Any CMMS</h2>
+      <p data-i18n="usecase_sap.alt_subtitle">The same IAES events can feed any maintenance system. Swap the bridge, keep the standard.</p>
+    </div>
+
+    <div class="cmms-grid">
+      <div class="cmms-card active-card">
+        <div class="cmms-icon">&#9874;</div>
+        <h3>SAP PM</h3>
+        <p data-i18n="usecase_sap.alt_sap">IW31 notifications via RFC/OData</p>
+        <span class="cmms-badge this-page" data-i18n="usecase_sap.badge_this_page">This page</span>
+      </div>
+      <div class="cmms-card">
+        <div class="cmms-icon">&#9881;</div>
+        <h3>Odoo</h3>
+        <p data-i18n="usecase_sap.alt_odoo">Maintenance requests via XML-RPC</p>
+        <span class="cmms-badge available" data-i18n="usecase_sap.badge_available">IAES Ready</span>
+      </div>
+      <div class="cmms-card">
+        <div class="cmms-icon">&#9745;</div>
+        <h3>MaintainX</h3>
+        <p data-i18n="usecase_sap.alt_maintainx">Work orders via REST API</p>
+        <span class="cmms-badge available" data-i18n="usecase_sap.badge_available">IAES Ready</span>
+      </div>
+      <div class="cmms-card">
+        <div class="cmms-icon">&#9850;</div>
+        <h3>Fracttal</h3>
+        <p data-i18n="usecase_sap.alt_fracttal">Tasks via Fracttal API</p>
+        <span class="cmms-badge available" data-i18n="usecase_sap.badge_available">IAES Ready</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="cta">
+  <div class="container">
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="/integrators/#quickstart" data-i18n="usecase_sap.cta_sdk">Install SDK</a>
+      <a class="btn btn-outline" href="/use-cases/" data-i18n="usecase_sap.cta_usecases">View All Use Cases</a>
+      <a class="btn btn-outline" href="/integrators/" data-i18n="usecase_sap.cta_integrators">For Integrators</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

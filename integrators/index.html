@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES for Integrators — Industrial Asset Event Standard</title>
+  <meta name="description" content="Practical guide for integrators: how to produce and consume IAES events from PLCs, SCADA, sensors, and CMMS systems. Code examples in Python, TypeScript, and Go.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES for Integrators — Industrial Asset Event Standard">
+  <meta property="og:description" content="You have PLCs, SCADA, sensors. Here's how IAES fits. Code examples, integration scenarios, and consumer patterns.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/integrators/">
+  <link rel="canonical" href="https://iaes.dev/integrators/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--cyan-dark);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--white);
+    }
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--charcoal);
+      border: 1px solid var(--silver);
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Sections ── */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 80px 0 72px;
+      text-align: center;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Flow Diagrams ── */
+    .flow-diagrams {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding: 12px 0;
+    }
+    .flow-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      min-width: 110px;
+      opacity: 0;
+      animation: flowNodeIn 0.4s ease forwards;
+    }
+    .flow-node:nth-child(1) { animation-delay: 0s; }
+    .flow-node:nth-child(3) { animation-delay: 0.3s; }
+    .flow-node:nth-child(5) { animation-delay: 0.6s; }
+    .flow-node:nth-child(7) { animation-delay: 0.9s; }
+    .flow-node:nth-child(9) { animation-delay: 1.2s; }
+    .flow-box {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      border: 2px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .flow-box:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .flow-label { font-size: 11px; font-weight: 600; color: var(--silver); text-align: center; white-space: nowrap; }
+    .flow-sublabel { font-size: 9px; color: var(--steel); text-align: center; margin-top: -4px; }
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      color: var(--steel);
+      font-size: 18px;
+      padding: 0 6px;
+      position: relative;
+      opacity: 0;
+      animation: flowArrowIn 0.3s ease forwards;
+    }
+    .flow-arrow:nth-child(2) { animation-delay: 0.15s; }
+    .flow-arrow:nth-child(4) { animation-delay: 0.45s; }
+    .flow-arrow:nth-child(6) { animation-delay: 0.75s; }
+    .flow-arrow:nth-child(8) { animation-delay: 1.05s; }
+    .flow-arrow::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      position: absolute;
+      animation: pulseDot 2.5s ease-in-out infinite;
+    }
+    .flow-arrow:nth-child(2)::after { animation-delay: 0s; }
+    .flow-arrow:nth-child(4)::after { animation-delay: 0.5s; }
+    .flow-arrow:nth-child(6)::after { animation-delay: 1.0s; }
+    .flow-arrow:nth-child(8)::after { animation-delay: 1.5s; }
+
+    @keyframes flowNodeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes flowArrowIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 0; transform: translateX(-10px); }
+      30%      { opacity: 1; }
+      70%      { opacity: 1; }
+      100%     { opacity: 0; transform: translateX(10px); }
+    }
+
+    .flow-box.plc   { background: linear-gradient(135deg, #334155, #1e293b); border-color: #64748b; }
+    .flow-box.gate  { background: linear-gradient(135deg, #7c3aed, #5b21b6); border-color: #8b5cf6; }
+    .flow-box.n8n   { background: linear-gradient(135deg, #b45309, #92400e); border-color: #f59e0b; }
+    .flow-box.iaes  { background: linear-gradient(135deg, #1d4ed8, #1e40af); border-color: #3b82f6; }
+    .flow-box.cmms  { background: linear-gradient(135deg, #047857, #065f46); border-color: #10b981; }
+    .flow-box.ai    { background: linear-gradient(135deg, #9333ea, #7e22ce); border-color: #a855f7; }
+    .flow-box.dash  { background: linear-gradient(135deg, #0369a1, #075985); border-color: #38bdf8; }
+    .flow-box.mqtt  { background: linear-gradient(135deg, #7c3aed, #5b21b6); border-color: #8b5cf6; }
+
+    /* ── Steps ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .step-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .step-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-card p {
+      color: var(--slate);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    /* ── Code Blocks ── */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
+
+    /* ── Tabs ── */
+    .code-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 0;
+    }
+    .section-light .code-tabs {
+      border-bottom-color: var(--silver);
+    }
+    .code-tab {
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font-body);
+    }
+    .code-tab:hover { color: var(--white); }
+    .code-tab.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+    .section-light .code-tab:hover { color: var(--charcoal); }
+    .section-light .code-tab.active { color: var(--cyan); }
+    .code-panel { display: none; }
+    .code-panel.active { display: block; }
+
+    /* ── Scenario Cards ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .scenario-card {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .scenario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .scenario-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .scenario-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .scenario-card p {
+      font-size: 13px;
+      color: var(--steel);
+      margin-bottom: 12px;
+    }
+    .event-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+
+    /* ── Correlation Chain ── */
+    .correlation-chain {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 32px 0;
+    }
+    .chain-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .chain-box {
+      padding: 16px 24px;
+      border-radius: var(--radius-card);
+      border: 2px solid rgba(255,255,255,0.12);
+      text-align: center;
+      min-width: 160px;
+    }
+    .chain-box h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .chain-box code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--cyan-light);
+    }
+    .chain-arrow {
+      color: var(--steel);
+      font-size: 20px;
+      padding: 0 12px;
+    }
+    .chain-box.measure { border-color: #3b82f6; background: rgba(59, 130, 246, 0.08); }
+    .chain-box.health { border-color: #f59e0b; background: rgba(245, 158, 11, 0.08); }
+    .chain-box.wo { border-color: #10b981; background: rgba(16, 185, 129, 0.08); }
+    .chain-box.complete { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.08); }
+    .correlation-label {
+      text-align: center;
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--cyan-light);
+    }
+
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--silver);
+    }
+    .faq-question {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+    .faq-question:hover { color: var(--cyan); }
+    .faq-chevron {
+      transition: transform 0.2s;
+      font-size: 18px;
+      color: var(--slate);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding-bottom: 20px;
+    }
+    .faq-answer p {
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── CTA Strip ── */
+    .cta-strip {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr 1fr; }
+      .flow-row { flex-wrap: wrap; justify-content: center; gap: 8px; }
+      .flow-arrow { display: none; }
+      .correlation-chain { flex-direction: column; gap: 0; }
+      .chain-arrow { transform: rotate(90deg); padding: 8px 0; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .scenario-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" class="active" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="integrators.hero_title">For Integrators</h1>
+    <p class="hero-subtitle" data-i18n="integrators.hero_subtitle">You have PLCs, SCADA, sensors. Here's how IAES fits.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#examples" data-i18n="integrators.hero_cta_examples">View Code Examples</a>
+      <a class="btn btn-outline" href="#quickstart" data-i18n="integrators.hero_cta_install">Install SDK</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HOW IAES FITS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="how-it-fits">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.fits_title">How IAES Fits</h2>
+      <p data-i18n="integrators.fits_subtitle">IAES doesn't connect to your PLC. It standardizes what comes out.</p>
+    </div>
+
+    <div class="flow-diagrams" style="background: var(--charcoal-dark); border-radius: var(--radius-card); padding: 32px 24px;">
+      <!-- Flow 1: PLC → OPC-UA → Node-RED → IAES → SAP PM -->
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-box plc">&#9881;</div>
+          <span class="flow-label">PLC</span>
+          <span class="flow-sublabel">Modbus / OPC-UA</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box gate">
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#c4b5fd" stroke-width="1.5" fill="none"/><circle cx="8" cy="12" r="2" fill="#c4b5fd"/><circle cx="16" cy="12" r="2" fill="#c4b5fd"/><line x1="10" y1="12" x2="14" y2="12" stroke="#c4b5fd" stroke-width="1.5"/></svg>
+          </div>
+          <span class="flow-label">OPC-UA Gateway</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box n8n">
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke="#fbbf24" stroke-width="1.5" fill="none"/><path d="M8 12h8M12 8v8" stroke="#fbbf24" stroke-width="1.5"/></svg>
+          </div>
+          <span class="flow-label">Node-RED</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box iaes">
+            <svg width="28" height="28" viewBox="0 0 60 60"><polyline points="6,35 14,35 18,18 22,42 26,28 30,32 34,14 38,38 42,25 46,35 54,35" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <span class="flow-label" style="color:var(--cyan);">IAES Event</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box cmms">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 6h16v12H4z" stroke="#6ee7b7" stroke-width="1.5" fill="none" rx="2"/><path d="M4 10h16" stroke="#6ee7b7" stroke-width="1.5"/></svg>
+          </div>
+          <span class="flow-label">SAP PM</span>
+        </div>
+      </div>
+
+      <!-- Flow 2: MQTT Meter → n8n → IAES → Grafana + CMMS -->
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-box mqtt">
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2.5" fill="#c4b5fd"/><circle cx="6" cy="18" r="2.5" fill="#c4b5fd"/><circle cx="18" cy="18" r="2.5" fill="#c4b5fd"/><line x1="12" y1="8.5" x2="12" y2="13" stroke="#c4b5fd" stroke-width="1.5"/><line x1="12" y1="13" x2="6" y2="18" stroke="#c4b5fd" stroke-width="1.5"/><line x1="12" y1="13" x2="18" y2="18" stroke="#c4b5fd" stroke-width="1.5"/></svg>
+          </div>
+          <span class="flow-label">MQTT Meter</span>
+          <span class="flow-sublabel">ION 8650 / EKM</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box n8n">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M4 4l7 7-7 7" stroke="#fbbf24" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="12" y1="18" x2="20" y2="18" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="flow-label">n8n</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box iaes">
+            <svg width="28" height="28" viewBox="0 0 60 60"><polyline points="6,35 14,35 18,18 22,42 26,28 30,32 34,14 38,38 42,25 46,35 54,35" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <span class="flow-label" style="color:var(--cyan);">IAES Event</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box dash">
+            <svg width="24" height="24" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2" stroke="#38bdf8" stroke-width="1.5" fill="none"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="#38bdf8" stroke-width="1.5" fill="none"/><rect x="3" y="13" width="18" height="8" rx="2" stroke="#38bdf8" stroke-width="1.5" fill="none"/></svg>
+          </div>
+          <span class="flow-label">Grafana + CMMS</span>
+        </div>
+      </div>
+
+      <!-- Flow 3: AI Model → Python SDK → IAES → Dashboard + Alerts -->
+      <div class="flow-row">
+        <div class="flow-node">
+          <div class="flow-box ai">
+            <svg width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="#d8b4fe"/><circle cx="12" cy="4" r="1.5" fill="#d8b4fe"/><circle cx="12" cy="20" r="1.5" fill="#d8b4fe"/><circle cx="4" cy="12" r="1.5" fill="#d8b4fe"/><circle cx="20" cy="12" r="1.5" fill="#d8b4fe"/><line x1="12" y1="9" x2="12" y2="5.5" stroke="#d8b4fe" stroke-width="1"/><line x1="12" y1="15" x2="12" y2="18.5" stroke="#d8b4fe" stroke-width="1"/><line x1="9" y1="12" x2="5.5" y2="12" stroke="#d8b4fe" stroke-width="1"/><line x1="15" y1="12" x2="18.5" y2="12" stroke="#d8b4fe" stroke-width="1"/></svg>
+          </div>
+          <span class="flow-label">AI Model</span>
+          <span class="flow-sublabel">ONNX / TensorFlow</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box iaes" style="border-color:#a855f7;">
+            <span style="font-size:14px;font-family:var(--font-mono);color:#93c5fd;font-weight:600;">SDK</span>
+          </div>
+          <span class="flow-label">Python SDK</span>
+          <span class="flow-sublabel">pip install iaes</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box iaes">
+            <svg width="28" height="28" viewBox="0 0 60 60"><polyline points="6,35 14,35 18,18 22,42 26,28 30,32 34,14 38,38 42,25 46,35 54,35" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+          </div>
+          <span class="flow-label" style="color:var(--cyan);">IAES Event</span>
+        </div>
+        <div class="flow-arrow">&rarr;</div>
+        <div class="flow-node">
+          <div class="flow-box dash">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 12l4-8h10l4 8-4 8H7l-4-8z" stroke="#38bdf8" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="#38bdf8" stroke-width="1.5" fill="none"/></svg>
+          </div>
+          <span class="flow-label">Dashboard + Alerts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     QUICK START: 3 STEPS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="quickstart">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.steps_title">3 Steps to Your First Event</h2>
+    </div>
+
+    <div class="steps-grid">
+      <!-- Step 1: Install -->
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3 data-i18n="integrators.step1_title">Install</h3>
+        <p data-i18n="integrators.step1_desc">Choose your language and install the SDK.</p>
+        <div class="code-block">
+          <span class="cm"># Python</span><br>
+          <span class="fn">pip</span> <span class="str">install</span> iaes<br><br>
+          <span class="cm"># TypeScript</span><br>
+          <span class="fn">npm</span> <span class="str">install</span> @iaes/sdk
+        </div>
+      </div>
+
+      <!-- Step 2: Create -->
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3 data-i18n="integrators.step2_title">Create an Event</h3>
+        <p data-i18n="integrators.step2_desc">Build a minimal IAES event — just 12 lines of JSON.</p>
+        <div class="code-block" style="font-size:11px;">
+{<br>
+&nbsp;&nbsp;<span class="field">"spec_version"</span>: <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;<span class="field">"event_type"</span>: <span class="str">"asset.measurement"</span>,<br>
+&nbsp;&nbsp;<span class="field">"event_id"</span>: <span class="str">"550e..."</span>,<br>
+&nbsp;&nbsp;<span class="field">"timestamp"</span>: <span class="str">"2026-03-11T14:30:00Z"</span>,<br>
+&nbsp;&nbsp;<span class="field">"source"</span>: <span class="str">"acme.gateway"</span>,<br>
+&nbsp;&nbsp;<span class="field">"asset"</span>: { <span class="field">"asset_id"</span>: <span class="str">"PUMP-001"</span> },<br>
+&nbsp;&nbsp;<span class="field">"data"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="field">"measurement_type"</span>: <span class="str">"vibration_velocity"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="field">"value"</span>: <span class="num">4.2</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="field">"unit"</span>: <span class="str">"mm/s"</span><br>
+&nbsp;&nbsp;}<br>
+}
+        </div>
+      </div>
+
+      <!-- Step 3: Publish -->
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3 data-i18n="integrators.step3_title">Publish</h3>
+        <p data-i18n="integrators.step3_desc">Send via HTTP POST or MQTT — any transport works.</p>
+        <div class="code-block">
+          <span class="cm"># HTTP</span><br>
+          <span class="fn">curl</span> -X POST \<br>
+          &nbsp;&nbsp;-H <span class="str">"Content-Type: application/json"</span> \<br>
+          &nbsp;&nbsp;-d @event.json \<br>
+          &nbsp;&nbsp;https://your-api/iaes/events<br><br>
+          <span class="cm"># MQTT</span><br>
+          <span class="fn">mosquitto_pub</span> -t <span class="str">"iaes/org/pump-001/asset.measurement"</span> \<br>
+          &nbsp;&nbsp;-f event.json
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CODE EXAMPLES
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="examples">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.examples_title">Code Examples</h2>
+      <p data-i18n="integrators.examples_subtitle">Complete, working producer code in three languages.</p>
+    </div>
+
+    <div class="code-tabs">
+      <button class="code-tab active" onclick="showTab('python')">Python</button>
+      <button class="code-tab" onclick="showTab('typescript')">TypeScript</button>
+      <button class="code-tab" onclick="showTab('go')">Go</button>
+    </div>
+
+    <!-- Python -->
+    <div class="code-panel active" id="tab-python">
+      <div class="code-block">
+<span class="kw">import</span> uuid, json, hashlib<br>
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime, timezone<br>
+<br>
+<span class="kw">def</span> <span class="fn">create_iaes_event</span>(event_type, asset_id, source, data):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Create a minimal IAES v1.3 event."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;data_json = json.<span class="fn">dumps</span>(data, sort_keys=<span class="kw">True</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;content_hash = hashlib.<span class="fn">sha256</span>(data_json.<span class="fn">encode</span>()).<span class="fn">hexdigest</span>()[:<span class="num">16</span>]<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"spec_version"</span>: <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"event_type"</span>: event_type,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"event_id"</span>: <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>()),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"correlation_id"</span>: <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>()),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"timestamp"</span>: datetime.<span class="fn">now</span>(timezone.utc).<span class="fn">isoformat</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"source"</span>: source,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"content_hash"</span>: content_hash,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"asset"</span>: {<span class="str">"asset_id"</span>: asset_id},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"data"</span>: data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+<span class="cm"># Example: Vibration measurement</span><br>
+event = <span class="fn">create_iaes_event</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"asset.measurement"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"MOTOR-001"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"acme.sensors.vibration"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"measurement_type"</span>: <span class="str">"vibration_velocity"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"value"</span>: <span class="num">4.2</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"unit"</span>: <span class="str">"mm/s"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"location"</span>: <span class="str">"bearing_drive_end"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+)
+      </div>
+    </div>
+
+    <!-- TypeScript -->
+    <div class="code-panel" id="tab-typescript">
+      <div class="code-block">
+<span class="kw">import</span> { randomUUID } <span class="kw">from</span> <span class="str">'crypto'</span>;<br>
+<span class="kw">import</span> { createHash } <span class="kw">from</span> <span class="str">'crypto'</span>;<br>
+<br>
+<span class="kw">interface</span> <span class="type">IAESEvent</span> {<br>
+&nbsp;&nbsp;spec_version: <span class="type">string</span>;<br>
+&nbsp;&nbsp;event_type: <span class="type">string</span>;<br>
+&nbsp;&nbsp;event_id: <span class="type">string</span>;<br>
+&nbsp;&nbsp;correlation_id: <span class="type">string</span>;<br>
+&nbsp;&nbsp;timestamp: <span class="type">string</span>;<br>
+&nbsp;&nbsp;source: <span class="type">string</span>;<br>
+&nbsp;&nbsp;content_hash?: <span class="type">string</span>;<br>
+&nbsp;&nbsp;asset: { asset_id: <span class="type">string</span> };<br>
+&nbsp;&nbsp;data: <span class="type">Record</span>&lt;<span class="type">string</span>, <span class="type">unknown</span>&gt;;<br>
+}<br>
+<br>
+<span class="kw">function</span> <span class="fn">createIAESEvent</span>(<br>
+&nbsp;&nbsp;eventType: <span class="type">string</span>,<br>
+&nbsp;&nbsp;assetId: <span class="type">string</span>,<br>
+&nbsp;&nbsp;source: <span class="type">string</span>,<br>
+&nbsp;&nbsp;data: <span class="type">Record</span>&lt;<span class="type">string</span>, <span class="type">unknown</span>&gt;<br>
+): <span class="type">IAESEvent</span> {<br>
+&nbsp;&nbsp;<span class="kw">const</span> dataJson = JSON.<span class="fn">stringify</span>(data);<br>
+&nbsp;&nbsp;<span class="kw">const</span> contentHash = <span class="fn">createHash</span>(<span class="str">'sha256'</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">update</span>(dataJson).<span class="fn">digest</span>(<span class="str">'hex'</span>).<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">16</span>);<br>
+<br>
+&nbsp;&nbsp;<span class="kw">return</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;spec_version: <span class="str">'1.3'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event_type: eventType,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;event_id: <span class="fn">randomUUID</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;correlation_id: <span class="fn">randomUUID</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;timestamp: <span class="kw">new</span> <span class="type">Date</span>().<span class="fn">toISOString</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;source,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;content_hash: contentHash,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asset: { asset_id: assetId },<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data,<br>
+&nbsp;&nbsp;};<br>
+}
+      </div>
+    </div>
+
+    <!-- Go -->
+    <div class="code-panel" id="tab-go">
+      <div class="code-block">
+<span class="kw">package</span> iaes<br>
+<br>
+<span class="kw">import</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"crypto/sha256"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"encoding/json"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"fmt"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"time"</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"github.com/google/uuid"</span><br>
+)<br>
+<br>
+<span class="kw">type</span> <span class="type">IAESEvent</span> <span class="kw">struct</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SpecVersion   <span class="type">string</span>                 <span class="str">`json:"spec_version"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;EventType     <span class="type">string</span>                 <span class="str">`json:"event_type"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;EventID       <span class="type">string</span>                 <span class="str">`json:"event_id"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;CorrelationID <span class="type">string</span>                 <span class="str">`json:"correlation_id"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Timestamp     <span class="type">string</span>                 <span class="str">`json:"timestamp"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Source        <span class="type">string</span>                 <span class="str">`json:"source"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;ContentHash   <span class="type">string</span>                 <span class="str">`json:"content_hash,omitempty"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Asset         <span class="type">AssetIdentity</span>          <span class="str">`json:"asset"`</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Data          <span class="type">map[string]interface{}</span> <span class="str">`json:"data"`</span><br>
+}<br>
+<br>
+<span class="kw">type</span> <span class="type">AssetIdentity</span> <span class="kw">struct</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;AssetID <span class="type">string</span> <span class="str">`json:"asset_id"`</span><br>
+}<br>
+<br>
+<span class="kw">func</span> <span class="fn">NewEvent</span>(eventType, assetID, source <span class="type">string</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data <span class="type">map[string]interface{}</span>) <span class="type">IAESEvent</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dataBytes, _ := json.<span class="fn">Marshal</span>(data)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hash := sha256.<span class="fn">Sum256</span>(dataBytes)<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="type">IAESEvent</span>{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpecVersion:   <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventType:     eventType,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventID:       uuid.<span class="fn">New</span>().<span class="fn">String</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CorrelationID: uuid.<span class="fn">New</span>().<span class="fn">String</span>(),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Timestamp:     time.<span class="fn">Now</span>().<span class="fn">UTC</span>().<span class="fn">Format</span>(time.RFC3339),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source:        source,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ContentHash:   fmt.<span class="fn">Sprintf</span>(<span class="str">"%x"</span>, hash)[:<span class="num">16</span>],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Asset:         <span class="type">AssetIdentity</span>{AssetID: assetID},<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data:          data,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CONSUMER PATTERNS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="consumers">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.consumer_title">Consumer Patterns</h2>
+      <p data-i18n="integrators.consumer_subtitle">How to receive and dispatch IAES events. Any system that can read JSON can consume IAES.</p>
+    </div>
+
+    <div class="code-block">
+<span class="kw">def</span> <span class="fn">handle_iaes_event</span>(event: <span class="type">dict</span>):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Process an incoming IAES event."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;event_type = event[<span class="str">"event_type"</span>]<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;handlers = {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"asset.measurement"</span>: handle_measurement,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"asset.health"</span>: handle_health,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"maintenance.work_order_intent"</span>: handle_wo_intent,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"maintenance.completion"</span>: handle_completion,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;handler = handlers.<span class="fn">get</span>(event_type)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> handler:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">handler</span>(event[<span class="str">"asset"</span>], event[<span class="str">"data"</span>], event.<span class="fn">get</span>(<span class="str">"correlation_id"</span>))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># MUST tolerate unknown event types (IAES spec requirement)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;logger.<span class="fn">info</span>(<span class="str">f"Skipping unknown event type: {event_type}"</span>)<br>
+<br>
+<span class="kw">def</span> <span class="fn">handle_measurement</span>(asset, data, correlation_id):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Store measurement, check against alarm thresholds."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># Dedup check using content_hash</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;existing = db.<span class="fn">find_by_content_hash</span>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.<span class="fn">get</span>(<span class="str">"content_hash"</span>), asset[<span class="str">"asset_id"</span>]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> existing:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>&nbsp;&nbsp;<span class="cm"># Duplicate — skip</span><br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">store_measurement</span>(asset[<span class="str">"asset_id"</span>], data)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">check_alarm_thresholds</span>(asset[<span class="str">"asset_id"</span>], data)
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     INTEGRATION SCENARIOS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="scenarios">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.scenarios_title">Integration Scenarios</h2>
+      <p data-i18n="integrators.scenarios_subtitle">IAES maps to five common industrial integration patterns.</p>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128225;</div>
+        <h3 data-i18n="integrators.scenario1_title">Sensor Gateway</h3>
+        <p data-i18n="integrators.scenario1_desc">Normalize raw telemetry from any sensor into structured events.</p>
+        <span class="event-pill">asset.measurement</span>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon">&#129302;</div>
+        <h3 data-i18n="integrators.scenario2_title">AI / ML Engine</h3>
+        <p data-i18n="integrators.scenario2_desc">Consume measurements, produce health assessments with severity.</p>
+        <span class="event-pill">asset.health</span>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128736;</div>
+        <h3 data-i18n="integrators.scenario3_title">CMMS Connector</h3>
+        <p data-i18n="integrators.scenario3_desc">Receive work order intents, report completion back.</p>
+        <span class="event-pill">work_order_intent</span>
+        <span class="event-pill">completion</span>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128451;</div>
+        <h3 data-i18n="integrators.scenario4_title">Historian / Data Lake</h3>
+        <p data-i18n="integrators.scenario4_desc">Store all events for time-series analytics and compliance.</p>
+        <span class="event-pill">all events</span>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128200;</div>
+        <h3 data-i18n="integrators.scenario5_title">Dashboard</h3>
+        <p data-i18n="integrators.scenario5_desc">Visualize asset health, trends, and KPIs in real time.</p>
+        <span class="event-pill">asset.health</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CORRELATION & TRACEABILITY
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="correlation">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.correlation_title">Correlation &amp; Traceability</h2>
+      <p data-i18n="integrators.correlation_subtitle">One incident, one thread across all systems. Every event in a chain shares the same correlation_id.</p>
+    </div>
+
+    <div class="correlation-chain">
+      <div class="chain-node">
+        <div class="chain-box measure">
+          <h4>Measurement</h4>
+          <code>asset.measurement</code>
+        </div>
+      </div>
+      <div class="chain-arrow">&rarr;</div>
+      <div class="chain-node">
+        <div class="chain-box health">
+          <h4>Health</h4>
+          <code>asset.health</code>
+        </div>
+      </div>
+      <div class="chain-arrow">&rarr;</div>
+      <div class="chain-node">
+        <div class="chain-box wo">
+          <h4>Work Order</h4>
+          <code>work_order_intent</code>
+        </div>
+      </div>
+      <div class="chain-arrow">&rarr;</div>
+      <div class="chain-node">
+        <div class="chain-box complete">
+          <h4>Completion</h4>
+          <code>completion</code>
+        </div>
+      </div>
+    </div>
+
+    <p class="correlation-label">correlation_id: <span style="color:var(--cyan);">550e8400-e29b-41d4-a716-446655440001</span></p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FAQ
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="faq">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="integrators.faq_title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="integrators.faq1_q">Do I need to change my PLC firmware?</span>
+          <span class="faq-chevron">&#9660;</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="integrators.faq1_a">No. IAES lives above the transport layer. Your PLCs keep speaking Modbus, OPC-UA, or whatever protocol they use. IAES standardizes the event format after your gateway or middleware reads the data.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="integrators.faq2_q">What transport does IAES use?</span>
+          <span class="faq-chevron">&#9660;</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="integrators.faq2_a">Any. IAES is transport-agnostic. Use MQTT for real-time, HTTP for request-response, webhooks for push, or NDJSON files for batch. The standard defines the payload, not the pipe.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="integrators.faq3_q">Is IAES a protocol?</span>
+          <span class="faq-chevron">&#9660;</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="integrators.faq3_a">No. IAES is a data contract — a JSON schema that defines the shape of industrial asset events. It's analogous to CloudEvents for cloud-native systems, but designed specifically for industrial equipment.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="integrators.faq4_q">Can I use IAES without Wertek?</span>
+          <span class="faq-chevron">&#9660;</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="integrators.faq4_a">Yes. IAES is open-source under CC BY 4.0. You can implement it in any system, with any vendor, in any language. Wertek AI maintains the reference implementation, but the standard is vendor-neutral.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="integrators.faq5_q">Do I need to implement all 7 event types?</span>
+          <span class="faq-chevron">&#9660;</span>
+        </button>
+        <div class="faq-answer">
+          <p data-i18n="integrators.faq5_a">No. Implement only the event types your system produces or consumes. A sensor gateway might only emit asset.measurement. A CMMS connector might only handle work_order_intent and completion.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" style="padding: 48px 0;">
+  <div class="container">
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="/#install" data-i18n="integrators.cta_install">Install SDK</a>
+      <a class="btn btn-outline" href="/examples/" data-i18n="integrators.cta_examples">Browse Examples</a>
+      <a class="btn btn-outline" href="/spec/" data-i18n="integrators.cta_spec">View Specification</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+<script>
+  // Tab switching
+  function showTab(lang) {
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.code-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('.code-tab[onclick*="' + lang + '"]').classList.add('active');
+    document.getElementById('tab-' + lang).classList.add('active');
+  }
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    var item = btn.parentElement;
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>

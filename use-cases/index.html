@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES Use Cases — Industrial Asset Event Standard</title>
+  <meta name="description" content="Real-world IAES integration patterns: PLC to SAP PM, n8n industrial automation, condition monitoring, multi-vendor aggregation.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES Use Cases — Industrial Asset Event Standard">
+  <meta property="og:description" content="Real-world IAES integration patterns: PLC to SAP PM, n8n industrial automation, condition monitoring, multi-vendor aggregation.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/use-cases/">
+  <link rel="canonical" href="https://iaes.dev/use-cases/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    /* -- Hero -- */
+    .hero {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 72px 0 64px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* -- Sections -- */
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* -- Card Grid -- */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .use-case-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--snow);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius-card);
+      padding: 32px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+    a.use-case-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
+      transform: translateY(-2px);
+      color: inherit;
+    }
+    .use-case-card.coming-soon {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-desc {
+      font-size: 0.95rem;
+      color: var(--steel);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .badge-soon {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--warning);
+      color: var(--white);
+      padding: 2px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    /* -- Footer -- */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* -- Responsive -- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="usecases.hero_title">Use Cases</h1>
+    <p class="hero-subtitle" data-i18n="usecases.hero_subtitle">Real-world integration patterns with IAES</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CARD GRID
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="usecases.grid_title">Integration Patterns</h2>
+      <p data-i18n="usecases.grid_subtitle">Explore how IAES connects industrial systems, from edge devices to enterprise platforms.</p>
+    </div>
+
+    <div class="card-grid">
+
+      <!-- PLC to SAP PM -->
+      <a href="/use-cases/plc-to-sap-pm/" class="use-case-card">
+        <div class="card-icon">&#9881;&#65039;</div>
+        <div class="card-title" data-i18n="usecases.card_plc_title">PLC to SAP PM</div>
+        <p class="card-desc" data-i18n="usecases.card_plc_desc">Connect PLC sensor data to SAP PM work orders through standardized IAES events.</p>
+      </a>
+
+      <!-- n8n Industrial Automation -->
+      <a href="/use-cases/n8n-industrial-automation/" class="use-case-card">
+        <div class="card-icon">&#128260;</div>
+        <div class="card-title" data-i18n="usecases.card_n8n_title">n8n Industrial Automation</div>
+        <p class="card-desc" data-i18n="usecases.card_n8n_desc">Build no-code industrial automation workflows with n8n and IAES.</p>
+      </a>
+
+      <!-- Condition Monitoring (Coming Soon) -->
+      <div class="use-case-card coming-soon">
+        <div class="card-icon">&#128202;</div>
+        <div class="card-title">
+          <span data-i18n="usecases.card_condition_title">Condition Monitoring</span>
+          <span class="badge-soon" data-i18n="usecases.coming_soon">Coming Soon</span>
+        </div>
+        <p class="card-desc" data-i18n="usecases.card_condition_desc">Stream vibration, temperature, and power quality data as IAES events for real-time dashboards.</p>
+      </div>
+
+      <!-- Multi-Vendor Aggregation (Coming Soon) -->
+      <div class="use-case-card coming-soon">
+        <div class="card-icon">&#128279;</div>
+        <div class="card-title">
+          <span data-i18n="usecases.card_multivendor_title">Multi-Vendor Aggregation</span>
+          <span class="badge-soon" data-i18n="usecases.coming_soon">Coming Soon</span>
+        </div>
+        <p class="card-desc" data-i18n="usecases.card_multivendor_desc">Aggregate sensor data from Banner, IFM, SKF, and other vendors into a single event stream.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

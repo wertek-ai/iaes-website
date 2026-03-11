@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install IAES — Industrial Asset Event Standard</title>
+  <meta name="description" content="Install IAES SDKs for Python, TypeScript, Node-RED, and n8n. Start emitting standardized industrial asset events in minutes.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="Install IAES — Industrial Asset Event Standard">
+  <meta property="og:description" content="Install IAES SDKs for Python, TypeScript, Node-RED, and n8n. Start emitting standardized industrial asset events in minutes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/install/">
+  <link rel="canonical" href="https://iaes.dev/install/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--cyan-dark);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--white);
+    }
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--charcoal);
+      border: 1px solid var(--silver);
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Sections ── */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* ── Hero (compact) ── */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 64px 0 56px;
+      text-align: center;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Code Blocks ── */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .ck { color: #c084fc; }
+    .cs { color: #86efac; }
+    .cn { color: #fbbf24; }
+    .cm { color: #64748b; }
+
+    /* ── SDK Grid (2x2) ── */
+    .grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .card {
+      background: var(--snow);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lang-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .eco-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .eco-pill {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(14,165,233,0.2);
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+
+    /* ── Steps Grid ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .step-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cyan);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .step-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .step-card p {
+      color: var(--slate);
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    /* ── CTA Strip ── */
+    .cta-strip {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--charcoal);
+      color: var(--slate);
+      padding: 40px 0 32px;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 48px 0 40px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .grid-2x2 { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="/install/" class="active" data-i18n="nav.install">Install</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO (compact, dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="install_page.hero_title">Install</h1>
+    <p class="hero-subtitle" data-i18n="install_page.hero_subtitle">Choose your platform and start emitting IAES events in minutes.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     SDK CARDS (light, 2x2)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="sdks">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="install_page.sdks_title">SDKs &amp; Packages</h2>
+      <p data-i18n="install_page.sdks_subtitle">Zero required dependencies. Install and start emitting events in minutes.</p>
+    </div>
+    <div class="grid-2x2">
+
+      <!-- Python -->
+      <div class="card">
+        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
+        <div class="code-block">pip install iaes</div>
+        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> Client, AssetMeasurement
+
+client = Client(<span class="cs">"https://your-endpoint.com"</span>, api_key=<span class="cs">"key"</span>)
+
+event = AssetMeasurement(
+    asset_id=<span class="cs">"MOTOR-001"</span>,
+    measurement_type=<span class="cs">"vibration_velocity"</span>,
+    value=<span class="cn">4.2</span>,
+    unit=<span class="cs">"mm/s"</span>,
+    source=<span class="cs">"acme.sensors"</span>,
+)
+result = client.publish(event)</div>
+        <p style="margin-top:12px;"><a href="https://pypi.org/project/iaes/" target="_blank" rel="noreferrer">PyPI &rarr;</a></p>
+      </div>
+
+      <!-- TypeScript -->
+      <div class="card">
+        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
+        <div class="code-block">npm install @iaes/sdk</div>
+        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">import</span> { IaesClient, AssetMeasurement } <span class="ck">from</span> <span class="cs">"@iaes/sdk"</span>;
+
+<span class="ck">const</span> client = <span class="ck">new</span> IaesClient(<span class="cs">"https://your-endpoint.com"</span>, {
+  apiKey: <span class="cs">"key"</span>,
+});
+
+<span class="ck">const</span> event = <span class="ck">new</span> AssetMeasurement({
+  asset_id: <span class="cs">"MOTOR-001"</span>,
+  measurement_type: <span class="cs">"vibration_velocity"</span>,
+  value: <span class="cn">4.2</span>,
+  unit: <span class="cs">"mm/s"</span>,
+  source: <span class="cs">"acme.sensors"</span>,
+});
+<span class="ck">const</span> result = <span class="ck">await</span> client.publish(event);</div>
+        <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/@iaes/sdk" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+      </div>
+
+      <!-- Node-RED -->
+      <div class="card">
+        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.1</span></h3>
+        <div class="code-block">npm install node-red-contrib-iaes</div>
+        <p style="margin-top:14px;" data-i18n="install_page.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
+        <div class="eco-pills" style="margin-top:12px;">
+          <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">iaes measurement</span>
+          <span class="eco-pill" style="border-color:rgba(231,76,60,0.3);color:var(--critical);">iaes health</span>
+          <span class="eco-pill" style="border-color:rgba(243,156,18,0.3);color:var(--warning);">iaes work order</span>
+          <span class="eco-pill" style="border-color:rgba(39,174,96,0.3);color:var(--good);">iaes validate</span>
+          <span class="eco-pill" style="border-color:rgba(245,158,11,0.3);color:#f59e0b;">iaes sparkplug</span>
+          <span class="eco-pill" style="border-color:rgba(139,92,246,0.3);color:#8b5cf6;">iaes publish</span>
+          <span class="eco-pill" style="border-color:rgba(99,102,241,0.3);color:#6366f1;">iaes route</span>
+        </div>
+        <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/node-red-contrib-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+      </div>
+
+      <!-- n8n -->
+      <div class="card">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#ff6b35"/><text x="12" y="16.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="11" fill="white">n8n</text></svg>
+          n8n <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.1.1</span>
+        </h3>
+        <div class="code-block">npm install n8n-nodes-iaes</div>
+        <p style="margin-top:14px;" data-i18n="install_page.n8n_desc">3 community nodes for n8n workflows. Emit any IAES event, validate envelopes, and track incident lifecycle &mdash; all visual, zero code.</p>
+        <div class="eco-pills" style="margin-top:12px;">
+          <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">IAES Emit</span>
+          <span class="eco-pill" style="border-color:rgba(39,174,96,0.3);color:var(--good);">IAES Validate</span>
+          <span class="eco-pill" style="border-color:rgba(245,158,11,0.3);color:#f59e0b;">IAES Lifecycle</span>
+        </div>
+        <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/n8n-nodes-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     QUICK START (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="quickstart">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="install_page.quickstart_title">5 Minutes to Your First Event</h2>
+      <p data-i18n="install_page.quickstart_subtitle">Three steps from zero to a validated IAES event.</p>
+    </div>
+    <div class="steps-grid">
+
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3 data-i18n="install_page.step1_title">Install the SDK</h3>
+        <p data-i18n="install_page.step1_desc">Pick your language and install via your package manager.</p>
+        <div class="code-block">pip install iaes
+<span class="cm"># or</span>
+npm install @iaes/sdk</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3 data-i18n="install_page.step2_title">Create an Event</h3>
+        <p data-i18n="install_page.step2_desc">Wrap your measurement in an IAES envelope.</p>
+        <div class="code-block">{
+  <span class="cs">"specversion"</span>: <span class="cs">"1.3"</span>,
+  <span class="cs">"type"</span>: <span class="cs">"asset.measurement"</span>,
+  <span class="cs">"source"</span>: <span class="cs">"acme.sensors"</span>,
+  <span class="cs">"id"</span>: <span class="cs">"evt-001"</span>,
+  <span class="cs">"data"</span>: {
+    <span class="cs">"asset_id"</span>: <span class="cs">"MOTOR-001"</span>,
+    <span class="cs">"measurement_type"</span>: <span class="cs">"vibration_velocity"</span>,
+    <span class="cs">"value"</span>: <span class="cn">4.2</span>,
+    <span class="cs">"unit"</span>: <span class="cs">"mm/s"</span>
+  }
+}</div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3 data-i18n="install_page.step3_title">Publish</h3>
+        <p data-i18n="install_page.step3_desc">Send via HTTP, MQTT, or any transport you prefer.</p>
+        <div class="code-block"><span class="cm"># HTTP POST</span>
+curl -X POST https://your-endpoint.com/iaes \
+  -H <span class="cs">"Content-Type: application/json"</span> \
+  -d @event.json
+
+<span class="cm"># or MQTT</span>
+mosquitto_pub -t iaes/events \
+  -f event.json</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     VALIDATION (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="validation">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="install_page.validation_title">Validate Your Events</h2>
+      <p data-i18n="install_page.validation_subtitle">Every IAES event type has a JSON Schema. Validate before publishing to catch errors early.</p>
+    </div>
+    <div style="max-width:680px;margin:0 auto;">
+      <div class="code-block" style="font-size:13px;"><span class="ck">import</span> jsonschema
+<span class="ck">from</span> iaes <span class="ck">import</span> get_schema
+
+schema = get_schema(<span class="cs">"asset.measurement"</span>)
+jsonschema.validate(event, schema)  <span class="cm"># raises on invalid</span></div>
+      <p style="margin-top:16px;color:var(--steel);font-size:14px;text-align:center;" data-i18n="install_page.validation_note">Schemas are also available as standalone JSON files at <a href="/schemas/">/schemas/</a> for use with any language or validator.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" style="padding: 48px 0;">
+  <div class="container">
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="/examples/" data-i18n="install_page.cta_examples">Browse Examples</a>
+      <a class="btn btn-outline" href="/integrators/" data-i18n="install_page.cta_integrators">For Integrators</a>
+      <a class="btn btn-outline" href="/spec/" data-i18n="install_page.cta_spec">View Specification</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="/install/" data-i18n="nav.install">Install</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

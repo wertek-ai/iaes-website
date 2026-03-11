@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0f14"/>
+      <stop offset="50%" stop-color="#1B2024"/>
+      <stop offset="100%" stop-color="#0f2035"/>
+    </linearGradient>
+    <linearGradient id="icon-g" x1="340" y1="195" x2="480" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#94cff8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.03" stroke="white" stroke-width="1">
+    <line x1="0" y1="100" x2="1200" y2="100" stroke-dasharray="4,20"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke-dasharray="4,20"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke-dasharray="4,20"/>
+    <line x1="0" y1="400" x2="1200" y2="400" stroke-dasharray="4,20"/>
+    <line x1="0" y1="500" x2="1200" y2="500" stroke-dasharray="4,20"/>
+  </g>
+  <g transform="translate(340,195) scale(0.24)">
+    <path d="M 340 96 L 192 96 Q 120 96 120 168 L 120 344 Q 120 416 192 416 L 340 416 Q 392 416 392 364 L 392 316 M 392 196 L 392 168 Q 392 96 340 96" stroke="url(#icon-g)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M 80 256 L 170 256 L 216 152 L 280 356 L 324 256 L 432 256" stroke="url(#icon-g)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <circle cx="432" cy="256" r="28" fill="#0EA5E9"/>
+  </g>
+  <text x="520" y="345" font-family="Inter, -apple-system, sans-serif" font-size="108" font-weight="900" fill="white" letter-spacing="-3">IAES</text>
+  <text x="600" y="560" font-family="Inter, -apple-system, sans-serif" font-size="16" font-weight="500" fill="#94A3B8" letter-spacing="4" text-anchor="middle">INDUSTRIAL ASSET EVENT STANDARD</text>
+</svg>

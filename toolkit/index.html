@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES Toolkit — Industrial Asset Event Standard</title>
+  <meta name="description" content="IAES toolkit: SDKs for Python and TypeScript, Node-RED industrial nodes, CMMS bridges, CLI tools, and everything you need to build IAES integrations.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES Toolkit — Industrial Asset Event Standard">
+  <meta property="og:description" content="SDKs, bridges, CLI tools, and everything you need to build IAES integrations. Python, TypeScript, Node-RED, n8n, Grafana.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/toolkit/">
+  <link rel="canonical" href="https://iaes.dev/toolkit/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background: var(--cyan-dark);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      color: var(--white);
+    }
+    .btn-outline-dark {
+      background: transparent;
+      color: var(--charcoal);
+      border: 1px solid var(--silver);
+    }
+    .btn-outline-dark:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ── Sections ── */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header {
+      margin-bottom: 48px;
+    }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 80px 0 72px;
+      text-align: center;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Code Blocks ── */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
+
+    /* ── Package Table ── */
+    .pkg-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .pkg-table thead th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--steel);
+      border-bottom: 2px solid var(--silver);
+    }
+    .pkg-table tbody tr {
+      border-bottom: 1px solid var(--cloud);
+    }
+    .pkg-table tbody tr:nth-child(even) {
+      background: var(--snow);
+    }
+    .pkg-table tbody tr:hover {
+      background: rgba(14, 165, 233, 0.04);
+    }
+    .pkg-table td {
+      padding: 12px 16px;
+      vertical-align: middle;
+    }
+    .pkg-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--charcoal);
+    }
+    .pkg-desc {
+      font-size: 12px;
+      color: var(--steel);
+      margin-top: 2px;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-live {
+      background: rgba(39,174,96,0.1);
+      color: var(--good);
+      border: 1px solid rgba(39,174,96,0.2);
+    }
+    .status-planned {
+      background: rgba(160,174,192,0.1);
+      color: var(--slate);
+      border: 1px solid rgba(160,174,192,0.2);
+    }
+    .registry-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.15);
+    }
+
+    /* ── SDK Cards ── */
+    .sdk-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .sdk-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .sdk-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .sdk-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .sdk-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .sdk-icon.python { background: linear-gradient(135deg, #3776AB, #FFD43B); }
+    .sdk-icon.typescript { background: linear-gradient(135deg, #3178C6, #235A97); }
+    .sdk-icon.nodered { background: linear-gradient(135deg, #8F0000, #CC0000); }
+    .sdk-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .sdk-card p {
+      color: var(--slate);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .sdk-card .code-block {
+      margin-bottom: 16px;
+    }
+
+    /* ── Scenario Cards (reused for bridges & tools) ── */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .scenario-card {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .scenario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .scenario-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .scenario-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .scenario-card p {
+      font-size: 13px;
+      color: var(--steel);
+      margin-bottom: 12px;
+    }
+    .protocol-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+
+    /* ── Dark Scenario Cards ── */
+    .scenario-card-dark {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .scenario-card-dark:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .scenario-card-dark h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--white);
+    }
+    .scenario-card-dark p {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 12px;
+    }
+
+    /* ── Architecture Layers ── */
+    .arch-stack {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .arch-layer {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .arch-layer:first-child {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+    }
+    .arch-layer:last-child {
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+    }
+    .arch-layer + .arch-layer {
+      border-top: none;
+    }
+    .arch-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .arch-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .arch-l4 { background: rgba(139, 92, 246, 0.12); }
+    .arch-l4 .arch-label { color: #c4b5fd; }
+    .arch-l4 .arch-tag { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+    .arch-l3 { background: rgba(245, 158, 11, 0.10); }
+    .arch-l3 .arch-label { color: #fbbf24; }
+    .arch-l3 .arch-tag { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .arch-l2 { background: rgba(236, 72, 153, 0.10); }
+    .arch-l2 .arch-label { color: #f472b6; }
+    .arch-l2 .arch-tag { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+    .arch-l1 { background: rgba(14, 165, 233, 0.12); border-color: rgba(14, 165, 233, 0.3) !important; }
+    .arch-l1 .arch-label { color: var(--cyan-light); }
+    .arch-l1 .arch-tag { background: rgba(14, 165, 233, 0.2); color: var(--cyan-light); }
+    .arch-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--steel);
+      font-style: italic;
+    }
+
+    /* ── CTA Strip ── */
+    .cta-strip {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .sdk-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr 1fr; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+      .pkg-table { font-size: 13px; }
+      .pkg-table td, .pkg-table th { padding: 10px 12px; }
+      .arch-stack { margin: 0 8px; }
+    }
+    @media (max-width: 480px) {
+      .scenario-grid { grid-template-columns: 1fr; }
+      .pkg-table .pkg-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="toolkit.hero_title">IAES Integrator Toolkit</h1>
+    <p class="hero-subtitle" data-i18n="toolkit.hero_subtitle">SDKs, bridges, CLI tools, and everything you need to build IAES integrations.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#sdks" data-i18n="toolkit.hero_cta_sdk">Install SDK</a>
+      <a class="btn btn-outline" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="toolkit.hero_cta_github">View on GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     PACKAGE INVENTORY
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="packages">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="toolkit.packages_title">Package Inventory</h2>
+      <p data-i18n="toolkit.packages_subtitle">Every package in the IAES ecosystem. Install what you need, ignore what you don't.</p>
+    </div>
+
+    <table class="pkg-table">
+      <thead>
+        <tr>
+          <th data-i18n="toolkit.col_package">Package</th>
+          <th data-i18n="toolkit.col_registry">Registry</th>
+          <th data-i18n="toolkit.col_status">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_python_desc">Python SDK</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span></td>
+          <td><span class="status-pill status-live">Live v0.2.0</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">@iaes/sdk</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_ts_desc">TypeScript SDK</div>
+          </td>
+          <td><span class="registry-badge">npm</span></td>
+          <td><span class="status-pill status-live">Live v0.2.0</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">node-red-contrib-iaes</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_nodered_desc">Node-RED nodes for IAES</div>
+          </td>
+          <td><span class="registry-badge">npm</span></td>
+          <td><span class="status-pill status-live">Live v0.3.0</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">n8n-nodes-iaes</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_n8n_desc">n8n community nodes</div>
+          </td>
+          <td><span class="registry-badge">npm</span></td>
+          <td><span class="status-pill status-live">Live v0.1.1</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-bridge-sap</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_sap_desc">SAP PM bridge</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-bridge-maintainx</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_maintainx_desc">MaintainX bridge</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-bridge-fracttal</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_fracttal_desc">Fracttal bridge</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-bridge-odoo</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_odoo_desc">Odoo bridge</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-grafana-datasource</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_grafana_desc">Grafana data source plugin</div>
+          </td>
+          <td><span class="registry-badge">Grafana</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-cli</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_cli_desc">Command-line tools</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span> <span class="registry-badge">npm</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-router</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_router_desc">Event router and fan-out</div>
+          </td>
+          <td><span class="registry-badge">PyPI</span> <span class="registry-badge">Docker</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-inspector</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_inspector_desc">Event validation and debugging</div>
+          </td>
+          <td><span class="registry-badge">npm</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pkg-name">iaes-starter-kit</div>
+            <div class="pkg-desc" data-i18n="toolkit.pkg_starter_desc">Example project template</div>
+          </td>
+          <td><span class="registry-badge">GitHub</span></td>
+          <td><span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     SDKs
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="sdks">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="toolkit.sdks_title">SDKs</h2>
+      <p data-i18n="toolkit.sdks_subtitle">Validated event construction in your language. Type-safe, schema-aware, zero dependencies.</p>
+    </div>
+
+    <div class="sdk-grid">
+      <!-- Python SDK -->
+      <div class="sdk-card">
+        <div class="sdk-card-header">
+          <div class="sdk-icon python">&#128013;</div>
+          <h3>Python</h3>
+        </div>
+        <p data-i18n="toolkit.sdk_python_desc">Dataclass-based models with Pydantic validation. Serialize to JSON, publish to MQTT or HTTP.</p>
+        <div class="code-block">
+<span class="cm"># Install</span>
+pip install iaes
+        </div>
+        <div class="code-block" style="margin-top: 12px;">
+<span class="kw">from</span> iaes <span class="kw">import</span> <span class="type">Measurement</span>
+
+event = <span class="type">Measurement</span>(
+    <span class="field">asset_id</span>=<span class="str">"pump-001"</span>,
+    <span class="field">metric</span>=<span class="str">"vibration_rms"</span>,
+    <span class="field">value</span>=<span class="num">4.2</span>,
+    <span class="field">unit</span>=<span class="str">"mm/s"</span>
+)
+<span class="fn">print</span>(event.<span class="fn">to_json</span>())
+        </div>
+      </div>
+
+      <!-- TypeScript SDK -->
+      <div class="sdk-card">
+        <div class="sdk-card-header">
+          <div class="sdk-icon typescript">TS</div>
+          <h3>TypeScript</h3>
+        </div>
+        <p data-i18n="toolkit.sdk_ts_desc">Full type definitions with Zod schema validation. Tree-shakeable ESM exports.</p>
+        <div class="code-block">
+<span class="cm">// Install</span>
+npm install @iaes/sdk
+        </div>
+        <div class="code-block" style="margin-top: 12px;">
+<span class="kw">import</span> { <span class="type">createMeasurement</span> } <span class="kw">from</span> <span class="str">'@iaes/sdk'</span>;
+
+<span class="kw">const</span> event = <span class="fn">createMeasurement</span>({
+  <span class="field">asset_id</span>: <span class="str">'pump-001'</span>,
+  <span class="field">metric</span>: <span class="str">'vibration_rms'</span>,
+  <span class="field">value</span>: <span class="num">4.2</span>,
+  <span class="field">unit</span>: <span class="str">'mm/s'</span>,
+});
+        </div>
+      </div>
+
+      <!-- Node-RED -->
+      <div class="sdk-card">
+        <div class="sdk-card-header">
+          <div class="sdk-icon nodered">NR</div>
+          <h3>Node-RED</h3>
+        </div>
+        <p data-i18n="toolkit.sdk_nodered_desc">Drag-and-drop nodes: iaes-measurement, iaes-health, iaes-validate, iaes-format.</p>
+        <div class="code-block">
+<span class="cm"># Install in Node-RED</span>
+npm install node-red-contrib-iaes
+        </div>
+        <div class="code-block" style="margin-top: 12px;">
+<span class="cm">// msg.payload output</span>
+{
+  <span class="field">"specversion"</span>: <span class="str">"1.3"</span>,
+  <span class="field">"type"</span>: <span class="str">"asset.measurement"</span>,
+  <span class="field">"data"</span>: {
+    <span class="field">"metric"</span>: <span class="str">"vibration_rms"</span>,
+    <span class="field">"value"</span>: <span class="num">4.2</span>
+  }
+}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CMMS BRIDGES
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="bridges">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="toolkit.bridges_title">CMMS Bridges</h2>
+      <p data-i18n="toolkit.bridges_subtitle">Convert IAES events into work orders in your existing CMMS. Drop-in, no custom code.</p>
+    </div>
+
+    <div class="scenario-grid">
+      <!-- SAP PM -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#9881;</div>
+        <h3>SAP PM</h3>
+        <p data-i18n="toolkit.bridge_sap_desc">Converts IAES events to SAP PM notifications and work orders via OData.</p>
+        <span class="protocol-badge">OData</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="toolkit.status_planned">Planned</span>
+      </div>
+
+      <!-- MaintainX -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128295;</div>
+        <h3>MaintainX</h3>
+        <p data-i18n="toolkit.bridge_maintainx_desc">Converts IAES events to MaintainX work orders via REST API.</p>
+        <span class="protocol-badge">REST</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="toolkit.status_planned">Planned</span>
+      </div>
+
+      <!-- Fracttal -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128736;</div>
+        <h3>Fracttal</h3>
+        <p data-i18n="toolkit.bridge_fracttal_desc">Converts IAES events to Fracttal tasks and work orders via REST API.</p>
+        <span class="protocol-badge">REST</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="toolkit.status_planned">Planned</span>
+      </div>
+
+      <!-- Odoo -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128230;</div>
+        <h3>Odoo</h3>
+        <p data-i18n="toolkit.bridge_odoo_desc">Converts IAES events to Odoo maintenance requests via XML-RPC.</p>
+        <span class="protocol-badge">XML-RPC</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="toolkit.status_planned">Planned</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     DEVELOPER TOOLS
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="tools">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="toolkit.tools_title">Developer Tools</h2>
+      <p data-i18n="toolkit.tools_subtitle">Validate, inspect, route, and debug IAES events from the command line.</p>
+    </div>
+
+    <div class="scenario-grid">
+      <!-- CLI -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#9000;</div>
+        <h3 data-i18n="toolkit.tool_cli_title">iaes-cli</h3>
+        <p data-i18n="toolkit.tool_cli_desc">Validate events, generate samples, and publish to MQTT or HTTP from the terminal.</p>
+        <div class="code-block">
+<span class="cm"># Validate an event file</span>
+$ iaes validate event.json
+
+<span class="cm"># Generate a sample event</span>
+$ iaes generate asset.measurement
+
+<span class="cm"># Publish to MQTT broker</span>
+$ iaes publish event.json --broker mqtt://localhost
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span>
+        </div>
+      </div>
+
+      <!-- Inspector -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#128269;</div>
+        <h3 data-i18n="toolkit.tool_inspector_title">iaes-inspector</h3>
+        <p data-i18n="toolkit.tool_inspector_desc">Real-time event stream viewer with schema validation, filtering, and correlation tracking.</p>
+        <div class="code-block">
+<span class="cm"># Start inspector UI</span>
+$ npx iaes-inspector
+
+<span class="cm"># Connect to MQTT stream</span>
+$ npx iaes-inspector --broker mqtts://mqtt.example.com
+
+<span class="cm"># Filter by event type</span>
+$ npx iaes-inspector --type asset.health
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span>
+        </div>
+      </div>
+
+      <!-- Router -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#128268;</div>
+        <h3 data-i18n="toolkit.tool_router_title">iaes-router</h3>
+        <p data-i18n="toolkit.tool_router_desc">Event fan-out engine. Route IAES events to multiple destinations based on type, severity, or asset.</p>
+        <div class="code-block">
+<span class="cm"># Run with config file</span>
+$ iaes-router --config routes.yaml
+
+<span class="cm"># Or run as Docker container</span>
+$ docker run -v routes.yaml:/config.yaml \
+    iaes/router:latest
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="toolkit.status_planned">Planned</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ARCHITECTURE
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="architecture">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="toolkit.arch_title">Architecture</h2>
+      <p data-i18n="toolkit.arch_subtitle">IAES is the open foundation. Everything above it is proprietary intelligence.</p>
+    </div>
+
+    <div class="arch-stack">
+      <div class="arch-layer arch-l4">
+        <div>
+          <span class="arch-label">L4</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #c4b5fd;" data-i18n="toolkit.arch_l4">Wertek Applications</span>
+        </div>
+        <span class="arch-tag" data-i18n="toolkit.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l3">
+        <div>
+          <span class="arch-label">L3</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #fbbf24;" data-i18n="toolkit.arch_l3">Wertek Platform</span>
+        </div>
+        <span class="arch-tag" data-i18n="toolkit.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l2">
+        <div>
+          <span class="arch-label">L2</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #f472b6;" data-i18n="toolkit.arch_l2">Wertek Runtime</span>
+        </div>
+        <span class="arch-tag" data-i18n="toolkit.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l1">
+        <div>
+          <span class="arch-label">L1</span>
+          <span style="margin-left: 12px; font-weight: 600; color: var(--cyan-light);" data-i18n="toolkit.arch_l1">IAES</span>
+        </div>
+        <span class="arch-tag" data-i18n="toolkit.arch_open">OPEN STANDARD</span>
+      </div>
+    </div>
+
+    <p class="arch-note" data-i18n="toolkit.arch_note">IAES is the open foundation. Everything above it is proprietary intelligence.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" style="padding: 48px 0;">
+  <div class="container">
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="#sdks" data-i18n="toolkit.cta_install">Install SDK</a>
+      <a class="btn btn-outline" href="/integrators/" data-i18n="toolkit.cta_integrators">For Integrators</a>
+      <a class="btn btn-outline" href="/spec/" data-i18n="toolkit.cta_spec">View Specification</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

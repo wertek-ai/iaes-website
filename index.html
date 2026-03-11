@@ -10,6 +10,15 @@
   <meta property="og:description" content="A minimal, vendor-neutral event language for industrial assets. Names what happens to equipment so any system can produce and consume asset events.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev">
+  <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://iaes.dev/assets/og-image.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="canonical" href="https://iaes.dev">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,11 +93,16 @@
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 8px;
     }
     .brand:hover { color: var(--white); }
     .brand-accent {
       color: var(--cyan);
+    }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
     }
     .header-content nav {
       display: flex;
@@ -1405,13 +1419,37 @@
       color: var(--cyan-light);
     }
 
+    /* ── Explore Cards ── */
+    .explore-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .explore-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-card);
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform 0.2s, border-color 0.2s;
+      text-decoration: none;
+      display: block;
+    }
+    .explore-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--cyan);
+    }
+    .explore-card-icon { font-size: 36px; margin-bottom: 16px; }
+    .explore-card h3 { color: var(--white); font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+    .explore-card p { color: var(--slate); font-size: 14px; line-height: 1.5; }
+
     /* ── Responsive ── */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .hero { padding: 56px 0 48px; }
       .hero h1 { font-size: 2rem; }
       .hero-subtitle { font-size: 1rem; }
-      .grid-2, .grid-3, .envelope-grid { grid-template-columns: 1fr; }
+      .grid-2, .grid-3, .envelope-grid, .explore-grid { grid-template-columns: 1fr; }
       .silo-box { width: 110px; }
       .is-isnot-grid { grid-template-columns: 1fr; }
       .inequality-row { flex-direction: column; align-items: center; }
@@ -1439,13 +1477,14 @@
      ════════════════════════════════════════════════════════════════════════════ -->
 <header class="site-header">
   <div class="container header-content">
-    <a href="/" class="brand">I<span class="brand-accent">A</span>ES</a>
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
     <nav>
       <ul class="nav-links">
         <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
         <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
         <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
         <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
         <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
       </ul>
       <div class="header-actions">
@@ -2350,6 +2389,34 @@ client.publish(
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     EXPLORE MORE
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" style="padding: 64px 0;">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="explore.title">Explore More</h2>
+    </div>
+    <div class="explore-grid">
+      <a href="/integrators/" class="explore-card">
+        <div class="explore-card-icon">&#9881;</div>
+        <h3 data-i18n="explore.integrators_title">For Integrators</h3>
+        <p data-i18n="explore.integrators_desc">Code examples, consumer patterns, and integration scenarios for PLCs, SCADA, and CMMS.</p>
+      </a>
+      <a href="/toolkit/" class="explore-card">
+        <div class="explore-card-icon">&#128230;</div>
+        <h3 data-i18n="explore.toolkit_title">Toolkit</h3>
+        <p data-i18n="explore.toolkit_desc">SDKs, bridges, CLI tools, and Node-RED nodes for building IAES integrations.</p>
+      </a>
+      <a href="/use-cases/" class="explore-card">
+        <div class="explore-card-icon">&#128161;</div>
+        <h3 data-i18n="explore.usecases_title">Use Cases</h3>
+        <p data-i18n="explore.usecases_desc">Real-world integration patterns: PLC to SAP PM, n8n automation, multi-vendor aggregation.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      FOOTER
      ════════════════════════════════════════════════════════════════════════════ -->
 <footer class="site-footer">
@@ -2364,6 +2431,7 @@ client.publish(
         <a href="/spec/" data-i18n="footer.spec">Specification</a>
         <a href="/examples/" data-i18n="footer.examples">Examples</a>
         <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
         <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
       </div>
     </div>
