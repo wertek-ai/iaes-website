@@ -2389,6 +2389,123 @@ client.publish(
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
+     OFFICIAL SPECIFICATION — RFC + DOI
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="specification">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="rfc.title">Official Specification</h2>
+    </div>
+    <div style="max-width:640px;margin:0 auto;text-align:center">
+      <div style="background:var(--charcoal-dark);color:var(--white);border-radius:12px;padding:40px 32px;font-family:var(--font-mono);margin-bottom:24px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--slate);margin-bottom:16px">Published Specification</div>
+        <div style="font-size:24px;font-weight:700;margin-bottom:4px;color:var(--cyan-light)">IAES-RFC-001</div>
+        <div style="font-size:16px;color:var(--silver);margin-bottom:20px">Industrial Asset Event Model</div>
+        <div style="font-size:13px;color:var(--slate);margin-bottom:24px">Version 1.3 &middot; March 2026 &middot; CC BY 4.0</div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <a class="btn btn-primary" href="https://github.com/wertek-ai/iaes/blob/main/rfc/IAES-RFC-001.md" target="_blank" rel="noreferrer" style="font-size:13px">Read RFC-001</a>
+          <a class="btn btn-outline" href="https://doi.org/10.5281/zenodo.18973217" target="_blank" rel="noreferrer" style="font-size:13px">DOI: 10.5281/zenodo.18973217</a>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--steel);line-height:1.7" data-i18n="rfc.desc">Permanent, citable identifier via <a href="https://zenodo.org" target="_blank" rel="noreferrer">Zenodo</a> (CERN). Indexed by OpenAIRE and Software Heritage. Uses IETF conventions (MUST / SHOULD / MAY per RFC 2119).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     MODEL DIAGRAM — Simple conceptual flow
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="model">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="model.title">The Model</h2>
+      <p class="section-subtitle" data-i18n="model.subtitle">Any producer. One event format. Any consumer.</p>
+    </div>
+    <div style="max-width:800px;margin:0 auto">
+      <div style="display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap">
+        <!-- Producers -->
+        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
+          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Producers</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Vibration sensor</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI model</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Technician app</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Energy meter</div>
+        </div>
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
+        <!-- IAES Core -->
+        <div style="flex:0 0 auto;display:flex;align-items:center;padding:16px">
+          <div style="background:linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05));border:2px solid var(--cyan);border-radius:16px;padding:32px 28px;text-align:center;min-width:160px">
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan-light);margin-bottom:8px">Standard</div>
+            <div style="font-size:28px;font-weight:700;color:var(--white);letter-spacing:-0.5px">IAES</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan-light);margin-top:4px">event</div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--slate)">
+              <span>asset.measurement</span>
+              <span>asset.health</span>
+              <span>work_order_intent</span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
+        <!-- Consumers -->
+        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
+          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Consumers</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">CMMS / SAP PM</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Analytics / BI</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI / ML pipeline</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Historian / SCADA</div>
+        </div>
+      </div>
+      <!-- Mobile fallback -->
+      <div style="margin-top:24px;text-align:center">
+        <div class="iso-note" style="display:inline-block;background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15)">
+          <span style="font-family:var(--font-mono);font-size:12px;color:var(--slate)" data-i18n="model.note">Industrial asset &#x2192; IAES event &#x2192; Any enterprise system. One format. Zero custom integrations.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HOW TO CITE IAES
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="cite">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="cite.title">How to Cite IAES</h2>
+      <p class="section-subtitle" data-i18n="cite.subtitle">If you use IAES in research, industrial systems, or procurement documents, please cite:</p>
+    </div>
+    <div style="max-width:640px;margin:0 auto">
+      <!-- Plain text -->
+      <div style="background:var(--white);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:24px 28px;margin-bottom:16px">
+        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--steel);margin-bottom:12px">Plain text</div>
+        <p style="font-size:15px;line-height:1.7;color:var(--charcoal)">
+          Garza, G. (2026).<br>
+          Industrial Asset Event Standard (IAES) v1.3.<br>
+          Zenodo.<br>
+          <a href="https://doi.org/10.5281/zenodo.18973217" target="_blank" rel="noreferrer">https://doi.org/10.5281/zenodo.18973217</a>
+        </p>
+      </div>
+      <!-- BibTeX -->
+      <div style="background:var(--charcoal-dark);border-radius:10px;padding:24px 28px;margin-bottom:16px">
+        <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:12px">BibTeX</div>
+        <pre style="font-family:var(--font-mono);font-size:13px;line-height:1.6;color:var(--silver);white-space:pre-wrap;word-break:break-word;margin:0">@software{garza_iaes_2026,
+  author       = {Garza, Gilberto},
+  title        = {Industrial Asset Event Standard (IAES)},
+  version      = {v1.3.0},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.18973217},
+  url          = {https://doi.org/10.5281/zenodo.18973217}
+}</pre>
+      </div>
+      <p style="font-size:13px;color:var(--steel);text-align:center;line-height:1.6" data-i18n="cite.note">DOI resolves permanently via <a href="https://zenodo.org" target="_blank" rel="noreferrer">Zenodo</a> (CERN). Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
      EXPLORE MORE
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-dark" style="padding: 64px 0;">
