@@ -36,7 +36,7 @@ Every IAES event shares this envelope:
 
 ```json
 {
-  "spec_version": "1.2",
+  "spec_version": "1.3",
   "event_type": "asset.health",
   "event_id": "uuid",
   "correlation_id": "uuid",
@@ -59,7 +59,7 @@ Every IAES event shares this envelope:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `spec_version` | string | yes | IAES spec version (`"1.0"`, `"1.1"`, or `"1.2"`) |
+| `spec_version` | string | yes | IAES spec version (`"1.0"`, `"1.1"`, `"1.2"`, or `"1.3"`) |
 | `event_type` | string | yes | Dot-notation event type |
 | `event_id` | UUID | yes | Unique identifier for this event |
 | `correlation_id` | UUID | yes | Groups related events in a single flow |
@@ -157,7 +157,7 @@ Declares the INTENT to create a work order. The consumer decides whether and how
   "data": {
     "title": "Bearing failure predicted",
     "description": "Inner race defect detected by AI diagnosis",
-    "priority": "critical",
+    "priority": "emergency",
     "recommended_due_days": 3,
     "triggered_by": "alert"
   }
@@ -449,6 +449,22 @@ maintenance.spare_part_usage ─── [0-N parts consumed]
 ```
 
 All events in the chain share the same `correlation_id`. Each references its predecessor via `source_event_id`.
+
+## Event Type Usage Guide
+
+When to use each event type, who produces it, and who consumes it.
+
+| Event Type | Typical Producer | Typical Consumer | Use When | Do NOT Use When |
+|------------|-----------------|------------------|----------|-----------------|
+| `asset.measurement` | Sensor gateway, edge device, historian bridge | AI/ML engine, rule engine, data lake, digital twin | A sensor reading needs to be shared across systems (vibration, temperature, power factor, THD, current, voltage, pressure) | Storing raw waveforms (use a blob store). Logging routine telemetry internally (use your time-series DB directly). |
+| `asset.health` | AI model, rule engine, expert inspector, SCADA alarm mapper | CMMS (work order creation), dashboard (KPIs), alert engine, incident tracker | An actionable condition assessment exists — fault detected, health index calculated, alarm threshold crossed, recovery confirmed | Routine "all clear" polling. Use only when a condition state changes or is actively abnormal. |
+| `maintenance.work_order_intent` | AI engine, alert rule, human operator, planning system | CMMS (SAP PM, Odoo, MaintainX, Fracttal), dispatcher, approval workflow | A work order SHOULD be created based on a diagnosis, alert, or schedule | Acknowledging work already in progress (use `maintenance.completion`). |
+| `maintenance.completion` | CMMS, mobile app, technician handoff | AI model (retraining feedback), historian (close loop), dashboard | A work order has been completed, cancelled, or deferred — closes the observation-to-action loop | Partial status updates mid-execution (not yet supported in v1.3). |
+| `asset.hierarchy` | CMMS, ERP, asset register, BIM system | Digital twin, dashboard, graph database | Asset tree structure changes — new equipment, relocation, parent/child relationships | Routine sync of unchanged hierarchy (use idempotent upsert, not repeated events). |
+| `sensor.registration` | Edge gateway, IoT platform, device manager | Asset register, provisioning system, monitoring dashboard | A sensor is discovered, registered, calibrated, or decommissioned for the first time or changes state | Every reading cycle. Emit once per state change, not per reading. |
+| `maintenance.spare_part_usage` | CMMS, warehouse system, technician app | Inventory system, cost analytics, procurement | Spare parts were consumed during a maintenance action | Generic inventory movements unrelated to maintenance (use your ERP). |
+
+> **Guidance:** `asset.measurement` and `sensor.registration` are high-frequency by nature. Consumers building intelligence dashboards SHOULD filter by `asset.health` and `maintenance.*` event types for actionable signal. Raw measurements belong in time-series storage, not intelligence layers.
 
 ## System Compatibility
 
