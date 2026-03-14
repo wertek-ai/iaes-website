@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Install IAES — Industrial Asset Event Standard</title>
-  <meta name="description" content="Install IAES SDKs for Python, TypeScript, Node-RED, and n8n. Start emitting standardized industrial asset events in minutes.">
+  <title>SDKs & Tooling — IAES</title>
+  <meta name="description" content="IAES SDKs for Python, TypeScript, Node-RED, and n8n. CMMS bridges, CLI tools, and everything you need to build IAES integrations.">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="Install IAES — Industrial Asset Event Standard">
-  <meta property="og:description" content="Install IAES SDKs for Python, TypeScript, Node-RED, and n8n. Start emitting standardized industrial asset events in minutes.">
+  <meta property="og:title" content="SDKs & Tooling — IAES">
+  <meta property="og:description" content="SDKs, bridges, CLI tools, and everything you need to build IAES integrations. Python, TypeScript, Node-RED, n8n, Grafana.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://iaes.dev/install/">
-  <link rel="canonical" href="https://iaes.dev/install/">
+  <meta property="og:url" content="https://iaes.dev/tooling/">
+  <link rel="canonical" href="https://iaes.dev/tooling/">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -63,7 +63,7 @@
       padding: 0 24px;
     }
 
-    /* ── Header ── */
+    /* -- Header -- */
     .site-header {
       position: sticky;
       top: 0;
@@ -114,7 +114,7 @@
       text-decoration: none;
     }
     .nav-links a:hover { color: var(--white); }
-    .nav-links a.active { color: var(--white); }
+    .nav-links a.nav-active { color: var(--white); }
     .header-actions {
       display: flex;
       align-items: center;
@@ -131,7 +131,7 @@
     }
     .lang-selector select option { background: var(--charcoal); color: var(--white); }
 
-    /* ── Buttons ── */
+    /* -- Buttons -- */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -173,7 +173,7 @@
       color: var(--cyan);
     }
 
-    /* ── Sections ── */
+    /* -- Sections -- */
     .section-dark {
       background: var(--charcoal-dark);
       color: var(--white);
@@ -202,10 +202,10 @@
     .section-dark .section-header p { color: var(--slate); }
     .section-light .section-header p { color: var(--steel); }
 
-    /* ── Hero (compact) ── */
+    /* -- Hero -- */
     .hero {
       background: var(--charcoal-dark);
-      padding: 64px 0 56px;
+      padding: 80px 0 72px;
       text-align: center;
       color: var(--white);
     }
@@ -219,11 +219,17 @@
       font-size: 1.2rem;
       color: var(--slate);
       max-width: 600px;
-      margin: 0 auto;
+      margin: 0 auto 32px;
       line-height: 1.6;
     }
+    .hero-ctas {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
 
-    /* ── Code Blocks ── */
+    /* -- Code Blocks -- */
     .code-block {
       background: rgba(0,0,0,0.3);
       border-radius: var(--radius);
@@ -239,12 +245,18 @@
       background: var(--charcoal-dark);
       color: var(--silver);
     }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
     .ck { color: #c084fc; }
     .cs { color: #86efac; }
     .cn { color: #fbbf24; }
-    .cm { color: #64748b; }
 
-    /* ── SDK Grid (2x2) ── */
+    /* -- SDK Cards (install page style, 2x2) -- */
     .grid-2x2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -285,7 +297,7 @@
       white-space: nowrap;
     }
 
-    /* ── Steps Grid ── */
+    /* -- Steps Grid (quickstart) -- */
     .steps-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -321,19 +333,162 @@
       margin-bottom: 12px;
     }
 
-    /* ── CTA Strip ── */
+    /* -- Scenario Cards (bridges & tools) -- */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .scenario-card {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .scenario-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .scenario-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .scenario-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .scenario-card p {
+      font-size: 13px;
+      color: var(--steel);
+      margin-bottom: 12px;
+    }
+    .protocol-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(14, 165, 233, 0.1);
+      color: var(--cyan-dark);
+      border: 1px solid rgba(14, 165, 233, 0.2);
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .status-live {
+      background: rgba(39,174,96,0.1);
+      color: var(--good);
+      border: 1px solid rgba(39,174,96,0.2);
+    }
+    .status-planned {
+      background: rgba(160,174,192,0.1);
+      color: var(--slate);
+      border: 1px solid rgba(160,174,192,0.2);
+    }
+
+    /* -- Dark Scenario Cards -- */
+    .scenario-card-dark {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 24px 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .scenario-card-dark:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .scenario-card-dark h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--white);
+    }
+    .scenario-card-dark p {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 12px;
+    }
+
+    /* -- Architecture Layers -- */
+    .arch-stack {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .arch-layer {
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .arch-layer:first-child {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+    }
+    .arch-layer:last-child {
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+    }
+    .arch-layer + .arch-layer {
+      border-top: none;
+    }
+    .arch-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .arch-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .arch-l4 { background: rgba(139, 92, 246, 0.12); }
+    .arch-l4 .arch-label { color: #c4b5fd; }
+    .arch-l4 .arch-tag { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+    .arch-l3 { background: rgba(245, 158, 11, 0.10); }
+    .arch-l3 .arch-label { color: #fbbf24; }
+    .arch-l3 .arch-tag { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .arch-l2 { background: rgba(236, 72, 153, 0.10); }
+    .arch-l2 .arch-label { color: #f472b6; }
+    .arch-l2 .arch-tag { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+    .arch-l1 { background: rgba(14, 165, 233, 0.12); border-color: rgba(14, 165, 233, 0.3) !important; }
+    .arch-l1 .arch-label { color: var(--cyan-light); }
+    .arch-l1 .arch-tag { background: rgba(14, 165, 233, 0.2); color: var(--cyan-light); }
+    .arch-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--steel);
+      font-style: italic;
+    }
+
+    /* -- CTA Strip -- */
     .cta-strip {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
-    /* ── Footer ── */
+    /* -- Footer -- */
     .site-footer {
-      background: var(--charcoal);
-      color: var(--slate);
-      padding: 40px 0 32px;
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
     .footer-content {
       display: flex;
@@ -341,6 +496,11 @@
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
     }
     .footer-brand strong {
       color: var(--white);
@@ -370,16 +530,21 @@
     }
     .footer-bottom a { color: var(--slate); }
 
-    /* ── Responsive ── */
+    /* -- Responsive -- */
     @media (max-width: 768px) {
       .nav-links { display: none; }
-      .hero { padding: 48px 0 40px; }
+      .hero { padding: 56px 0 48px; }
       .hero h1 { font-size: 2rem; }
       .hero-subtitle { font-size: 1rem; }
       .grid-2x2 { grid-template-columns: 1fr; }
       .steps-grid { grid-template-columns: 1fr; }
+      .scenario-grid { grid-template-columns: 1fr 1fr; }
       .section-dark, .section-light { padding: 56px 0; }
       .section-header h2 { font-size: 1.6rem; }
+      .arch-stack { margin: 0 8px; }
+    }
+    @media (max-width: 480px) {
+      .scenario-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -393,13 +558,13 @@
     <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
     <nav>
       <ul class="nav-links">
-        <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
-        <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
-        <li><a href="/spec/" data-i18n="nav.spec">Spec</a></li>
-        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
-        <li><a href="/tooling/" data-i18n="nav.tooling">Tooling</a></li>
-        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
-        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+        <li><a href="/what-is-iaes.html">What is IAES?</a></li>
+        <li><a href="/concepts/">Concepts</a></li>
+        <li><a href="/spec/">Spec</a></li>
+        <li><a href="/schemas/">Schemas</a></li>
+        <li><a href="/tooling/" class="nav-active">Tooling</a></li>
+        <li><a href="/integrators/">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes">GitHub</a></li>
       </ul>
       <div class="header-actions">
         <div class="lang-selector">
@@ -426,23 +591,27 @@
 </header>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     HERO (compact, dark)
+     HERO
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="container">
-    <h1 data-i18n="install_page.hero_title">Install</h1>
-    <p class="hero-subtitle" data-i18n="install_page.hero_subtitle">Choose your platform and start emitting IAES events in minutes.</p>
+    <h1 data-i18n="tooling.hero_title">SDKs &amp; Tooling</h1>
+    <p class="hero-subtitle" data-i18n="tooling.hero_subtitle">Install an SDK and start emitting standardized industrial asset events in minutes. Bridges, CLI tools, and more.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#sdks" data-i18n="tooling.hero_cta_sdk">Install SDK</a>
+      <a class="btn btn-outline" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="tooling.hero_cta_github">View on GitHub</a>
+    </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     SDK CARDS (light, 2x2)
+     SDKs (light, 2x2 cards from install page)
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-light" id="sdks">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="install_page.sdks_title">SDKs &amp; Packages</h2>
-      <p data-i18n="install_page.sdks_subtitle">Zero required dependencies. Install and start emitting events in minutes.</p>
+      <h2 data-i18n="tooling.sdks_title">SDKs &amp; Packages</h2>
+      <p data-i18n="tooling.sdks_subtitle">Zero required dependencies. Install and start emitting events in minutes.</p>
     </div>
     <div class="grid-2x2">
 
@@ -490,7 +659,7 @@ result = client.publish(event)</div>
       <div class="card">
         <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.1</span></h3>
         <div class="code-block">npm install node-red-contrib-iaes</div>
-        <p style="margin-top:14px;" data-i18n="install_page.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
+        <p style="margin-top:14px;" data-i18n="tooling.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
         <div class="eco-pills" style="margin-top:12px;">
           <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">iaes measurement</span>
           <span class="eco-pill" style="border-color:rgba(231,76,60,0.3);color:var(--critical);">iaes health</span>
@@ -510,7 +679,7 @@ result = client.publish(event)</div>
           n8n <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.1.1</span>
         </h3>
         <div class="code-block">npm install n8n-nodes-iaes</div>
-        <p style="margin-top:14px;" data-i18n="install_page.n8n_desc">3 community nodes for n8n workflows. Emit any IAES event, validate envelopes, and track incident lifecycle &mdash; all visual, zero code.</p>
+        <p style="margin-top:14px;" data-i18n="tooling.n8n_desc">3 community nodes for n8n workflows. Emit any IAES event, validate envelopes, and track incident lifecycle &mdash; all visual, zero code.</p>
         <div class="eco-pills" style="margin-top:12px;">
           <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">IAES Emit</span>
           <span class="eco-pill" style="border-color:rgba(39,174,96,0.3);color:var(--good);">IAES Validate</span>
@@ -524,20 +693,20 @@ result = client.publish(event)</div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     QUICK START (dark)
+     QUICK START (dark, from install page)
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-dark" id="quickstart">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="install_page.quickstart_title">5 Minutes to Your First Event</h2>
-      <p data-i18n="install_page.quickstart_subtitle">Three steps from zero to a validated IAES event.</p>
+      <h2 data-i18n="tooling.quickstart_title">5 Minutes to Your First Event</h2>
+      <p data-i18n="tooling.quickstart_subtitle">Three steps from zero to a validated IAES event.</p>
     </div>
     <div class="steps-grid">
 
       <div class="step-card">
         <div class="step-number">1</div>
-        <h3 data-i18n="install_page.step1_title">Install the SDK</h3>
-        <p data-i18n="install_page.step1_desc">Pick your language and install via your package manager.</p>
+        <h3 data-i18n="tooling.step1_title">Install the SDK</h3>
+        <p data-i18n="tooling.step1_desc">Pick your language and install via your package manager.</p>
         <div class="code-block">pip install iaes
 <span class="cm"># or</span>
 npm install @iaes/sdk</div>
@@ -545,8 +714,8 @@ npm install @iaes/sdk</div>
 
       <div class="step-card">
         <div class="step-number">2</div>
-        <h3 data-i18n="install_page.step2_title">Create an Event</h3>
-        <p data-i18n="install_page.step2_desc">Wrap your measurement in an IAES envelope.</p>
+        <h3 data-i18n="tooling.step2_title">Create an Event</h3>
+        <p data-i18n="tooling.step2_desc">Wrap your measurement in an IAES envelope.</p>
         <div class="code-block">{
   <span class="cs">"specversion"</span>: <span class="cs">"1.3"</span>,
   <span class="cs">"type"</span>: <span class="cs">"asset.measurement"</span>,
@@ -563,8 +732,8 @@ npm install @iaes/sdk</div>
 
       <div class="step-card">
         <div class="step-number">3</div>
-        <h3 data-i18n="install_page.step3_title">Publish</h3>
-        <p data-i18n="install_page.step3_desc">Send via HTTP, MQTT, or any transport you prefer.</p>
+        <h3 data-i18n="tooling.step3_title">Publish</h3>
+        <p data-i18n="tooling.step3_desc">Send via HTTP, MQTT, or any transport you prefer.</p>
         <div class="code-block"><span class="cm"># HTTP POST</span>
 curl -X POST https://your-endpoint.com/iaes \
   -H <span class="cs">"Content-Type: application/json"</span> \
@@ -580,34 +749,181 @@ mosquitto_pub -t iaes/events \
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     VALIDATION (light)
+     CMMS BRIDGES (light, from toolkit page)
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="validation">
+<section class="section-light" id="bridges">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="install_page.validation_title">Validate Your Events</h2>
-      <p data-i18n="install_page.validation_subtitle">Every IAES event type has a JSON Schema. Validate before publishing to catch errors early.</p>
+      <h2 data-i18n="tooling.bridges_title">CMMS Bridges</h2>
+      <p data-i18n="tooling.bridges_subtitle">Convert IAES events into work orders in your existing CMMS. Drop-in, no custom code.</p>
     </div>
-    <div style="max-width:680px;margin:0 auto;">
-      <div class="code-block" style="font-size:13px;"><span class="ck">import</span> jsonschema
-<span class="ck">from</span> iaes <span class="ck">import</span> get_schema
 
-schema = get_schema(<span class="cs">"asset.measurement"</span>)
-jsonschema.validate(event, schema)  <span class="cm"># raises on invalid</span></div>
-      <p style="margin-top:16px;color:var(--steel);font-size:14px;text-align:center;" data-i18n="install_page.validation_note">Schemas are also available as standalone JSON files at <a href="/schemas/">/schemas/</a> for use with any language or validator.</p>
+    <div class="scenario-grid">
+      <!-- SAP PM -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#9881;</div>
+        <h3>SAP PM</h3>
+        <p data-i18n="tooling.bridge_sap_desc">Converts IAES events to SAP PM notifications and work orders via OData.</p>
+        <span class="protocol-badge">OData</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="tooling.status_planned">Planned</span>
+      </div>
+
+      <!-- MaintainX -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128295;</div>
+        <h3>MaintainX</h3>
+        <p data-i18n="tooling.bridge_maintainx_desc">Converts IAES events to MaintainX work orders via REST API.</p>
+        <span class="protocol-badge">REST</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="tooling.status_planned">Planned</span>
+      </div>
+
+      <!-- Fracttal -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128736;</div>
+        <h3>Fracttal</h3>
+        <p data-i18n="tooling.bridge_fracttal_desc">Converts IAES events to Fracttal tasks and work orders via REST API.</p>
+        <span class="protocol-badge">REST</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="tooling.status_planned">Planned</span>
+      </div>
+
+      <!-- Odoo -->
+      <div class="scenario-card">
+        <div class="scenario-icon">&#128230;</div>
+        <h3>Odoo</h3>
+        <p data-i18n="tooling.bridge_odoo_desc">Converts IAES events to Odoo maintenance requests via XML-RPC.</p>
+        <span class="protocol-badge">XML-RPC</span>
+        <span class="status-pill status-planned" style="margin-left: 8px;" data-i18n="tooling.status_planned">Planned</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     CTA STRIP (dark)
+     DEVELOPER TOOLS (dark, from toolkit page)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="tools">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="tooling.tools_title">Developer Tools</h2>
+      <p data-i18n="tooling.tools_subtitle">Validate, inspect, route, and debug IAES events from the command line.</p>
+    </div>
+
+    <div class="scenario-grid">
+      <!-- CLI -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#9000;</div>
+        <h3 data-i18n="tooling.tool_cli_title">iaes-cli</h3>
+        <p data-i18n="tooling.tool_cli_desc">Validate events, generate samples, and publish to MQTT or HTTP from the terminal.</p>
+        <div class="code-block">
+<span class="cm"># Validate an event file</span>
+$ iaes validate event.json
+
+<span class="cm"># Generate a sample event</span>
+$ iaes generate asset.measurement
+
+<span class="cm"># Publish to MQTT broker</span>
+$ iaes publish event.json --broker mqtt://localhost
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="tooling.status_planned">Planned</span>
+        </div>
+      </div>
+
+      <!-- Inspector -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#128269;</div>
+        <h3 data-i18n="tooling.tool_inspector_title">iaes-inspector</h3>
+        <p data-i18n="tooling.tool_inspector_desc">Real-time event stream viewer with schema validation, filtering, and correlation tracking.</p>
+        <div class="code-block">
+<span class="cm"># Start inspector UI</span>
+$ npx iaes-inspector
+
+<span class="cm"># Connect to MQTT stream</span>
+$ npx iaes-inspector --broker mqtts://mqtt.example.com
+
+<span class="cm"># Filter by event type</span>
+$ npx iaes-inspector --type asset.health
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="tooling.status_planned">Planned</span>
+        </div>
+      </div>
+
+      <!-- Router -->
+      <div class="scenario-card-dark">
+        <div class="scenario-icon">&#128268;</div>
+        <h3 data-i18n="tooling.tool_router_title">iaes-router</h3>
+        <p data-i18n="tooling.tool_router_desc">Event fan-out engine. Route IAES events to multiple destinations based on type, severity, or asset.</p>
+        <div class="code-block">
+<span class="cm"># Run with config file</span>
+$ iaes-router --config routes.yaml
+
+<span class="cm"># Or run as Docker container</span>
+$ docker run -v routes.yaml:/config.yaml \
+    iaes/router:latest
+        </div>
+        <div style="margin-top: 12px;">
+          <span class="status-pill status-planned" data-i18n="tooling.status_planned">Planned</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ARCHITECTURE (light, from toolkit page)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="architecture">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="tooling.arch_title">Architecture</h2>
+      <p data-i18n="tooling.arch_subtitle">IAES is the open foundation. Everything above it is proprietary intelligence.</p>
+    </div>
+
+    <div class="arch-stack">
+      <div class="arch-layer arch-l4">
+        <div>
+          <span class="arch-label">L4</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #c4b5fd;" data-i18n="tooling.arch_l4">Wertek Applications</span>
+        </div>
+        <span class="arch-tag" data-i18n="tooling.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l3">
+        <div>
+          <span class="arch-label">L3</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #fbbf24;" data-i18n="tooling.arch_l3">Wertek Platform</span>
+        </div>
+        <span class="arch-tag" data-i18n="tooling.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l2">
+        <div>
+          <span class="arch-label">L2</span>
+          <span style="margin-left: 12px; font-weight: 600; color: #f472b6;" data-i18n="tooling.arch_l2">Wertek Runtime</span>
+        </div>
+        <span class="arch-tag" data-i18n="tooling.arch_proprietary">PROPRIETARY</span>
+      </div>
+      <div class="arch-layer arch-l1">
+        <div>
+          <span class="arch-label">L1</span>
+          <span style="margin-left: 12px; font-weight: 600; color: var(--cyan-light);" data-i18n="tooling.arch_l1">IAES</span>
+        </div>
+        <span class="arch-tag" data-i18n="tooling.arch_open">OPEN STANDARD</span>
+      </div>
+    </div>
+
+    <p class="arch-note" data-i18n="tooling.arch_note">IAES is the open foundation. Everything above it is proprietary intelligence.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP
      ════════════════════════════════════════════════════════════════════════════ -->
 <section class="section-dark" style="padding: 48px 0;">
   <div class="container">
     <div class="cta-strip">
-      <a class="btn btn-primary" href="/examples/" data-i18n="install_page.cta_examples">Browse Examples</a>
-      <a class="btn btn-outline" href="/integrators/" data-i18n="install_page.cta_integrators">For Integrators</a>
-      <a class="btn btn-outline" href="/spec/" data-i18n="install_page.cta_spec">View Specification</a>
+      <a class="btn btn-primary" href="/schemas/" data-i18n="tooling.cta_schemas">Browse Schemas</a>
+      <a class="btn btn-outline" href="/integrators/" data-i18n="tooling.cta_integrators">For Integrators</a>
+      <a class="btn btn-outline" href="/spec/" data-i18n="tooling.cta_spec">View Specification</a>
     </div>
   </div>
 </section>
@@ -625,10 +941,9 @@ jsonschema.validate(event, schema)  <span class="cm"># raises on invalid</span><
       </div>
       <div class="footer-links">
         <a href="/spec/" data-i18n="footer.spec">Specification</a>
-        <a href="/examples/" data-i18n="footer.examples">Examples</a>
         <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/tooling/" data-i18n="footer.tooling">Tooling</a>
         <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
-        <a href="/install/" data-i18n="nav.install">Install</a>
         <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
       </div>
     </div>

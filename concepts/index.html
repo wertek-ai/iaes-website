@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Core Concepts — IAES</title>
+  <meta name="description" content="Understand the IAES event model: the common envelope, 7 event types, incident lifecycle, condition trends, ISO alignment, and the producer-consumer ecosystem.">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="Core Concepts — IAES">
+  <meta property="og:description" content="Understand the IAES event model before diving into the specification. Event envelope, 7 event types, incident lifecycle, condition trends, and ISO alignment.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/concepts/">
+  <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://iaes.dev/assets/og-image.png">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="canonical" href="https://iaes.dev/concepts/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    /* -- Reset -- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    /* -- Container -- */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent {
+      color: var(--cyan);
+    }
+    .brand-icon {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.nav-active {
+      color: var(--white);
+      border-bottom: 2px solid var(--cyan);
+      padding-bottom: 2px;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: var(--charcoal-light);
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 4px 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      outline: none;
+    }
+    .lang-selector select:hover {
+      border-color: rgba(255,255,255,0.25);
+    }
+    .lang-selector select option {
+      background: var(--charcoal);
+      color: var(--silver);
+    }
+
+    /* -- Hero -- */
+    .hero {
+      background: var(--charcoal-dark);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(14,165,233,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(56,189,248,0.05) 0%, transparent 40%);
+      padding: 80px 0 72px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(14,165,233,0.12);
+      border: 1px solid rgba(14,165,233,0.25);
+      color: var(--cyan-light);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: var(--slate);
+      max-width: 680px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--cyan);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--cyan-dark); color: var(--white); }
+    .btn-outline {
+      background: transparent;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.4); color: var(--white); }
+    .hero-attribution {
+      color: var(--steel);
+      font-size: 14px;
+    }
+    .hero-attribution a {
+      color: var(--cyan-light);
+    }
+
+    /* -- Sections -- */
+    section { padding: 72px 0; }
+    .section-light { background: var(--snow); }
+    .section-dark { background: var(--charcoal-dark); color: var(--white); }
+    .section-header {
+      max-width: 720px;
+      margin-bottom: 40px;
+    }
+    .section-header.center {
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
+    .section-header h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-dark .section-header h2 { color: var(--white); }
+    .section-header p {
+      color: var(--steel);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .section-dark .section-header p { color: var(--slate); }
+
+    /* -- Cards -- */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+      color: var(--charcoal);
+    }
+    .card p {
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .card-icon {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .card-dark {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .card-dark:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .card-dark h3 { color: var(--white); }
+    .card-dark p { color: var(--slate); }
+
+    /* -- Grids -- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-auto {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .grid-5 {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    /* -- Event Cards -- */
+    .event-card {
+      position: relative;
+      padding-left: 28px;
+    }
+    .event-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      border-radius: 4px;
+    }
+    .event-card:hover { border-color: var(--cyan); }
+    .event-type {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .event-version {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(14,165,233,0.08);
+      color: var(--cyan);
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .event-card-blue::before { background: var(--cyan); }
+    .event-card-green::before { background: var(--good); }
+    .event-card-amber::before { background: var(--warning); }
+
+    /* -- Code Blocks -- */
+    .code-block {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      white-space: pre;
+      overflow-x: auto;
+      background: var(--charcoal-dark);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      color: var(--silver);
+    }
+    .code-block .ck { color: var(--cyan-light); }
+    .code-block .cs { color: var(--good); }
+    .code-block .cn { color: var(--warning); }
+    .code-block .cc { color: var(--slate); }
+
+    .code-inline {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--charcoal-dark);
+      color: var(--silver);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      display: block;
+      overflow-x: auto;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* -- Envelope Section -- */
+    .envelope-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .envelope-fields h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .envelope-fields li {
+      padding: 6px 0;
+      color: var(--steel);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .envelope-fields li strong {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--charcoal);
+    }
+
+    /* -- ISO Section -- */
+    .iso-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(14,165,233,0.15);
+      color: var(--cyan-light);
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 12px;
+      vertical-align: middle;
+    }
+    .iso-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .iso-field {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--silver);
+    }
+    .iso-note {
+      margin-top: 24px;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      background: rgba(14,165,233,0.06);
+      border: 1px solid rgba(14,165,233,0.15);
+      color: var(--slate);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* -- Comparison Table -- */
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 14px;
+    }
+    .compare-table thead th {
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 14px 16px;
+      text-align: left;
+      letter-spacing: 0.02em;
+    }
+    .compare-table thead th:first-child {
+      width: 180px;
+    }
+    .compare-table tbody td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      vertical-align: top;
+      line-height: 1.6;
+      color: var(--silver);
+    }
+    .compare-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .compare-table tbody tr:nth-child(even) {
+      background: rgba(255,255,255,0.03);
+    }
+    .compare-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    /* -- Ecosystem Section -- */
+    .eco-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .eco-pill {
+      font-size: 13px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--cloud);
+      color: var(--steel);
+      background: var(--snow);
+      font-weight: 500;
+    }
+
+    /* -- Incident Timeline -- */
+    .timeline {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 0 0 48px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan), var(--good));
+    }
+    .timeline-event {
+      position: relative;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .timeline-event:last-child { margin-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -38px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      z-index: 1;
+    }
+    .timeline-dot-onset { background: var(--warning); }
+    .timeline-dot-escalation { background: var(--critical); }
+    .timeline-dot-wo { background: var(--cyan); }
+    .timeline-dot-recovery { background: var(--good); }
+    .timeline-dot-normal { background: var(--silver); }
+    .timeline-time {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--slate);
+      flex: 0 0 50px;
+      padding-top: 2px;
+    }
+    .timeline-body { flex: 1; }
+    .timeline-type {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 2px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .timeline-type-onset { background: rgba(243,156,18,0.15); color: var(--warning); }
+    .timeline-type-escalation { background: rgba(231,76,60,0.15); color: var(--critical); }
+    .timeline-type-wo { background: rgba(14,165,233,0.15); color: var(--cyan); }
+    .timeline-type-recovery { background: rgba(39,174,96,0.15); color: var(--good); }
+    .timeline-type-normal { background: rgba(160,174,192,0.15); color: var(--slate); }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--silver);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+    .timeline-correlation {
+      margin-top: 20px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--slate);
+      padding: 10px 20px;
+      border: 1px dashed rgba(160,174,192,0.3);
+      border-radius: var(--radius);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* -- Event Lifecycle Flow -- */
+    .lifecycle-flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      max-width: 900px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .lifecycle-step {
+      background: var(--snow);
+      border: 1px solid var(--cloud);
+      border-radius: var(--radius-card);
+      padding: 20px 16px;
+      text-align: center;
+      flex: 0 0 150px;
+      min-width: 0;
+    }
+    .lifecycle-step-active {
+      background: rgba(14,165,233,0.08);
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.08);
+    }
+    .lifecycle-step h4 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--charcoal);
+    }
+    .lifecycle-step-active h4 { color: var(--cyan-dark); }
+    .lifecycle-step p {
+      font-size: 12px;
+      color: var(--steel);
+      line-height: 1.4;
+      font-family: var(--font-mono);
+    }
+    .lifecycle-arrow {
+      font-size: 20px;
+      color: var(--slate);
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    /* -- State Machine -- */
+    .state-machine {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 32px auto 0;
+    }
+    .state-node {
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      min-width: 120px;
+    }
+    .state-normal { background: rgba(160,174,192,0.15); color: var(--slate); border: 1px solid rgba(160,174,192,0.3); }
+    .state-onset { background: rgba(243,156,18,0.15); color: var(--warning); border: 1px solid rgba(243,156,18,0.3); }
+    .state-escalation { background: rgba(231,76,60,0.15); color: var(--critical); border: 1px solid rgba(231,76,60,0.3); }
+    .state-recovery { background: rgba(39,174,96,0.15); color: var(--good); border: 1px solid rgba(39,174,96,0.3); }
+    .state-arrow {
+      font-size: 18px;
+      color: var(--slate);
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* -- Condition Trend Pills -- */
+    .trend-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .trend-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-card);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .trend-worsening { background: rgba(231,76,60,0.08); color: var(--critical); border: 1px solid rgba(231,76,60,0.2); }
+    .trend-stable { background: rgba(243,156,18,0.08); color: var(--warning); border: 1px solid rgba(243,156,18,0.2); }
+    .trend-improving { background: rgba(39,174,96,0.08); color: var(--good); border: 1px solid rgba(39,174,96,0.2); }
+
+    /* -- Footer -- */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-bottom span {
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a {
+      color: var(--cyan-light);
+    }
+
+    /* -- Responsive -- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .grid-2, .grid-3, .envelope-grid { grid-template-columns: 1fr; }
+      section { padding: 48px 0; }
+      .container { padding: 0 16px; }
+      .code-block { font-size: 11px; padding: 16px; }
+      .lifecycle-flow { flex-direction: column; gap: 0; }
+      .lifecycle-step { flex: none; width: 100%; max-width: 280px; }
+      .lifecycle-arrow { transform: rotate(90deg); padding: 4px 0; }
+      .timeline { padding-left: 40px; }
+      .timeline::before { left: 14px; }
+      .timeline-dot { left: -34px; }
+      .state-machine { flex-direction: column; gap: 0; }
+      .state-arrow { transform: rotate(90deg); padding: 4px 0; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .btn { width: 100%; justify-content: center; max-width: 280px; }
+      .grid-auto { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Core Concepts — IAES",
+    "description": "Understand the IAES event model: the common envelope, 7 event types, incident lifecycle, condition trends, ISO alignment, and the producer-consumer ecosystem.",
+    "url": "https://iaes.dev/concepts/",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "IAES — Industrial Asset Event Standard",
+      "url": "https://iaes.dev"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- ================================================================
+     HEADER
+     ================================================================ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="80" y1="96" x2="432" y2="416" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg><span>I<span class="brand-accent">A</span>ES</span></a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/what-is-iaes.html">What is IAES?</a></li>
+        <li><a href="/concepts/" class="nav-active">Concepts</a></li>
+        <li><a href="/spec/">Spec</a></li>
+        <li><a href="/schemas/">Schemas</a></li>
+        <li><a href="/tooling/">Tooling</a></li>
+        <li><a href="/integrators/">Integrators</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ================================================================
+     HERO
+     ================================================================ -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="concepts.hero_title">Core Concepts</h1>
+    <p class="hero-subtitle" data-i18n="concepts.hero_subtitle">Understand the IAES model before diving into the specification. Events, envelopes, lifecycle, condition trends, and how IAES aligns with existing industrial standards.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="/spec/" data-i18n="hero.cta_spec">Read the Specification</a>
+      <a class="btn btn-outline" href="#envelope" data-i18n="concepts.cta_envelope">Event Envelope</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     COMMON ENVELOPE
+     ================================================================ -->
+<section id="envelope">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-i18n="envelope.title">Common Envelope</h2>
+      <p data-i18n="envelope.subtitle">Every IAES event shares a common envelope that provides traceability, deduplication, and interoperability across all producers and consumers.</p>
+    </div>
+    <div class="envelope-grid">
+      <div class="code-block">{
+  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"f4ce4f8c-26fd-4f15-8b2f-2c9425ad1110"</span>,
+  <span class="ck">"batch_id"</span>: <span class="cs">"batch-2026-03-08-001"</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:30:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"wertek.ai.diagnosis"</span>,
+  <span class="ck">"content_hash"</span>: <span class="cs">"8a3f9c2e1b4d7e6f"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"MOTOR-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Pump Motor P-101"</span>,
+    <span class="ck">"plant"</span>: <span class="cs">"Pesqueria"</span>,
+    <span class="ck">"area"</span>: <span class="cs">"Turbines"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"health_index"</span>: <span class="cn">0.16</span>,
+    <span class="ck">"anomaly_score"</span>: <span class="cn">0.92</span>,
+    <span class="ck">"severity"</span>: <span class="cs">"critical"</span>,
+    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_inner_race"</span>,
+    <span class="ck">"rul_days"</span>: <span class="cn">5</span>,
+    <span class="ck">"recommended_action"</span>: <span class="cs">"Replace bearing immediately"</span>,
+    <span class="ck">"iso_13374_status"</span>: <span class="cs">"unacceptable"</span>
+  }
+}</div>
+      <div class="card envelope-fields">
+        <h3 data-i18n="envelope.fields_title">Envelope fields</h3>
+        <ul>
+          <li><strong>spec_version</strong> &mdash; <span data-i18n="envelope.field_version">IAES version (currently "1.3")</span></li>
+          <li><strong>event_type</strong> &mdash; <span data-i18n="envelope.field_type">Canonical event name</span></li>
+          <li><strong>event_id</strong> &mdash; <span data-i18n="envelope.field_id">Unique event identifier (UUID)</span></li>
+          <li><strong>correlation_id</strong> &mdash; <span data-i18n="envelope.field_correlation">Links related events in a flow</span></li>
+          <li><strong>source_event_id</strong> &mdash; <span data-i18n="envelope.field_source_event">Traces causal origin</span></li>
+          <li><strong>batch_id</strong> &mdash; <span data-i18n="envelope.field_batch">Groups events from a single batch (v1.1)</span></li>
+          <li><strong>timestamp</strong> &mdash; <span data-i18n="envelope.field_timestamp">ISO 8601, when the event occurred</span></li>
+          <li><strong>source</strong> &mdash; <span data-i18n="envelope.field_source">Dot-notation producer identity</span></li>
+          <li><strong>content_hash</strong> &mdash; <span data-i18n="envelope.field_hash">SHA-256 prefix for deduplication</span></li>
+          <li><strong>asset</strong> &mdash; <span data-i18n="envelope.field_asset">Neutral asset identity block</span></li>
+          <li><strong>data</strong> &mdash; <span data-i18n="envelope.field_data">Event-type-specific payload</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     7 EVENT TYPES
+     ================================================================ -->
+<section class="section-light" id="events">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="events.title">7 Event Types</h2>
+      <p data-i18n="events.subtitle">IAES v1.3 covers the full lifecycle from physical observation to maintenance closure and inventory impact.</p>
+    </div>
+    <div class="grid-auto">
+
+      <!-- asset.measurement -->
+      <div class="card event-card event-card-blue">
+        <span class="event-type">asset.measurement <span class="event-version">v1.0</span></span>
+        <h3 data-i18n="events.measurement_title">Physical observation</h3>
+        <p data-i18n="events.measurement_desc">Raw or normalized sensor readings from industrial assets. Vibration, temperature, current, pressure, flow, speed.</p>
+      </div>
+
+      <!-- asset.health -->
+      <div class="card event-card event-card-green">
+        <span class="event-type">asset.health <span class="event-version">v1.0</span></span>
+        <h3 data-i18n="events.health_title">Diagnostic assessment</h3>
+        <p data-i18n="events.health_desc">AI or expert interpretation of asset condition. Health score, fault classification, remaining useful life, and recommended action.</p>
+      </div>
+
+      <!-- maintenance.work_order_intent -->
+      <div class="card event-card event-card-amber">
+        <span class="event-type">maintenance.work_order_intent <span class="event-version">v1.0</span></span>
+        <h3 data-i18n="events.wo_title">Operational intent</h3>
+        <p data-i18n="events.wo_desc">Declares the intent to create a work order. The consumer decides whether and how to act &mdash; IAES doesn't prescribe.</p>
+      </div>
+
+      <!-- maintenance.completion -->
+      <div class="card event-card event-card-green">
+        <span class="event-type">maintenance.completion <span class="event-version">v1.1</span></span>
+        <h3 data-i18n="events.completion_title">Work order closure</h3>
+        <p data-i18n="events.completion_desc">Acknowledges work order completion with outcome details, duration, checklist status, and failure confirmation.</p>
+      </div>
+
+      <!-- asset.hierarchy -->
+      <div class="card event-card event-card-blue">
+        <span class="event-type">asset.hierarchy <span class="event-version">v1.1</span></span>
+        <h3 data-i18n="events.hierarchy_title">Hierarchy structure</h3>
+        <p data-i18n="events.hierarchy_desc">Synchronizes the asset tree &mdash; organizations, plants, areas, and equipment &mdash; across systems.</p>
+      </div>
+
+      <!-- sensor.registration -->
+      <div class="card event-card event-card-amber">
+        <span class="event-type">sensor.registration <span class="event-version">v1.1</span></span>
+        <h3 data-i18n="events.sensor_title">Sensor lifecycle</h3>
+        <p data-i18n="events.sensor_desc">Tracks sensor discovery, registration, calibration, and decommissioning across the asset fleet.</p>
+      </div>
+
+      <!-- maintenance.spare_part_usage -->
+      <div class="card event-card event-card-green">
+        <span class="event-type">maintenance.spare_part_usage <span class="event-version">v1.1</span></span>
+        <h3 data-i18n="events.spare_title">Parts consumption</h3>
+        <p data-i18n="events.spare_desc">Records spare parts consumed during maintenance. Linked to work orders for cost tracking and inventory planning.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     EVENT LIFECYCLE
+     ================================================================ -->
+<section id="lifecycle">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="concepts.lifecycle_title">Event Lifecycle</h2>
+      <p data-i18n="concepts.lifecycle_subtitle">From raw industrial telemetry to operational workflow &mdash; IAES events bridge the gap between physical signals and business actions.</p>
+    </div>
+    <div class="lifecycle-flow">
+      <div class="lifecycle-step">
+        <h4 data-i18n="concepts.lc_telemetry">Industrial Telemetry</h4>
+        <p>PLC, sensor, meter</p>
+      </div>
+      <div class="lifecycle-arrow">&rarr;</div>
+      <div class="lifecycle-step">
+        <h4 data-i18n="concepts.lc_detection">Event Detection</h4>
+        <p>AI, rules, expert</p>
+      </div>
+      <div class="lifecycle-arrow">&rarr;</div>
+      <div class="lifecycle-step lifecycle-step-active">
+        <h4>IAES Event</h4>
+        <p>asset.health</p>
+      </div>
+      <div class="lifecycle-arrow">&rarr;</div>
+      <div class="lifecycle-step">
+        <h4 data-i18n="concepts.lc_incident">Incident Lifecycle</h4>
+        <p>onset &rarr; recovery</p>
+      </div>
+      <div class="lifecycle-arrow">&rarr;</div>
+      <div class="lifecycle-step">
+        <h4 data-i18n="concepts.lc_workflow">Operational Workflow</h4>
+        <p>CMMS, ERP, BI</p>
+      </div>
+    </div>
+    <div class="iso-note" style="margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto;">
+      <span data-i18n="concepts.lc_note">The intelligence layer &mdash; whether AI or human &mdash; detects a condition and emits a standardized IAES event. Downstream systems consume it without custom integration.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     CONDITION TREND (v1.3)
+     ================================================================ -->
+<section class="section-dark" id="condition-trend">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="concepts.trend_title">Condition Trend</h2>
+      <p data-i18n="concepts.trend_subtitle">Added in v1.3, the <code style="font-family:var(--font-mono);background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;font-size:0.95em;">condition_trend</code> field on <code style="font-family:var(--font-mono);background:rgba(255,255,255,0.08);padding:2px 8px;border-radius:4px;font-size:0.95em;">asset.health</code> events tracks whether an asset's condition is getting worse, holding steady, or recovering.</p>
+    </div>
+
+    <!-- Three trend values -->
+    <div class="trend-pills">
+      <div class="trend-pill trend-worsening">
+        <span style="font-size:18px">&darr;</span>
+        <span>worsening</span>
+      </div>
+      <div class="trend-pill trend-stable">
+        <span style="font-size:18px">&rarr;</span>
+        <span>stable</span>
+      </div>
+      <div class="trend-pill trend-improving">
+        <span style="font-size:18px">&uarr;</span>
+        <span>improving</span>
+      </div>
+    </div>
+
+    <!-- State Machine -->
+    <h3 style="text-align:center;margin-top:48px;margin-bottom:24px;color:var(--white)" data-i18n="concepts.sm_title">IncidentStateTracker &mdash; State Machine</h3>
+    <div class="state-machine">
+      <div class="state-node state-normal">NORMAL</div>
+      <div class="state-arrow">&rarr;</div>
+      <div class="state-node state-onset">ONSET</div>
+      <div class="state-arrow">&rarr;</div>
+      <div class="state-node state-escalation">ESCALATION</div>
+      <div class="state-arrow">&rarr;</div>
+      <div class="state-node state-recovery">RECOVERY</div>
+    </div>
+
+    <!-- Incident Lifecycle Timeline -->
+    <h3 style="text-align:center;margin-top:48px;margin-bottom:24px;color:var(--white)" data-i18n="concepts.incident_title">Incident Lifecycle Example</h3>
+    <p style="text-align:center;color:var(--slate);font-size:1.05rem;margin-bottom:32px;max-width:680px;margin-left:auto;margin-right:auto" data-i18n="concepts.incident_subtitle">A complete incident from detection to resolution. Four IAES events tell the full story &mdash; no human intervention needed to close the alert.</p>
+    <div class="timeline">
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-onset"></div>
+        <div class="timeline-time">08:12</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-onset">asset.health &middot; onset</span>
+          <div class="timeline-desc" data-i18n="incident.onset_desc">Power factor drops to 0.91. Rule engine detects violation. New correlation_id is generated. First alert created.</div>
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-escalation"></div>
+        <div class="timeline-time">08:45</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-escalation">asset.health &middot; escalation</span>
+          <div class="timeline-desc" data-i18n="incident.escalation_desc">Power factor drops further to 0.84. Severity escalated from medium to high. Same correlation_id. No duplicate alert &mdash; existing alert updated.</div>
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-wo"></div>
+        <div class="timeline-time">10:03</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-wo">maintenance.work_order_intent</span>
+          <div class="timeline-desc" data-i18n="incident.wo_desc">Consumer creates a work order in MaintainX. Linked to the same correlation_id. Technician dispatched to inspect capacitor bank.</div>
+        </div>
+      </div>
+      <div class="timeline-event">
+        <div class="timeline-dot timeline-dot-recovery"></div>
+        <div class="timeline-time">14:10</div>
+        <div class="timeline-body">
+          <span class="timeline-type timeline-type-recovery">asset.health &middot; recovery</span>
+          <div class="timeline-desc" data-i18n="incident.recovery_desc">Power factor recovers to 0.97 for 5 consecutive readings. Recovery event emitted with severity: info, condition_trend: improving. Alert auto-resolved.</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-correlation" data-i18n="incident.correlation">correlation_id: 3b2f9d8c-1c33-4a8a &mdash; all 4 events share the same ID. One incident, one thread, full traceability.</div>
+  </div>
+</section>
+
+<!-- ================================================================
+     ISO ALIGNMENT
+     ================================================================ -->
+<section class="section-light" id="standards">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="standards.title">Standards Alignment</h2>
+      <p class="section-subtitle" data-i18n="standards.subtitle">IAES doesn't replace existing standards — it speaks their language in event form.</p>
+    </div>
+
+    <!-- ISO Cards -->
+    <div class="grid-3" style="margin-bottom:48px">
+      <div class="card">
+        <div class="card-icon">17359</div>
+        <h3 data-i18n="iso.17359_title">ISO 17359</h3>
+        <p data-i18n="iso.17359_desc">Condition monitoring guidelines. IAES maps <code>units_qualifier</code>, <code>sampling_rate_hz</code>, and <code>acquisition_duration_s</code> directly from ISO 17359 measurement practice.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">13374</div>
+        <h3 data-i18n="iso.13374_title">ISO 13374</h3>
+        <p data-i18n="iso.13374_desc">Condition monitoring data processing. IAES <code>iso_13374_status</code> field maps health events to the 6-layer OSA-CBM architecture (DA &rarr; DM &rarr; SD &rarr; HA &rarr; PA &rarr; AG).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">14224</div>
+        <h3 data-i18n="iso.14224_title">ISO 14224</h3>
+        <p data-i18n="iso.14224_desc">Equipment reliability data. IAES <code>iso_14224</code> object carries failure mode, mechanism, and cause codes for maintenance completion events.</p>
+      </div>
+    </div>
+
+    <!-- Comparison Table (on light background, adjusted styling) -->
+    <h3 style="text-align:center;margin-bottom:24px;color:var(--charcoal)" data-i18n="compare.heading">How IAES Relates to Other Standards</h3>
+    <div style="overflow-x:auto">
+      <table class="compare-table" style="border-color:var(--cloud);">
+        <thead>
+          <tr>
+            <th style="background:var(--charcoal);color:var(--white);" data-i18n="compare.col_standard">Standard</th>
+            <th style="background:var(--charcoal);color:var(--white);" data-i18n="compare.col_scope">Scope</th>
+            <th style="background:var(--charcoal);color:var(--white);" data-i18n="compare.col_relation">Relationship to IAES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--charcoal);"><strong>ISO 55000</strong></td>
+            <td style="color:var(--steel);" data-i18n="compare.iso55_scope">Asset management system</td>
+            <td style="color:var(--steel);" data-i18n="compare.iso55_rel">IAES events feed ISO 55000 decision processes — the standard says <em>what</em> to manage, IAES carries the <em>signals</em>.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--charcoal);"><strong>AAS (I4.0)</strong></td>
+            <td style="color:var(--steel);" data-i18n="compare.aas_scope">Digital twin shell</td>
+            <td style="color:var(--steel);" data-i18n="compare.aas_rel">AAS describes asset <em>structure</em>. IAES describes asset <em>events</em>. They are complementary — events can flow into AAS submodels.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--charcoal);"><strong>CCOM / IDO</strong></td>
+            <td style="color:var(--steel);" data-i18n="compare.ccom_scope">Equipment data ontology</td>
+            <td style="color:var(--steel);" data-i18n="compare.ccom_rel">CCOM defines equipment <em>taxonomy</em>. IAES defines what <em>happens</em> to that equipment. IAES events can reference CCOM class IDs.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--charcoal);"><strong>OPC UA</strong></td>
+            <td style="color:var(--steel);" data-i18n="compare.opcua_scope">Machine-to-machine protocol</td>
+            <td style="color:var(--steel);" data-i18n="compare.opcua_rel">OPC UA moves raw data from PLCs. IAES carries <em>interpreted events</em> above that layer. An OPC UA subscriber can produce IAES events.</td>
+          </tr>
+          <tr>
+            <td style="color:var(--charcoal);"><strong>ISA-95</strong></td>
+            <td style="color:var(--steel);" data-i18n="compare.isa95_scope">Enterprise-control integration</td>
+            <td style="color:var(--steel);" data-i18n="compare.isa95_rel">ISA-95 defines <em>levels</em> (L0&ndash;L4). IAES events flow across those levels — from shop-floor intelligence to enterprise systems.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:32px;text-align:center;max-width:700px;margin-left:auto;margin-right:auto;padding:20px 24px;border-radius:var(--radius-card);background:var(--cloud);border-left:4px solid var(--cyan);">
+      <p style="color:var(--steel);font-size:14px;line-height:1.7;" data-i18n="compare.summary"><strong style="color:var(--charcoal);display:block;margin-bottom:6px;font-size:1rem;">IAES fills a specific gap:</strong> a minimal, vendor-neutral event vocabulary for industrial assets. Existing standards define structure, taxonomy, protocols, and management frameworks. IAES defines the <em>events</em> — what happened, to which asset, with what severity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     PRODUCERS vs CONSUMERS
+     ================================================================ -->
+<section id="ecosystem">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="ecosystem.title">Ecosystem</h2>
+      <p data-i18n="ecosystem.subtitle">IAES events can be produced by any source &mdash; sensor, AI engine, or human expert &mdash; and consumed by any operational system.</p>
+    </div>
+    <div class="grid-2">
+
+      <!-- Producers -->
+      <div class="card">
+        <h3 data-i18n="ecosystem.producers_title">Producers</h3>
+        <div class="eco-pills">
+          <span class="eco-pill" data-i18n="ecosystem.prod_vibration">Vibration sensors</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_ai">AI diagnosis engines</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_rules">Rule engines</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_inspection">Manual inspection</span>
+          <span class="eco-pill">SCADA / PLC</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_lab">Lab analysis</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_temp">Temperature sensors</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_acoustic">Acoustic systems</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_edge">Edge gateways</span>
+          <span class="eco-pill" data-i18n="ecosystem.prod_cameras">Cameras / video</span>
+        </div>
+      </div>
+
+      <!-- Consumers -->
+      <div class="card">
+        <h3 data-i18n="ecosystem.consumers_title">Consumers</h3>
+        <div class="eco-pills">
+          <span class="eco-pill">SAP PM</span>
+          <span class="eco-pill">PI System</span>
+          <span class="eco-pill">AVEVA</span>
+          <span class="eco-pill">Odoo</span>
+          <span class="eco-pill">MaintainX</span>
+          <span class="eco-pill">Fracttal</span>
+          <span class="eco-pill">Grafana</span>
+          <span class="eco-pill">MQTT</span>
+          <span class="eco-pill">Power BI</span>
+          <span class="eco-pill" data-i18n="ecosystem.cons_timeseries">Time-series databases</span>
+          <span class="eco-pill" data-i18n="ecosystem.cons_twin">Digital Twin platforms</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     FOOTER
+     ================================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

@@ -1480,12 +1480,12 @@
     <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="80" y1="96" x2="432" y2="416" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg><span>I<span class="brand-accent">A</span>ES</span></a>
     <nav>
       <ul class="nav-links">
-        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
-        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
-        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
-        <li><a href="#quickstart" data-i18n="nav.quickstart">Quick Start</a></li>
-        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
         <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
+        <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
+        <li><a href="/spec/" data-i18n="nav.spec">Spec</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/tooling/" data-i18n="nav.tooling">Tooling</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
         <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
       </ul>
       <div class="header-actions">
@@ -1819,512 +1819,40 @@
   </div>
 </section>
 
+<!-- Sections moved to /concepts/: Definition, Event Types, Envelope, Ecosystem, Standards Alignment -->
+<!-- Sections moved to /tooling/: Install SDKs, Quickstart -->
+
 <!-- ════════════════════════════════════════════════════════════════════════════
-     WHAT IAES IS / IS NOT
+     EXPLORE — Quick links to deeper pages
      ════════════════════════════════════════════════════════════════════════════ -->
-<section id="definition">
+<section class="section-light" id="explore-concepts">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="definition.title">What IAES Is</h2>
+      <h2>Dive Deeper</h2>
+      <p>Understand the model, install the tools, or start integrating.</p>
     </div>
-    <div class="is-isnot-grid">
-      <div class="is-box">
-        <h3>IAES <span style="color:var(--cyan);">is</span></h3>
-        <ul>
-          <li data-i18n="definition.is_1">An event language &mdash; it names what happens to assets</li>
-          <li data-i18n="definition.is_2">A JSON schema &mdash; minimal, self-describing, machine-readable</li>
-          <li data-i18n="definition.is_3">Transport-agnostic &mdash; works over MQTT, REST, OPC UA, Kafka, files</li>
-          <li data-i18n="definition.is_4">Domain-spanning &mdash; vibration, energy, maintenance, diagnostics, telemetry</li>
-          <li data-i18n="definition.is_5">Event-driven &mdash; each event is independent, traceable, and meaningful</li>
-          <li data-i18n="definition.is_6">Open &mdash; CC BY 4.0, no vendor lock-in, free to implement</li>
-        </ul>
-      </div>
-      <div class="isnot-box">
-        <h3>IAES is <span style="color:var(--critical);">not</span></h3>
-        <ul>
-          <li data-i18n="definition.not_1">Not a protocol &mdash; IAES does not define how bytes move on a wire</li>
-          <li data-i18n="definition.not_2">Not a historian &mdash; IAES does not store or query time-series data</li>
-          <li data-i18n="definition.not_3">Not a CMMS &mdash; IAES does not manage work orders or schedules</li>
-          <li data-i18n="definition.not_4">Not a digital twin framework &mdash; IAES does not model asset structure</li>
-          <li data-i18n="definition.not_5">Not a data model &mdash; IAES describes events in motion, not data at rest</li>
-          <li data-i18n="definition.not_6">Not limited to manufacturing &mdash; works in energy, O&amp;G, mining, utilities, buildings</li>
-        </ul>
-      </div>
-    </div>
-    <div class="definition-line">
-      <span data-i18n="definition.oneliner">IAES is simply an event language for industrial assets.</span>
+    <div class="grid-3" style="max-width:900px;margin:0 auto">
+      <a href="/concepts/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
+        <div style="font-size:32px;margin-bottom:12px">&#128218;</div>
+        <h3 style="margin-bottom:8px">Core Concepts</h3>
+        <p style="font-size:14px;color:var(--steel)">Envelope, 7 event types, lifecycle, condition trend, ISO alignment, producers &amp; consumers.</p>
+      </a>
+      <a href="/tooling/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
+        <div style="font-size:32px;margin-bottom:12px">&#128295;</div>
+        <h3 style="margin-bottom:8px">SDKs &amp; Tooling</h3>
+        <p style="font-size:14px;color:var(--steel)">Python, TypeScript, Node-RED SDKs. CMMS bridges, CLI tools, event validator.</p>
+      </a>
+      <a href="/integrators/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
+        <div style="font-size:32px;margin-bottom:12px">&#9881;</div>
+        <h3 style="margin-bottom:8px">For Integrators</h3>
+        <p style="font-size:14px;color:var(--steel)">Architecture, code examples, consumer patterns, and integration scenarios.</p>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════════════════════
-     EVENT TYPES
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="events">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="events.title">7 Event Types</h2>
-      <p data-i18n="events.subtitle">IAES v1.3 covers the full lifecycle from physical observation to maintenance closure and inventory impact.</p>
-    </div>
-    <div class="grid-auto">
+<!-- OLD SECTIONS REMOVED — content now lives at /concepts/ and /tooling/ -->
 
-      <!-- asset.measurement -->
-      <div class="card event-card event-card-blue">
-        <span class="event-type">asset.measurement <span class="event-version">v1.0</span></span>
-        <h3 data-i18n="events.measurement_title">Physical observation</h3>
-        <p data-i18n="events.measurement_desc">Raw or normalized sensor readings from industrial assets. Vibration, temperature, current, pressure, flow, speed.</p>
-      </div>
-
-      <!-- asset.health -->
-      <div class="card event-card event-card-green">
-        <span class="event-type">asset.health <span class="event-version">v1.0</span></span>
-        <h3 data-i18n="events.health_title">Diagnostic assessment</h3>
-        <p data-i18n="events.health_desc">AI or expert interpretation of asset condition. Health score, fault classification, remaining useful life, and recommended action.</p>
-      </div>
-
-      <!-- maintenance.work_order_intent -->
-      <div class="card event-card event-card-amber">
-        <span class="event-type">maintenance.work_order_intent <span class="event-version">v1.0</span></span>
-        <h3 data-i18n="events.wo_title">Operational intent</h3>
-        <p data-i18n="events.wo_desc">Declares the intent to create a work order. The consumer decides whether and how to act &mdash; IAES doesn't prescribe.</p>
-      </div>
-
-      <!-- maintenance.completion -->
-      <div class="card event-card event-card-green">
-        <span class="event-type">maintenance.completion <span class="event-version">v1.1</span></span>
-        <h3 data-i18n="events.completion_title">Work order closure</h3>
-        <p data-i18n="events.completion_desc">Acknowledges work order completion with outcome details, duration, checklist status, and failure confirmation.</p>
-      </div>
-
-      <!-- asset.hierarchy -->
-      <div class="card event-card event-card-blue">
-        <span class="event-type">asset.hierarchy <span class="event-version">v1.1</span></span>
-        <h3 data-i18n="events.hierarchy_title">Hierarchy structure</h3>
-        <p data-i18n="events.hierarchy_desc">Synchronizes the asset tree &mdash; organizations, plants, areas, and equipment &mdash; across systems.</p>
-      </div>
-
-      <!-- sensor.registration -->
-      <div class="card event-card event-card-amber">
-        <span class="event-type">sensor.registration <span class="event-version">v1.1</span></span>
-        <h3 data-i18n="events.sensor_title">Sensor lifecycle</h3>
-        <p data-i18n="events.sensor_desc">Tracks sensor discovery, registration, calibration, and decommissioning across the asset fleet.</p>
-      </div>
-
-      <!-- maintenance.spare_part_usage -->
-      <div class="card event-card event-card-green">
-        <span class="event-type">maintenance.spare_part_usage <span class="event-version">v1.1</span></span>
-        <h3 data-i18n="events.spare_title">Parts consumption</h3>
-        <p data-i18n="events.spare_desc">Records spare parts consumed during maintenance. Linked to work orders for cost tracking and inventory planning.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     COMMON ENVELOPE
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section id="envelope">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n="envelope.title">Common Envelope</h2>
-      <p data-i18n="envelope.subtitle">Every IAES event shares a common envelope that provides traceability, deduplication, and interoperability across all producers and consumers.</p>
-    </div>
-    <div class="envelope-grid">
-      <div class="code-block">{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
-  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
-  <span class="ck">"event_id"</span>: <span class="cs">"a9e3c4b2-9d3a-4a12-b1f3-2e44a1caa8a1"</span>,
-  <span class="ck">"correlation_id"</span>: <span class="cs">"3b2f9d8c-1c33-4a8a-9b77-54d11b2efc12"</span>,
-  <span class="ck">"source_event_id"</span>: <span class="cs">"f4ce4f8c-26fd-4f15-8b2f-2c9425ad1110"</span>,
-  <span class="ck">"batch_id"</span>: <span class="cs">"batch-2026-03-08-001"</span>,
-  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:30:00Z"</span>,
-  <span class="ck">"source"</span>: <span class="cs">"wertek.ai.diagnosis"</span>,
-  <span class="ck">"content_hash"</span>: <span class="cs">"8a3f9c2e1b4d7e6f"</span>,
-  <span class="ck">"asset"</span>: {
-    <span class="ck">"asset_id"</span>: <span class="cs">"MOTOR-001"</span>,
-    <span class="ck">"asset_name"</span>: <span class="cs">"Pump Motor P-101"</span>,
-    <span class="ck">"plant"</span>: <span class="cs">"Pesqueria"</span>,
-    <span class="ck">"area"</span>: <span class="cs">"Turbines"</span>
-  },
-  <span class="ck">"data"</span>: {
-    <span class="ck">"health_index"</span>: <span class="cn">0.16</span>,
-    <span class="ck">"anomaly_score"</span>: <span class="cn">0.92</span>,
-    <span class="ck">"severity"</span>: <span class="cs">"critical"</span>,
-    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_inner_race"</span>,
-    <span class="ck">"rul_days"</span>: <span class="cn">5</span>,
-    <span class="ck">"recommended_action"</span>: <span class="cs">"Replace bearing immediately"</span>,
-    <span class="ck">"iso_13374_status"</span>: <span class="cs">"unacceptable"</span>
-  }
-}</div>
-      <div class="card envelope-fields">
-        <h3 data-i18n="envelope.fields_title">Envelope fields</h3>
-        <ul>
-          <li><strong>spec_version</strong> &mdash; <span data-i18n="envelope.field_version">IAES version (currently "1.3")</span></li>
-          <li><strong>event_type</strong> &mdash; <span data-i18n="envelope.field_type">Canonical event name</span></li>
-          <li><strong>event_id</strong> &mdash; <span data-i18n="envelope.field_id">Unique event identifier (UUID)</span></li>
-          <li><strong>correlation_id</strong> &mdash; <span data-i18n="envelope.field_correlation">Links related events in a flow</span></li>
-          <li><strong>source_event_id</strong> &mdash; <span data-i18n="envelope.field_source_event">Traces causal origin</span></li>
-          <li><strong>batch_id</strong> &mdash; <span data-i18n="envelope.field_batch">Groups events from a single batch (v1.1)</span></li>
-          <li><strong>timestamp</strong> &mdash; <span data-i18n="envelope.field_timestamp">ISO 8601, when the event occurred</span></li>
-          <li><strong>source</strong> &mdash; <span data-i18n="envelope.field_source">Dot-notation producer identity</span></li>
-          <li><strong>content_hash</strong> &mdash; <span data-i18n="envelope.field_hash">SHA-256 prefix for deduplication</span></li>
-          <li><strong>asset</strong> &mdash; <span data-i18n="envelope.field_asset">Neutral asset identity block</span></li>
-          <li><strong>data</strong> &mdash; <span data-i18n="envelope.field_data">Event-type-specific payload</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     INSTALL
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="install">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="install.title">Install</h2>
-      <p data-i18n="install.subtitle">IAES ships SDKs for Python, TypeScript, and Node-RED. Zero required dependencies. Install and start emitting events in minutes.</p>
-    </div>
-    <div class="grid-3">
-
-      <!-- Python -->
-      <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#F39C12;"></span> Python <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
-        <div class="code-block">pip install iaes</div>
-        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> Client, AssetMeasurement
-
-client = Client(<span class="cs">"https://your-endpoint.com"</span>, api_key=<span class="cs">"key"</span>)
-
-event = AssetMeasurement(
-    asset_id=<span class="cs">"MOTOR-001"</span>,
-    measurement_type=<span class="cs">"vibration_velocity"</span>,
-    value=<span class="cn">4.2</span>,
-    unit=<span class="cs">"mm/s"</span>,
-    source=<span class="cs">"acme.sensors"</span>,
-)
-result = client.publish(event)</div>
-        <p style="margin-top:12px;"><a href="https://pypi.org/project/iaes/" target="_blank" rel="noreferrer">PyPI &rarr;</a></p>
-      </div>
-
-      <!-- TypeScript -->
-      <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#0EA5E9;"></span> TypeScript <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.2.1</span></h3>
-        <div class="code-block">npm install @iaes/sdk</div>
-        <div class="code-block" style="margin-top:12px;font-size:12px;"><span class="ck">import</span> { IaesClient, AssetMeasurement } <span class="ck">from</span> <span class="cs">"@iaes/sdk"</span>;
-
-<span class="ck">const</span> client = <span class="ck">new</span> IaesClient(<span class="cs">"https://your-endpoint.com"</span>, {
-  apiKey: <span class="cs">"key"</span>,
-});
-
-<span class="ck">const</span> event = <span class="ck">new</span> AssetMeasurement({
-  asset_id: <span class="cs">"MOTOR-001"</span>,
-  measurement_type: <span class="cs">"vibration_velocity"</span>,
-  value: <span class="cn">4.2</span>,
-  unit: <span class="cs">"mm/s"</span>,
-  source: <span class="cs">"acme.sensors"</span>,
-});
-<span class="ck">const</span> result = <span class="ck">await</span> client.publish(event);</div>
-        <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/@iaes/sdk" target="_blank" rel="noreferrer">npm &rarr;</a></p>
-      </div>
-
-      <!-- Node-RED -->
-      <div class="card install-card">
-        <h3><span class="lang-dot" style="background:#27AE60;"></span> Node-RED <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.3.1</span></h3>
-        <div class="code-block">npm install node-red-contrib-iaes</div>
-        <p style="margin-top:14px;" data-i18n="install.nodered_desc">7 visual nodes for industrial flows. Create, validate, route, publish, and bridge Sparkplug B sensor data into standardized IAES events.</p>
-        <div class="eco-pills" style="margin-top:12px;">
-          <span class="eco-pill" style="border-color:rgba(14,165,233,0.3);color:var(--cyan);">iaes measurement</span>
-          <span class="eco-pill" style="border-color:rgba(231,76,60,0.3);color:var(--critical);">iaes health</span>
-          <span class="eco-pill" style="border-color:rgba(243,156,18,0.3);color:var(--warning);">iaes work order</span>
-          <span class="eco-pill" style="border-color:rgba(39,174,96,0.3);color:var(--good);">iaes validate</span>
-          <span class="eco-pill" style="border-color:rgba(245,158,11,0.3);color:#f59e0b;">iaes sparkplug</span>
-          <span class="eco-pill" style="border-color:rgba(139,92,246,0.3);color:#8b5cf6;">iaes publish</span>
-          <span class="eco-pill" style="border-color:rgba(99,102,241,0.3);color:#6366f1;">iaes route</span>
-        </div>
-        <p style="margin-top:12px;"><a href="https://www.npmjs.com/package/node-red-contrib-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
-      </div>
-
-    </div>
-
-    <!-- n8n Community Nodes — full width -->
-    <div class="card n8n-card">
-      <div class="n8n-header">
-        <div class="n8n-header-left">
-          <h3>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#ff6b35"/><text x="12" y="16.5" text-anchor="middle" font-family="Arial,sans-serif" font-weight="bold" font-size="11" fill="white">n8n</text></svg>
-            <span data-i18n="install.n8n_title">Use IAES with n8n</span>
-            <span style="font-size:12px;opacity:0.6;font-weight:400;">v0.1.1</span>
-          </h3>
-          <p style="color:var(--steel);font-size:14px;margin:0;" data-i18n="install.n8n_desc">3 community nodes for n8n workflows. Emit any IAES event, validate envelopes, and track incident lifecycle &mdash; all visual, zero code.</p>
-        </div>
-        <div class="n8n-header-right">
-          <div class="code-block" style="font-size:14px;padding:12px 20px;">npm install n8n-nodes-iaes</div>
-          <p style="margin-top:8px;font-size:12px;"><a href="https://www.npmjs.com/package/n8n-nodes-iaes" target="_blank" rel="noreferrer">npm &rarr;</a></p>
-        </div>
-      </div>
-
-      <!-- Animated workflow: PLC → MQTT → IAES Emit → Lifecycle → CMMS/Slack -->
-      <div class="n8n-workflow">
-        <div class="n8n-wf-node">
-          <div class="n8n-wf-box plc">&#9881;</div>
-          <span class="n8n-wf-label">PLC / SCADA</span>
-          <span class="n8n-wf-sublabel" data-i18n="install.n8n_plc_sub">Raw readings</span>
-        </div>
-        <div class="n8n-wf-arrow">&rarr;</div>
-        <div class="n8n-wf-node">
-          <div class="n8n-wf-box mqtt">
-            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="8" r="3" fill="#c4b5fd"/><circle cx="6" cy="20" r="3" fill="#c4b5fd"/><circle cx="22" cy="20" r="3" fill="#c4b5fd"/><line x1="14" y1="11" x2="14" y2="15" stroke="#c4b5fd" stroke-width="1.5"/><line x1="14" y1="15" x2="6" y2="20" stroke="#c4b5fd" stroke-width="1.5"/><line x1="14" y1="15" x2="22" y2="20" stroke="#c4b5fd" stroke-width="1.5"/></svg>
-          </div>
-          <span class="n8n-wf-label">MQTT Trigger</span>
-          <span class="n8n-wf-sublabel">n8n built-in</span>
-        </div>
-        <div class="n8n-wf-arrow">&rarr;</div>
-        <div class="n8n-wf-node">
-          <div class="n8n-wf-box emit">
-            <svg width="30" height="30" viewBox="0 0 60 60"><polyline points="6,35 14,35 18,18 22,42 26,28 30,32 34,14 38,38 42,25 46,35 54,35" stroke="#93c5fd" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
-          </div>
-          <span class="n8n-wf-label" style="color:var(--cyan);">IAES Emit</span>
-          <span class="n8n-wf-sublabel" data-i18n="install.n8n_emit_sub">Wrap in envelope</span>
-        </div>
-        <div class="n8n-wf-arrow">&rarr;</div>
-        <div class="n8n-wf-node">
-          <div class="n8n-wf-box life">
-            <svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" stroke="#fbbf24" stroke-width="2" fill="none"/><polyline points="14,8 14,14 19,14" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <span class="n8n-wf-label" style="color:#f59e0b;">IAES Lifecycle</span>
-          <span class="n8n-wf-sublabel" data-i18n="install.n8n_life_sub">Track incidents</span>
-        </div>
-        <div class="n8n-wf-arrow">&rarr;</div>
-        <div class="n8n-wf-node">
-          <div class="n8n-wf-box out">
-            <svg width="28" height="28" viewBox="0 0 28 28"><path d="M6 8h16v12H6z" stroke="#6ee7b7" stroke-width="1.5" fill="none" rx="2"/><polyline points="6,8 14,15 22,8" stroke="#6ee7b7" stroke-width="1.5" fill="none"/></svg>
-          </div>
-          <span class="n8n-wf-label">CMMS / Slack</span>
-          <span class="n8n-wf-sublabel" data-i18n="install.n8n_out_sub">Alert & dispatch</span>
-        </div>
-      </div>
-
-      <div class="n8n-compat">
-        <span class="n8n-compat-pill" data-i18n="install.n8n_works">Works with:</span>
-        <span class="n8n-compat-pill">Allen-Bradley</span>
-        <span class="n8n-compat-pill">Siemens S7</span>
-        <span class="n8n-compat-pill">Modbus TCP</span>
-        <span class="n8n-compat-pill">OPC-UA</span>
-        <span class="n8n-compat-pill">Sparkplug B</span>
-        <span class="n8n-compat-pill">HTTP / REST</span>
-        <span class="n8n-compat-pill">Webhooks</span>
-      </div>
-    </div>
-
-    <div class="install-note" data-i18n="install.note">Cross-language compatible &mdash; Python and TypeScript produce identical <code>content_hash</code> for the same event. Validate with shared JSON schemas.</div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     QUICKSTART — 5 Minutes to First Event
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="quickstart">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="quickstart.title">5 Minutes to Your First Event</h2>
-      <p data-i18n="quickstart.subtitle">Install the SDK, create an event, and publish it. Three steps, zero configuration.</p>
-    </div>
-    <div class="quickstart-grid">
-      <div>
-        <div class="quickstart-step">
-          <div class="quickstart-num">1</div>
-          <div>
-            <h4 data-i18n="quickstart.step1_title">Install</h4>
-            <div class="code-block">pip install iaes</div>
-          </div>
-        </div>
-        <div class="quickstart-step">
-          <div class="quickstart-num">2</div>
-          <div>
-            <h4 data-i18n="quickstart.step2_title">Create an event</h4>
-            <div class="code-block" style="font-size:12px;"><span class="ck">from</span> iaes <span class="ck">import</span> AssetHealth
-
-event = AssetHealth(
-    asset_id=<span class="cs">"PUMP-001"</span>,
-    severity=<span class="cs">"medium"</span>,
-    health_index=<span class="cn">0.42</span>,
-    failure_mode=<span class="cs">"bearing_wear"</span>,
-    rul_days=<span class="cn">21</span>,
-    source=<span class="cs">"my-app.diagnostics"</span>,
-)
-<span class="ck">print</span>(event.to_json(indent=<span class="cn">2</span>))</div>
-          </div>
-        </div>
-        <div class="quickstart-step">
-          <div class="quickstart-num">3</div>
-          <div>
-            <h4 data-i18n="quickstart.step3_title">Publish</h4>
-            <p data-i18n="quickstart.step3_desc">Send to any MQTT broker, REST endpoint, or file. IAES is transport-agnostic.</p>
-            <div class="code-block" style="font-size:12px;margin-top:8px;"><span class="ck">import</span> paho.mqtt.client <span class="ck">as</span> mqtt
-
-client = mqtt.Client()
-client.connect(<span class="cs">"broker.local"</span>, <span class="cn">1883</span>)
-client.publish(
-    <span class="cs">"iaes/events"</span>,
-    event.to_json()
-)</div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="quickstart-output-label" data-i18n="quickstart.output">Output</div>
-        <div class="code-block" style="font-size:12px;">{
-  <span class="ck">"spec_version"</span>: <span class="cs">"1.3"</span>,
-  <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
-  <span class="ck">"event_id"</span>: <span class="cs">"a9e3c4b2-9d3a-..."</span>,
-  <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-11T10:15:00Z"</span>,
-  <span class="ck">"source"</span>: <span class="cs">"my-app.diagnostics"</span>,
-  <span class="ck">"content_hash"</span>: <span class="cs">"7f3a9c2e1b4d"</span>,
-  <span class="ck">"asset"</span>: {
-    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>
-  },
-  <span class="ck">"data"</span>: {
-    <span class="ck">"severity"</span>: <span class="cs">"medium"</span>,
-    <span class="ck">"health_index"</span>: <span class="cn">0.42</span>,
-    <span class="ck">"failure_mode"</span>: <span class="cs">"bearing_wear"</span>,
-    <span class="ck">"rul_days"</span>: <span class="cn">21</span>,
-    <span class="ck">"recommended_action"</span>: <span class="ck">null</span>
-  }
-}</div>
-        <div class="iso-note" style="margin-top:16px;background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15);">
-          <span data-i18n="quickstart.note">The SDK auto-generates event_id, timestamp, and content_hash. You only provide the business fields.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     ECOSYSTEM
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="ecosystem">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="ecosystem.title">Ecosystem</h2>
-      <p data-i18n="ecosystem.subtitle">IAES events can be produced by any source &mdash; sensor, AI engine, or human expert &mdash; and consumed by any operational system.</p>
-    </div>
-    <div class="grid-2">
-
-      <!-- Producers -->
-      <div class="card">
-        <h3 data-i18n="ecosystem.producers_title">Producers</h3>
-        <div class="eco-pills">
-          <span class="eco-pill" data-i18n="ecosystem.prod_vibration">Vibration sensors</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_ai">AI diagnosis engines</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_rules">Rule engines</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_inspection">Manual inspection</span>
-          <span class="eco-pill">SCADA / PLC</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_lab">Lab analysis</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_temp">Temperature sensors</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_acoustic">Acoustic systems</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_edge">Edge gateways</span>
-          <span class="eco-pill" data-i18n="ecosystem.prod_cameras">Cameras / video</span>
-        </div>
-      </div>
-
-      <!-- Consumers -->
-      <div class="card">
-        <h3 data-i18n="ecosystem.consumers_title">Consumers</h3>
-        <div class="eco-pills">
-          <span class="eco-pill">SAP PM</span>
-          <span class="eco-pill">PI System</span>
-          <span class="eco-pill">AVEVA</span>
-          <span class="eco-pill">Odoo</span>
-          <span class="eco-pill">MaintainX</span>
-          <span class="eco-pill">Fracttal</span>
-          <span class="eco-pill">Grafana</span>
-          <span class="eco-pill">MQTT</span>
-          <span class="eco-pill">Power BI</span>
-          <span class="eco-pill" data-i18n="ecosystem.cons_timeseries">Time-series databases</span>
-          <span class="eco-pill" data-i18n="ecosystem.cons_twin">Digital Twin platforms</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     STANDARDS ALIGNMENT (combined ISO + comparison — complementary section)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="standards">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="standards.title">Standards Alignment</h2>
-      <p class="section-subtitle" data-i18n="standards.subtitle">IAES doesn't replace existing standards — it speaks their language in event form.</p>
-    </div>
-
-    <!-- ISO Cards -->
-    <div class="grid-3" style="margin-bottom:48px">
-      <div class="card">
-        <div class="card-icon">17359</div>
-        <h3 data-i18n="iso.17359_title">ISO 17359</h3>
-        <p data-i18n="iso.17359_desc">Condition monitoring guidelines. IAES maps <code>units_qualifier</code>, <code>sampling_rate_hz</code>, and <code>acquisition_duration_s</code> directly from ISO 17359 measurement practice.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">13374</div>
-        <h3 data-i18n="iso.13374_title">ISO 13374</h3>
-        <p data-i18n="iso.13374_desc">Condition monitoring data processing. IAES <code>iso_13374_status</code> field maps health events to the 6-layer OSA-CBM architecture (DA → DM → SD → HA → PA → AG).</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">14224</div>
-        <h3 data-i18n="iso.14224_title">ISO 14224</h3>
-        <p data-i18n="iso.14224_desc">Equipment reliability data. IAES <code>iso_14224</code> object carries failure mode, mechanism, and cause codes for maintenance completion events.</p>
-      </div>
-    </div>
-
-    <!-- Comparison Table -->
-    <h3 style="text-align:center;margin-bottom:24px;color:var(--white)" data-i18n="compare.heading">How IAES Relates to Other Standards</h3>
-    <div style="overflow-x:auto">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th data-i18n="compare.col_standard">Standard</th>
-            <th data-i18n="compare.col_scope">Scope</th>
-            <th data-i18n="compare.col_relation">Relationship to IAES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>ISO 55000</strong></td>
-            <td data-i18n="compare.iso55_scope">Asset management system</td>
-            <td data-i18n="compare.iso55_rel">IAES events feed ISO 55000 decision processes — the standard says <em>what</em> to manage, IAES carries the <em>signals</em>.</td>
-          </tr>
-          <tr>
-            <td><strong>AAS (I4.0)</strong></td>
-            <td data-i18n="compare.aas_scope">Digital twin shell</td>
-            <td data-i18n="compare.aas_rel">AAS describes asset <em>structure</em>. IAES describes asset <em>events</em>. They are complementary — events can flow into AAS submodels.</td>
-          </tr>
-          <tr>
-            <td><strong>CCOM / IDO</strong></td>
-            <td data-i18n="compare.ccom_scope">Equipment data ontology</td>
-            <td data-i18n="compare.ccom_rel">CCOM defines equipment <em>taxonomy</em>. IAES defines what <em>happens</em> to that equipment. IAES events can reference CCOM class IDs.</td>
-          </tr>
-          <tr>
-            <td><strong>OPC UA</strong></td>
-            <td data-i18n="compare.opcua_scope">Machine-to-machine protocol</td>
-            <td data-i18n="compare.opcua_rel">OPC UA moves raw data from PLCs. IAES carries <em>interpreted events</em> above that layer. An OPC UA subscriber can produce IAES events.</td>
-          </tr>
-          <tr>
-            <td><strong>ISA-95</strong></td>
-            <td data-i18n="compare.isa95_scope">Enterprise-control integration</td>
-            <td data-i18n="compare.isa95_rel">ISA-95 defines <em>levels</em> (L0–L4). IAES events flow across those levels — from shop-floor intelligence to enterprise systems.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout" style="margin-top:32px;text-align:center;max-width:700px;margin-left:auto;margin-right:auto">
-      <p data-i18n="compare.summary"><strong>IAES fills a specific gap:</strong> a minimal, vendor-neutral event vocabulary for industrial assets. Existing standards define structure, taxonomy, protocols, and management frameworks. IAES defines the <em>events</em> — what happened, to which asset, with what severity.</p>
-    </div>
-  </div>
-</section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
      PHILOSOPHY
@@ -2538,7 +2066,7 @@ client.publish(
         <h3 data-i18n="explore.integrators_title">For Integrators</h3>
         <p data-i18n="explore.integrators_desc">Code examples, consumer patterns, and integration scenarios for PLCs, SCADA, and CMMS.</p>
       </a>
-      <a href="/toolkit/" class="explore-card">
+      <a href="/tooling/" class="explore-card">
         <div class="explore-card-icon">&#128230;</div>
         <h3 data-i18n="explore.toolkit_title">Toolkit</h3>
         <p data-i18n="explore.toolkit_desc">SDKs, bridges, CLI tools, and Node-RED nodes for building IAES integrations.</p>
