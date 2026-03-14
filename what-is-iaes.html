@@ -110,6 +110,29 @@
       border-radius: var(--radius);
     }
     .nav-links a:hover { color: var(--white); }
+    .header-actions {
+      display: flex;
+      align-items: center;
+    }
+    .lang-selector select {
+      background: var(--charcoal-light);
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      outline: none;
+    }
+    .lang-selector select:hover {
+      border-color: rgba(255,255,255,0.25);
+    }
+    .lang-selector select option {
+      background: var(--charcoal);
+      color: var(--silver);
+    }
 
     /* ── Hero ── */
     .hero {
@@ -597,12 +620,33 @@
     <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="80" y1="96" x2="432" y2="416" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg><span>I<span class="brand-accent">A</span>ES</span></a>
     <nav>
       <ul class="nav-links">
-        <li><a href="/spec/">Specification</a></li>
-        <li><a href="/schemas/">Schemas</a></li>
-        <li><a href="/integrators/">Integrators</a></li>
+        <li><a href="/spec/" data-i18n="nav.spec">Specification</a></li>
+        <li><a href="/examples/" data-i18n="nav.examples">Examples</a></li>
+        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
         <li><a href="/toolkit/">Toolkit</a></li>
-        <li><a href="https://github.com/wertek-ai/iaes">GitHub</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
       </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
     </nav>
   </div>
 </header>
