@@ -98,18 +98,24 @@
     .brand-icon { width: 28px; height: 28px; }
     .nav-links {
       display: flex;
+      gap: 20px;
       align-items: center;
-      gap: 8px;
       list-style: none;
     }
+    .nav-links li { display: inline-flex; }
     .nav-links a {
       color: var(--slate);
       font-size: 14px;
       font-weight: 500;
-      padding: 6px 12px;
-      border-radius: var(--radius);
+      transition: color 0.2s;
+      text-decoration: none;
     }
     .nav-links a:hover { color: var(--white); }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
     .header-actions {
       display: flex;
       align-items: center;
