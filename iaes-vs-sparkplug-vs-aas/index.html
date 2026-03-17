@@ -430,6 +430,45 @@
       color: var(--cyan-light);
     }
 
+    /* -- At a Glance Cards -- */
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .glance-card {
+      text-align: center;
+      padding: 28px 20px;
+      border: 1px solid var(--silver);
+      border-radius: var(--radius-card);
+      background: var(--snow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .glance-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .glance-card.glance-iaes {
+      border-color: var(--cyan);
+      background: rgba(14, 165, 233, 0.04);
+      box-shadow: 0 0 0 1px var(--cyan);
+    }
+    .glance-icon { margin-bottom: 12px; }
+    .glance-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .glance-layer { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; color: var(--steel); margin-bottom: 10px; }
+    .glance-desc { font-size: 14px; color: var(--steel); line-height: 1.5; }
+
+    .takeaway-box {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(14, 165, 233, 0.06);
+      border-left: 4px solid var(--cyan);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 15px;
+      color: var(--charcoal);
+      line-height: 1.6;
+    }
+
     /* -- CTA Strip -- */
     .cta-strip {
       display: flex;
@@ -505,10 +544,14 @@
       .hero { padding: 56px 0 48px; }
       .hero h1 { font-size: 2rem; }
       .hero-subtitle { font-size: 1rem; }
+      .glance-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
       .decision-tree { grid-template-columns: 1fr; }
       .decision-card-full { grid-column: 1; }
       .section-dark, .section-light { padding: 56px 0; }
       .section-header h2 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .glance-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .comparison-table { font-size: 12px; }
@@ -588,28 +631,55 @@
 </section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     THE CONFUSION (light)
+     AT A GLANCE — 4 cards (scan in 5 seconds)
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="confusion">
+<section class="section-light" id="at-a-glance">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="cmp.confusion_title">The Confusion</h2>
-      <p data-i18n="cmp.confusion_subtitle">Why engineers keep comparing four technologies that solve completely different problems</p>
+      <h2 data-i18n="cmp.glance_title">At a Glance</h2>
+      <p data-i18n="cmp.glance_subtitle">Four standards, four layers. They don't compete — they complement.</p>
     </div>
 
-    <div style="max-width: 800px; margin: 0 auto;">
-      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p1">
-        Engineers frequently compare OPC UA, Sparkplug B, the Asset Administration Shell (AAS), and <a href="/what-is-iaes.html">IAES</a> as if they are competing standards. They are not. They operate at different layers of the industrial data stack, solving different problems for different audiences.
-      </p>
-      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p2">
-        Comparing IAES to Sparkplug B is like comparing SQL to TCP/IP. One defines <strong>what data means</strong>, the other defines <strong>how data moves</strong>. Comparing IAES to AAS is like comparing a medical record to an anatomy textbook. One captures <strong>what happened</strong> over time, the other describes <strong>what the thing is</strong>.
-      </p>
-      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p3">
-        The confusion is understandable. All four touch industrial IoT. All four deal with assets and data. But the overlap is superficial. In practice, they are complementary. Many production architectures use two or three of them simultaneously, each at its own layer.
-      </p>
-      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7;" data-i18n="cmp.confusion_p4">
-        This page explains what each standard does, where it sits in the stack, and how to choose. If you already know you need event semantics across systems, go directly to the <a href="/spec/">IAES specification</a>. If you are still figuring out which layer your problem lives in, read on.
-      </p>
+    <div class="glance-grid">
+      <div class="glance-card">
+        <div class="glance-icon">
+          <svg viewBox="0 0 48 48" width="40" height="40"><rect x="8" y="8" width="32" height="32" rx="4" fill="none" stroke="#64748b" stroke-width="2.5"/><path d="M18 24h12M24 18v12" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"/></svg>
+        </div>
+        <h3>OPC UA</h3>
+        <p class="glance-layer" data-i18n="cmp.glance_opcua_layer">Communication</p>
+        <p class="glance-desc" data-i18n="cmp.glance_opcua_desc">How machines talk to each other. Secure M2M on the factory floor.</p>
+      </div>
+
+      <div class="glance-card">
+        <div class="glance-icon">
+          <svg viewBox="0 0 48 48" width="40" height="40"><path d="M8 34l10-10 8 6 14-18" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="38" cy="14" r="3" fill="#64748b"/></svg>
+        </div>
+        <h3>Sparkplug B</h3>
+        <p class="glance-layer" data-i18n="cmp.glance_spb_layer">Telemetry</p>
+        <p class="glance-desc" data-i18n="cmp.glance_spb_desc">How devices report metrics. Real-time sensor data over MQTT.</p>
+      </div>
+
+      <div class="glance-card">
+        <div class="glance-icon">
+          <svg viewBox="0 0 48 48" width="40" height="40"><rect x="12" y="6" width="24" height="36" rx="3" fill="none" stroke="#64748b" stroke-width="2.5"/><path d="M18 14h12M18 20h12M18 26h8" stroke="#64748b" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>AAS</h3>
+        <p class="glance-layer" data-i18n="cmp.glance_aas_layer">Digital Twin</p>
+        <p class="glance-desc" data-i18n="cmp.glance_aas_desc">What the asset IS. Nameplate, specs, capabilities — the identity card.</p>
+      </div>
+
+      <div class="glance-card glance-iaes">
+        <div class="glance-icon">
+          <svg viewBox="0 0 48 48" width="40" height="40"><path d="M6 24h8l5-12 6 24 5-16 4 8h8" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="color: var(--cyan);">IAES</h3>
+        <p class="glance-layer" style="color: var(--cyan);" data-i18n="cmp.glance_iaes_layer">Event Semantics</p>
+        <p class="glance-desc" data-i18n="cmp.glance_iaes_desc">What HAPPENED to the asset. Measurement, diagnosis, action — across any system.</p>
+      </div>
+    </div>
+
+    <div class="takeaway-box" style="margin-top: 40px;">
+      <p data-i18n="cmp.glance_takeaway"><strong>Key insight:</strong> Comparing IAES to Sparkplug B is like comparing SQL to TCP/IP. One defines <strong>what data means</strong>, the other defines <strong>how data moves</strong>. In practice, many plants use two or three of these simultaneously, each at its own layer.</p>
     </div>
   </div>
 </section>
@@ -719,17 +789,11 @@
     <div class="deep-dive" id="opcua-vs-iaes">
       <h3 data-i18n="cmp.opcua_dive_title">OPC UA Alarms &amp; Conditions vs IAES</h3>
       <div class="analogy" data-i18n="cmp.opcua_analogy">OPC UA is the nervous system. IAES is the medical record.</div>
-      <p data-i18n="cmp.opcua_dive_p1">
-        OPC UA Alarms &amp; Conditions (Part 9 of the OPC UA specification) defines how alarm states propagate through a real-time system. It covers alarm states (active, inactive, suppressed), shelving (operator temporarily silences an alarm), acknowledgment workflows, and condition hierarchies. It is designed for operator displays: HMIs, SCADA screens, control room dashboards. The audience is the person watching the process <strong>right now</strong>.
+      <p data-i18n="cmp.opcua_dive_p1_short">
+        OPC UA A&amp;C (Part 9) handles real-time alarm propagation on HMIs and SCADA screens — it tells the operator <strong>"something is wrong right now."</strong> IAES captures what happened <strong>after</strong> the alarm: the measurement, the diagnosis, and the maintenance action. Every downstream system (CMMS, ERP, analytics) consumes the IAES event without needing OPC UA's address space.
       </p>
-      <p data-i18n="cmp.opcua_dive_p2">
-        <a href="/what-is-iaes.html">IAES</a> defines what happened to the asset <strong>after</strong> the alarm. When OPC UA fires an alarm because a pump's vibration exceeded 12.4 mm/s, that alarm lives in the OPC UA address space. The IAES event captures the measurement (asset.measurement), the diagnosis (asset.health with failure_mode and severity), and the resulting maintenance action (maintenance.work_order_intent). While OPC UA tells the operator "something is wrong right now," IAES tells every downstream system "here is what happened, what it means, and what should be done about it."
-      </p>
-      <p data-i18n="cmp.opcua_dive_p3">
-        In practice, many plants use both. OPC UA handles real-time alarm propagation on the factory floor. A bridge service subscribes to OPC UA alarm events and translates them into IAES events for cross-system consumption. The CMMS, the analytics platform, the ERP system, and the reliability engineering team all consume the IAES events, each applying their own logic without needing to understand OPC UA's address space model.
-      </p>
-      <p data-i18n="cmp.opcua_dive_p4">
-        The key difference is scope: OPC UA A&C is tightly coupled to the OPC UA communication framework (binary encoding, sessions, subscriptions, node IDs). IAES is transport-agnostic. An IAES event can travel over MQTT, HTTP, Kafka, or even a flat file. This decoupling is deliberate: it lets IAES serve as the lingua franca between systems that will never speak OPC UA.
+      <p data-i18n="cmp.opcua_dive_p2_short">
+        <strong>In practice:</strong> A bridge subscribes to OPC UA alarm events and translates them into IAES events. OPC UA stays on the factory floor. IAES flows everywhere else.
       </p>
     </div>
 
@@ -737,25 +801,15 @@
     <div class="deep-dive" id="sparkplug-iaes">
       <h3 data-i18n="cmp.spb_dive_title">Sparkplug B + IAES (Complementary)</h3>
       <div class="analogy" data-i18n="cmp.spb_analogy">Sparkplug B is the postal service. IAES is the letter inside the envelope.</div>
-      <p data-i18n="cmp.spb_dive_p1">
-        Sparkplug B excels at real-time metric transport over MQTT. It defines birth certificates (device comes online), death certificates (device goes offline), metric reporting with timestamps and datatypes, and a structured MQTT topic namespace (spBv1.0/group/NBIRTH|DBIRTH|DDATA|...). It solves the problem of getting reliable telemetry data from edge devices to a central broker with state awareness. If a device disconnects and reconnects, Sparkplug B ensures the broker and all subscribers know the device's current state.
-      </p>
-      <p data-i18n="cmp.spb_dive_p2">
-        IAES events can ride on top of Sparkplug B infrastructure. A gateway collects sensor data, publishes it as Sparkplug B payloads for the SCADA/historian layer, and simultaneously transforms interesting events into IAES format for the analytics/maintenance layer. The transport is Sparkplug B. The semantics are IAES. There is no conflict because they operate at different layers.
-      </p>
-      <p data-i18n="cmp.spb_dive_p3">
-        Here is a concrete example: a Sparkplug B adapter that transforms incoming metrics into IAES asset.measurement events. This adapter sits between your Sparkplug B infrastructure and your IAES-aware consumers (CMMS, analytics, alerting).
+      <p data-i18n="cmp.spb_dive_p1_short">
+        Sparkplug B gets telemetry from edge devices to a broker with state awareness (birth/death certificates, structured MQTT topics). IAES events ride <strong>on top</strong> of Sparkplug B infrastructure — same MQTT transport, different semantic layer. No conflict.
       </p>
 
       <div class="code-block" style="max-width: 760px; margin-bottom: 20px;">
 <span class="cm"># Sparkplug B metric &rarr; IAES asset.measurement transform</span>
 <span class="kw">from</span> iaes <span class="kw">import</span> <span class="fn">MeasurementEvent</span>
-<span class="kw">import</span> sparkplug_b_pb2 <span class="kw">as</span> spb
 
 <span class="kw">def</span> <span class="fn">sparkplug_to_iaes</span>(spb_payload):
-    <span class="cm">"""Transform a Sparkplug B metric payload into an IAES event.</span>
-<span class="cm">    The transport layer (Sparkplug B/MQTT) stays unchanged.</span>
-<span class="cm">    The semantic layer (IAES) makes the data interoperable."""</span>
     metric = spb_payload.metrics[<span class="num">0</span>]
     <span class="kw">return</span> <span class="fn">MeasurementEvent</span>(
         asset_id=spb_payload.name,
@@ -774,32 +828,19 @@
     <div class="deep-dive" id="aas-iaes">
       <h3 data-i18n="cmp.aas_dive_title">AAS + IAES (Complementary)</h3>
       <div class="analogy" data-i18n="cmp.aas_analogy">AAS is the noun (what the asset IS). IAES is the verb (what HAPPENED to the asset).</div>
-      <p data-i18n="cmp.aas_dive_p1">
-        The Asset Administration Shell (AAS), standardized under IEC 63278 and championed by the Industrial Digital Twin Association (IDTA), defines how to model an asset digitally. An AAS contains submodels: nameplate data, technical specifications, documentation, operational parameters, and capability descriptions. It answers the question "what IS this asset?" with a rich, structured digital twin.
+      <p data-i18n="cmp.aas_dive_p1_short">
+        AAS (IEC 63278) models the asset: nameplate, specs, capabilities — <strong>"what IS this thing?"</strong> IAES records the asset's operational history: the vibration spike, the bearing wear diagnosis, the work order, the replacement — <strong>"what HAPPENED to this thing?"</strong>
       </p>
-      <p data-i18n="cmp.aas_dive_p2">
-        IAES answers a different question: "what HAPPENED to this asset?" When a pump's bearing starts degrading, the AAS still describes the pump's nameplate, its rated power, its installation date. IAES captures the sequence of events: the vibration measurement that exceeded the threshold, the health assessment that identified bearing wear, the work order intent that triggered maintenance, and the completion event that recorded the bearing replacement and 45 minutes of downtime.
-      </p>
-      <p data-i18n="cmp.aas_dive_p3">
-        The two are naturally complementary. An AAS submodel could reference IAES events as the asset's operational history. An IAES event's asset_id could resolve to an AAS endpoint for full asset context. In a mature Industry 4.0 architecture, AAS provides the static identity and IAES provides the dynamic history. Together, they give a complete picture of the asset across its lifecycle.
-      </p>
-      <p data-i18n="cmp.aas_dive_p4">
-        Practically, AAS adoption is concentrated in German and European Industry 4.0 initiatives, particularly in automotive and manufacturing. IAES adoption is growing in condition monitoring and predictive maintenance, where the focus is less on modeling the asset and more on recording what happened to it. If your project involves both digital twin registries and cross-system event interoperability, both standards add value at their respective layers.
+      <p data-i18n="cmp.aas_dive_p2_short">
+        <strong>Together:</strong> AAS provides static identity, IAES provides dynamic history. An AAS submodel references IAES events. An IAES <code>asset_id</code> resolves to an AAS endpoint. Complete lifecycle picture.
       </p>
     </div>
 
-    <!-- Where They Overlap -->
+    <!-- Key Takeaway -->
     <div class="deep-dive" id="overlap">
-      <h3 data-i18n="cmp.overlap_title">Where They Overlap (and Don't)</h3>
-      <p data-i18n="cmp.overlap_p1">
-        None of these four standards replace each other. The apparent overlap comes from the fact that they all deal with industrial data, but they deal with different aspects of it. OPC UA defines the communication channel. Sparkplug B defines the telemetry transport model. AAS defines the digital twin structure. IAES defines the event semantics. Each layer has a job. Removing any one of them creates a gap that the others cannot fill.
-      </p>
-      <p data-i18n="cmp.overlap_p2">
-        A real-world plant might use OPC UA for machine-to-machine communication between PLCs and SCADA, Sparkplug B for edge-to-cloud telemetry over MQTT, AAS for digital twin registries in their Industry 4.0 platform, and IAES for cross-system event interoperability between the monitoring platform, the CMMS, and the ERP system. Each standard operates at its own layer without stepping on the others.
-      </p>
-      <p data-i18n="cmp.overlap_p3">
-        The question is not "which one should I choose?" The question is "which layers does my architecture need?" If you need secure M2M communication, you need OPC UA. If you need real-time sensor telemetry over MQTT, you need Sparkplug B. If you need a digital twin registry, you need AAS. If you need to record what happened to assets and share those events across systems, you need <a href="/what-is-iaes.html">IAES</a>. If you need multiple, they work together.
-      </p>
+      <div class="takeaway-box">
+        <p data-i18n="cmp.overlap_takeaway"><strong>They don't overlap.</strong> OPC UA = communication. Sparkplug B = telemetry transport. AAS = digital twin structure. IAES = event semantics. Each layer has a job. A real plant might use all four simultaneously. The question isn't "which one?" — it's "which layers does my architecture need?"</p>
+      </div>
     </div>
   </div>
 </section>
