@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1E1XXH50B6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1E1XXH50B6');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping</title>
+  <meta name="description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
+  <meta name="keywords" content="iaes iso 55000 alignment, iso 13374 condition monitoring event format, iso 17359 measurement recording, iso 14224 failure codes event standard, iaes iso mapping">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping">
+  <meta property="og:description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/iaes-iso-alignment/">
+  <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
+  <link rel="canonical" href="https://iaes.dev/iaes-iso-alignment/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD: TechArticle -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping",
+    "description": "How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.",
+    "url": "https://iaes.dev/iaes-iso-alignment/",
+    "image": "https://iaes.dev/assets/og-image.png",
+    "author": {
+      "@type": "Organization",
+      "name": "Wertek AI",
+      "url": "https://wertek.ai"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "IAES",
+      "url": "https://iaes.dev"
+    },
+    "proficiencyLevel": "Expert",
+    "dependencies": "IAES v1.2+",
+    "about": [
+      { "@type": "Thing", "name": "ISO 55000", "description": "Asset management fundamentals" },
+      { "@type": "Thing", "name": "ISO 13374", "description": "Condition monitoring and diagnostics" },
+      { "@type": "Thing", "name": "ISO 17359", "description": "Condition monitoring and diagnostics of machines" },
+      { "@type": "Thing", "name": "ISO 14224", "description": "Reliability and maintenance data collection" }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions { display: flex; align-items: center; }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    
+    /* -- Nav Dropdowns -- */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { display: inline-flex; align-items: center; gap: 4px; }
+    .nav-dropdown-toggle .caret { font-size: 10px; transition: transform 0.2s; }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 8px 0;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    .nav-dropdown:hover .caret { transform: rotate(180deg); }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 8px 16px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+    }
+
+    /* -- Buttons -- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--cyan); color: var(--white); }
+    .btn-primary:hover { background: var(--cyan-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--silver); border: 1px solid rgba(255,255,255,0.2); }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--white); }
+    .btn-outline-dark { background: transparent; color: var(--charcoal); border: 1px solid var(--silver); }
+    .btn-outline-dark:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* -- Sections -- */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header { margin-bottom: 48px; }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* -- Hero -- */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 80px 0 72px;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 24px;
+    }
+    .breadcrumb a { color: var(--slate); }
+    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+    /* -- Tables -- */
+    .iso-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 14px;
+    }
+    .iso-table th,
+    .iso-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .section-light .iso-table th,
+    .section-light .iso-table td {
+      border-bottom: 1px solid var(--silver);
+    }
+    .iso-table th {
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .section-dark .iso-table th { color: var(--slate); }
+    .section-light .iso-table th { color: var(--steel); }
+    .section-dark .iso-table td { color: var(--silver); }
+    .section-light .iso-table td { color: var(--charcoal); }
+    .iso-table code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .section-dark .iso-table code {
+      background: rgba(255,255,255,0.06);
+      color: var(--cyan-light);
+    }
+    .section-light .iso-table code {
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--cyan-dark);
+    }
+
+    /* -- Pillar Cards -- */
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .pillar-card {
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+    }
+    .section-light .pillar-card {
+      background: var(--snow);
+      border: 1px solid var(--silver);
+    }
+    .section-dark .pillar-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .pillar-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-light .pillar-card h3 { color: var(--charcoal); }
+    .section-dark .pillar-card h3 { color: var(--white); }
+    .pillar-card p {
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .section-light .pillar-card p { color: var(--steel); }
+    .section-dark .pillar-card p { color: var(--slate); }
+    .pillar-card code {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .section-light .pillar-card code {
+      background: rgba(14, 165, 233, 0.08);
+      color: var(--cyan-dark);
+    }
+    .section-dark .pillar-card code {
+      background: rgba(255,255,255,0.06);
+      color: var(--cyan-light);
+    }
+
+    /* -- Status Badges -- */
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .status-normal { background: rgba(39, 174, 96, 0.15); color: var(--good); }
+    .status-warning { background: rgba(243, 156, 18, 0.15); color: var(--warning); }
+    .status-critical { background: rgba(231, 76, 60, 0.15); color: var(--critical); }
+    .status-info { background: rgba(14, 165, 233, 0.15); color: var(--cyan); }
+
+    /* -- Code Blocks -- */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
+
+    /* -- Taxonomy List -- */
+    .taxonomy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .taxonomy-group h4 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .section-dark .taxonomy-group h4 { color: var(--cyan-light); }
+    .taxonomy-group ul {
+      list-style: none;
+      padding: 0;
+    }
+    .taxonomy-group li {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 0;
+    }
+    .section-dark .taxonomy-group li { color: var(--slate); }
+
+    /* -- Prose -- */
+    .prose {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .prose p {
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .section-light .prose p { color: var(--steel); }
+    .section-dark .prose p { color: var(--slate); }
+    .prose strong {
+      font-weight: 600;
+    }
+    .section-light .prose strong { color: var(--charcoal); }
+    .section-dark .prose strong { color: var(--white); }
+
+    /* -- CTA Strip -- */
+    .cta-strip {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* -- Footer -- */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* -- Responsive -- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .pillar-grid { grid-template-columns: 1fr; }
+      .taxonomy-grid { grid-template-columns: 1fr; }
+      .iso-table { font-size: 12px; }
+      .iso-table th, .iso-table td { padding: 8px 10px; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .iso-table { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Spec</a></li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-dropdown-toggle" data-i18n="nav.learn">Learn <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
+            <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
+            <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+          </ul>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/use-cases/" class="nav-dropdown-toggle" data-i18n="nav.use_cases">Use Cases <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/use-cases/alert-reduction/" data-i18n="nav.uc_alert">Alert Reduction</a></li>
+            <li><a href="/use-cases/plc-to-sap-pm/" data-i18n="nav.uc_sap">PLC to SAP PM</a></li>
+            <li><a href="/use-cases/n8n-industrial-automation/" data-i18n="nav.uc_n8n">n8n Automation</a></li>
+          </ul>
+        </li>
+        <li><a href="/tooling/" data-i18n="nav.tooling">Tooling</a></li>
+        <li><a href="/install/" data-i18n="nav.install">Install</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/" data-i18n="iso.breadcrumb_home">Home</a>
+      <span class="sep">/</span>
+      <span data-i18n="iso.breadcrumb_current">ISO Alignment</span>
+    </div>
+    <h1 data-i18n="iso.hero_title">IAES ISO Alignment</h1>
+    <p class="hero-subtitle" data-i18n="iso.hero_subtitle">Field-level mapping to ISO 55000, 13374, 17359, and 14224</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     INTRO (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="intro">
+  <div class="container">
+    <div class="prose">
+      <p data-i18n="iso.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> was designed from the ground up with ISO alignment in mind. Rather than inventing proprietary concepts, IAES maps its event types and fields directly to four foundational ISO standards that govern asset management, condition monitoring, measurement practices, and failure classification in industrial environments.</p>
+      <p data-i18n="iso.intro_p2">This page provides a <strong>field-level mapping</strong> between IAES v1.2+ and each ISO standard. Whether you are building a condition monitoring system, integrating with a CMMS, or establishing an ISO 55001-compliant asset management program, this reference shows exactly how IAES events carry the data each standard requires.</p>
+      <p data-i18n="iso.intro_p3">All ISO-related fields in IAES are <strong>optional and backward-compatible</strong>. Systems that do not need ISO compliance can ignore these fields entirely. Systems that do need it get standards-aligned data without custom transformation layers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ISO 55000 — ASSET MANAGEMENT (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="iso-55000">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-i18n="iso.iso55000_title">ISO 55000 — Asset Management Fundamentals</h2>
+      <p data-i18n="iso.iso55000_subtitle">How IAES implements the four pillars of asset management defined by ISO 55000.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 40px;">
+      <p data-i18n="iso.iso55000_intro">ISO 55000 defines four fundamental concepts that every asset management system must embody: <strong>Value</strong>, <strong>Alignment</strong>, <strong>Leadership</strong>, and <strong>Assurance</strong>. These are not specific data fields or technical requirements &mdash; they are organizational principles. IAES implements each one through its <a href="/spec/">7 event types</a> and the relationships between them.</p>
+    </div>
+
+    <div class="pillar-grid">
+      <div class="pillar-card">
+        <h3 data-i18n="iso.pillar_value_title">Value</h3>
+        <p data-i18n="iso.pillar_value_desc">Assets exist to deliver value. IAES makes value measurable: <code>asset.measurement</code> captures quantified condition data tied to specific assets. <code>asset.health</code> produces value-weighted health scores. Every event carries an <code>asset_id</code> &mdash; the asset is the organizing principle, not the sensor, not the system. This asset-centric model means you can always answer: "What is the current state and value contribution of this asset?"</p>
+      </div>
+      <div class="pillar-card">
+        <h3 data-i18n="iso.pillar_alignment_title">Alignment</h3>
+        <p data-i18n="iso.pillar_alignment_desc">Maintenance decisions must align with organizational objectives. <code>maintenance.work_order_intent</code> translates condition data into prioritized actions. The <code>priority</code> field maps organizational risk tolerance directly into the event stream. A "critical" priority on a cooling pump in a power plant means something different than "critical" on a warehouse fan &mdash; the priority reflects organizational context, not just sensor thresholds.</p>
+      </div>
+      <div class="pillar-card">
+        <h3 data-i18n="iso.pillar_leadership_title">Leadership</h3>
+        <p data-i18n="iso.pillar_leadership_desc">ISO 55000 requires clear accountability and traceability. IAES provides this through the <code>correlation_id</code> field, which links every event in an incident chain &mdash; from the first anomalous measurement through health assessment, work order creation, and completion. This creates a complete decision audit trail: who detected what, when was action recommended, and who executed it.</p>
+      </div>
+      <div class="pillar-card">
+        <h3 data-i18n="iso.pillar_assurance_title">Assurance</h3>
+        <p data-i18n="iso.pillar_assurance_desc">Assurance means closing the loop: did the maintenance action actually resolve the problem? <code>maintenance.completion</code> with its <code>failure_confirmed</code> field answers this directly. When the AI predicted bearing wear and the technician confirmed bearing wear during replacement, that is a verified feedback loop. When the prediction was wrong, the correction feeds back into model improvement. IAES makes assurance auditable by design.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ISO 13374 — CONDITION MONITORING 6-BLOCK MODEL (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="iso-13374">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-i18n="iso.iso13374_title">ISO 13374 — Condition Monitoring 6-Block Model</h2>
+      <p data-i18n="iso.iso13374_subtitle">IAES maps directly to each block of the ISO 13374 processing pipeline.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 40px;">
+      <p data-i18n="iso.iso13374_intro">ISO 13374 defines a 6-block processing pipeline that transforms raw sensor data into actionable maintenance decisions. This model is the backbone of every <a href="/use-cases/alert-reduction/">condition monitoring</a> system. IAES does not replace the processing within each block &mdash; it standardizes the data that flows <em>between</em> blocks, making every stage interoperable.</p>
+    </div>
+
+    <table class="iso-table">
+      <thead>
+        <tr>
+          <th data-i18n="iso.col_block">ISO 13374 Block</th>
+          <th data-i18n="iso.col_function">Function</th>
+          <th data-i18n="iso.col_event_type">IAES Event Type</th>
+          <th data-i18n="iso.col_iaes_field">IAES Field</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-i18n="iso.block1_name">Block 1: Data Acquisition (DA)</td>
+          <td data-i18n="iso.block1_func">Sensor sampling</td>
+          <td><code>asset.measurement</code></td>
+          <td><code>sampling_rate_hz</code>, <code>acquisition_duration_s</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.block2_name">Block 2: Data Manipulation (DM)</td>
+          <td data-i18n="iso.block2_func">Signal processing</td>
+          <td><code>asset.measurement</code></td>
+          <td><code>units_qualifier</code> (rms, peak, peak_to_peak)</td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.block3_name">Block 3: State Detection (SD)</td>
+          <td data-i18n="iso.block3_func">Threshold comparison</td>
+          <td><code>asset.health</code></td>
+          <td><code>iso_13374_status</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.block4_name">Block 4: Health Assessment (HA)</td>
+          <td data-i18n="iso.block4_func">Severity classification</td>
+          <td><code>asset.health</code></td>
+          <td><code>health_index</code> (0&ndash;1), <code>severity</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.block5_name">Block 5: Prognostic Assessment (PA)</td>
+          <td data-i18n="iso.block5_func">Remaining useful life estimation</td>
+          <td><code>asset.health</code></td>
+          <td><code>rul_days</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.block6_name">Block 6: Advisory Generation (AG)</td>
+          <td data-i18n="iso.block6_func">Action recommendation</td>
+          <td><code>maintenance.work_order_intent</code></td>
+          <td><code>title</code>, <code>priority</code>, <code>description</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="prose" style="margin-top: 40px;">
+      <p data-i18n="iso.iso13374_status_intro">The <code>iso_13374_status</code> field in <code>asset.health</code> events uses values that map directly to ISO 13374 condition states. These represent a progression from normal operation to confirmed failure:</p>
+    </div>
+
+    <table class="iso-table" style="max-width: 700px; margin-top: 24px;">
+      <thead>
+        <tr>
+          <th data-i18n="iso.col_status_value">Status Value</th>
+          <th data-i18n="iso.col_meaning">Meaning</th>
+          <th data-i18n="iso.col_action">Typical Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>normal</code></td>
+          <td data-i18n="iso.status_normal">Operating within acceptable parameters</td>
+          <td data-i18n="iso.action_normal">Continue monitoring</td>
+        </tr>
+        <tr>
+          <td><code>satisfactory</code></td>
+          <td data-i18n="iso.status_satisfactory">Minor deviation, no action needed</td>
+          <td data-i18n="iso.action_satisfactory">Increase monitoring frequency</td>
+        </tr>
+        <tr>
+          <td><code>unsatisfactory</code></td>
+          <td data-i18n="iso.status_unsatisfactory">Deviation requires planned intervention</td>
+          <td data-i18n="iso.action_unsatisfactory">Schedule maintenance</td>
+        </tr>
+        <tr>
+          <td><code>unacceptable</code></td>
+          <td data-i18n="iso.status_unacceptable">Significant deviation, urgent intervention</td>
+          <td data-i18n="iso.action_unacceptable">Priority work order</td>
+        </tr>
+        <tr>
+          <td><code>imminent_failure</code></td>
+          <td data-i18n="iso.status_imminent">Failure expected imminently</td>
+          <td data-i18n="iso.action_imminent">Emergency shutdown / immediate repair</td>
+        </tr>
+        <tr>
+          <td><code>failed</code></td>
+          <td data-i18n="iso.status_failed">Asset has failed</td>
+          <td data-i18n="iso.action_failed">Corrective maintenance</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ISO 17359 — CONDITION MONITORING & DIAGNOSTICS (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="iso-17359">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-i18n="iso.iso17359_title">ISO 17359 — Condition Monitoring &amp; Diagnostics</h2>
+      <p data-i18n="iso.iso17359_subtitle">Three fields added in IAES v1.2 for ISO 17359 measurement compliance.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 40px;">
+      <p data-i18n="iso.iso17359_intro">ISO 17359 defines how vibration, temperature, and other condition monitoring measurements should be recorded for diagnostic purposes. A vibration reading of "4.5 mm/s" is ambiguous without context: is it RMS or peak? What was the sampling rate? How long was the measurement window? These details matter for accurate diagnosis and trending.</p>
+      <p data-i18n="iso.iso17359_fields">IAES v1.2 added three optional fields to <code>asset.measurement</code> that resolve these ambiguities:</p>
+    </div>
+
+    <div class="pillar-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+      <div class="pillar-card">
+        <h3 data-i18n="iso.field_units_title"><code>units_qualifier</code></h3>
+        <p data-i18n="iso.field_units_desc">Resolves the most common ambiguity in vibration measurements. When you see "4.5 mm/s", is that RMS or peak? The qualifier makes it explicit. Accepted values: <code>rms</code>, <code>peak</code>, <code>peak_to_peak</code>, <code>average</code>, <code>true_rms</code>. This field applies to any measurement type, not just vibration &mdash; temperature, current, pressure all benefit from explicit qualification.</p>
+      </div>
+      <div class="pillar-card">
+        <h3 data-i18n="iso.field_sampling_title"><code>sampling_rate_hz</code></h3>
+        <p data-i18n="iso.field_sampling_desc">Sample rate in Hz. Critical for vibration analysis due to the Nyquist theorem: to detect a 10 kHz bearing defect frequency, you need at least 20 kHz sampling. Recording the sampling rate means downstream systems can validate whether the measurement is trustworthy for a given analysis. Example: <code>25600</code> Hz for high-frequency bearing detection.</p>
+      </div>
+      <div class="pillar-card">
+        <h3 data-i18n="iso.field_duration_title"><code>acquisition_duration_s</code></h3>
+        <p data-i18n="iso.field_duration_desc">Duration of the measurement window in seconds. A 0.1-second capture misses low-frequency phenomena. A 10-second capture provides better frequency resolution but larger data. Recording this value enables apples-to-apples trending: you can only compare measurements taken with the same acquisition parameters. Example: <code>2.0</code> seconds for standard vibration capture.</p>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top: 48px;">
+      <p data-i18n="iso.iso17359_example">Here is an <code>asset.measurement</code> event with all three ISO 17359 fields populated:</p>
+    </div>
+
+    <div style="max-width: 760px; margin: 24px auto 0;">
+      <div class="code-block">
+<span class="cm">// asset.measurement with ISO 17359 fields</span>
+{
+  "<span class="field">event_type</span>": "<span class="str">asset.measurement</span>",
+  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">FAN-2201</span>" },
+  "<span class="field">data</span>": {
+    "<span class="field">measurement_type</span>": "<span class="str">vibration</span>",
+    "<span class="field">value</span>": <span class="num">4.5</span>,
+    "<span class="field">unit</span>": "<span class="str">mm/s</span>",
+    "<span class="field">units_qualifier</span>": "<span class="str">rms</span>",
+    "<span class="field">sampling_rate_hz</span>": <span class="num">25600</span>,
+    "<span class="field">acquisition_duration_s</span>": <span class="num">2.0</span>
+  }
+}</div>
+    </div>
+
+    <div class="prose" style="margin-top: 48px;">
+      <p data-i18n="iso.iso17359_zones_intro">ISO 17359 also defines a <strong>4-zone alarm system</strong> (Zones A through D) for classifying machine vibration severity. IAES maps these zones through the <code>severity</code> field on <code>asset.health</code> events:</p>
+    </div>
+
+    <table class="iso-table" style="max-width: 700px; margin-top: 24px;">
+      <thead>
+        <tr>
+          <th data-i18n="iso.col_zone">ISO 17359 Zone</th>
+          <th data-i18n="iso.col_zone_meaning">Meaning</th>
+          <th data-i18n="iso.col_iaes_severity">IAES <code>severity</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-i18n="iso.zone_a">Zone A &mdash; Good</td>
+          <td data-i18n="iso.zone_a_meaning">Newly commissioned or excellent condition</td>
+          <td><code>info</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.zone_b">Zone B &mdash; Acceptable</td>
+          <td data-i18n="iso.zone_b_meaning">Long-term operation acceptable</td>
+          <td><code>low</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.zone_c">Zone C &mdash; Alert</td>
+          <td data-i18n="iso.zone_c_meaning">Not suitable for sustained operation</td>
+          <td><code>medium</code> / <code>high</code></td>
+        </tr>
+        <tr>
+          <td data-i18n="iso.zone_d">Zone D &mdash; Danger</td>
+          <td data-i18n="iso.zone_d_meaning">Risk of damage, shutdown recommended</td>
+          <td><code>critical</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ISO 14224 — FAILURE CLASSIFICATION (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="iso-14224">
+  <div class="container">
+    <div class="section-header">
+      <h2 data-i18n="iso.iso14224_title">ISO 14224 — Failure Classification</h2>
+      <p data-i18n="iso.iso14224_subtitle">Standardized failure codes for reliability data collection, embedded directly in IAES events.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 40px;">
+      <p data-i18n="iso.iso14224_intro">ISO 14224 defines standardized codes for recording <em>what</em> failed, <em>why</em> it failed, and <em>how</em> the failure was detected. This data is essential for reliability engineering: calculating MTBF, identifying systemic failure patterns, and justifying capital investment in predictive maintenance. Without standardized codes, failure data across plants and systems cannot be compared or aggregated.</p>
+      <p data-i18n="iso.iso14224_iaes">IAES v1.2 added an optional <code>iso_14224</code> object to both <code>asset.health</code> and <code>maintenance.completion</code> events. This creates a powerful feedback loop: the AI system predicts a failure mode, and the technician confirms or corrects it after repair.</p>
+    </div>
+
+    <div style="max-width: 760px; margin: 0 auto;">
+      <div class="code-block">
+<span class="cm">// iso_14224 object in asset.health or maintenance.completion</span>
+{
+  "<span class="field">iso_14224</span>": {
+    "<span class="field">mechanism_code</span>": "<span class="str">BRG</span>",
+    "<span class="field">mechanism_label</span>": "<span class="str">Bearing failure</span>",
+    "<span class="field">cause_code</span>": "<span class="str">LUB</span>",
+    "<span class="field">cause_label</span>": "<span class="str">Lubrication failure</span>",
+    "<span class="field">detection_method</span>": "<span class="str">VIB</span>",
+    "<span class="field">detection_label</span>": "<span class="str">Vibration monitoring</span>"
+  }
+}</div>
+    </div>
+
+    <div class="prose" style="margin-top: 40px;">
+      <p data-i18n="iso.iso14224_loop"><strong>The feedback loop works like this:</strong> An AI engine analyzes vibration data and emits an <code>asset.health</code> event with <code>iso_14224.mechanism_code: "BRG"</code> (bearing failure predicted). A work order is created. The technician replaces the bearing and closes the work order. The <a href="/iaes-vs-sparkplug-vs-aas/">bridge</a> emits a <code>maintenance.completion</code> event &mdash; if the technician confirmed bearing wear, the same <code>BRG</code> code appears. If the actual root cause was misalignment, the technician corrects it to <code>ALN</code>. Both events share a <code>correlation_id</code>, so the ML model can learn from the correction.</p>
+    </div>
+
+    <div class="prose" style="margin-top: 40px;">
+      <p data-i18n="iso.iso14224_taxonomy_intro"><strong>Failure Mode Taxonomy (IAES Appendix A):</strong> IAES defines standard <code>failure_mode</code> values based on ISO 14224, organized by equipment category:</p>
+    </div>
+
+    <div class="taxonomy-grid">
+      <div class="taxonomy-group">
+        <h4 data-i18n="iso.taxonomy_rotating">Rotating Equipment</h4>
+        <ul>
+          <li>bearing_inner_race</li>
+          <li>bearing_outer_race</li>
+          <li>misalignment</li>
+          <li>unbalance</li>
+          <li>looseness_mechanical</li>
+          <li>gear_mesh</li>
+        </ul>
+      </div>
+      <div class="taxonomy-group">
+        <h4 data-i18n="iso.taxonomy_electrical">Electrical</h4>
+        <ul>
+          <li>electrical_fault</li>
+          <li>winding_short</li>
+          <li>broken_rotor_bar</li>
+          <li>eccentricity</li>
+        </ul>
+      </div>
+      <div class="taxonomy-group">
+        <h4 data-i18n="iso.taxonomy_fluid_thermal">Fluid / Thermal</h4>
+        <ul>
+          <li>cavitation</li>
+          <li>overheating</li>
+          <li>lubrication_failure</li>
+          <li>seal_leak</li>
+          <li>fouling</li>
+          <li>corrosion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     MASTER MAPPING TABLE (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="master-table">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="iso.master_title">Master Mapping Table</h2>
+      <p data-i18n="iso.master_subtitle">Complete ISO-to-IAES alignment at a glance.</p>
+    </div>
+
+    <table class="iso-table">
+      <thead>
+        <tr>
+          <th data-i18n="iso.col_iso_standard">ISO Standard</th>
+          <th data-i18n="iso.col_focus">Focus</th>
+          <th data-i18n="iso.col_iaes_events">IAES Event Types</th>
+          <th data-i18n="iso.col_key_fields">Key IAES Fields</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ISO 55000</strong></td>
+          <td data-i18n="iso.master_55000_focus">Asset management fundamentals</td>
+          <td data-i18n="iso.master_55000_events">All <a href="/spec/">7 event types</a></td>
+          <td><code>correlation_id</code>, <code>asset_id</code></td>
+        </tr>
+        <tr>
+          <td><strong>ISO 13374</strong></td>
+          <td data-i18n="iso.master_13374_focus">Condition monitoring pipeline</td>
+          <td><code>asset.measurement</code> &rarr; <code>asset.health</code> &rarr; <code>work_order_intent</code></td>
+          <td><code>iso_13374_status</code>, <code>health_index</code></td>
+        </tr>
+        <tr>
+          <td><strong>ISO 17359</strong></td>
+          <td data-i18n="iso.master_17359_focus">Measurement standards</td>
+          <td><code>asset.measurement</code></td>
+          <td><code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code></td>
+        </tr>
+        <tr>
+          <td><strong>ISO 14224</strong></td>
+          <td data-i18n="iso.master_14224_focus">Failure classification</td>
+          <td><code>asset.health</code>, <code>maintenance.completion</code></td>
+          <td><code>iso_14224</code> object</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="prose" style="margin-top: 40px;">
+      <p data-i18n="iso.master_conclusion">Together, these four standards cover the full lifecycle of industrial asset management: <strong>ISO 55000</strong> provides the strategic framework, <strong>ISO 13374</strong> defines the condition monitoring pipeline, <strong>ISO 17359</strong> ensures measurement quality, and <strong>ISO 14224</strong> standardizes failure data for reliability analysis. IAES carries all of this in a single, lightweight JSON event format &mdash; no separate data models, no transformation layers, no proprietary extensions.</p>
+      <p data-i18n="iso.master_note">All ISO-related fields are part of the <a href="/spec/">IAES v1.2 specification</a> and are validated by the <a href="https://github.com/wertek-ai/iaes">published JSON schemas</a>. The Python SDK (<code>pip install iaes</code>) and TypeScript SDK (<code>npm install @iaes/sdk</code>) both support ISO field validation out of the box.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="cta">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="iso.cta_title">Start Building with IAES</h2>
+      <p data-i18n="iso.cta_subtitle">ISO-aligned events, open standard, production-ready SDKs.</p>
+    </div>
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="/spec/" data-i18n="iso.cta_spec">Read the Spec</a>
+      <a class="btn btn-outline" href="/what-is-iaes.html" data-i18n="iso.cta_what">What is IAES?</a>
+      <a class="btn btn-outline" href="/use-cases/" data-i18n="iso.cta_usecases">Use Cases</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

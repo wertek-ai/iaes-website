@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1E1XXH50B6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1E1XXH50B6');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IAES vs Sparkplug B vs AAS vs OPC UA Events — Comparison</title>
+  <meta name="description" content="Side-by-side comparison of OPC UA, Sparkplug B, AAS, and IAES. Different layers, different purposes. A guide for industrial IoT engineers choosing the right standard.">
+  <meta name="keywords" content="iaes vs sparkplug b, sparkplug b vs opc ua events, industrial event standard comparison, aas vs iaes, opc ua alarms vs iaes, industrial iot event format comparison">
+  <meta name="theme-color" content="#1B2024">
+  <meta property="og:title" content="IAES vs Sparkplug B vs AAS vs OPC UA Events — Comparison">
+  <meta property="og:description" content="Side-by-side comparison of OPC UA, Sparkplug B, AAS, and IAES. Different layers, different purposes. A guide for industrial IoT engineers choosing the right standard.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iaes.dev/iaes-vs-sparkplug-vs-aas/">
+  <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
+  <link rel="canonical" href="https://iaes.dev/iaes-vs-sparkplug-vs-aas/">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "IAES vs Sparkplug B vs AAS vs OPC UA Events",
+    "description": "Side-by-side comparison of OPC UA, Sparkplug B, AAS, and IAES. Different layers, different purposes. A guide for industrial IoT engineers choosing the right standard.",
+    "url": "https://iaes.dev/iaes-vs-sparkplug-vs-aas/",
+    "image": "https://iaes.dev/assets/og-image.png",
+    "author": {
+      "@type": "Organization",
+      "name": "IAES",
+      "url": "https://iaes.dev"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Wertek AI",
+      "url": "https://wertek.ai"
+    },
+    "datePublished": "2026-03-17",
+    "keywords": "iaes, sparkplug b, opc ua, aas, industrial event standard, iiot comparison"
+  }
+  </script>
+  <style>
+    :root {
+      --charcoal: #2C3338;
+      --charcoal-dark: #1B2024;
+      --charcoal-light: #475158;
+      --cyan: #0EA5E9;
+      --cyan-dark: #0284C7;
+      --cyan-light: #38BDF8;
+      --steel: #4A5568;
+      --slate: #A0AEC0;
+      --silver: #CBD5E0;
+      --cloud: #EDF2F7;
+      --snow: #F7FAFC;
+      --white: #FFF;
+      --good: #27AE60;
+      --warning: #F39C12;
+      --critical: #E74C3C;
+      --max-width: 1200px;
+      --radius: 8px;
+      --radius-card: 12px;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--charcoal);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--cyan-dark); }
+    ul { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* -- Header -- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      background: var(--charcoal);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand:hover { color: var(--white); }
+    .brand-accent { color: var(--cyan); }
+    .brand-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .header-content nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    .nav-links li { display: inline-flex; }
+    .nav-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a.active { color: var(--white); }
+    .header-actions { display: flex; align-items: center; }
+    .lang-selector select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--slate);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .lang-selector select option { background: var(--charcoal); color: var(--white); }
+
+    
+    /* -- Nav Dropdowns -- */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { display: inline-flex; align-items: center; gap: 4px; }
+    .nav-dropdown-toggle .caret { font-size: 10px; transition: transform 0.2s; }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 8px 0;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    .nav-dropdown:hover .caret { transform: rotate(180deg); }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 8px 16px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+    }
+
+    /* -- Buttons -- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--cyan); color: var(--white); }
+    .btn-primary:hover { background: var(--cyan-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--silver); border: 1px solid rgba(255,255,255,0.2); }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--white); }
+    .btn-outline-dark { background: transparent; color: var(--charcoal); border: 1px solid var(--silver); }
+    .btn-outline-dark:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* -- Sections -- */
+    .section-dark {
+      background: var(--charcoal-dark);
+      color: var(--white);
+      padding: 80px 0;
+    }
+    .section-light {
+      background: var(--white);
+      color: var(--charcoal);
+      padding: 80px 0;
+    }
+    .section-header { margin-bottom: 48px; }
+    .section-header.center { text-align: center; }
+    .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-header p {
+      font-size: 1.1rem;
+      max-width: 640px;
+    }
+    .section-header.center p { margin: 0 auto; }
+    .section-dark .section-header p { color: var(--slate); }
+    .section-light .section-header p { color: var(--steel); }
+
+    /* -- Hero -- */
+    .hero {
+      background: var(--charcoal-dark);
+      padding: 80px 0 72px;
+      color: var(--white);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--slate);
+      max-width: 600px;
+      margin: 0 0 32px;
+      line-height: 1.6;
+    }
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--slate);
+      margin-bottom: 24px;
+    }
+    .breadcrumb a { color: var(--slate); }
+    .breadcrumb a:hover { color: var(--white); }
+    .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
+
+    /* -- Comparison Table -- */
+    .comparison-table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 0 -24px;
+      padding: 0 24px;
+    }
+    .comparison-table {
+      width: 100%;
+      min-width: 800px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .comparison-table th,
+    .comparison-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      vertical-align: top;
+    }
+    .comparison-table thead th {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--white);
+      border-bottom: 2px solid rgba(255,255,255,0.15);
+      white-space: nowrap;
+    }
+    .comparison-table thead th.iaes-col {
+      color: var(--cyan-light);
+    }
+    .comparison-table tbody th {
+      font-weight: 600;
+      color: var(--silver);
+      white-space: nowrap;
+      min-width: 140px;
+    }
+    .comparison-table tbody td {
+      color: var(--slate);
+      line-height: 1.5;
+    }
+    .comparison-table tbody tr:hover td,
+    .comparison-table tbody tr:hover th {
+      background: rgba(255,255,255,0.03);
+    }
+    .comparison-table .highlight-cell {
+      color: var(--cyan-light);
+      font-weight: 500;
+    }
+
+    /* -- Deep Dive Cards -- */
+    .deep-dive {
+      margin-bottom: 48px;
+    }
+    .deep-dive:last-child {
+      margin-bottom: 0;
+    }
+    .deep-dive h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--charcoal);
+    }
+    .deep-dive p {
+      font-size: 1rem;
+      color: var(--steel);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      max-width: 800px;
+    }
+    .deep-dive .analogy {
+      display: inline-block;
+      background: rgba(14, 165, 233, 0.08);
+      border-left: 3px solid var(--cyan);
+      padding: 12px 16px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-size: 14px;
+      color: var(--charcoal-light);
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    /* -- Code Blocks -- */
+    .code-block {
+      background: rgba(0,0,0,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--silver);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .section-light .code-block {
+      background: var(--charcoal-dark);
+      color: var(--silver);
+    }
+    .code-block .kw { color: #c084fc; }
+    .code-block .fn { color: #67e8f9; }
+    .code-block .str { color: #86efac; }
+    .code-block .num { color: #fbbf24; }
+    .code-block .cm { color: #64748b; }
+    .code-block .type { color: #f472b6; }
+    .code-block .field { color: #93c5fd; }
+
+    /* -- Decision Tree -- */
+    .decision-tree {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .decision-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .decision-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .decision-card.decision-iaes {
+      border-color: var(--cyan);
+      background: rgba(14, 165, 233, 0.06);
+    }
+    .decision-question {
+      font-size: 14px;
+      color: var(--slate);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .decision-answer {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .decision-answer .arrow {
+      color: var(--cyan);
+      font-size: 18px;
+    }
+    .decision-card-full {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px dashed rgba(255,255,255,0.15);
+    }
+    .decision-card-full .decision-question {
+      font-size: 15px;
+      color: var(--silver);
+    }
+    .decision-card-full .decision-answer {
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--cyan-light);
+    }
+
+    /* -- CTA Strip -- */
+    .cta-strip {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* -- Prose content -- */
+    .prose h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .prose p {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      max-width: 800px;
+    }
+    .section-dark .prose p { color: var(--slate); }
+    .section-light .prose p { color: var(--steel); }
+
+    /* -- Footer -- */
+    .site-footer {
+      background: var(--charcoal-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .footer-brand {
+      color: var(--slate);
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .footer-brand strong {
+      color: var(--white);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+    }
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-links a {
+      color: var(--slate);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: var(--steel);
+      font-size: 13px;
+    }
+    .footer-bottom a { color: var(--slate); }
+
+    /* -- Responsive -- */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 56px 0 48px; }
+      .hero h1 { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .decision-tree { grid-template-columns: 1fr; }
+      .decision-card-full { grid-column: 1; }
+      .section-dark, .section-light { padding: 56px 0; }
+      .section-header h2 { font-size: 1.6rem; }
+    }
+    @media (max-width: 480px) {
+      .comparison-table { font-size: 12px; }
+      .comparison-table th, .comparison-table td { padding: 10px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HEADER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-content">
+    <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="/spec/" data-i18n="nav.spec">Spec</a></li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-dropdown-toggle" data-i18n="nav.learn">Learn <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
+            <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
+            <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+          </ul>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/use-cases/" class="nav-dropdown-toggle" data-i18n="nav.use_cases">Use Cases <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/use-cases/alert-reduction/" data-i18n="nav.uc_alert">Alert Reduction</a></li>
+            <li><a href="/use-cases/plc-to-sap-pm/" data-i18n="nav.uc_sap">PLC to SAP PM</a></li>
+            <li><a href="/use-cases/n8n-industrial-automation/" data-i18n="nav.uc_n8n">n8n Automation</a></li>
+          </ul>
+        </li>
+        <li><a href="/tooling/" data-i18n="nav.tooling">Tooling</a></li>
+        <li><a href="/install/" data-i18n="nav.install">Install</a></li>
+        <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <select id="iaes-lang-select">
+            <option value="ar">AR</option>
+            <option value="de">DE</option>
+            <option value="en" selected>EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="it">IT</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="pl">PL</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="tr">TR</option>
+            <option value="zh">ZH</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     HERO (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="/" data-i18n="cmp.breadcrumb_home">Home</a>
+      <span class="sep">/</span>
+      <span data-i18n="cmp.breadcrumb_current">IAES vs Sparkplug B vs AAS</span>
+    </div>
+    <h1 data-i18n="cmp.hero_title">IAES vs Sparkplug B vs AAS vs OPC UA Events</h1>
+    <p class="hero-subtitle" data-i18n="cmp.hero_subtitle">Different layers, different purposes. The guide for choosing the right industrial standard.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     THE CONFUSION (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="confusion">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="cmp.confusion_title">The Confusion</h2>
+      <p data-i18n="cmp.confusion_subtitle">Why engineers keep comparing four technologies that solve completely different problems</p>
+    </div>
+
+    <div style="max-width: 800px; margin: 0 auto;">
+      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p1">
+        Engineers frequently compare OPC UA, Sparkplug B, the Asset Administration Shell (AAS), and <a href="/what-is-iaes.html">IAES</a> as if they are competing standards. They are not. They operate at different layers of the industrial data stack, solving different problems for different audiences.
+      </p>
+      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p2">
+        Comparing IAES to Sparkplug B is like comparing SQL to TCP/IP. One defines <strong>what data means</strong>, the other defines <strong>how data moves</strong>. Comparing IAES to AAS is like comparing a medical record to an anatomy textbook. One captures <strong>what happened</strong> over time, the other describes <strong>what the thing is</strong>.
+      </p>
+      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7; margin-bottom: 16px;" data-i18n="cmp.confusion_p3">
+        The confusion is understandable. All four touch industrial IoT. All four deal with assets and data. But the overlap is superficial. In practice, they are complementary. Many production architectures use two or three of them simultaneously, each at its own layer.
+      </p>
+      <p style="font-size: 1rem; color: var(--steel); line-height: 1.7;" data-i18n="cmp.confusion_p4">
+        This page explains what each standard does, where it sits in the stack, and how to choose. If you already know you need event semantics across systems, go directly to the <a href="/spec/">IAES specification</a>. If you are still figuring out which layer your problem lives in, read on.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     COMPARISON MATRIX (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="comparison">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="cmp.matrix_title">Side-by-Side Comparison</h2>
+      <p data-i18n="cmp.matrix_subtitle">Nine dimensions, four standards. The differences become obvious once you see them together.</p>
+    </div>
+
+    <div class="comparison-table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th data-i18n="cmp.th_dimension">Dimension</th>
+            <th data-i18n="cmp.th_opcua">OPC UA</th>
+            <th data-i18n="cmp.th_sparkplug">Sparkplug B</th>
+            <th data-i18n="cmp.th_aas">AAS</th>
+            <th class="iaes-col" data-i18n="cmp.th_iaes">IAES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th data-i18n="cmp.row_layer">Layer</th>
+            <td data-i18n="cmp.opcua_layer">Communication protocol</td>
+            <td data-i18n="cmp.spb_layer">Telemetry model</td>
+            <td data-i18n="cmp.aas_layer">Digital twin model</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_layer">Event semantics</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_purpose">Primary purpose</th>
+            <td data-i18n="cmp.opcua_purpose">How machines talk (secure M2M)</td>
+            <td data-i18n="cmp.spb_purpose">How devices report metrics</td>
+            <td data-i18n="cmp.aas_purpose">How to model an asset digitally</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_purpose">What happened to the asset</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_transport">Transport</th>
+            <td data-i18n="cmp.opcua_transport">OPC UA binary / HTTPS</td>
+            <td data-i18n="cmp.spb_transport">MQTT only</td>
+            <td data-i18n="cmp.aas_transport">HTTP/REST, AASX files</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_transport">Any (MQTT, HTTP, Kafka, files)</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_format">Data format</th>
+            <td data-i18n="cmp.opcua_format">XML / Binary (OPC UA-specific)</td>
+            <td data-i18n="cmp.spb_format">Protobuf (Sparkplug B spec)</td>
+            <td data-i18n="cmp.aas_format">JSON / XML (AAS metamodel)</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_format">JSON (simple, human-readable)</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_correlation">Event correlation</th>
+            <td data-i18n="cmp.opcua_correlation">No native correlation</td>
+            <td data-i18n="cmp.spb_correlation">No native correlation</td>
+            <td data-i18n="cmp.aas_correlation">No native correlation</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_correlation">correlation_id chains related events</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_iso">ISO alignment</th>
+            <td data-i18n="cmp.opcua_iso">IEC 62541</td>
+            <td data-i18n="cmp.spb_iso">Eclipse Foundation</td>
+            <td data-i18n="cmp.aas_iso">IEC 63278 (draft)</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_iso"><a href="/iaes-iso-alignment/" style="color: var(--cyan-light);">ISO 17359, 13374, 14224, 55000</a></td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_complexity">Complexity</th>
+            <td data-i18n="cmp.opcua_complexity">Very high (500+ page spec)</td>
+            <td data-i18n="cmp.spb_complexity">Medium (~100 pages)</td>
+            <td data-i18n="cmp.aas_complexity">High (~300 pages)</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_complexity">Low (<a href="/spec/" style="color: var(--cyan-light);">7 event types</a>, ~40 pages)</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_bestfor">Best for</th>
+            <td data-i18n="cmp.opcua_bestfor">Factory floor M2M, SCADA</td>
+            <td data-i18n="cmp.spb_bestfor">Edge-to-cloud telemetry</td>
+            <td data-i18n="cmp.aas_bestfor">Digital twin registries</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_bestfor">Cross-system event interop</td>
+          </tr>
+          <tr>
+            <th data-i18n="cmp.row_adoption">Adoption</th>
+            <td data-i18n="cmp.opcua_adoption">Widespread (established)</td>
+            <td data-i18n="cmp.spb_adoption">Growing (IIoT)</td>
+            <td data-i18n="cmp.aas_adoption">Early (Industry 4.0)</td>
+            <td class="highlight-cell" data-i18n="cmp.iaes_adoption">New (condition monitoring)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     DEEP DIVES (light)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="deep-dives">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="cmp.deep_title">Deep Dives</h2>
+      <p data-i18n="cmp.deep_subtitle">How each standard relates to IAES, and where they complement each other</p>
+    </div>
+
+    <!-- OPC UA A&C vs IAES -->
+    <div class="deep-dive" id="opcua-vs-iaes">
+      <h3 data-i18n="cmp.opcua_dive_title">OPC UA Alarms &amp; Conditions vs IAES</h3>
+      <div class="analogy" data-i18n="cmp.opcua_analogy">OPC UA is the nervous system. IAES is the medical record.</div>
+      <p data-i18n="cmp.opcua_dive_p1">
+        OPC UA Alarms &amp; Conditions (Part 9 of the OPC UA specification) defines how alarm states propagate through a real-time system. It covers alarm states (active, inactive, suppressed), shelving (operator temporarily silences an alarm), acknowledgment workflows, and condition hierarchies. It is designed for operator displays: HMIs, SCADA screens, control room dashboards. The audience is the person watching the process <strong>right now</strong>.
+      </p>
+      <p data-i18n="cmp.opcua_dive_p2">
+        <a href="/what-is-iaes.html">IAES</a> defines what happened to the asset <strong>after</strong> the alarm. When OPC UA fires an alarm because a pump's vibration exceeded 12.4 mm/s, that alarm lives in the OPC UA address space. The IAES event captures the measurement (asset.measurement), the diagnosis (asset.health with failure_mode and severity), and the resulting maintenance action (maintenance.work_order_intent). While OPC UA tells the operator "something is wrong right now," IAES tells every downstream system "here is what happened, what it means, and what should be done about it."
+      </p>
+      <p data-i18n="cmp.opcua_dive_p3">
+        In practice, many plants use both. OPC UA handles real-time alarm propagation on the factory floor. A bridge service subscribes to OPC UA alarm events and translates them into IAES events for cross-system consumption. The CMMS, the analytics platform, the ERP system, and the reliability engineering team all consume the IAES events, each applying their own logic without needing to understand OPC UA's address space model.
+      </p>
+      <p data-i18n="cmp.opcua_dive_p4">
+        The key difference is scope: OPC UA A&C is tightly coupled to the OPC UA communication framework (binary encoding, sessions, subscriptions, node IDs). IAES is transport-agnostic. An IAES event can travel over MQTT, HTTP, Kafka, or even a flat file. This decoupling is deliberate: it lets IAES serve as the lingua franca between systems that will never speak OPC UA.
+      </p>
+    </div>
+
+    <!-- Sparkplug B + IAES -->
+    <div class="deep-dive" id="sparkplug-iaes">
+      <h3 data-i18n="cmp.spb_dive_title">Sparkplug B + IAES (Complementary)</h3>
+      <div class="analogy" data-i18n="cmp.spb_analogy">Sparkplug B is the postal service. IAES is the letter inside the envelope.</div>
+      <p data-i18n="cmp.spb_dive_p1">
+        Sparkplug B excels at real-time metric transport over MQTT. It defines birth certificates (device comes online), death certificates (device goes offline), metric reporting with timestamps and datatypes, and a structured MQTT topic namespace (spBv1.0/group/NBIRTH|DBIRTH|DDATA|...). It solves the problem of getting reliable telemetry data from edge devices to a central broker with state awareness. If a device disconnects and reconnects, Sparkplug B ensures the broker and all subscribers know the device's current state.
+      </p>
+      <p data-i18n="cmp.spb_dive_p2">
+        IAES events can ride on top of Sparkplug B infrastructure. A gateway collects sensor data, publishes it as Sparkplug B payloads for the SCADA/historian layer, and simultaneously transforms interesting events into IAES format for the analytics/maintenance layer. The transport is Sparkplug B. The semantics are IAES. There is no conflict because they operate at different layers.
+      </p>
+      <p data-i18n="cmp.spb_dive_p3">
+        Here is a concrete example: a Sparkplug B adapter that transforms incoming metrics into IAES asset.measurement events. This adapter sits between your Sparkplug B infrastructure and your IAES-aware consumers (CMMS, analytics, alerting).
+      </p>
+
+      <div class="code-block" style="max-width: 760px; margin-bottom: 20px;">
+<span class="cm"># Sparkplug B metric &rarr; IAES asset.measurement transform</span>
+<span class="kw">from</span> iaes <span class="kw">import</span> <span class="fn">MeasurementEvent</span>
+<span class="kw">import</span> sparkplug_b_pb2 <span class="kw">as</span> spb
+
+<span class="kw">def</span> <span class="fn">sparkplug_to_iaes</span>(spb_payload):
+    <span class="cm">"""Transform a Sparkplug B metric payload into an IAES event.</span>
+<span class="cm">    The transport layer (Sparkplug B/MQTT) stays unchanged.</span>
+<span class="cm">    The semantic layer (IAES) makes the data interoperable."""</span>
+    metric = spb_payload.metrics[<span class="num">0</span>]
+    <span class="kw">return</span> <span class="fn">MeasurementEvent</span>(
+        asset_id=spb_payload.name,
+        measurement_type=<span class="str">"vibration_rms"</span>,
+        value=metric.float_value,
+        unit=<span class="str">"mm/s"</span>,
+        source=<span class="str">"gateway.sparkplug_b.adapter"</span>
+    ).<span class="fn">to_dict</span>()</div>
+
+      <p style="font-size: 14px; color: var(--steel);" data-i18n="cmp.spb_dive_p4">
+        Install the IAES SDK to use this pattern: <a href="/install/">pip install iaes</a> (Python) or <a href="/install/">npm install @iaes/sdk</a> (TypeScript).
+      </p>
+    </div>
+
+    <!-- AAS + IAES -->
+    <div class="deep-dive" id="aas-iaes">
+      <h3 data-i18n="cmp.aas_dive_title">AAS + IAES (Complementary)</h3>
+      <div class="analogy" data-i18n="cmp.aas_analogy">AAS is the noun (what the asset IS). IAES is the verb (what HAPPENED to the asset).</div>
+      <p data-i18n="cmp.aas_dive_p1">
+        The Asset Administration Shell (AAS), standardized under IEC 63278 and championed by the Industrial Digital Twin Association (IDTA), defines how to model an asset digitally. An AAS contains submodels: nameplate data, technical specifications, documentation, operational parameters, and capability descriptions. It answers the question "what IS this asset?" with a rich, structured digital twin.
+      </p>
+      <p data-i18n="cmp.aas_dive_p2">
+        IAES answers a different question: "what HAPPENED to this asset?" When a pump's bearing starts degrading, the AAS still describes the pump's nameplate, its rated power, its installation date. IAES captures the sequence of events: the vibration measurement that exceeded the threshold, the health assessment that identified bearing wear, the work order intent that triggered maintenance, and the completion event that recorded the bearing replacement and 45 minutes of downtime.
+      </p>
+      <p data-i18n="cmp.aas_dive_p3">
+        The two are naturally complementary. An AAS submodel could reference IAES events as the asset's operational history. An IAES event's asset_id could resolve to an AAS endpoint for full asset context. In a mature Industry 4.0 architecture, AAS provides the static identity and IAES provides the dynamic history. Together, they give a complete picture of the asset across its lifecycle.
+      </p>
+      <p data-i18n="cmp.aas_dive_p4">
+        Practically, AAS adoption is concentrated in German and European Industry 4.0 initiatives, particularly in automotive and manufacturing. IAES adoption is growing in condition monitoring and predictive maintenance, where the focus is less on modeling the asset and more on recording what happened to it. If your project involves both digital twin registries and cross-system event interoperability, both standards add value at their respective layers.
+      </p>
+    </div>
+
+    <!-- Where They Overlap -->
+    <div class="deep-dive" id="overlap">
+      <h3 data-i18n="cmp.overlap_title">Where They Overlap (and Don't)</h3>
+      <p data-i18n="cmp.overlap_p1">
+        None of these four standards replace each other. The apparent overlap comes from the fact that they all deal with industrial data, but they deal with different aspects of it. OPC UA defines the communication channel. Sparkplug B defines the telemetry transport model. AAS defines the digital twin structure. IAES defines the event semantics. Each layer has a job. Removing any one of them creates a gap that the others cannot fill.
+      </p>
+      <p data-i18n="cmp.overlap_p2">
+        A real-world plant might use OPC UA for machine-to-machine communication between PLCs and SCADA, Sparkplug B for edge-to-cloud telemetry over MQTT, AAS for digital twin registries in their Industry 4.0 platform, and IAES for cross-system event interoperability between the monitoring platform, the CMMS, and the ERP system. Each standard operates at its own layer without stepping on the others.
+      </p>
+      <p data-i18n="cmp.overlap_p3">
+        The question is not "which one should I choose?" The question is "which layers does my architecture need?" If you need secure M2M communication, you need OPC UA. If you need real-time sensor telemetry over MQTT, you need Sparkplug B. If you need a digital twin registry, you need AAS. If you need to record what happened to assets and share those events across systems, you need <a href="/what-is-iaes.html">IAES</a>. If you need multiple, they work together.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     DECISION TREE (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="decision-tree">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="cmp.decision_title">Decision Tree</h2>
+      <p data-i18n="cmp.decision_subtitle">Start with your problem. The right standard follows.</p>
+    </div>
+
+    <div class="decision-tree">
+      <div class="decision-card">
+        <p class="decision-question" data-i18n="cmp.decision_q1">Need secure machine-to-machine communication on the factory floor?</p>
+        <div class="decision-answer"><span class="arrow">&rarr;</span> <span data-i18n="cmp.decision_a1">OPC UA</span></div>
+      </div>
+
+      <div class="decision-card">
+        <p class="decision-question" data-i18n="cmp.decision_q2">Need real-time sensor telemetry over MQTT with device state awareness?</p>
+        <div class="decision-answer"><span class="arrow">&rarr;</span> <span data-i18n="cmp.decision_a2">Sparkplug B</span></div>
+      </div>
+
+      <div class="decision-card">
+        <p class="decision-question" data-i18n="cmp.decision_q3">Need a digital twin registry to model asset properties and capabilities?</p>
+        <div class="decision-answer"><span class="arrow">&rarr;</span> <span data-i18n="cmp.decision_a3">AAS</span></div>
+      </div>
+
+      <div class="decision-card decision-iaes">
+        <p class="decision-question" data-i18n="cmp.decision_q4">Need to record what happened to assets and share events across systems?</p>
+        <div class="decision-answer"><span class="arrow">&rarr;</span> <span data-i18n="cmp.decision_a4">IAES</span></div>
+      </div>
+
+      <div class="decision-card decision-card-full">
+        <p class="decision-question" data-i18n="cmp.decision_q5">Need multiple? They work together. IAES events can flow over OPC UA, ride Sparkplug B MQTT, or describe AAS submodel events. Each standard handles its own layer.</p>
+        <div class="decision-answer" data-i18n="cmp.decision_a5">Use them together at different layers of your stack</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     CTA STRIP (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="cta" style="padding: 48px 0;">
+  <div class="container">
+    <div class="cta-strip">
+      <a class="btn btn-primary" href="/what-is-iaes.html" data-i18n="cmp.cta_what">What is IAES?</a>
+      <a class="btn btn-outline" href="/spec/" data-i18n="cmp.cta_spec">Read the Specification</a>
+      <a class="btn btn-outline" href="/use-cases/" data-i18n="cmp.cta_usecases">View Use Cases</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     FOOTER
+     ════════════════════════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>IAES</strong><br>
+        <span data-i18n="footer.tagline">Industrial Asset Event Standard</span><br>
+        <span data-i18n="footer.reference">Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="/spec/" data-i18n="footer.spec">Specification</a>
+        <a href="/examples/" data-i18n="footer.examples">Examples</a>
+        <a href="/schemas/" data-i18n="footer.schemas">Schemas</a>
+        <a href="/integrators/" data-i18n="nav.integrators">Integrators</a>
+        <a href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="footer.github">GitHub</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">CC BY 4.0</a></span>
+      <span><a href="https://wertek.ai" target="_blank" rel="noreferrer">wertek.ai</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/i18n.js"></script>
+</body>
+</html>

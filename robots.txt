@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://iaes.dev/sitemap.xml

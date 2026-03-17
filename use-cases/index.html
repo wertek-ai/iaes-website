@@ -299,7 +299,58 @@
       .section-light { padding: 56px 0; }
       .section-header h2 { font-size: 1.6rem; }
     }
+  
+    /* -- Nav Dropdowns -- */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { display: inline-flex; align-items: center; gap: 4px; }
+    .nav-dropdown-toggle .caret { font-size: 10px; transition: transform 0.2s; }
+    .nav-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 8px 0;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 200;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu { display: block; }
+    .nav-dropdown:hover .caret { transform: rotate(180deg); }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 8px 16px;
+      color: var(--slate);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-dropdown-menu a:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+    }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "name": "IAES Use Cases",
+    "headline": "IAES Use Cases — Industrial Asset Event Standard",
+    "description": "Real-world IAES integration patterns: PLC to SAP PM, n8n industrial automation, condition monitoring, multi-vendor aggregation.",
+    "url": "https://iaes.dev/use-cases/",
+    "datePublished": "2026-03-17",
+    "author": {
+      "@type": "Organization",
+      "name": "IAES",
+      "url": "https://iaes.dev"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -311,12 +362,26 @@
     <a href="/" class="brand"><svg class="brand-icon" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2563EB"/><stop offset="100%" stop-color="#0EA5E9"/></linearGradient></defs><path d="M340 96L192 96Q120 96 120 168L120 344Q120 416 192 416L340 416Q392 416 392 364L392 316" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M392 196L392 168Q392 96 340 96" stroke="url(#bl)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M80 256L170 256L216 152L280 356L324 256L432 256" stroke="url(#bl)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="432" cy="256" r="28" fill="#0EA5E9"/></svg>I<span class="brand-accent">A</span>ES</a>
     <nav>
       <ul class="nav-links">
-        <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
-        <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
         <li><a href="/spec/" data-i18n="nav.spec">Spec</a></li>
-        <li><a href="/schemas/" data-i18n="nav.schemas">Schemas</a></li>
+        <li class="nav-dropdown">
+          <a href="#" class="nav-dropdown-toggle" data-i18n="nav.learn">Learn <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
+            <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
+            <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+          </ul>
+        </li>
+        <li class="nav-dropdown">
+          <a href="/use-cases/" class="nav-dropdown-toggle" data-i18n="nav.use_cases">Use Cases <span class="caret">&#9662;</span></a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/use-cases/alert-reduction/" data-i18n="nav.uc_alert">Alert Reduction</a></li>
+            <li><a href="/use-cases/plc-to-sap-pm/" data-i18n="nav.uc_sap">PLC to SAP PM</a></li>
+            <li><a href="/use-cases/n8n-industrial-automation/" data-i18n="nav.uc_n8n">n8n Automation</a></li>
+          </ul>
+        </li>
         <li><a href="/tooling/" data-i18n="nav.tooling">Tooling</a></li>
-        <li><a href="/integrators/" data-i18n="nav.integrators">Integrators</a></li>
+        <li><a href="/install/" data-i18n="nav.install">Install</a></li>
         <li><a href="https://github.com/wertek-ai/iaes" data-i18n="nav.github">GitHub</a></li>
       </ul>
       <div class="header-actions">
@@ -379,15 +444,12 @@
         <p class="card-desc" data-i18n="usecases.card_n8n_desc">Build no-code industrial automation workflows with n8n and IAES.</p>
       </a>
 
-      <!-- Condition Monitoring (Coming Soon) -->
-      <div class="use-case-card coming-soon">
-        <div class="card-icon">&#128202;</div>
-        <div class="card-title">
-          <span data-i18n="usecases.card_condition_title">Condition Monitoring</span>
-          <span class="badge-soon" data-i18n="usecases.coming_soon">Coming Soon</span>
-        </div>
-        <p class="card-desc" data-i18n="usecases.card_condition_desc">Stream vibration, temperature, and power quality data as IAES events for real-time dashboards.</p>
-      </div>
+      <!-- Alert Reduction -->
+      <a href="/use-cases/alert-reduction/" class="use-case-card">
+        <div class="card-icon">&#128267;</div>
+        <div class="card-title" data-i18n="usecases.card_alert_title">Alert Reduction</div>
+        <p class="card-desc" data-i18n="usecases.card_alert_desc">Reduce 10,000 threshold alerts to 2 actionable incidents with IAES v1.3 event correlation.</p>
+      </a>
 
       <!-- Multi-Vendor Aggregation (Coming Soon) -->
       <div class="use-case-card coming-soon">

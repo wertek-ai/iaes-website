@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage -->
+  <url>
+    <loc>https://iaes.dev/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Core pages -->
+  <url>
+    <loc>https://iaes.dev/what-is-iaes.html</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/spec/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- New comparison and alignment pages -->
+  <url>
+    <loc>https://iaes.dev/iaes-vs-sparkplug-vs-aas/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/iaes-iso-alignment/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Documentation pages -->
+  <url>
+    <loc>https://iaes.dev/concepts/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/schemas/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/examples/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/tooling/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/install/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/integrators/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- New use case -->
+  <url>
+    <loc>https://iaes.dev/use-cases/alert-reduction/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Toolkit and use cases -->
+  <url>
+    <loc>https://iaes.dev/toolkit/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/use-cases/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/use-cases/plc-to-sap-pm/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://iaes.dev/use-cases/n8n-industrial-automation/</loc>
+    <lastmod>2026-03-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+</urlset>
