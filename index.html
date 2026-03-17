@@ -191,8 +191,27 @@
       letter-spacing: -0.03em;
       margin-bottom: 20px;
     }
+    .hero-positioning {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      max-width: 680px;
+      margin: 0 auto 12px;
+      line-height: 1.5;
+      letter-spacing: -0.01em;
+    }
+    .hero-positioning-sub {
+      font-size: 1.05rem;
+      color: var(--cyan-light);
+      max-width: 680px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+    .hero-positioning-sub strong {
+      color: var(--white);
+    }
     .hero-subtitle {
-      font-size: 1.15rem;
+      font-size: 1rem;
       color: var(--slate);
       max-width: 680px;
       margin: 0 auto 32px;
@@ -1492,7 +1511,9 @@
       .nav-links { display: none; }
       .hero { padding: 56px 0 48px; }
       .hero h1 { font-size: 2rem; }
-      .hero-subtitle { font-size: 1rem; }
+      .hero-positioning { font-size: 1.1rem; }
+      .hero-positioning-sub { font-size: 0.95rem; }
+      .hero-subtitle { font-size: 0.9rem; }
       .grid-2, .grid-3, .envelope-grid, .explore-grid { grid-template-columns: 1fr; }
       .silo-box { width: 110px; }
       .is-isnot-grid { grid-template-columns: 1fr; }
@@ -1635,6 +1656,8 @@
       <span data-i18n="hero.badge">Open Specification v1.3</span>
     </div>
     <h1 data-i18n="hero.title">Industrial Asset<br>Event Standard</h1>
+    <p class="hero-positioning" data-i18n="hero.positioning">IAES standardizes what happens to industrial assets.<br>Not how you measure it. Not how you store it.</p>
+    <p class="hero-positioning-sub" data-i18n="hero.positioning_sub">OPC UA moves data. Sparkplug B structures telemetry. <strong>IAES names what happened.</strong></p>
     <p class="hero-subtitle" data-i18n="hero.subtitle">A minimal, vendor-neutral event language for industrial assets. IAES names what happens to equipment &mdash; measurements, diagnoses, failures, maintenance actions &mdash; so any system can produce, route, and consume asset events without custom integration.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="/spec/" data-i18n="hero.cta_spec">Read the Specification</a>
@@ -1642,6 +1665,75 @@
       <a class="btn btn-outline" href="https://github.com/wertek-ai/iaes" target="_blank" rel="noreferrer" data-i18n="hero.cta_github">GitHub</a>
     </div>
     <p class="hero-attribution" data-i18n="hero.attribution">Open standard. Vendor-neutral. Reference implementation by <a href="https://wertek.ai" target="_blank" rel="noreferrer">Wertek AI</a>.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     WHO IS THIS FOR
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="audience" style="padding:40px 0">
+  <div class="container">
+    <div style="text-align:center;max-width:700px;margin:0 auto">
+      <p style="font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--steel);font-weight:600;margin-bottom:8px" data-i18n="audience.label">Who is this for?</p>
+      <p style="font-size:1.15rem;color:var(--charcoal);line-height:1.6" data-i18n="audience.desc">For <strong>system integrators</strong>, <strong>OT engineers</strong>, and <strong>industrial developers</strong> who need to connect SCADA, CMMS, AI, and enterprise systems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     THE REAL PROBLEM
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="problem">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="problem.title">Industrial systems cannot share asset events</h2>
+      <p data-i18n="problem.subtitle">In every industrial plant, critical systems operate in isolation. Each one generates events about the same assets &mdash; but in completely different formats, APIs, and semantics.</p>
+    </div>
+
+    <!-- Isolated Systems Grid -->
+    <div class="silos-grid">
+      <div class="silo-box"><span class="silo-icon">&#9881;</span>SCADA</div>
+      <div class="silo-box"><span class="silo-icon">&#9879;</span>PLC</div>
+      <div class="silo-box"><span class="silo-icon">&#128295;</span>CMMS</div>
+      <div class="silo-box"><span class="silo-icon">&#128202;</span>Historian</div>
+      <div class="silo-box"><span class="silo-icon">&#129302;</span>AI Engine</div>
+      <div class="silo-box"><span class="silo-icon">&#9889;</span>Energy</div>
+      <div class="silo-box"><span class="silo-icon">&#128225;</span>IoT Sensors</div>
+      <div class="silo-box"><span class="silo-icon">&#128188;</span>ERP</div>
+    </div>
+
+    <div class="each-uses">
+      <div class="each-uses-item"><strong data-i18n="problem.each_formats">Different formats</strong>JSON, XML, OPC UA, Modbus, CSV, proprietary</div>
+      <div class="each-uses-item"><strong data-i18n="problem.each_apis">Different APIs</strong>REST, SOAP, MQTT, gRPC, file drops</div>
+      <div class="each-uses-item"><strong data-i18n="problem.each_semantics">Different semantics</strong><span data-i18n="problem.each_semantics_desc">"alarm" &ne; "alert" &ne; "event" &ne; "notification"</span></div>
+    </div>
+
+    <!-- The ≠ visualization -->
+    <div class="inequality-row">
+      <div class="inequality-item">
+        <div class="iq-system">SCADA</div>
+        <div class="iq-event">alarm_high_vibration</div>
+        <div class="iq-desc" data-i18n="problem.iq_scada">A register change in a PLC tag. No context, no asset identity, no severity model.</div>
+      </div>
+      <div class="inequality-neq">&ne;</div>
+      <div class="inequality-item">
+        <div class="iq-system">SAP PM</div>
+        <div class="iq-event">TECO notification</div>
+        <div class="iq-desc" data-i18n="problem.iq_sap">A work order closed in a transactional system. Different schema, different lifecycle.</div>
+      </div>
+      <div class="inequality-neq">&ne;</div>
+      <div class="inequality-item">
+        <div class="iq-system">AI Engine</div>
+        <div class="iq-event">bearing_fault_predicted</div>
+        <div class="iq-desc" data-i18n="problem.iq_ai">A probabilistic diagnosis with confidence score, RUL, and recommended action. Incompatible with both.</div>
+      </div>
+    </div>
+
+    <div class="inequality-result">
+      <strong data-i18n="problem.result_title">Same asset. Same event. Three incompatible representations.</strong>
+      <p data-i18n="problem.result_desc">There is no common language for asset events in industry. IAES provides one.</p>
+    </div>
   </div>
 </section>
 
@@ -1709,62 +1801,6 @@
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     THE REAL PROBLEM
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="problem">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="problem.title">Industrial systems cannot share asset events</h2>
-      <p data-i18n="problem.subtitle">In every industrial plant, critical systems operate in isolation. Each one generates events about the same assets &mdash; but in completely different formats, APIs, and semantics.</p>
-    </div>
-
-    <!-- Isolated Systems Grid -->
-    <div class="silos-grid">
-      <div class="silo-box"><span class="silo-icon">&#9881;</span>SCADA</div>
-      <div class="silo-box"><span class="silo-icon">&#9879;</span>PLC</div>
-      <div class="silo-box"><span class="silo-icon">&#128295;</span>CMMS</div>
-      <div class="silo-box"><span class="silo-icon">&#128202;</span>Historian</div>
-      <div class="silo-box"><span class="silo-icon">&#129302;</span>AI Engine</div>
-      <div class="silo-box"><span class="silo-icon">&#9889;</span>Energy</div>
-      <div class="silo-box"><span class="silo-icon">&#128225;</span>IoT Sensors</div>
-      <div class="silo-box"><span class="silo-icon">&#128188;</span>ERP</div>
-    </div>
-
-    <div class="each-uses">
-      <div class="each-uses-item"><strong data-i18n="problem.each_formats">Different formats</strong>JSON, XML, OPC UA, Modbus, CSV, proprietary</div>
-      <div class="each-uses-item"><strong data-i18n="problem.each_apis">Different APIs</strong>REST, SOAP, MQTT, gRPC, file drops</div>
-      <div class="each-uses-item"><strong data-i18n="problem.each_semantics">Different semantics</strong><span data-i18n="problem.each_semantics_desc">"alarm" &ne; "alert" &ne; "event" &ne; "notification"</span></div>
-    </div>
-
-    <!-- The ≠ visualization -->
-    <div class="inequality-row">
-      <div class="inequality-item">
-        <div class="iq-system">SCADA</div>
-        <div class="iq-event">alarm_high_vibration</div>
-        <div class="iq-desc" data-i18n="problem.iq_scada">A register change in a PLC tag. No context, no asset identity, no severity model.</div>
-      </div>
-      <div class="inequality-neq">&ne;</div>
-      <div class="inequality-item">
-        <div class="iq-system">SAP PM</div>
-        <div class="iq-event">TECO notification</div>
-        <div class="iq-desc" data-i18n="problem.iq_sap">A work order closed in a transactional system. Different schema, different lifecycle.</div>
-      </div>
-      <div class="inequality-neq">&ne;</div>
-      <div class="inequality-item">
-        <div class="iq-system">AI Engine</div>
-        <div class="iq-event">bearing_fault_predicted</div>
-        <div class="iq-desc" data-i18n="problem.iq_ai">A probabilistic diagnosis with confidence score, RUL, and recommended action. Incompatible with both.</div>
-      </div>
-    </div>
-
-    <div class="inequality-result">
-      <strong data-i18n="problem.result_title">Same asset. Same event. Three incompatible representations.</strong>
-      <p data-i18n="problem.result_desc">There is no common language for asset events in industry. IAES provides one.</p>
-    </div>
   </div>
 </section>
 
@@ -1935,40 +1971,104 @@
   </div>
 </section>
 
-<!-- Sections moved to /concepts/: Definition, Event Types, Envelope, Ecosystem, Standards Alignment -->
-<!-- Sections moved to /tooling/: Install SDKs, Quickstart -->
 
 <!-- ════════════════════════════════════════════════════════════════════════════
-     EXPLORE — Quick links to deeper pages
+     QUICK START
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="explore-concepts">
+<section class="section-dark" id="quickstart">
   <div class="container">
     <div class="section-header center">
-      <h2>Dive Deeper</h2>
-      <p>Understand the model, install the tools, or start integrating.</p>
+      <h2 data-i18n="quickstart.title">Get Started in 30 Seconds</h2>
     </div>
-    <div class="grid-3" style="max-width:900px;margin:0 auto">
-      <a href="/concepts/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
-        <div style="font-size:32px;margin-bottom:12px">&#128218;</div>
-        <h3 style="margin-bottom:8px">Core Concepts</h3>
-        <p style="font-size:14px;color:var(--steel)">Envelope, 7 event types, lifecycle, condition trend, ISO alignment, producers &amp; consumers.</p>
-      </a>
-      <a href="/tooling/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
-        <div style="font-size:32px;margin-bottom:12px">&#128295;</div>
-        <h3 style="margin-bottom:8px">SDKs &amp; Tooling</h3>
-        <p style="font-size:14px;color:var(--steel)">Python, TypeScript, Node-RED SDKs. CMMS bridges, CLI tools, event validator.</p>
-      </a>
-      <a href="/integrators/" class="card" style="text-decoration:none;text-align:center;padding:32px 24px">
-        <div style="font-size:32px;margin-bottom:12px">&#9881;</div>
-        <h3 style="margin-bottom:8px">For Integrators</h3>
-        <p style="font-size:14px;color:var(--steel)">Architecture, code examples, consumer patterns, and integration scenarios.</p>
-      </a>
+    <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;max-width:700px;margin:0 auto">
+      <div style="flex:1;min-width:280px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+        <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan-light);margin-bottom:12px">Python</div>
+        <div style="font-family:var(--font-mono);font-size:15px;color:var(--white);background:rgba(0,0,0,0.3);border-radius:8px;padding:14px 16px">pip install iaes</div>
+      </div>
+      <div style="flex:1;min-width:280px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px">
+        <div style="font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan-light);margin-bottom:12px">TypeScript</div>
+        <div style="font-family:var(--font-mono);font-size:15px;color:var(--white);background:rgba(0,0,0,0.3);border-radius:8px;padding:14px 16px">npm install @iaes/sdk</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <a href="/install/" style="font-size:14px;font-weight:600;color:var(--cyan-light)" data-i18n="quickstart.more">Node-RED, Go, and more &rarr;</a>
     </div>
   </div>
 </section>
 
-<!-- OLD SECTIONS REMOVED — content now lives at /concepts/ and /tooling/ -->
 
+<!-- ════════════════════════════════════════════════════════════════════════════
+     ALREADY IMPLEMENTED
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-light" id="implemented" style="padding:48px 0">
+  <div class="container">
+    <div style="text-align:center;max-width:700px;margin:0 auto">
+      <p style="font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--steel);font-weight:600;margin-bottom:16px" data-i18n="implemented.label">Already implemented in</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+        <span style="background:var(--charcoal-dark);color:var(--white);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;font-family:var(--font-mono)">Python SDK</span>
+        <span style="background:var(--charcoal-dark);color:var(--white);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;font-family:var(--font-mono)">TypeScript SDK</span>
+        <span style="background:var(--charcoal-dark);color:var(--white);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;font-family:var(--font-mono)">Node-RED</span>
+        <span style="background:var(--charcoal-dark);color:var(--white);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;font-family:var(--font-mono)">n8n workflows</span>
+      </div>
+      <p style="font-size:13px;color:var(--steel);margin-top:12px" data-i18n="implemented.note">Published on PyPI, npm, and Node-RED palette. Production-ready.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     MODEL DIAGRAM — Simple conceptual flow
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="model">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="model.title">The Model</h2>
+      <p class="section-subtitle" data-i18n="model.subtitle">Any producer. One event format. Any consumer.</p>
+    </div>
+    <div style="max-width:800px;margin:0 auto">
+      <div style="display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap">
+        <!-- Producers -->
+        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
+          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Producers</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Vibration sensor</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI model</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Technician app</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Energy meter</div>
+        </div>
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
+        <!-- IAES Core -->
+        <div style="flex:0 0 auto;display:flex;align-items:center;padding:16px">
+          <div style="background:linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05));border:2px solid var(--cyan);border-radius:16px;padding:32px 28px;text-align:center;min-width:160px">
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan-light);margin-bottom:8px">Standard</div>
+            <div style="font-size:28px;font-weight:700;color:var(--white);letter-spacing:-0.5px">IAES</div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan-light);margin-top:4px">event</div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--slate)">
+              <span>asset.measurement</span>
+              <span>asset.health</span>
+              <span>work_order_intent</span>
+            </div>
+          </div>
+        </div>
+        <!-- Arrow -->
+        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
+        <!-- Consumers -->
+        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
+          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Consumers</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">CMMS / SAP PM</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Analytics / BI</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI / ML pipeline</div>
+          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Historian / SCADA</div>
+        </div>
+      </div>
+      <!-- Mobile fallback -->
+      <div style="margin-top:24px;text-align:center">
+        <div class="iso-note" style="display:inline-block;background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15)">
+          <span style="font-family:var(--font-mono);font-size:12px;color:var(--slate)" data-i18n="model.note">Industrial asset &#x2192; IAES event &#x2192; Any enterprise system. One format. Zero custom integrations.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════════════════════
      PHILOSOPHY
@@ -2053,61 +2153,6 @@
         </div>
       </div>
       <p style="font-size:14px;color:var(--steel);line-height:1.7" data-i18n="rfc.desc">Permanent, citable identifier via <a href="https://zenodo.org" target="_blank" rel="noreferrer">Zenodo</a> (CERN). Indexed by OpenAIRE and Software Heritage. Uses IETF conventions (MUST / SHOULD / MAY per RFC 2119).</p>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     MODEL DIAGRAM — Simple conceptual flow
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="model">
-  <div class="container">
-    <div class="section-header center">
-      <h2 data-i18n="model.title">The Model</h2>
-      <p class="section-subtitle" data-i18n="model.subtitle">Any producer. One event format. Any consumer.</p>
-    </div>
-    <div style="max-width:800px;margin:0 auto">
-      <div style="display:flex;align-items:stretch;justify-content:center;gap:0;flex-wrap:wrap">
-        <!-- Producers -->
-        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
-          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Producers</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Vibration sensor</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI model</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Technician app</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Energy meter</div>
-        </div>
-        <!-- Arrow -->
-        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
-        <!-- IAES Core -->
-        <div style="flex:0 0 auto;display:flex;align-items:center;padding:16px">
-          <div style="background:linear-gradient(135deg, rgba(14,165,233,0.15), rgba(14,165,233,0.05));border:2px solid var(--cyan);border-radius:16px;padding:32px 28px;text-align:center;min-width:160px">
-            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--cyan-light);margin-bottom:8px">Standard</div>
-            <div style="font-size:28px;font-weight:700;color:var(--white);letter-spacing:-0.5px">IAES</div>
-            <div style="font-family:var(--font-mono);font-size:11px;color:var(--cyan-light);margin-top:4px">event</div>
-            <div style="margin-top:16px;display:flex;flex-direction:column;gap:4px;font-family:var(--font-mono);font-size:10px;color:var(--slate)">
-              <span>asset.measurement</span>
-              <span>asset.health</span>
-              <span>work_order_intent</span>
-            </div>
-          </div>
-        </div>
-        <!-- Arrow -->
-        <div style="display:flex;align-items:center;padding:0 8px;font-size:28px;color:var(--slate)">&#x279C;</div>
-        <!-- Consumers -->
-        <div style="flex:1;min-width:180px;max-width:220px;display:flex;flex-direction:column;gap:8px;padding:16px">
-          <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--slate);margin-bottom:4px;text-align:center">Consumers</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">CMMS / SAP PM</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Analytics / BI</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">AI / ML pipeline</div>
-          <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;text-align:center;font-size:14px">Historian / SCADA</div>
-        </div>
-      </div>
-      <!-- Mobile fallback -->
-      <div style="margin-top:24px;text-align:center">
-        <div class="iso-note" style="display:inline-block;background:rgba(14,165,233,0.04);border-color:rgba(14,165,233,0.15)">
-          <span style="font-family:var(--font-mono);font-size:12px;color:var(--slate)" data-i18n="model.note">Industrial asset &#x2192; IAES event &#x2192; Any enterprise system. One format. Zero custom integrations.</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -2211,9 +2256,6 @@
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════════════════════
-     FOOTER
-     ════════════════════════════════════════════════════════════════════════════ -->
 <footer class="site-footer">
   <div class="container">
     <div class="footer-content">

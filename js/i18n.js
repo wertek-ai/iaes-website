@@ -649,6 +649,18 @@ const iaesTranslations = {
     // Footer & Hero extras
     "footer.tooling": "Tooling",
     "hero.cta_quickstart": "Quick Start",
+    // Hero positioning (new)
+    "hero.positioning": "IAES standardizes what happens to industrial assets.\nNot how you measure it. Not how you store it.",
+    "hero.positioning_sub": "OPC UA moves data. Sparkplug B structures telemetry. <strong>IAES names what happened.</strong>",
+    // Who is this for?
+    "audience.label": "Who is this for?",
+    "audience.desc": "For <strong>system integrators</strong>, <strong>OT engineers</strong>, and <strong>industrial developers</strong> who need to connect SCADA, CMMS, AI, and enterprise systems.",
+    // Quick Start
+    "quickstart.title": "Get Started in 30 Seconds",
+    "quickstart.more": "Node-RED, Go, and more \u2192",
+    // Already Implemented
+    "implemented.label": "Already implemented in",
+    "implemented.note": "Published on PyPI, npm, and Node-RED palette. Production-ready.",
     // Nav dropdown menus
     "nav.learn": "Learn",
     "nav.comparison": "vs Sparkplug B / AAS",
