@@ -1,0 +1,23 @@
+# Netlify header rules for iaes.dev
+#
+# The canonical schema identity. Every $id declares https://iaes.dev/schema/v1/<event>
+# and the file is served there with no extension, so the content type has to be
+# set explicitly. application/schema+json is the registered media type for JSON
+# Schema; every JSON parser accepts it.
+#
+# CORS is open because a schema is a public contract: browser-based validators
+# and editors need to fetch it cross-origin to validate a payload.
+#
+# Cache-Control revalidates instead of expiring. A schema URI is a fixed name
+# whose content can change within a MINOR release, and a fixed name with mutable
+# content is never cached by time.
+/schema/v1/*
+  Content-Type: application/schema+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+
+# The pre-1.4 path. Kept so anything that already linked here keeps working.
+/schemas/*.schema.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=0, must-revalidate
