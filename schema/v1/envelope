@@ -4,12 +4,29 @@
   "title": "IAES Common Envelope",
   "description": "Base envelope shared by all IAES v1 events",
   "type": "object",
-  "required": ["spec_version", "event_type", "event_id", "correlation_id", "timestamp", "source", "asset", "data"],
+  "required": [
+    "spec_version",
+    "event_type",
+    "event_id",
+    "correlation_id",
+    "timestamp",
+    "source",
+    "asset",
+    "data"
+  ],
   "properties": {
     "spec_version": {
       "type": "string",
       "pattern": "^1\\.[0-9]+$",
       "description": "IAES specification version (any 1.x minor version)"
+    },
+    "dataschema": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URI of the JSON Schema the `data` payload was written against. Optional. Producers SHOULD set it; consumers MUST NOT reject an event for its absence.",
+      "examples": [
+        "https://iaes.dev/schema/v1/asset.measurement"
+      ]
     },
     "event_type": {
       "type": "string",
@@ -39,7 +56,10 @@
       "description": "Groups related events in a flow"
     },
     "source_event_id": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "format": "uuid",
       "description": "References the originating event"
     },
@@ -70,22 +90,33 @@
   "$defs": {
     "asset_identity": {
       "type": "object",
-      "required": ["asset_id"],
+      "required": [
+        "asset_id"
+      ],
       "properties": {
         "asset_id": {
           "type": "string",
           "description": "Asset identifier in the source system"
         },
         "asset_name": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Human-readable asset name"
         },
         "plant": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Plant or facility name"
         },
         "area": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Area or zone within the plant"
         }
       }
