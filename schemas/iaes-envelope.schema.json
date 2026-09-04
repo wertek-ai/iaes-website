@@ -30,7 +30,9 @@
     },
     "event_type": {
       "type": "string",
-      "enum": [
+      "description": "Dot-notation event type. Open by design: consumers MUST tolerate values they do not recognise, so producers must be able to emit them. The published types are listed in `examples`; a custom type follows the same shape and omits `dataschema`.",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_.]*$",
+      "examples": [
         "asset.measurement",
         "asset.health",
         "maintenance.work_order_intent",
@@ -38,8 +40,7 @@
         "asset.hierarchy",
         "sensor.registration",
         "maintenance.spare_part_usage"
-      ],
-      "description": "Dot-notation event type"
+      ]
     },
     "batch_id": {
       "type": "string",
