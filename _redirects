@@ -1,0 +1,7 @@
+# The specification lives in one place: the standard's repository, published
+# here as /spec/. A markdown copy used to sit beside it, unlinked and two
+# versions behind — nothing referenced it, but it answered 200, so anyone who
+# found it through a search engine was reading IAES 1.2 without knowing.
+#
+# It is gone. The URL still resolves, to the page that is actually maintained.
+/spec/IAES_SPEC.md    /spec/    301

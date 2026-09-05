@@ -1,0 +1,27 @@
+# This site had no CI, which is why it served "IAES Specification v1.3" beside
+# a markdown copy that said v1.2 for months while the standard moved to 1.4.
+# Nothing could have noticed.
+#
+# The check verifies what the site CLAIMS TO SERVE, not that it is current:
+# every surface must name the same version, and that version must not be ahead
+# of a real specification release. Serving an older specification honestly is a
+# decision, and the check says so and passes.
+name: Declared version
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  declared-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python tools/check_declared_version.py
