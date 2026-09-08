@@ -36,5 +36,14 @@
       "tag": "spec-v1.4",
       "naming": "tag-filename"
     }
+  },
+  "spec_page": {
+    "$comment": [
+      "Which release /spec/ renders. It is a web rendering, not a second authority: the normative specification is the tagged release.",
+      "Moving this line is what makes tools/check_spec_sections.py demand the page catch up, which is the point -- the page fell two releases behind and nothing noticed."
+    ],
+    "tag": "spec-v2.0",
+    "path": "spec/index.html",
+    "sections": "spec/SECTIONS.json"
   }
 }
