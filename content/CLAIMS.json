@@ -44,7 +44,7 @@
       "id": "iso-field-level-mapping",
       "since": "IAES 2.0",
       "authority": "IAES_SPEC.md, References; rfc/IAES-RFC-002.md",
-      "why": "The site claimed a field-level mapping to four standards. No such correspondence was ever verified against the documents, and three of the four were never held.",
+      "why": "The site claimed a field-level mapping to four standards. No such correspondence was ever verified against the documents, and three of the four were never held. The patterns exist because the literals were all in the third person singular and the sentence that escaped used a plural verb and a synonym for ISO.",
       "phrases": [
         "field-level mapping",
         "field level mapping",
@@ -56,7 +56,12 @@
         "measurement compliance",
         "maintenance compliance",
         "implements the four pillars",
-        "Standards Alignment"
+        "Standards Alignment",
+        "map directly to established industrial standards"
+      ],
+      "patterns": [
+        "\\bmaps?\\s+(?:its\\s+\\w+\\s+)?(?:directly\\s+)?(?:to|from)\\s+(?:ISO\\b|the\\s+)?(?:established\\s+)?industrial\\s+standards\\b",
+        "\\bmaps?\\s+directly\\s+(?:to|from)\\s+ISO\\b"
       ]
     },
     {

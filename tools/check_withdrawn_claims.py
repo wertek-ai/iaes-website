@@ -26,6 +26,13 @@ describing ISO 14224 is accurate. It kills known-retired claims, which is a
 smaller promise honestly kept -- and the honest limit is why the file is called
 CLAIMS and not TRUTH.
 
+A claim may carry `phrases` (literals) and `patterns` (regular expressions).
+Both are needed: the literal records the wording that was actually published,
+which is greppable and auditable; the pattern covers the inflections and
+synonyms of the same assertion. The sentence "fields that map directly to
+established industrial standards" escaped a list containing "maps directly to
+ISO" on two counts at once -- a plural verb and a synonym for ISO.
+
 `allowed` carries exact strings that look like a claim and are not. The title of
 the DOI'd preprint contains "ISO-Aligned" and cannot be changed: it is a
 published work with a permanent identifier, and citing it accurately is not
@@ -105,8 +112,15 @@ def check() -> list:
                 continue
             haystack = haystack.replace(a["text"], " [allowed citation] ")
         for claim in spec["withdrawn"]:
-            for phrase in claim["phrases"]:
-                for m in re.finditer(re.escape(phrase), haystack, re.I):
+            # A literal names the wording actually found, so a reader of this
+            # file can grep for it. A pattern covers the family it belongs to:
+            # every mapping literal here said `maps`, and the sentence that
+            # escaped said `map`, because its subject was plural. A list keyed
+            # to one inflection is a list for one inflection.
+            rules = ([(re.escape(p), p) for p in claim.get("phrases", [])]
+                     + [(p, p) for p in claim.get("patterns", [])])
+            for rx, phrase in rules:
+                for m in re.finditer(rx, haystack, re.I):
                     line = haystack.count("\n", 0, m.start()) + 1 + line_offset
                     ctx = " ".join(
                         haystack[max(0, m.start() - 45):m.end() + 45].split())
