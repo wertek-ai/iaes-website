@@ -158,6 +158,38 @@ def check(live: bool = False) -> list:
                         f"{rel}: what iaes.dev serves differs from {tag} "
                         f"(sha {sha(body)[:12]} vs {sha(raw)[:12]})")
 
+    # Legacy paths: same rule, different naming. These are frozen copies of a
+    # published release kept so old links resolve, and the check exists to keep
+    # them frozen -- a third copy nobody verifies is where drift starts.
+    for path, spec in sorted(served.get("legacy_paths", {}).items()):
+        if path.startswith("$"):
+            continue
+        tag = spec["tag"]
+        try:
+            published = tag_schemas(tag)
+        except urllib.error.HTTPError as e:
+            errors.append(f"{path}/: cannot read {tag} ({e.code})")
+            continue
+        by_name = {p.rsplit("/", 1)[-1]: raw for p, raw in published.items()}
+        directory = ROOT / path
+        on_disk = {p.name for p in directory.iterdir()
+                   if p.suffix == ".json"} if directory.is_dir() else set()
+        for name in sorted(set(by_name) - on_disk):
+            errors.append(f"{path}/{name}: published by {tag} and not served")
+        for name in sorted(on_disk - set(by_name)):
+            errors.append(f"{path}/{name}: served and not published by {tag}")
+        for name in sorted(set(by_name) & on_disk):
+            rel = f"{path}/{name}"
+            try:
+                blob = committed(rel)
+            except FileNotFoundError:
+                errors.append(f"{rel}: present on disk, not committed")
+                continue
+            if sha(blob) != sha(by_name[name]):
+                errors.append(
+                    f"{rel}: differs from {tag} -- this path is frozen, and its "
+                    f"content is a published release")
+
     return errors
 
 
@@ -180,6 +212,12 @@ def main() -> None:
         n = len(list((ROOT / "schema" / major).iterdir()))
         print(f"/schema/{major}/  {n} schemas, byte-identical to {spec['tag']}"
               + ("  (verified live)" if args.live else ""))
+    for path, spec in sorted(json.loads(SERVED.read_text(encoding="utf-8"))
+                             .get("legacy_paths", {}).items()):
+        if path.startswith("$"):
+            continue
+        n = len([f for f in (ROOT / path).iterdir() if f.suffix == ".json"])
+        print(f"/{path}/    {n} schemas, frozen at {spec['tag']} (legacy path)")
 
 
 if __name__ == "__main__":

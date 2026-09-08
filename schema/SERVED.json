@@ -22,5 +22,19 @@
       "tag": "spec-v2.0",
       "note": "The current line. Moves when a 2.x specification release ships."
     }
+  },
+  "legacy_paths": {
+    "$comment": [
+      "Paths kept resolvable for links made before 1.4, when the schemas were",
+      "served by filename rather than at the URI their $id declares. Files are",
+      "named as the tag names them, not as the $id does.",
+      "",
+      "They are frozen: the content is a published release, so the check keeps",
+      "them identical to their tag rather than moving them forward."
+    ],
+    "schemas": {
+      "tag": "spec-v1.4",
+      "naming": "tag-filename"
+    }
   }
 }
