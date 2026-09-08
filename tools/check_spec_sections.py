@@ -70,6 +70,18 @@ def page_anchors(page: Path) -> set:
     return set(re.findall(r'\bid="([^"]+)"', page.read_text(encoding="utf-8")))
 
 
+def page_sections(page: Path) -> set:
+    """The ids the page uses as SECTIONS of the specification.
+
+    Structural by construction, not by heuristic: the page carries thirty ids
+    and only the ones on a `section.spec-section` stand for a section of the
+    document. The other ten are sub-anchors and UI elements, and a rule that
+    tried to tell them apart by name would be guessing.
+    """
+    return set(re.findall(r'<section class="spec-section" id="([^"]+)"',
+                          page.read_text(encoding="utf-8")))
+
+
 def check(tag: str = None) -> list:
     served = json.loads(SERVED.read_text(encoding="utf-8"))
     cfg = served.get("spec_page")
@@ -112,13 +124,17 @@ def check(tag: str = None) -> list:
                 f"spec/SECTIONS.json maps '{s}', which {tag} does not have. "
                 f"A stale mapping hides the section it was standing in for.")
 
+    # DECLARED. This promise was in the docstring and not in the code: the loop
+    # skipped and then did nothing with what it kept, so a section the release
+    # has no counterpart for passed in silence. A guard that states a property
+    # it does not execute is the defect it exists to catch.
     mapped = set(sections.values())
-    for a in sorted(anchors - mapped - declared_extra):
-        if re.match(r"^(appendix|sec|toc)-", a) or len(a) < 4:
-            continue
-        # Only structural anchors matter; the page has many inline ids.
-        if a in {"top", "main", "nav", "footer", "content"}:
-            continue
+    for a in sorted(page_sections(page) - mapped - declared_extra):
+        errors.append(
+            f"{cfg['path']} has a section #{a} that no part of {tag} maps to. "
+            f"Map it in spec/SECTIONS.json, or declare it under `page_only` "
+            f"with a reason. An undeclared section reads as specification and "
+            f"is not.")
 
     return errors
 
