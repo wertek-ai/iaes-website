@@ -121,7 +121,8 @@
     "iso.13374_desc",
     "iso.14224_desc",
     "standards.subtitle",
-    "standards.title"
+    "standards.title",
+    "envelope.field_timestamp"
   ],
   "allowed": [
     {

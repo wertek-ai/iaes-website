@@ -903,7 +903,7 @@
         <p data-i18n="integrators.step2_desc">Build a minimal IAES event — just 12 lines of JSON.</p>
         <div class="code-block" style="font-size:11px;">
 {<br>
-&nbsp;&nbsp;<span class="field">"spec_version"</span>: <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;<span class="field">"spec_version"</span>: <span class="str">"2.0"</span>,<br>
 &nbsp;&nbsp;<span class="field">"event_type"</span>: <span class="str">"asset.measurement"</span>,<br>
 &nbsp;&nbsp;<span class="field">"event_id"</span>: <span class="str">"550e..."</span>,<br>
 &nbsp;&nbsp;<span class="field">"timestamp"</span>: <span class="str">"2026-03-11T14:30:00Z"</span>,<br>
@@ -961,12 +961,12 @@
 <span class="kw">from</span> datetime <span class="kw">import</span> datetime, timezone<br>
 <br>
 <span class="kw">def</span> <span class="fn">create_iaes_event</span>(event_type, asset_id, source, data):<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Create a minimal IAES v1.3 event."""</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"""Create a minimal IAES v2.0 event."""</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;data_json = json.<span class="fn">dumps</span>(data, sort_keys=<span class="kw">True</span>)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;content_hash = hashlib.<span class="fn">sha256</span>(data_json.<span class="fn">encode</span>()).<span class="fn">hexdigest</span>()[:<span class="num">16</span>]<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"spec_version"</span>: <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"spec_version"</span>: <span class="str">"2.0"</span>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"event_type"</span>: event_type,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"event_id"</span>: <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>()),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"correlation_id"</span>: <span class="fn">str</span>(uuid.<span class="fn">uuid4</span>()),<br>
@@ -1021,7 +1021,7 @@ event = <span class="fn">create_iaes_event</span>(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;.<span class="fn">update</span>(dataJson).<span class="fn">digest</span>(<span class="str">'hex'</span>).<span class="fn">slice</span>(<span class="num">0</span>, <span class="num">16</span>);<br>
 <br>
 &nbsp;&nbsp;<span class="kw">return</span> {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;spec_version: <span class="str">'1.3'</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;spec_version: <span class="str">'2.0'</span>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;event_type: eventType,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;event_id: <span class="fn">randomUUID</span>(),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;correlation_id: <span class="fn">randomUUID</span>(),<br>
@@ -1070,7 +1070,7 @@ event = <span class="fn">create_iaes_event</span>(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;hash := sha256.<span class="fn">Sum256</span>(dataBytes)<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> <span class="type">IAESEvent</span>{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpecVersion:   <span class="str">"1.3"</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SpecVersion:   <span class="str">"2.0"</span>,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventType:     eventType,<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EventID:       uuid.<span class="fn">New</span>().<span class="fn">String</span>(),<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CorrelationID: uuid.<span class="fn">New</span>().<span class="fn">String</span>(),<br>

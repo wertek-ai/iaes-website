@@ -47,6 +47,7 @@ Usage:
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -130,13 +131,30 @@ def check() -> list:
 
     # KEYS
     if I18N.is_file():
-        present = declared_keys(I18N.read_text(encoding="utf-8"))
+        text = I18N.read_text(encoding="utf-8")
+        present = declared_keys(text)
+        # A key is retired at the moment it is removed, so the file records
+        # names that are no longer declared -- that is the point. What it must
+        # not record is a name that was NEVER declared: `field_timestamp` was
+        # retired here while the real key was `envelope.field_timestamp`, so the
+        # list read as protection and protected nothing. History is the test:
+        # if git has never seen the key, the entry is a typo.
         for key in spec.get("retired_keys", []):
             if key in present:
                 errors.append(
                     f"js/i18n.js -- retired key '{key}' is still declared. "
                     f"Remove it in every language, or take it off retired_keys "
                     f"and say why it may stay.")
+                continue
+            seen = subprocess.run(
+                ["git", "log", "--oneline", "-1", "-S", f'"{key}":', "--",
+                 "js/i18n.js"], cwd=ROOT, capture_output=True)
+            if not seen.stdout.strip():
+                errors.append(
+                    f"content/CLAIMS.json retires '{key}', and js/i18n.js has "
+                    f"never declared it in this repository's history. A retired "
+                    f"name that never existed reads as protection and protects "
+                    f"nothing -- check the spelling.")
 
     return errors
 
