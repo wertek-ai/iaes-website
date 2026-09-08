@@ -1,0 +1,33 @@
+# The schemas of every released major declare $id under https://iaes.dev, so
+# what this site serves is part of the standard's contract, not a copy of it.
+# When IAES 2.0 shipped, all eight of its schemas named /schema/v2/ URIs that
+# answered 404 -- the two repositories share a promise and nothing mechanical
+# connected them.
+#
+# This is a separate workflow from "Declared version" on purpose: that one
+# checks what the site CLAIMS, this one checks what it SERVES, and a failure
+# in either should name which.
+name: Schema parity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  schema-parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      # The check reads the tags of wertek-ai/iaes through the GitHub API.
+      # Unauthenticated requests are rate-limited to 60/hour across the whole
+      # runner pool, which fails intermittently and looks like a parity defect.
+      - run: python tools/check_schema_parity.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
