@@ -11,12 +11,12 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping</title>
-  <meta name="description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
-  <meta name="keywords" content="iaes iso 55000 alignment, iso 13374 condition monitoring event format, iso 17359 measurement recording, iso 14224 failure codes event standard, iaes iso mapping">
+  <title>IAES and Industrial Standards — References and Scope</title>
+  <meta name="description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
+  <meta name="keywords" content="iaes standards references, iaes iso 14224, iaes iso 17359, iaes iso 13374, iaes iso 55000, industrial event standard scope, iaes conformance">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping">
-  <meta property="og:description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
+  <meta property="og:title" content="IAES and Industrial Standards — References and Scope">
+  <meta property="og:description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/iaes-iso-alignment/">
   <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
@@ -34,8 +34,8 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping",
-    "description": "How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.",
+    "headline": "IAES and Industrial Standards — References and Scope",
+    "description": "Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.",
     "url": "https://iaes.dev/iaes-iso-alignment/",
     "image": "https://iaes.dev/assets/og-image.png",
     "author": {
@@ -437,6 +437,29 @@
       max-width: 760px;
       margin: 0 auto;
     }
+
+    /* A scope notice, not decoration: it states what the page does NOT claim,
+       so it has to read before the prose rather than beside it. */
+    .callout {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      border-left: 3px solid var(--steel);
+      background: var(--snow);
+    }
+    .callout-warning {
+      border-left-color: var(--warning);
+    }
+    .callout p {
+      font-size: 15px;
+      line-height: 1.75;
+      margin: 0;
+    }
+    .callout p + p {
+      margin-top: 10px;
+      color: var(--steel);
+    }
     .prose p {
       font-size: 15px;
       line-height: 1.8;
@@ -539,7 +562,7 @@
             <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
             <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
             <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
-            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.standards">Standards</a></li>
           </ul>
         </li>
         <li class="nav-dropdown">
@@ -586,10 +609,10 @@
     <div class="breadcrumb">
       <a href="/" data-i18n="iso.breadcrumb_home">Home</a>
       <span class="sep">/</span>
-      <span data-i18n="iso.breadcrumb_current">ISO Alignment</span>
+      <span data-i18n="std.breadcrumb_current">Standards</span>
     </div>
-    <h1 data-i18n="iso.hero_title">IAES ISO Alignment</h1>
-    <p class="hero-subtitle" data-i18n="iso.hero_subtitle">Field-level mapping to ISO 55000, 13374, 17359, and 14224</p>
+    <h1 data-i18n="std.hero_title">IAES and Industrial Standards</h1>
+    <p class="hero-subtitle" data-i18n="std.hero_subtitle">What IAES references, what it depends on, and what it does not claim</p>
   </div>
 </section>
 
@@ -599,9 +622,13 @@
 <section class="section-light" id="intro">
   <div class="container">
     <div class="prose">
-      <p data-i18n="iso.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> was designed from the ground up with ISO alignment in mind. Rather than inventing proprietary concepts, IAES maps its event types and fields directly to four foundational ISO standards that govern asset management, condition monitoring, measurement practices, and failure classification in industrial environments.</p>
-      <p data-i18n="iso.intro_p2">This page provides a <strong>field-level mapping</strong> between IAES v1.2+ and each ISO standard. Whether you are building a condition monitoring system, integrating with a CMMS, or establishing an ISO 55001-compliant asset management program, this reference shows exactly how IAES events carry the data each standard requires.</p>
-      <p data-i18n="iso.intro_p3">All ISO-related fields in IAES are <strong>optional and backward-compatible</strong>. Systems that do not need ISO compliance can ignore these fields entirely. Systems that do need it get standards-aligned data without custom transformation layers.</p>
+      <div class="callout callout-warning" id="scope">
+        <p data-i18n="std.scope_headline"><strong>IAES 2.0 does not claim conformance to ISO 13374, ISO 17359, ISO 14224 or ISO 55000.</strong></p>
+        <p data-i18n="std.scope_body">Earlier IAES material used the phrase &ldquo;ISO-aligned&rdquo; and described a field-level mapping to those four documents. IAES 2.0 withdrew those claims where the correspondence had not been verified against the cited document. Nothing about the wire format changed: the fields kept their names and their values, and what changed is what is asserted about them.</p>
+      </div>
+      <p data-i18n="std.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> cites industrial standards where they supply context or a vocabulary defined outside IAES. <strong>Citation is not conformance.</strong> Naming a standard does not certify an implementation against it, and it does not mean a field&rsquo;s meaning is governed by it &mdash; unless the specification says so, in which case it says so in the table below.</p>
+      <p data-i18n="std.intro_p2">The distinction is the specification&rsquo;s own. IAES 2.0 asks two separate questions of every reference it makes: <em>is the value required to satisfy that document for the event to conform to IAES?</em> and <em>does the schema reject a value that does not?</em> They are not the same question, and where they disagree, the disagreement is published rather than hidden.</p>
+      <p data-i18n="std.intro_p3">All the fields named on this page are <strong>optional and backward-compatible</strong>. A system that does not need them ignores them entirely, and its events stay valid.</p>
     </div>
   </div>
 </section>
@@ -648,7 +675,7 @@
   <div class="container">
     <div class="section-header">
       <h2 data-i18n="iso.iso13374_title">ISO 13374 — Condition Monitoring 6-Block Model</h2>
-      <p data-i18n="iso.iso13374_subtitle">IAES maps directly to each block of the ISO 13374 processing pipeline.</p>
+      <p data-i18n="std.blocks_subtitle">Where IAES events sit relative to the processing model, as an aid to readers who already use it.</p>
     </div>
 
     <div class="prose" style="margin-bottom: 40px;">
@@ -658,7 +685,7 @@
     <table class="iso-table">
       <thead>
         <tr>
-          <th data-i18n="iso.col_block">ISO 13374 Block</th>
+          <th data-i18n="std.col_block">Processing block</th>
           <th data-i18n="iso.col_function">Function</th>
           <th data-i18n="iso.col_event_type">IAES Event Type</th>
           <th data-i18n="iso.col_iaes_field">IAES Field</th>
@@ -705,7 +732,7 @@
     </table>
 
     <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.iso13374_status_intro">The <code>iso_13374_status</code> field in <code>asset.health</code> events uses values that map directly to ISO 13374 condition states. These represent a progression from normal operation to confirmed failure:</p>
+      <p data-i18n="std.status_intro">The <code>iso_13374_status</code> field in <code>asset.health</code> events carries a health status level from <strong>IAES&rsquo;s own vocabulary</strong>. The attribution to ISO 13374 was withdrawn in 2.0 and the field name is kept for 1.x compatibility. These represent a progression from normal operation to confirmed failure:</p>
     </div>
 
     <table class="iso-table" style="max-width: 700px; margin-top: 24px;">
@@ -918,53 +945,64 @@
 <!-- ════════════════════════════════════════════════════════════════════════════
      MASTER MAPPING TABLE (light)
      ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="master-table">
+<section class="section-light" id="references">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="iso.master_title">Master Mapping Table</h2>
-      <p data-i18n="iso.master_subtitle">Complete ISO-to-IAES alignment at a glance.</p>
+      <h2 data-i18n="std.table_title">What IAES 2.0 references</h2>
+      <p data-i18n="std.table_subtitle">Two questions, asked separately of every reference.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 28px;">
+      <p data-i18n="std.table_intro"><strong>Normative for meaning</strong> asks: must the value satisfy that document for the event to conform to IAES? <strong>Enforced by the schema</strong> asks: does the schema reject a value that does not? A reference can be normative and unenforced &mdash; and where the two disagree, the disagreement is the defect, so IAES publishes it instead of leaving it to be discovered.</p>
     </div>
 
     <table class="iso-table">
       <thead>
         <tr>
-          <th data-i18n="iso.col_iso_standard">ISO Standard</th>
-          <th data-i18n="iso.col_focus">Focus</th>
-          <th data-i18n="iso.col_iaes_events">IAES Event Types</th>
-          <th data-i18n="iso.col_key_fields">Key IAES Fields</th>
+          <th data-i18n="std.col_document">Document</th>
+          <th data-i18n="std.col_relationship">Relationship to IAES 2.0</th>
+          <th data-i18n="std.col_normative">Normative for meaning</th>
+          <th data-i18n="std.col_enforced">Enforced by the schema</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>ISO 55000</strong></td>
-          <td data-i18n="iso.master_55000_focus">Asset management fundamentals</td>
-          <td data-i18n="iso.master_55000_events">All <a href="/spec/">7 event types</a></td>
-          <td><code>correlation_id</code>, <code>asset_id</code></td>
-        </tr>
-        <tr>
-          <td><strong>ISO 13374</strong></td>
-          <td data-i18n="iso.master_13374_focus">Condition monitoring pipeline</td>
-          <td><code>asset.measurement</code> &rarr; <code>asset.health</code> &rarr; <code>work_order_intent</code></td>
-          <td><code>iso_13374_status</code>, <code>health_index</code></td>
-        </tr>
-        <tr>
-          <td><strong>ISO 17359</strong></td>
-          <td data-i18n="iso.master_17359_focus">Measurement standards</td>
-          <td><code>asset.measurement</code></td>
-          <td><code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code></td>
+          <td><strong>ISO 4217</strong></td>
+          <td data-i18n="std.row_4217_rel"><code>currency</code> carries an ISO 4217 code</td>
+          <td data-i18n="std.row_4217_norm"><strong>Yes</strong></td>
+          <td data-i18n="std.row_4217_enf"><strong>Partly.</strong> <code>^[A-Z]{3}$</code> checks the shape, not membership: <code>ZZZ</code> passes</td>
         </tr>
         <tr>
           <td><strong>ISO 14224</strong></td>
-          <td data-i18n="iso.master_14224_focus">Failure classification</td>
-          <td><code>asset.health</code>, <code>maintenance.completion</code></td>
-          <td><code>iso_14224</code> object</td>
+          <td data-i18n="std.row_14224_rel">Context for reliability and maintenance data. Named for the <code>iso_14224</code> object and Appendix B</td>
+          <td data-i18n="std.row_14224_norm">No</td>
+          <td data-i18n="std.row_norm_no">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 17359</strong></td>
+          <td data-i18n="std.row_17359_rel">Context for condition monitoring and acquisition. Named for <code>units_qualifier</code> and the acquisition fields</td>
+          <td data-i18n="std.row_17359_norm">No</td>
+          <td data-i18n="std.row_norm_no2">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 13374 series</strong></td>
+          <td data-i18n="std.row_13374_rel">Historical context for condition monitoring. <strong>The attributions on <code>iso_13374_status</code> and <code>condition_trend</code> were withdrawn in 2.0</strong> &mdash; the values are IAES&rsquo;s own vocabulary and the field names are kept for 1.x compatibility</td>
+          <td data-i18n="std.row_13374_norm">No</td>
+          <td data-i18n="std.row_norm_no3">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 55000</strong></td>
+          <td data-i18n="std.row_55000_rel">Context for asset management</td>
+          <td data-i18n="std.row_55000_norm">No</td>
+          <td data-i18n="std.row_norm_no4">No</td>
         </tr>
       </tbody>
     </table>
 
     <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.master_conclusion">Together, these four standards cover the full lifecycle of industrial asset management: <strong>ISO 55000</strong> provides the strategic framework, <strong>ISO 13374</strong> defines the condition monitoring pipeline, <strong>ISO 17359</strong> ensures measurement quality, and <strong>ISO 14224</strong> standardizes failure data for reliability analysis. IAES carries all of this in a single, lightweight JSON event format &mdash; no separate data models, no transformation layers, no proprietary extensions.</p>
-      <p data-i18n="iso.master_note">All ISO-related fields are part of the <a href="/spec/">IAES v1.2 specification</a> and are validated by the <a href="https://github.com/wertek-ai/iaes">published JSON schemas</a>. The Python SDK (<code>pip install iaes</code>) and TypeScript SDK (<code>npm install @iaes/sdk</code>) both support ISO field validation out of the box.</p>
+      <p data-i18n="std.why_series">The ISO 13374 entries say <em>series</em> rather than a part, on purpose. The unqualified citations covered at least two different subjects &mdash; health status levels and a processing model &mdash; which cannot both be the same part, and <strong>a citation that does not identify a document cannot be checked</strong>. Naming the family is the honest form when the part is not established.</p>
+      <p data-i18n="std.what_this_means">So: an implementation that emits <code>iso_14224</code> or <code>iso_13374_status</code> is emitting IAES fields, not ISO conformance. Those fields exist because the vocabularies they borrow from are widely understood, and they carry no certification. The one reference a value must actually satisfy is ISO 4217, and even there the schema checks the shape and not the list.</p>
+      <p data-i18n="std.where_defined">All of this is stated in the <a href="/spec/">specification</a> itself, under <em>References</em>. This page reproduces it; the specification governs.</p>
     </div>
   </div>
 </section>
@@ -976,7 +1014,7 @@
   <div class="container">
     <div class="section-header center">
       <h2 data-i18n="iso.cta_title">Start Building with IAES</h2>
-      <p data-i18n="iso.cta_subtitle">ISO-aligned events, open standard, production-ready SDKs.</p>
+      <p data-i18n="std.cta_subtitle">An open event standard, with production-ready SDKs and schemas you can resolve.</p>
     </div>
     <div class="cta-strip">
       <a class="btn btn-primary" href="/spec/" data-i18n="iso.cta_spec">Read the Spec</a>

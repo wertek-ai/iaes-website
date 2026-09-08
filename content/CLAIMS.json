@@ -1,0 +1,111 @@
+{
+  "$comment": [
+    "What this site may no longer claim.",
+    "",
+    "IAES 2.0 withdrew the ISO 13374 attributions and stopped describing its ISO",
+    "citations as alignment: the correspondences had never been verified against",
+    "the cited documents. That decision was made in the standard's repository.",
+    "This site kept publishing the withdrawn claims -- in seven surfaces and, for",
+    "the ones that live in i18n.js, in fourteen languages.",
+    "",
+    "The site needs mechanical memory of what it can no longer say, because prose",
+    "has no schema and a person re-adding a phrase months from now will not",
+    "remember an RFC. tools/check_withdrawn_claims.py reads this file.",
+    "",
+    "This file is NOT authority over IAES. It records what the specification",
+    "already decided, and cites where. If the two ever disagree, the",
+    "specification governs -- GOVERNANCE.md 2.",
+    "",
+    "Two kinds of entry, because the two need different tests:",
+    "  phrases  English wording that asserts the withdrawn claim. Checked in",
+    "           HTML and in the English block of i18n.js, where the source text",
+    "           lives.",
+    "  keys     i18n keys whose whole purpose was to carry a withdrawn claim.",
+    "           Checked by NAME across every language, because a regex for an",
+    "           English phrase cannot find its Japanese translation. Retiring the",
+    "           key retires all fourteen at once."
+  ],
+  "withdrawn": [
+    {
+      "id": "iso-aligned",
+      "since": "IAES 2.0",
+      "authority": "IAES_SPEC.md, References -- ISO 14224, 17359, 13374 series and 55000 are all 'Normative for meaning: No'",
+      "why": "Citation is not alignment. Naming a standard for context does not make an event conform to it.",
+      "phrases": [
+        "ISO-aligned",
+        "ISO aligned",
+        "ISO alignment",
+        "aligned with ISO"
+      ]
+    },
+    {
+      "id": "iso-field-level-mapping",
+      "since": "IAES 2.0",
+      "authority": "IAES_SPEC.md, References; rfc/IAES-RFC-002.md",
+      "why": "The site claimed a field-level mapping to four standards. No such correspondence was ever verified against the documents, and three of the four were never held.",
+      "phrases": [
+        "field-level mapping",
+        "field level mapping",
+        "maps directly to ISO",
+        "maps its event types and fields directly"
+      ]
+    },
+    {
+      "id": "iso-13374-vocabulary",
+      "since": "IAES 2.0",
+      "authority": "IAES_SPEC.md Appendix C -- 'carries a health status level from IAES's own vocabulary. The attribution to ISO 13374-2 was withdrawn in 2.0'",
+      "why": "The seven iso_13374_status values are IAES's own. The field name is kept for 1.x compatibility and attributes nothing.",
+      "phrases": [
+        "ISO 13374 condition states",
+        "ISO 13374 status levels",
+        "uses ISO 13374 values"
+      ]
+    },
+    {
+      "id": "iso-13374-2-six-block",
+      "since": "rfc/IAES-RFC-009.md (Draft, target 2.1)",
+      "authority": "ISO 13374-4:2015 captions the block diagram 'from ISO 13374-1:2003'; ISO 13374-2:2007 is a five-layer information architecture",
+      "why": "The six-block model is part 1, not part 2. The site must not repeat the specification's own misattribution while RFC-009 is open.",
+      "phrases": [
+        "ISO 13374-2 processing blocks",
+        "ISO 13374-2 6-block",
+        "ISO 13374-2 six-block"
+      ]
+    }
+  ],
+  "retired_keys": [
+    "iso.hero_title",
+    "iso.hero_subtitle",
+    "iso.cta_subtitle",
+    "iso.intro_p2",
+    "iso.iso13374_subtitle",
+    "iso.iso13374_status_intro",
+    "iso.master_conclusion",
+    "iso.breadcrumb_current",
+    "iso.col_block",
+    "nav.iso_alignment",
+    "footer.iso",
+    "explore.iso_title",
+    "explore.iso_desc",
+    "cmp.row_iso",
+    "uc_alert.cta_iso",
+    "iso.intro_p1"
+  ],
+  "allowed": [
+    {
+      "where": "index.html",
+      "text": "IAES: An Open, ISO-Aligned Event Standard for Industrial Asset Intelligence",
+      "why": "The title of a preprint published with a DOI. It is immutable and citing it accurately is not making the claim -- the same distinction GOVERNANCE.md 1.1 draws between attribution and dependency. The link must carry the note that the title predates 2.0."
+    },
+    {
+      "where": "iaes-iso-alignment/index.html",
+      "text": "Earlier IAES material used the phrase &ldquo;ISO-aligned&rdquo; and described a field-level mapping to those four documents. IAES 2.0 withdrew those claims where the correspondence had not been verified against the cited document. Nothing about the wire format changed: the fields kept their names and their values, and what changed is what is asserted about them.",
+      "why": "The page that explains the withdrawal has to be able to name what was withdrawn. Exempting the sentence rather than the page keeps the licence narrow: edit this sentence and the exemption stops matching, which the guard reports rather than silently widening."
+    },
+    {
+      "where": "what-is-iaes.html",
+      "text": "IAES: An Open, ISO-Aligned Event Standard for Industrial Asset Intelligence",
+      "why": "Title of a preprint published with a DOI. Immutable, and citing it accurately is not making the claim. The link carries a note saying the title predates 2.0."
+    }
+  ]
+}

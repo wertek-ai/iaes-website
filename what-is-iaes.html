@@ -12,11 +12,11 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What is IAES? — Industrial Asset Event Standard</title>
-  <meta name="description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + ISO alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.">
+  <meta name="description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.">
   <meta name="keywords" content="what is iaes, industrial asset event standard, what is the industrial asset event standard, IAES standard, industrial IoT, asset events, SCADA interoperability, CMMS integration">
   <meta name="theme-color" content="#1B2024">
   <meta property="og:title" content="What is IAES? — Industrial Asset Event Standard">
-  <meta property="og:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types + ISO alignment for cross-system interoperability.">
+  <meta property="og:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types with a stable envelope for cross-system interoperability.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/what-is-iaes.html">
   <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
@@ -24,7 +24,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="What is IAES? — Industrial Asset Event Standard">
-  <meta name="twitter:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types + ISO alignment for cross-system interoperability.">
+  <meta name="twitter:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types with a stable envelope for cross-system interoperability.">
   <meta name="twitter:image" content="https://iaes.dev/assets/og-image.png">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -644,7 +644,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "What is IAES? — Industrial Asset Event Standard",
-    "description": "IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + ISO alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.",
+    "description": "IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.",
     "author": {
       "@type": "Person",
       "name": "Gilberto Garza"
@@ -677,7 +677,7 @@
             <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
             <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
             <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
-            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.standards">Standards</a></li>
           </ul>
         </li>
         <li class="nav-dropdown">
@@ -776,7 +776,7 @@
       <ul>
         <li><strong>One envelope, seven event types</strong> &mdash; measurements, health changes, work orders, completions, hierarchy, sensor registration, spare parts</li>
         <li><strong>Vendor-neutral</strong> &mdash; works with any SCADA, CMMS, historian, or custom system</li>
-        <li><strong>ISO-aligned</strong> &mdash; optional fields map to ISO 17359, 13374, 14224, and 55000</li>
+        <li><strong>Standards-aware</strong> &mdash; optional fields borrow vocabulary from ISO 17359, 13374, 14224 and 55000. <a href="/iaes-iso-alignment/">Citation is not conformance</a>.</li>
         <li><strong>Human-readable JSON</strong> &mdash; no binary encoding, no schema compilation, no code generation required</li>
         <li><strong>Transport-agnostic</strong> &mdash; send via MQTT, HTTP, Kafka, files, or any message bus</li>
       </ul>
@@ -922,12 +922,12 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
-     ISO ALIGNMENT
+     STANDARDS REFERENCED
      ══════════════════════════════════════════════════════════════════════════ -->
 <section class="section-dark">
   <div class="container">
     <div class="section-header center">
-      <h2>ISO Alignment</h2>
+      <h2>Standards referenced</h2>
       <p>IAES events carry optional fields that map directly to established industrial standards.</p>
     </div>
     <div class="iso-grid">
@@ -1061,7 +1061,7 @@
           <li style="margin-bottom:10px">
             <a href="https://www.researchgate.net/publication/402029169" target="_blank" rel="noopener" style="font-size:14px;line-height:1.6;display:inline-flex;align-items:baseline;gap:8px">
               <span>&#128196;</span>
-              <span>Preprint &mdash; IAES: An Open, ISO-Aligned Event Standard for Industrial Asset Intelligence</span>
+              <span>Preprint &mdash; IAES: An Open, ISO-Aligned Event Standard for Industrial Asset Intelligence</span> <span class="preprint-note" style="opacity:.7">(2026 preprint; its title predates the 2.0 withdrawal of that claim)</span>
             </a>
           </li>
           <li>

@@ -1,0 +1,28 @@
+# IAES 2.0 withdrew the ISO 13374 attributions and stopped calling its ISO
+# citations alignment. This site went on publishing the withdrawn claims in
+# seven surfaces and, for the ones in js/i18n.js, in fourteen languages --
+# because the decision lived in the standard's repository and prose has no
+# schema to check it against.
+#
+# Separate from "Schema parity" on purpose. That one proves we serve the right
+# bytes; this one proves we do not still say what was retracted. Neither
+# subsumes the other, and a failure should name which.
+name: Withdrawn claims
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  withdrawn-claims:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python tools/check_withdrawn_claims.py
