@@ -940,7 +940,7 @@
             <td><code>condition_trend</code></td>
             <td><code>string</code></td>
             <td>No</td>
-            <td>Temporal trend of the condition: <code>worsening</code>, <code>stable</code>, or <code>improving</code>. Based on ISO 13374-4 &sect;5.3 presentation states. Used for incident lifecycle tracking (onset/escalation/recovery). <span class="badge badge-cyan">v1.3</span></td>
+            <td>Temporal trend of the condition: <code>worsening</code>, <code>stable</code>, or <code>improving</code>. IAES&rsquo;s own values; the ISO 13374 attribution was withdrawn in 2.0. Used for incident lifecycle tracking (onset/escalation/recovery). <span class="badge badge-cyan">v1.3</span></td>
           </tr>
         </tbody>
       </table>
@@ -1813,7 +1813,7 @@
     <!-- Appendix B -->
     <section class="spec-section" id="appendix-b">
       <h2 data-i18n="sec_appendix_b">Appendix B: ISO 14224 Codes</h2>
-      <p data-i18n="appendix_b_intro">The <code>iso_14224</code> object provides standardized failure classification per ISO 14224:2016 (Petroleum, petrochemical and natural gas industries &mdash; Collection and exchange of reliability and maintenance data). This object can appear in <code>asset.health</code> and <code>maintenance.completion</code> events.</p>
+      <p data-i18n="appendix_b_intro">The <code>iso_14224</code> object provides optional failure coding based on ISO 14224:2016 classification (Petroleum, petrochemical and natural gas industries &mdash; Collection and exchange of reliability and maintenance data). This object can appear in <code>asset.health</code> and <code>maintenance.completion</code> events.</p>
 
       <h3>iso_14224 Object Structure</h3>
       <div class="code-block">
@@ -2037,7 +2037,7 @@
           <tr>
             <td><strong>v1.2</strong></td>
             <td>March 2026</td>
-            <td>ISO alignment: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> (ISO 17359) on measurements. <code>iso_13374_status</code> (ISO 13374) on health. <code>iso_14224</code> object (ISO 14224) on health and completion. All new fields optional &mdash; fully backward compatible. Added Appendix B (ISO 14224 codes) and Appendix C (ISO 13374 mapping).</td>
+            <td>Standards vocabulary: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> (ISO 17359) on measurements. <code>iso_13374_status</code> (ISO 13374) on health. <code>iso_14224</code> object (ISO 14224) on health and completion. All new fields optional &mdash; fully backward compatible. Added Appendix B (ISO 14224 codes) and Appendix C (ISO 13374 mapping).</td>
           </tr>
           <tr>
             <td><strong>v1.3</strong></td>

@@ -11,12 +11,12 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping</title>
-  <meta name="description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
-  <meta name="keywords" content="iaes iso 55000 alignment, iso 13374 condition monitoring event format, iso 17359 measurement recording, iso 14224 failure codes event standard, iaes iso mapping">
+  <title>IAES and Industrial Standards — References and Scope</title>
+  <meta name="description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
+  <meta name="keywords" content="iaes standards references, iaes iso 14224, iaes iso 17359, iaes iso 13374, iaes iso 55000, industrial event standard scope, iaes conformance">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping">
-  <meta property="og:description" content="How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.">
+  <meta property="og:title" content="IAES and Industrial Standards — References and Scope">
+  <meta property="og:description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/iaes-iso-alignment/">
   <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
@@ -34,8 +34,8 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "IAES ISO Alignment — ISO 55000, 17359, 13374, 14224 Mapping",
-    "description": "How IAES maps to ISO 55000 asset management, ISO 13374 condition monitoring, ISO 17359 measurement standards, and ISO 14224 failure classification. Field-level alignment table.",
+    "headline": "IAES and Industrial Standards — References and Scope",
+    "description": "Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.",
     "url": "https://iaes.dev/iaes-iso-alignment/",
     "image": "https://iaes.dev/assets/og-image.png",
     "author": {
@@ -437,6 +437,29 @@
       max-width: 760px;
       margin: 0 auto;
     }
+
+    /* A scope notice, not decoration: it states what the page does NOT claim,
+       so it has to read before the prose rather than beside it. */
+    .callout {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      padding: 18px 22px;
+      border-radius: var(--radius);
+      border-left: 3px solid var(--steel);
+      background: var(--snow);
+    }
+    .callout-warning {
+      border-left-color: var(--warning);
+    }
+    .callout p {
+      font-size: 15px;
+      line-height: 1.75;
+      margin: 0;
+    }
+    .callout p + p {
+      margin-top: 10px;
+      color: var(--steel);
+    }
     .prose p {
       font-size: 15px;
       line-height: 1.8;
@@ -539,7 +562,7 @@
             <li><a href="/what-is-iaes.html" data-i18n="nav.what">What is IAES?</a></li>
             <li><a href="/concepts/" data-i18n="nav.concepts">Concepts</a></li>
             <li><a href="/iaes-vs-sparkplug-vs-aas/" data-i18n="nav.comparison">vs Sparkplug B / AAS</a></li>
-            <li><a href="/iaes-iso-alignment/" data-i18n="nav.iso_alignment">ISO Alignment</a></li>
+            <li><a href="/iaes-iso-alignment/" data-i18n="nav.standards">Standards</a></li>
           </ul>
         </li>
         <li class="nav-dropdown">
@@ -586,10 +609,10 @@
     <div class="breadcrumb">
       <a href="/" data-i18n="iso.breadcrumb_home">Home</a>
       <span class="sep">/</span>
-      <span data-i18n="iso.breadcrumb_current">ISO Alignment</span>
+      <span data-i18n="std.breadcrumb_current">Standards</span>
     </div>
-    <h1 data-i18n="iso.hero_title">IAES ISO Alignment</h1>
-    <p class="hero-subtitle" data-i18n="iso.hero_subtitle">Field-level mapping to ISO 55000, 13374, 17359, and 14224</p>
+    <h1 data-i18n="std.hero_title">IAES and Industrial Standards</h1>
+    <p class="hero-subtitle" data-i18n="std.hero_subtitle">What IAES references, what it depends on, and what it does not claim</p>
   </div>
 </section>
 
@@ -599,372 +622,95 @@
 <section class="section-light" id="intro">
   <div class="container">
     <div class="prose">
-      <p data-i18n="iso.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> was designed from the ground up with ISO alignment in mind. Rather than inventing proprietary concepts, IAES maps its event types and fields directly to four foundational ISO standards that govern asset management, condition monitoring, measurement practices, and failure classification in industrial environments.</p>
-      <p data-i18n="iso.intro_p2">This page provides a <strong>field-level mapping</strong> between IAES v1.2+ and each ISO standard. Whether you are building a condition monitoring system, integrating with a CMMS, or establishing an ISO 55001-compliant asset management program, this reference shows exactly how IAES events carry the data each standard requires.</p>
-      <p data-i18n="iso.intro_p3">All ISO-related fields in IAES are <strong>optional and backward-compatible</strong>. Systems that do not need ISO compliance can ignore these fields entirely. Systems that do need it get standards-aligned data without custom transformation layers.</p>
+      <div class="callout callout-warning" id="scope">
+        <p data-i18n="std.scope_headline"><strong>IAES 2.0 does not claim conformance to ISO 13374, ISO 17359, ISO 14224 or ISO 55000.</strong></p>
+        <p data-i18n="std.scope_body">Earlier IAES material used the phrase &ldquo;ISO-aligned&rdquo; and described a field-level mapping to those four documents. IAES 2.0 withdrew those claims where the correspondence had not been verified against the cited document. Nothing about the wire format changed: the fields kept their names and their values, and what changed is what is asserted about them.</p>
+      </div>
+      <p data-i18n="std.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> cites industrial standards where they supply context or a vocabulary defined outside IAES. <strong>Citation is not conformance.</strong> Naming a standard does not certify an implementation against it, and it does not mean a field&rsquo;s meaning is governed by it &mdash; unless the specification says so, in which case it says so in the table below.</p>
+      <p data-i18n="std.intro_p2">The distinction is the specification&rsquo;s own. IAES 2.0 asks two separate questions of every reference it makes: <em>is the value required to satisfy that document for the event to conform to IAES?</em> and <em>does the schema reject a value that does not?</em> They are not the same question, and where they disagree, the disagreement is published rather than hidden.</p>
+      <p data-i18n="std.intro_p3">All the fields named on this page are <strong>optional and backward-compatible</strong>. A system that does not need them ignores them entirely, and its events stay valid.</p>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════════════════════
-     ISO 55000 — ASSET MANAGEMENT (light)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="iso-55000">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n="iso.iso55000_title">ISO 55000 — Asset Management Fundamentals</h2>
-      <p data-i18n="iso.iso55000_subtitle">How IAES implements the four pillars of asset management defined by ISO 55000.</p>
-    </div>
-
-    <div class="prose" style="margin-bottom: 40px;">
-      <p data-i18n="iso.iso55000_intro">ISO 55000 defines four fundamental concepts that every asset management system must embody: <strong>Value</strong>, <strong>Alignment</strong>, <strong>Leadership</strong>, and <strong>Assurance</strong>. These are not specific data fields or technical requirements &mdash; they are organizational principles. IAES implements each one through its <a href="/spec/">7 event types</a> and the relationships between them.</p>
-    </div>
-
-    <div class="pillar-grid">
-      <div class="pillar-card">
-        <h3 data-i18n="iso.pillar_value_title">Value</h3>
-        <p data-i18n="iso.pillar_value_desc">Assets exist to deliver value. IAES makes value measurable: <code>asset.measurement</code> captures quantified condition data tied to specific assets. <code>asset.health</code> produces value-weighted health scores. Every event carries an <code>asset_id</code> &mdash; the asset is the organizing principle, not the sensor, not the system. This asset-centric model means you can always answer: "What is the current state and value contribution of this asset?"</p>
-      </div>
-      <div class="pillar-card">
-        <h3 data-i18n="iso.pillar_alignment_title">Alignment</h3>
-        <p data-i18n="iso.pillar_alignment_desc">Maintenance decisions must align with organizational objectives. <code>maintenance.work_order_intent</code> translates condition data into prioritized actions. The <code>priority</code> field maps organizational risk tolerance directly into the event stream. A "critical" priority on a cooling pump in a power plant means something different than "critical" on a warehouse fan &mdash; the priority reflects organizational context, not just sensor thresholds.</p>
-      </div>
-      <div class="pillar-card">
-        <h3 data-i18n="iso.pillar_leadership_title">Leadership</h3>
-        <p data-i18n="iso.pillar_leadership_desc">ISO 55000 requires clear accountability and traceability. IAES provides this through the <code>correlation_id</code> field, which links every event in an incident chain &mdash; from the first anomalous measurement through health assessment, work order creation, and completion. This creates a complete decision audit trail: who detected what, when was action recommended, and who executed it.</p>
-      </div>
-      <div class="pillar-card">
-        <h3 data-i18n="iso.pillar_assurance_title">Assurance</h3>
-        <p data-i18n="iso.pillar_assurance_desc">Assurance means closing the loop: did the maintenance action actually resolve the problem? <code>maintenance.completion</code> with its <code>failure_confirmed</code> field answers this directly. When the AI predicted bearing wear and the technician confirmed bearing wear during replacement, that is a verified feedback loop. When the prediction was wrong, the correction feeds back into model improvement. IAES makes assurance auditable by design.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     ISO 13374 — CONDITION MONITORING 6-BLOCK MODEL (dark)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="iso-13374">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n="iso.iso13374_title">ISO 13374 — Condition Monitoring 6-Block Model</h2>
-      <p data-i18n="iso.iso13374_subtitle">IAES maps directly to each block of the ISO 13374 processing pipeline.</p>
-    </div>
-
-    <div class="prose" style="margin-bottom: 40px;">
-      <p data-i18n="iso.iso13374_intro">ISO 13374 defines a 6-block processing pipeline that transforms raw sensor data into actionable maintenance decisions. This model is the backbone of every <a href="/use-cases/alert-reduction/">condition monitoring</a> system. IAES does not replace the processing within each block &mdash; it standardizes the data that flows <em>between</em> blocks, making every stage interoperable.</p>
-    </div>
-
-    <table class="iso-table">
-      <thead>
-        <tr>
-          <th data-i18n="iso.col_block">ISO 13374 Block</th>
-          <th data-i18n="iso.col_function">Function</th>
-          <th data-i18n="iso.col_event_type">IAES Event Type</th>
-          <th data-i18n="iso.col_iaes_field">IAES Field</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-i18n="iso.block1_name">Block 1: Data Acquisition (DA)</td>
-          <td data-i18n="iso.block1_func">Sensor sampling</td>
-          <td><code>asset.measurement</code></td>
-          <td><code>sampling_rate_hz</code>, <code>acquisition_duration_s</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.block2_name">Block 2: Data Manipulation (DM)</td>
-          <td data-i18n="iso.block2_func">Signal processing</td>
-          <td><code>asset.measurement</code></td>
-          <td><code>units_qualifier</code> (rms, peak, peak_to_peak)</td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.block3_name">Block 3: State Detection (SD)</td>
-          <td data-i18n="iso.block3_func">Threshold comparison</td>
-          <td><code>asset.health</code></td>
-          <td><code>iso_13374_status</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.block4_name">Block 4: Health Assessment (HA)</td>
-          <td data-i18n="iso.block4_func">Severity classification</td>
-          <td><code>asset.health</code></td>
-          <td><code>health_index</code> (0&ndash;1), <code>severity</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.block5_name">Block 5: Prognostic Assessment (PA)</td>
-          <td data-i18n="iso.block5_func">Remaining useful life estimation</td>
-          <td><code>asset.health</code></td>
-          <td><code>rul_days</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.block6_name">Block 6: Advisory Generation (AG)</td>
-          <td data-i18n="iso.block6_func">Action recommendation</td>
-          <td><code>maintenance.work_order_intent</code></td>
-          <td><code>title</code>, <code>priority</code>, <code>description</code></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.iso13374_status_intro">The <code>iso_13374_status</code> field in <code>asset.health</code> events uses values that map directly to ISO 13374 condition states. These represent a progression from normal operation to confirmed failure:</p>
-    </div>
-
-    <table class="iso-table" style="max-width: 700px; margin-top: 24px;">
-      <thead>
-        <tr>
-          <th data-i18n="iso.col_status_value">Status Value</th>
-          <th data-i18n="iso.col_meaning">Meaning</th>
-          <th data-i18n="iso.col_action">Typical Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>normal</code></td>
-          <td data-i18n="iso.status_normal">Operating within acceptable parameters</td>
-          <td data-i18n="iso.action_normal">Continue monitoring</td>
-        </tr>
-        <tr>
-          <td><code>satisfactory</code></td>
-          <td data-i18n="iso.status_satisfactory">Minor deviation, no action needed</td>
-          <td data-i18n="iso.action_satisfactory">Increase monitoring frequency</td>
-        </tr>
-        <tr>
-          <td><code>unsatisfactory</code></td>
-          <td data-i18n="iso.status_unsatisfactory">Deviation requires planned intervention</td>
-          <td data-i18n="iso.action_unsatisfactory">Schedule maintenance</td>
-        </tr>
-        <tr>
-          <td><code>unacceptable</code></td>
-          <td data-i18n="iso.status_unacceptable">Significant deviation, urgent intervention</td>
-          <td data-i18n="iso.action_unacceptable">Priority work order</td>
-        </tr>
-        <tr>
-          <td><code>imminent_failure</code></td>
-          <td data-i18n="iso.status_imminent">Failure expected imminently</td>
-          <td data-i18n="iso.action_imminent">Emergency shutdown / immediate repair</td>
-        </tr>
-        <tr>
-          <td><code>failed</code></td>
-          <td data-i18n="iso.status_failed">Asset has failed</td>
-          <td data-i18n="iso.action_failed">Corrective maintenance</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     ISO 17359 — CONDITION MONITORING & DIAGNOSTICS (light)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="iso-17359">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n="iso.iso17359_title">ISO 17359 — Condition Monitoring &amp; Diagnostics</h2>
-      <p data-i18n="iso.iso17359_subtitle">Three fields added in IAES v1.2 for ISO 17359 measurement compliance.</p>
-    </div>
-
-    <div class="prose" style="margin-bottom: 40px;">
-      <p data-i18n="iso.iso17359_intro">ISO 17359 defines how vibration, temperature, and other condition monitoring measurements should be recorded for diagnostic purposes. A vibration reading of "4.5 mm/s" is ambiguous without context: is it RMS or peak? What was the sampling rate? How long was the measurement window? These details matter for accurate diagnosis and trending.</p>
-      <p data-i18n="iso.iso17359_fields">IAES v1.2 added three optional fields to <code>asset.measurement</code> that resolve these ambiguities:</p>
-    </div>
-
-    <div class="pillar-grid" style="grid-template-columns: 1fr 1fr 1fr;">
-      <div class="pillar-card">
-        <h3 data-i18n="iso.field_units_title"><code>units_qualifier</code></h3>
-        <p data-i18n="iso.field_units_desc">Resolves the most common ambiguity in vibration measurements. When you see "4.5 mm/s", is that RMS or peak? The qualifier makes it explicit. Accepted values: <code>rms</code>, <code>peak</code>, <code>peak_to_peak</code>, <code>average</code>, <code>true_rms</code>. This field applies to any measurement type, not just vibration &mdash; temperature, current, pressure all benefit from explicit qualification.</p>
-      </div>
-      <div class="pillar-card">
-        <h3 data-i18n="iso.field_sampling_title"><code>sampling_rate_hz</code></h3>
-        <p data-i18n="iso.field_sampling_desc">Sample rate in Hz. Critical for vibration analysis due to the Nyquist theorem: to detect a 10 kHz bearing defect frequency, you need at least 20 kHz sampling. Recording the sampling rate means downstream systems can validate whether the measurement is trustworthy for a given analysis. Example: <code>25600</code> Hz for high-frequency bearing detection.</p>
-      </div>
-      <div class="pillar-card">
-        <h3 data-i18n="iso.field_duration_title"><code>acquisition_duration_s</code></h3>
-        <p data-i18n="iso.field_duration_desc">Duration of the measurement window in seconds. A 0.1-second capture misses low-frequency phenomena. A 10-second capture provides better frequency resolution but larger data. Recording this value enables apples-to-apples trending: you can only compare measurements taken with the same acquisition parameters. Example: <code>2.0</code> seconds for standard vibration capture.</p>
-      </div>
-    </div>
-
-    <div class="prose" style="margin-top: 48px;">
-      <p data-i18n="iso.iso17359_example">Here is an <code>asset.measurement</code> event with all three ISO 17359 fields populated:</p>
-    </div>
-
-    <div style="max-width: 760px; margin: 24px auto 0;">
-      <div class="code-block">
-<span class="cm">// asset.measurement with ISO 17359 fields</span>
-{
-  "<span class="field">event_type</span>": "<span class="str">asset.measurement</span>",
-  "<span class="field">asset</span>": { "<span class="field">asset_id</span>": "<span class="str">FAN-2201</span>" },
-  "<span class="field">data</span>": {
-    "<span class="field">measurement_type</span>": "<span class="str">vibration</span>",
-    "<span class="field">value</span>": <span class="num">4.5</span>,
-    "<span class="field">unit</span>": "<span class="str">mm/s</span>",
-    "<span class="field">units_qualifier</span>": "<span class="str">rms</span>",
-    "<span class="field">sampling_rate_hz</span>": <span class="num">25600</span>,
-    "<span class="field">acquisition_duration_s</span>": <span class="num">2.0</span>
-  }
-}</div>
-    </div>
-
-    <div class="prose" style="margin-top: 48px;">
-      <p data-i18n="iso.iso17359_zones_intro">ISO 17359 also defines a <strong>4-zone alarm system</strong> (Zones A through D) for classifying machine vibration severity. IAES maps these zones through the <code>severity</code> field on <code>asset.health</code> events:</p>
-    </div>
-
-    <table class="iso-table" style="max-width: 700px; margin-top: 24px;">
-      <thead>
-        <tr>
-          <th data-i18n="iso.col_zone">ISO 17359 Zone</th>
-          <th data-i18n="iso.col_zone_meaning">Meaning</th>
-          <th data-i18n="iso.col_iaes_severity">IAES <code>severity</code></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-i18n="iso.zone_a">Zone A &mdash; Good</td>
-          <td data-i18n="iso.zone_a_meaning">Newly commissioned or excellent condition</td>
-          <td><code>info</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.zone_b">Zone B &mdash; Acceptable</td>
-          <td data-i18n="iso.zone_b_meaning">Long-term operation acceptable</td>
-          <td><code>low</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.zone_c">Zone C &mdash; Alert</td>
-          <td data-i18n="iso.zone_c_meaning">Not suitable for sustained operation</td>
-          <td><code>medium</code> / <code>high</code></td>
-        </tr>
-        <tr>
-          <td data-i18n="iso.zone_d">Zone D &mdash; Danger</td>
-          <td data-i18n="iso.zone_d_meaning">Risk of damage, shutdown recommended</td>
-          <td><code>critical</code></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     ISO 14224 — FAILURE CLASSIFICATION (dark)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="iso-14224">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n="iso.iso14224_title">ISO 14224 — Failure Classification</h2>
-      <p data-i18n="iso.iso14224_subtitle">Standardized failure codes for reliability data collection, embedded directly in IAES events.</p>
-    </div>
-
-    <div class="prose" style="margin-bottom: 40px;">
-      <p data-i18n="iso.iso14224_intro">ISO 14224 defines standardized codes for recording <em>what</em> failed, <em>why</em> it failed, and <em>how</em> the failure was detected. This data is essential for reliability engineering: calculating MTBF, identifying systemic failure patterns, and justifying capital investment in predictive maintenance. Without standardized codes, failure data across plants and systems cannot be compared or aggregated.</p>
-      <p data-i18n="iso.iso14224_iaes">IAES v1.2 added an optional <code>iso_14224</code> object to both <code>asset.health</code> and <code>maintenance.completion</code> events. This creates a powerful feedback loop: the AI system predicts a failure mode, and the technician confirms or corrects it after repair.</p>
-    </div>
-
-    <div style="max-width: 760px; margin: 0 auto;">
-      <div class="code-block">
-<span class="cm">// iso_14224 object in asset.health or maintenance.completion</span>
-{
-  "<span class="field">iso_14224</span>": {
-    "<span class="field">mechanism_code</span>": "<span class="str">BRG</span>",
-    "<span class="field">mechanism_label</span>": "<span class="str">Bearing failure</span>",
-    "<span class="field">cause_code</span>": "<span class="str">LUB</span>",
-    "<span class="field">cause_label</span>": "<span class="str">Lubrication failure</span>",
-    "<span class="field">detection_method</span>": "<span class="str">VIB</span>",
-    "<span class="field">detection_label</span>": "<span class="str">Vibration monitoring</span>"
-  }
-}</div>
-    </div>
-
-    <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.iso14224_loop"><strong>The feedback loop works like this:</strong> An AI engine analyzes vibration data and emits an <code>asset.health</code> event with <code>iso_14224.mechanism_code: "BRG"</code> (bearing failure predicted). A work order is created. The technician replaces the bearing and closes the work order. The <a href="/iaes-vs-sparkplug-vs-aas/">bridge</a> emits a <code>maintenance.completion</code> event &mdash; if the technician confirmed bearing wear, the same <code>BRG</code> code appears. If the actual root cause was misalignment, the technician corrects it to <code>ALN</code>. Both events share a <code>correlation_id</code>, so the ML model can learn from the correction.</p>
-    </div>
-
-    <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.iso14224_taxonomy_intro"><strong>Failure Mode Taxonomy (IAES Appendix A):</strong> IAES defines standard <code>failure_mode</code> values based on ISO 14224, organized by equipment category:</p>
-    </div>
-
-    <div class="taxonomy-grid">
-      <div class="taxonomy-group">
-        <h4 data-i18n="iso.taxonomy_rotating">Rotating Equipment</h4>
-        <ul>
-          <li>bearing_inner_race</li>
-          <li>bearing_outer_race</li>
-          <li>misalignment</li>
-          <li>unbalance</li>
-          <li>looseness_mechanical</li>
-          <li>gear_mesh</li>
-        </ul>
-      </div>
-      <div class="taxonomy-group">
-        <h4 data-i18n="iso.taxonomy_electrical">Electrical</h4>
-        <ul>
-          <li>electrical_fault</li>
-          <li>winding_short</li>
-          <li>broken_rotor_bar</li>
-          <li>eccentricity</li>
-        </ul>
-      </div>
-      <div class="taxonomy-group">
-        <h4 data-i18n="iso.taxonomy_fluid_thermal">Fluid / Thermal</h4>
-        <ul>
-          <li>cavitation</li>
-          <li>overheating</li>
-          <li>lubrication_failure</li>
-          <li>seal_leak</li>
-          <li>fouling</li>
-          <li>corrosion</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     MASTER MAPPING TABLE (light)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="master-table">
+<section class="section-light" id="references">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="iso.master_title">Master Mapping Table</h2>
-      <p data-i18n="iso.master_subtitle">Complete ISO-to-IAES alignment at a glance.</p>
+      <h2 data-i18n="std.table_title">What IAES 2.0 references</h2>
+      <p data-i18n="std.table_subtitle">Two questions, asked separately of every reference.</p>
+    </div>
+
+    <div class="prose" style="margin-bottom: 28px;">
+      <p data-i18n="std.table_intro"><strong>Normative for meaning</strong> asks: must the value satisfy that document for the event to conform to IAES? <strong>Enforced by the schema</strong> asks: does the schema reject a value that does not? A reference can be normative and unenforced &mdash; and where the two disagree, the disagreement is the defect, so IAES publishes it instead of leaving it to be discovered.</p>
     </div>
 
     <table class="iso-table">
       <thead>
         <tr>
-          <th data-i18n="iso.col_iso_standard">ISO Standard</th>
-          <th data-i18n="iso.col_focus">Focus</th>
-          <th data-i18n="iso.col_iaes_events">IAES Event Types</th>
-          <th data-i18n="iso.col_key_fields">Key IAES Fields</th>
+          <th data-i18n="std.col_document">Document</th>
+          <th data-i18n="std.col_relationship">Relationship to IAES 2.0</th>
+          <th data-i18n="std.col_normative">Normative for meaning</th>
+          <th data-i18n="std.col_enforced">Enforced by the schema</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>ISO 55000</strong></td>
-          <td data-i18n="iso.master_55000_focus">Asset management fundamentals</td>
-          <td data-i18n="iso.master_55000_events">All <a href="/spec/">7 event types</a></td>
-          <td><code>correlation_id</code>, <code>asset_id</code></td>
-        </tr>
-        <tr>
-          <td><strong>ISO 13374</strong></td>
-          <td data-i18n="iso.master_13374_focus">Condition monitoring pipeline</td>
-          <td><code>asset.measurement</code> &rarr; <code>asset.health</code> &rarr; <code>work_order_intent</code></td>
-          <td><code>iso_13374_status</code>, <code>health_index</code></td>
-        </tr>
-        <tr>
-          <td><strong>ISO 17359</strong></td>
-          <td data-i18n="iso.master_17359_focus">Measurement standards</td>
-          <td><code>asset.measurement</code></td>
-          <td><code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code></td>
+          <td><strong>ISO 4217</strong></td>
+          <td data-i18n="std.row_4217_rel"><code>currency</code> carries an ISO 4217 code</td>
+          <td data-i18n="std.row_4217_norm"><strong>Yes</strong></td>
+          <td data-i18n="std.row_4217_enf"><strong>Partly.</strong> <code>^[A-Z]{3}$</code> checks the shape, not membership: <code>ZZZ</code> passes</td>
         </tr>
         <tr>
           <td><strong>ISO 14224</strong></td>
-          <td data-i18n="iso.master_14224_focus">Failure classification</td>
-          <td><code>asset.health</code>, <code>maintenance.completion</code></td>
-          <td><code>iso_14224</code> object</td>
+          <td data-i18n="std.row_14224_rel">Context for reliability and maintenance data. Named for the <code>iso_14224</code> object and Appendix B</td>
+          <td data-i18n="std.row_14224_norm">No</td>
+          <td data-i18n="std.row_norm_no">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 17359</strong></td>
+          <td data-i18n="std.row_17359_rel">Context for condition monitoring and acquisition. Named for <code>units_qualifier</code> and the acquisition fields</td>
+          <td data-i18n="std.row_17359_norm">No</td>
+          <td data-i18n="std.row_norm_no2">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 13374 series</strong></td>
+          <td data-i18n="std.row_13374_rel">Historical context for condition monitoring. <strong>The attributions on <code>iso_13374_status</code> and <code>condition_trend</code> were withdrawn in 2.0</strong> &mdash; the values are IAES&rsquo;s own vocabulary and the field names are kept for 1.x compatibility</td>
+          <td data-i18n="std.row_13374_norm">No</td>
+          <td data-i18n="std.row_norm_no3">No</td>
+        </tr>
+        <tr>
+          <td><strong>ISO 55000</strong></td>
+          <td data-i18n="std.row_55000_rel">Context for asset management</td>
+          <td data-i18n="std.row_55000_norm">No</td>
+          <td data-i18n="std.row_norm_no4">No</td>
         </tr>
       </tbody>
     </table>
 
     <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="iso.master_conclusion">Together, these four standards cover the full lifecycle of industrial asset management: <strong>ISO 55000</strong> provides the strategic framework, <strong>ISO 13374</strong> defines the condition monitoring pipeline, <strong>ISO 17359</strong> ensures measurement quality, and <strong>ISO 14224</strong> standardizes failure data for reliability analysis. IAES carries all of this in a single, lightweight JSON event format &mdash; no separate data models, no transformation layers, no proprietary extensions.</p>
-      <p data-i18n="iso.master_note">All ISO-related fields are part of the <a href="/spec/">IAES v1.2 specification</a> and are validated by the <a href="https://github.com/wertek-ai/iaes">published JSON schemas</a>. The Python SDK (<code>pip install iaes</code>) and TypeScript SDK (<code>npm install @iaes/sdk</code>) both support ISO field validation out of the box.</p>
+      <p data-i18n="std.why_series">The ISO 13374 entries say <em>series</em> rather than a part, on purpose. The unqualified citations covered at least two different subjects &mdash; health status levels and a processing model &mdash; which cannot both be the same part, and <strong>a citation that does not identify a document cannot be checked</strong>. Naming the family is the honest form when the part is not established.</p>
+      <p data-i18n="std.what_this_means">So: an implementation that emits <code>iso_14224</code> or <code>iso_13374_status</code> is emitting IAES fields, not ISO conformance. Those fields exist because the vocabularies they borrow from are widely understood, and they carry no certification. The one reference a value must actually satisfy is ISO 4217, and even there the schema checks the shape and not the list.</p>
+      <p data-i18n="std.where_defined">All of this is stated in the <a href="/spec/">specification</a> itself, under <em>References</em>. This page reproduces it; the specification governs.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════════════
+     THREE NOTES (dark)
+     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="notes">
+  <div class="container">
+    <div class="section-header center">
+      <h2 data-i18n="std.notes_title">Three notes</h2>
+      <p data-i18n="std.notes_subtitle">The specific consequences of the table above.</p>
+    </div>
+
+    <div class="prose">
+      <p data-i18n="std.note_status"><strong><code>iso_13374_status</code> carries IAES&rsquo;s own vocabulary.</strong> Its seven values &mdash; <code>unknown</code> through <code>failed</code> &mdash; are defined by IAES. The attribution to ISO 13374 was withdrawn in 2.0 because the citation did not identify a part and the correspondence was never verified against the document. The field name is kept so 1.x events stay readable, and it attributes nothing.</p>
+      <p data-i18n="std.note_trend"><strong><code>condition_trend</code> is the same case.</strong> <code>worsening</code>, <code>stable</code> and <code>improving</code> are IAES values. A consumer that already works in condition monitoring will recognise them; that recognition is not a certification.</p>
+      <p data-i18n="std.note_4217"><strong>ISO 4217 is the one concrete dependency.</strong> A <code>currency</code> value must be an ISO 4217 code for the event to conform. The schema checks <code>^[A-Z]{3}$</code>, which is the shape and not the list &mdash; <code>ZZZ</code> validates and is not a currency. That gap is published rather than left to be discovered.</p>
+      <p data-i18n="std.note_where">Everything on this page is stated in the <a href="/spec/">specification</a>, under <em>References</em> and in Appendix C. Where this page and the specification differ, <strong>the specification governs</strong>.</p>
     </div>
   </div>
 </section>
@@ -976,7 +722,7 @@
   <div class="container">
     <div class="section-header center">
       <h2 data-i18n="iso.cta_title">Start Building with IAES</h2>
-      <p data-i18n="iso.cta_subtitle">ISO-aligned events, open standard, production-ready SDKs.</p>
+      <p data-i18n="std.cta_subtitle">An open event standard, with production-ready SDKs and schemas you can resolve.</p>
     </div>
     <div class="cta-strip">
       <a class="btn btn-primary" href="/spec/" data-i18n="iso.cta_spec">Read the Spec</a>
