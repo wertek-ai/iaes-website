@@ -138,6 +138,11 @@
       "where": "what-is-iaes.html",
       "text": "IAES: An Open, ISO-Aligned Event Standard for Industrial Asset Intelligence",
       "why": "Title of a preprint published with a DOI. Immutable, and citing it accurately is not making the claim. The link carries a note saying the title predates 2.0."
+    },
+    {
+      "where": "spec/index.html",
+      "text": "<td>ISO alignment: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> on asset.measurement (ISO 17359); <code>iso_13374_status</code> on asset.health (ISO 13374); <code>iso_14224</code> object on asset.health + maintenance.completion (ISO 14224). All new fields optional — full backward compatibility. Appendix B (ISO 14224 codes), Appendix C (ISO 13374 mapping).</td>",
+      "why": "The specification's own version history, describing what release 1.2 did. references/registry.json declares exactly this use legitimate: ISO 13374 'appears in the version history describing what release 1.2 did'. The page reproduces the release; it does not improve it. Correcting historical wording here would make the site disagree with the document it renders."
     }
   ]
 }
