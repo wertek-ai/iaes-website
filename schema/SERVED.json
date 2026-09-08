@@ -2,7 +2,7 @@
   "$comment": [
     "Which specification release each served major comes from.",
     "",
-    "GOVERNANCE.md 5.1 requires a schema's $id to be canonical AND resolvable,",
+    "GOVERNANCE.md 5 requires a schema's $id to be canonical AND resolvable,",
     "and IAES 2.0 states that a representation served under a major's URI stays",
     "that major's and is never regenerated from a later release. Both are claims",
     "about THIS site, made in the standard's repository, and until this file",
