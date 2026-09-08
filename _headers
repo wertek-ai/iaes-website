@@ -1,6 +1,6 @@
 # Netlify header rules for iaes.dev
 #
-# The canonical schema identity. Every $id declares https://iaes.dev/schema/v1/<event>
+# The canonical schema identity. Every $id declares https://iaes.dev/schema/<major>/<event>
 # and the file is served there with no extension, so the content type has to be
 # set explicitly. application/schema+json is the registered media type for JSON
 # Schema; every JSON parser accepts it.
@@ -12,6 +12,16 @@
 # whose content can change within a MINOR release, and a fixed name with mutable
 # content is never cached by time.
 /schema/v1/*
+  Content-Type: application/schema+json; charset=utf-8
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+
+# Each major is served from its own release and never regenerated from a later
+# one, so /schema/v1/ keeps answering with the schemas the 1.x line published
+# even now that 2.0 exists. schema/SERVED.json records which tag each major
+# comes from and tools/check_schema_parity.py verifies it byte for byte.
+/schema/v2/*
   Content-Type: application/schema+json; charset=utf-8
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=0, must-revalidate

@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.dev/schema/v2/envelope",
+  "title": "IAES Common Envelope",
+  "description": "Base envelope shared by all IAES v2 events",
+  "type": "object",
+  "required": [
+    "spec_version",
+    "event_type",
+    "event_id",
+    "correlation_id",
+    "timestamp",
+    "source",
+    "asset",
+    "data"
+  ],
+  "properties": {
+    "spec_version": {
+      "type": "string",
+      "pattern": "^2\\.[0-9]+$",
+      "description": "IAES specification version (any 2.x minor version). Each major's envelope accepts that major's versions and no others; a 1.x event validates against the 1.x schemas, which resolve permanently."
+    },
+    "dataschema": {
+      "type": "string",
+      "format": "uri",
+      "description": "Canonical URI of the JSON Schema the `data` payload was written against. Optional. Producers SHOULD set it; consumers MUST NOT reject an event for its absence.",
+      "examples": [
+        "https://iaes.dev/schema/v2/asset.measurement"
+      ]
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Dot-notation event type. Open by design: consumers MUST tolerate values they do not recognise, so producers must be able to emit them. The published types are listed in `examples`; a custom type follows the same shape and omits `dataschema`.",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_.]*$",
+      "examples": [
+        "asset.measurement",
+        "asset.health",
+        "maintenance.work_order_intent",
+        "maintenance.completion",
+        "asset.hierarchy",
+        "sensor.registration",
+        "maintenance.spare_part_usage"
+      ]
+    },
+    "batch_id": {
+      "type": "string",
+      "description": "Optional identifier for grouping events in a batch operation"
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique event identifier"
+    },
+    "correlation_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Groups related events in a flow"
+    },
+    "source_event_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid",
+      "description": "References the originating event"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp (the date-time format JSON Schema defines)"
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.]+$",
+      "description": "Dot-notation producer identity (e.g. acme.diagnostics)"
+    },
+    "content_hash": {
+      "type": "string",
+      "minLength": 16,
+      "maxLength": 16,
+      "description": "SHA-256 prefix (exactly 16 chars) of data payload"
+    },
+    "asset": {
+      "$ref": "#/$defs/asset_identity"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event-specific payload"
+    }
+  },
+  "$defs": {
+    "asset_identity": {
+      "type": "object",
+      "required": [
+        "asset_id"
+      ],
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "description": "Asset identifier in the source system"
+        },
+        "asset_name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Human-readable asset name"
+        },
+        "plant": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Plant or facility name"
+        },
+        "area": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Area or zone within the plant"
+        }
+      }
+    }
+  }
+}

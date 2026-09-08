@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.dev/schema/v2/maintenance.work_order_intent",
+  "title": "IAES maintenance.work_order_intent",
+  "description": "Declares the intent to create a maintenance work order. The consumer decides whether and how to act.",
+  "allOf": [
+    {
+      "$ref": "iaes-envelope.schema.json"
+    }
+  ],
+  "properties": {
+    "event_type": {
+      "const": "maintenance.work_order_intent"
+    },
+    "data": {
+      "type": "object",
+      "required": [
+        "title",
+        "priority"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Work order title"
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Detailed work description"
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "emergency"
+          ],
+          "description": "Urgency of the proposed response. This is NOT a severity: it does not describe the condition of the asset. The two catalogs share the values low, medium and high, and mean different things by them."
+        },
+        "recommended_due_days": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "Suggested deadline in days from now"
+        },
+        "triggered_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "alert",
+            "schedule",
+            "manual",
+            "threshold",
+            "ai_diagnosis",
+            null
+          ],
+          "description": "What caused this work order intent"
+        }
+      }
+    }
+  }
+}
