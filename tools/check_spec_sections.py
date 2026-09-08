@@ -59,10 +59,47 @@ def fetch(url: str) -> bytes:
         return r.read()
 
 
-def spec_sections(tag: str) -> list:
+def spec_text(tag: str) -> str:
+    return fetch(RAW.format(ref=tag)).decode("utf-8")
+
+
+def spec_sections(md: str) -> list:
     """Every '## ' heading, in document order."""
-    md = fetch(RAW.format(ref=tag)).decode("utf-8")
     return [l[3:].strip() for l in md.split("\n") if l.startswith("## ")]
+
+
+SCHEMA_URI = re.compile(r"https://iaes\.(?:dev|wertek\.ai)/schema/v[0-9]+/")
+
+
+# A version-history row is identified by its DATE column, not by starting with
+# a number. The specification has other tables whose first cell looks like a
+# version -- ISO 14224 mechanism codes run 1.1, 3.1, 4.1 -- and a row keyed on
+# the number alone collected those too, then overwrote the real 1.4 row with a
+# second table's 1.4 and reported it as having no URIs at all. The date is what
+# makes the history table the history table.
+MONTH = (r"(?:January|February|March|April|May|June|July|August|September|"
+         r"October|November|December)\s+[0-9]{4}")
+
+
+def history_uris(md: str) -> dict:
+    """{version: the schema URIs its version-history row names}, from the tag."""
+    out = {}
+    for line in md.split("\n"):
+        m = re.match(r"\|\s*([0-9]+\.[0-9]+)\s*\|\s*%s\s*\|" % MONTH, line)
+        if m:
+            out[m.group(1)] = sorted(set(SCHEMA_URI.findall(line)))
+    return out
+
+
+def page_history_uris(page: Path) -> dict:
+    """The same, as the page publishes it. Same discriminator, same reason."""
+    t = page.read_text(encoding="utf-8")
+    out = {}
+    for m in re.finditer(
+            r"<tr>\s*<td>(?:<strong>)?([0-9]+\.[0-9]+)(?:</strong>)?</td>\s*"
+            r"<td>%s</td>.*?</tr>" % MONTH, t, re.S):
+        out[m.group(1)] = sorted(set(SCHEMA_URI.findall(m.group(0))))
+    return out
 
 
 def page_anchors(page: Path) -> set:
@@ -99,9 +136,10 @@ def check(tag: str = None) -> list:
     declared_extra = {k for k in mapping.get("page_only", {}) if not k.startswith("$")}
 
     try:
-        published = spec_sections(tag)
+        md = spec_text(tag)
     except urllib.error.HTTPError as e:
         return [f"cannot read IAES_SPEC.md at {tag} ({e.code})"]
+    published = spec_sections(md)
 
     anchors = page_anchors(page)
     errors = []
@@ -123,6 +161,27 @@ def check(tag: str = None) -> list:
             errors.append(
                 f"spec/SECTIONS.json maps '{s}', which {tag} does not have. "
                 f"A stale mapping hides the section it was standing in for.")
+
+    # HISTORY. A version-history row states what a PAST release did, and its
+    # schema URIs belong to that release's major forever -- 2.0 says so in
+    # words: a representation served under a major's URI stays that major's and
+    # is never regenerated from a later one.
+    #
+    # This exists because a sweep broke it. Migrating the live content to 2.0
+    # replaced `/schema/v1/` with `/schema/v2/` across the file, and the 1.4 row
+    # went with it: the page then said 1.4's schemas declared a v2 URI, which
+    # is both false and the exact thing the major rule forbids. Version numbers
+    # were handled carefully in that sweep and URIs were not.
+    page_hist, spec_hist = page_history_uris(page), history_uris(md)
+    for version, want in sorted(spec_hist.items()):
+        got = page_hist.get(version)
+        if got is None or got == want:
+            continue
+        errors.append(
+            f"{cfg['path']} -- the {version} version-history row names "
+            f"{got or 'no schema URI'}, and {tag} names {want}. A past "
+            f"release's URIs belong to its own major and are never rewritten "
+            f"forward.")
 
     # DECLARED. This promise was in the docstring and not in the code: the loop
     # skipped and then did nothing with what it kept, so a section the release
