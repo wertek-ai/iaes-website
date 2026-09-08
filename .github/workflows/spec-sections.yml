@@ -1,0 +1,31 @@
+# /spec/ is a hand-written HTML rendering of IAES_SPEC.md -- a fourth copy of
+# the specification, after the tag, the schemas and the SDKs. It fell two
+# releases behind without anything noticing: when IAES 2.0 was published the
+# page still rendered 1.3 and was missing six sections, one of them References,
+# which another page of this site had just started citing as where the
+# specification governs.
+#
+# This checks presence by ANCHOR, never by heading text, so a correct rename
+# does not fire. It does not check that the prose matches -- that needs a
+# generator, which is a separate project.
+name: Spec sections
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  spec-sections:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python tools/check_spec_sections.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
