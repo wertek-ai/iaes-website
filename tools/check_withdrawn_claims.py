@@ -139,12 +139,24 @@ def check() -> list:
         # retired here while the real key was `envelope.field_timestamp`, so the
         # list read as protection and protected nothing. History is the test:
         # if git has never seen the key, the entry is a typo.
+        # The history test needs history. A shallow clone -- which is what
+        # actions/checkout gives by default -- has none, so every retired key
+        # looks like it never existed and the check invents one finding per
+        # entry. A check that cannot run must SAY SO, not produce answers: this
+        # reports the missing precondition once, and the workflow asks for the
+        # full history.
+        shallow = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"], cwd=ROOT,
+            capture_output=True).stdout.decode().strip() == "true"
+
         for key in spec.get("retired_keys", []):
             if key in present:
                 errors.append(
                     f"js/i18n.js -- retired key '{key}' is still declared. "
                     f"Remove it in every language, or take it off retired_keys "
                     f"and say why it may stay.")
+                continue
+            if shallow:
                 continue
             seen = subprocess.run(
                 ["git", "log", "--oneline", "-1", "-S", f'"{key}":', "--",
@@ -155,6 +167,13 @@ def check() -> list:
                     f"never declared it in this repository's history. A retired "
                     f"name that never existed reads as protection and protects "
                     f"nothing -- check the spelling.")
+
+        if shallow:
+            errors.append(
+                "this is a shallow clone, so the retired-key spelling check "
+                "cannot run: `git log` has no history to search. Check out with "
+                "`fetch-depth: 0`. Reported rather than skipped, because a "
+                "silent skip is how a check stops checking.")
 
     return errors
 
@@ -180,7 +199,15 @@ def main() -> None:
     if errors:
         for e in errors:
             print(f"error: {e}", file=sys.stderr)
-        print(f"\n{len(errors)} withdrawn claim(s) still published", file=sys.stderr)
+        # A missing precondition is not a published claim, and a summary that
+        # calls it one sends the reader looking for the wrong thing.
+        claims = [e for e in errors if "shallow clone" not in e]
+        if claims:
+            print(f"\n{len(claims)} withdrawn claim(s) still published",
+                  file=sys.stderr)
+        if len(claims) != len(errors):
+            print("\nand the retired-key spelling check could not run at all",
+                  file=sys.stderr)
         raise SystemExit(1)
 
     n = len(spec["withdrawn"])
