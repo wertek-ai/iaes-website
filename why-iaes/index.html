@@ -31,32 +31,43 @@
 
   <!-- JSON-LD: TechArticle -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Why IAES exists — the gap between a diagnosis and a work order",
-    "description": "An AI model concludes a bearing is failing. A CMMS has to open a work order. Between them sits a custom integration, every time. IAES is the envelope that removes it.",
-    "url": "https://iaes.dev/why-iaes/",
-    "image": "https://iaes.dev/assets/og-image.png",
-    "author": {
-      "@type": "Organization",
-      "name": "Wertek AI",
-      "url": "https://wertek.ai"
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Why IAES exists \u2014 the gap between a diagnosis and a work order",
+  "description": "An AI model concludes a bearing is failing. A CMMS has to open a work order. Between them sits a custom integration, every time. IAES is the envelope that removes it.",
+  "url": "https://iaes.dev/why-iaes/",
+  "image": "https://iaes.dev/assets/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Wertek AI",
+    "url": "https://wertek.ai"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "IAES",
+    "url": "https://iaes.dev"
+  },
+  "proficiencyLevel": "Expert",
+  "dependencies": "IAES v2.0",
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Industrial event interoperability",
+      "description": "Carrying a finished asset-health judgment between systems that never met"
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "IAES",
-      "url": "https://iaes.dev"
+    {
+      "@type": "Thing",
+      "name": "Condition monitoring",
+      "description": "From a diagnosis to a maintenance action"
     },
-    "proficiencyLevel": "Expert",
-    "dependencies": "IAES v1.2+",
-    "about": [
-      { "@type": "Thing", "name": "ISO 55000", "description": "Asset management fundamentals" },
-      { "@type": "Thing", "name": "ISO 13374", "description": "Condition monitoring and diagnostics" },
-      { "@type": "Thing", "name": "ISO 17359", "description": "Condition monitoring and diagnostics of machines" },
-      { "@type": "Thing", "name": "ISO 14224", "description": "Reliability and maintenance data collection" }
-    ]
-  }
+    {
+      "@type": "Thing",
+      "name": "CMMS integration",
+      "description": "Emitting maintenance intent without a proprietary API per pair"
+    }
+  ]
+}
   </script>
 
   <style>
@@ -703,7 +714,7 @@
     </div>
     <div class="prose">
       <p><strong>No asset hierarchy.</strong> IAES carries an asset identifier and says nothing about what a plant, an area or a line is. Every organisation already disagrees about that, and a standard that took a position would be adopted by whoever happened to agree with it.</p>
-      <p><strong>No equipment catalog.</strong> A pump is whatever the producer says it is. IAES does not ship a taxonomy, so it does not need anyone to accept ours.</p>
+      <p><strong>No equipment catalog.</strong> A pump is whatever the producer says it is. IAES does not ship an <strong>equipment</strong> taxonomy or an equipment catalog, so it does not need anyone to accept ours. It does publish a failure-mode taxonomy, in Appendix A, and that one is optional too.</p>
       <p><strong>No commercial terms.</strong> Nothing in the standard depends on any vendor's infrastructure, namespace or operating model — including the steward's. That boundary is checked mechanically in every repository carrying the IAES name.</p>
       <p><strong>No certification.</strong> Conformance is measured on the wire. A library <em>claims</em> the SDK profile and anyone <em>checks</em> it; nobody grants it. The steward is a vendor, and a rule that needs a vendor's judgment to be meaningful is not a rule.</p>
       <p><strong>No borrowed authority.</strong> IAES cites industrial standards where they supply a vocabulary, and <a href="/iaes-iso-alignment/">citation is not conformance</a>. Claims that could not be verified against the cited document were withdrawn rather than kept because they sounded good.</p>
@@ -717,7 +728,7 @@
       <h2>What you get for adopting it</h2>
     </div>
     <div class="prose">
-      <p>One integration instead of N&times;M. A producer that emits IAES reaches every consumer that reads it, and a consumer that reads IAES accepts every producer — including producers that do not exist yet, and event types nobody has published, because the catalog is open and a consumer must not reject a type it does not recognise.</p>
+      <p>One integration instead of N&times;M. A producer that emits IAES reaches every consumer that reads it, and a consumer that reads IAES <strong>does not break merely because the producer or the event type is new</strong>: the catalog is open, an unknown <code>event_type</code> MUST NOT cause an error, and an unsupported custom event may be logged and skipped.</p>
       <p>An open specification under CC BY 4.0, with schemas that resolve at a permanent URI, SDKs in Python and TypeScript, nodes for Node-RED and n8n, and a compatibility policy that says in writing what will not break and for how long.</p>
       <p>And an unusually blunt account of the limits: the <a href="/spec/">specification</a> publishes what its own schemas do <em>not</em> check, because an event can be schema-valid and still not conform. <a href="https://github.com/wertek-ai/iaes/blob/main/IAES_PHILOSOPHY.md">The philosophy</a> explains why that is a feature.</p>
     </div>
