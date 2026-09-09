@@ -11,16 +11,16 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES and Industrial Standards — References and Scope</title>
-  <meta name="description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
-  <meta name="keywords" content="iaes standards references, iaes iso 14224, iaes iso 17359, iaes iso 13374, iaes iso 55000, industrial event standard scope, iaes conformance">
+  <title>Why IAES exists — the gap between a diagnosis and a work order</title>
+  <meta name="description" content="An AI model concludes a bearing is failing. A CMMS has to open a work order. Between them sits a custom integration, every time. IAES is the envelope that removes it.">
+  <meta name="keywords" content="send diagnosis to cmms, industrial event format, asset health event json, connect ai model to maintenance system, vendor neutral industrial events, predictive maintenance integration, condition monitoring to work order">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="IAES and Industrial Standards — References and Scope">
-  <meta property="og:description" content="Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.">
+  <meta property="og:title" content="Why IAES exists — the gap between a diagnosis and a work order">
+  <meta property="og:description" content="An AI model concludes a bearing is failing. A CMMS has to open a work order. Between them sits a custom integration, every time. IAES is the envelope that removes it.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://iaes.dev/iaes-iso-alignment/">
+  <meta property="og:url" content="https://iaes.dev/why-iaes/">
   <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
-  <link rel="canonical" href="https://iaes.dev/iaes-iso-alignment/">
+  <link rel="canonical" href="https://iaes.dev/why-iaes/">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -31,32 +31,43 @@
 
   <!-- JSON-LD: TechArticle -->
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "IAES and Industrial Standards — References and Scope",
-    "description": "Which industrial standards IAES references, which it depends on, and what it does not claim. IAES 2.0 cites ISO 4217 normatively; ISO 14224, 17359, 13374 and 55000 are context, not conformance.",
-    "url": "https://iaes.dev/iaes-iso-alignment/",
-    "image": "https://iaes.dev/assets/og-image.png",
-    "author": {
-      "@type": "Organization",
-      "name": "Wertek AI",
-      "url": "https://wertek.ai"
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Why IAES exists \u2014 the gap between a diagnosis and a work order",
+  "description": "An AI model concludes a bearing is failing. A CMMS has to open a work order. Between them sits a custom integration, every time. IAES is the envelope that removes it.",
+  "url": "https://iaes.dev/why-iaes/",
+  "image": "https://iaes.dev/assets/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Wertek AI",
+    "url": "https://wertek.ai"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "IAES",
+    "url": "https://iaes.dev"
+  },
+  "proficiencyLevel": "Expert",
+  "dependencies": "IAES v2.0",
+  "about": [
+    {
+      "@type": "Thing",
+      "name": "Industrial event interoperability",
+      "description": "Carrying a finished asset-health judgment between systems that never met"
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "IAES",
-      "url": "https://iaes.dev"
+    {
+      "@type": "Thing",
+      "name": "Condition monitoring",
+      "description": "From a diagnosis to a maintenance action"
     },
-    "proficiencyLevel": "Expert",
-    "dependencies": "IAES v1.2+",
-    "about": [
-      { "@type": "Thing", "name": "ISO 55000", "description": "Asset management fundamentals" },
-      { "@type": "Thing", "name": "ISO 13374", "description": "Condition monitoring and diagnostics" },
-      { "@type": "Thing", "name": "ISO 17359", "description": "Condition monitoring and diagnostics of machines" },
-      { "@type": "Thing", "name": "ISO 14224", "description": "Reliability and maintenance data collection" }
-    ]
-  }
+    {
+      "@type": "Thing",
+      "name": "CMMS integration",
+      "description": "Emitting maintenance intent without a proprietary API per pair"
+    }
+  ]
+}
   </script>
 
   <style>
@@ -610,115 +621,120 @@
     <div class="breadcrumb">
       <a href="/" data-i18n="iso.breadcrumb_home">Home</a>
       <span class="sep">/</span>
-      <span data-i18n="std.breadcrumb_current">Standards</span>
+      <span>Why</span>
     </div>
-    <h1 data-i18n="std.hero_title">IAES and Industrial Standards</h1>
-    <p class="hero-subtitle" data-i18n="std.hero_subtitle">What IAES references, what it depends on, and what it does not claim</p>
+    <h1>The gap between a diagnosis and a work order</h1>
+    <p class="hero-subtitle">A model concludes a bearing is failing. A maintenance system has to act on it. Between the two sits an integration written by hand, every time.</p>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════════════════════
-     INTRO (light)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-light" id="intro">
+<section class="section-light" id="the-question">
   <div class="container">
     <div class="prose">
-      <div class="callout callout-warning" id="scope">
-        <p data-i18n="std.scope_headline"><strong>IAES 2.0 does not claim conformance to ISO 13374, ISO 17359, ISO 14224 or ISO 55000.</strong></p>
-        <p data-i18n="std.scope_body">Earlier IAES material used the phrase &ldquo;ISO-aligned&rdquo; and described a field-level mapping to those four documents. IAES 2.0 withdrew those claims where the correspondence had not been verified against the cited document. Nothing about the wire format changed: the fields kept their names and their values, and what changed is what is asserted about them.</p>
-      </div>
-      <p data-i18n="std.intro_p1">The <a href="/what-is-iaes.html">Industrial Asset Event Standard (IAES)</a> cites industrial standards where they supply context or a vocabulary defined outside IAES. <strong>Citation is not conformance.</strong> Naming a standard does not certify an implementation against it, and it does not mean a field&rsquo;s meaning is governed by it &mdash; unless the specification says so, in which case it says so in the table below.</p>
-      <p data-i18n="std.intro_p2">The distinction is the specification&rsquo;s own. IAES 2.0 asks two separate questions of every reference it makes: <em>is the value required to satisfy that document for the event to conform to IAES?</em> and <em>does the schema reject a value that does not?</em> They are not the same question, and where they disagree, the disagreement is published rather than hidden.</p>
-      <p data-i18n="std.intro_p3">All the fields named on this page are <strong>optional and backward-compatible</strong>. A system that does not need them ignores them entirely, and its events stay valid.</p>
+      <p>The question this page answers is not <em>what is IAES</em>. It is the one people arrive with:</p>
+      <blockquote class="callout">
+        <p><strong>How do I send an asset-health diagnosis from a model to any CMMS without inventing another proprietary API?</strong></p>
+      </blockquote>
+      <p>Today the answer is: you write the integration. You choose a JSON shape, you pick a transport, you agree the field names with whoever is on the other end, and you do it again for the next pair. The work is not hard. It is just never finished, and none of it is reusable, because nothing about it was ever agreed anywhere.</p>
     </div>
   </div>
 </section>
 
-<section class="section-light" id="references">
+<section class="section-dark" id="not-short-of-standards">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="std.table_title">What IAES 2.0 references</h2>
-      <p data-i18n="std.table_subtitle">Two questions, asked separately of every reference.</p>
+      <h2>The industry is not short of standards</h2>
+      <p>Each of these settles something real. None of them settles this.</p>
     </div>
-
-    <div class="prose" style="margin-bottom: 28px;">
-      <p data-i18n="std.table_intro"><strong>Normative for meaning</strong> asks: must the value satisfy that document for the event to conform to IAES? <strong>Enforced by the schema</strong> asks: does the schema reject a value that does not? A reference can be normative and unenforced &mdash; and where the two disagree, the disagreement is the defect, so IAES publishes it instead of leaving it to be discovered.</p>
-    </div>
-
     <table class="iso-table">
       <thead>
-        <tr>
-          <th data-i18n="std.col_document">Document</th>
-          <th data-i18n="std.col_relationship">Relationship to IAES 2.0</th>
-          <th data-i18n="std.col_normative">Normative for meaning</th>
-          <th data-i18n="std.col_enforced">Enforced by the schema</th>
-        </tr>
+        <tr><th>Standard</th><th>What it settles</th><th>What it leaves open</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>ISO 4217</strong></td>
-          <td data-i18n="std.row_4217_rel"><code>currency</code> carries an ISO 4217 code</td>
-          <td data-i18n="std.row_4217_norm"><strong>Yes</strong></td>
-          <td data-i18n="std.row_4217_enf"><strong>Partly.</strong> <code>^[A-Z]{3}$</code> checks the shape, not membership: <code>ZZZ</code> passes</td>
+          <td><strong>OPC UA</strong></td>
+          <td>How to model and move values between industrial systems</td>
+          <td>What a finished <em>judgment</em> looks like. A value is not a diagnosis</td>
+        </tr>
+        <tr>
+          <td><strong>Sparkplug B</strong></td>
+          <td>Efficient, stateful telemetry over MQTT</td>
+          <td>The same. It carries readings extremely well and says nothing about conclusions</td>
+        </tr>
+        <tr>
+          <td><strong>Asset Administration Shell</strong></td>
+          <td>How to describe an asset as a digital twin</td>
+          <td>What to <em>emit</em> when something changes about it</td>
         </tr>
         <tr>
           <td><strong>ISO 14224</strong></td>
-          <td data-i18n="std.row_14224_rel">Context for reliability and maintenance data. Named for the <code>iso_14224</code> object and Appendix B</td>
-          <td data-i18n="std.row_14224_norm">No</td>
-          <td data-i18n="std.row_norm_no">No</td>
-        </tr>
-        <tr>
-          <td><strong>ISO 17359</strong></td>
-          <td data-i18n="std.row_17359_rel">Context for condition monitoring and acquisition. Named for <code>units_qualifier</code> and the acquisition fields</td>
-          <td data-i18n="std.row_17359_norm">No</td>
-          <td data-i18n="std.row_norm_no2">No</td>
-        </tr>
-        <tr>
-          <td><strong>ISO 13374 series</strong></td>
-          <td data-i18n="std.row_13374_rel">Historical context for condition monitoring. <strong>The attributions on <code>iso_13374_status</code> and <code>condition_trend</code> were withdrawn in 2.0</strong> &mdash; the values are IAES&rsquo;s own vocabulary and the field names are kept for 1.x compatibility</td>
-          <td data-i18n="std.row_13374_norm">No</td>
-          <td data-i18n="std.row_norm_no3">No</td>
-        </tr>
-        <tr>
-          <td><strong>ISO 55000</strong></td>
-          <td data-i18n="std.row_55000_rel">Context for asset management</td>
-          <td data-i18n="std.row_55000_norm">No</td>
-          <td data-i18n="std.row_norm_no4">No</td>
+          <td>How to record reliability and maintenance data</td>
+          <td>How that record travels between two systems that never met</td>
         </tr>
       </tbody>
     </table>
-
-    <div class="prose" style="margin-top: 40px;">
-      <p data-i18n="std.why_series">The ISO 13374 entries say <em>series</em> rather than a part, on purpose. The unqualified citations covered at least two different subjects &mdash; health status levels and a processing model &mdash; which cannot both be the same part, and <strong>a citation that does not identify a document cannot be checked</strong>. Naming the family is the honest form when the part is not established.</p>
-      <p data-i18n="std.what_this_means">So: an implementation that emits <code>iso_14224</code> or <code>iso_13374_status</code> is emitting IAES fields, not ISO conformance. Those fields exist because the vocabularies they borrow from are widely understood, and they carry no certification. The one reference a value must actually satisfy is ISO 4217, and even there the schema checks the shape and not the list.</p>
-      <p data-i18n="std.where_defined">All of this is stated in the <a href="/spec/">specification</a> itself, under <em>References</em>. This page reproduces it; the specification governs.</p>
+    <div class="prose" style="margin-top:36px">
+      <p>They occupy different layers, and IAES does not compete with any of them. An IAES event can ride Sparkplug B, be produced from OPC UA data, describe an asset an AAS models, and carry ISO 14224 codes. <strong>The missing piece is smaller and more boring than any of them:</strong> what a finished industrial judgment looks like on the wire, so that anything can emit it and anything can read it.</p>
     </div>
   </div>
 </section>
 
-
-<!-- ════════════════════════════════════════════════════════════════════════════
-     THREE NOTES (dark)
-     ════════════════════════════════════════════════════════════════════════════ -->
-<section class="section-dark" id="notes">
+<section class="section-light" id="the-shape">
   <div class="container">
     <div class="section-header center">
-      <h2 data-i18n="std.notes_title">Three notes</h2>
-      <p data-i18n="std.notes_subtitle">The specific consequences of the table above.</p>
+      <h2>What the missing piece looks like</h2>
+      <p>One envelope. Seven published event types. A pattern, not a closed list.</p>
     </div>
-
     <div class="prose">
-      <p data-i18n="std.note_status"><strong><code>iso_13374_status</code> carries IAES&rsquo;s own vocabulary.</strong> Its seven values &mdash; <code>unknown</code> through <code>failed</code> &mdash; are defined by IAES. The attribution to ISO 13374 was withdrawn in 2.0 because the citation did not identify a part and the correspondence was never verified against the document. The field name is kept so 1.x events stay readable, and it attributes nothing.</p>
-      <p data-i18n="std.note_trend"><strong><code>condition_trend</code> is the same case.</strong> <code>worsening</code>, <code>stable</code> and <code>improving</code> are IAES values. A consumer that already works in condition monitoring will recognise them; that recognition is not a certification.</p>
-      <p data-i18n="std.note_4217"><strong>ISO 4217 is the one concrete dependency.</strong> A <code>currency</code> value must be an ISO 4217 code for the event to conform. The schema checks <code>^[A-Z]{3}$</code>, which is the shape and not the list &mdash; <code>ZZZ</code> validates and is not a currency. That gap is published rather than left to be discovered.</p>
-      <p data-i18n="std.note_where">Everything on this page is stated in the <a href="/spec/">specification</a>, under <em>References</em> and in Appendix C. Where this page and the specification differ, <strong>the specification governs</strong>.</p>
+      <p>A diagnosis leaves the model as an event with a stable envelope: who produced it, about which asset, when, correlated with what came before, and a payload whose shape is published. The receiving system does not need to know the producer. It needs to know the envelope.</p>
+      <pre class="code-block"><code>{
+  "spec_version": "2.0",
+  "event_type": "asset.health",
+  "event_id": "3f2504e0-4f89-11d3-9a0c-0305e82c3301",
+  "correlation_id": "3f2504e0-4f89-11d3-9a0c-0305e82c3302",
+  "timestamp": "2026-09-08T14:22:05Z",
+  "source": "acme.vibration",
+  "asset": { "asset_id": "MOTOR-001" },
+  "data": {
+    "health_index": 0.31,
+    "severity": "high",
+    "failure_mode": "bearing_outer_race"
+  }
+}</code></pre>
+      <p>That is the whole idea. The <a href="/spec/">specification</a> says what each field means and what a producer and a consumer must do; this page does not repeat it.</p>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════════════════════
-     CTA STRIP (dark)
-     ════════════════════════════════════════════════════════════════════════════ -->
+<section class="section-dark" id="what-it-refuses">
+  <div class="container">
+    <div class="section-header center">
+      <h2>What it deliberately refuses to do</h2>
+      <p>The refusals are the design. Each one is a thing a standard in this position is tempted to absorb.</p>
+    </div>
+    <div class="prose">
+      <p><strong>No asset hierarchy.</strong> IAES carries an asset identifier and says nothing about what a plant, an area or a line is. Every organisation already disagrees about that, and a standard that took a position would be adopted by whoever happened to agree with it.</p>
+      <p><strong>No equipment catalog.</strong> A pump is whatever the producer says it is. IAES does not ship an <strong>equipment</strong> taxonomy or an equipment catalog, so it does not need anyone to accept ours. It does publish a failure-mode taxonomy, in Appendix A, and that one is optional too.</p>
+      <p><strong>No commercial terms.</strong> Nothing in the standard depends on any vendor's infrastructure, namespace or operating model — including the steward's. That boundary is checked mechanically in every repository carrying the IAES name.</p>
+      <p><strong>No certification.</strong> Conformance is measured on the wire. A library <em>claims</em> the SDK profile and anyone <em>checks</em> it; nobody grants it. The steward is a vendor, and a rule that needs a vendor's judgment to be meaningful is not a rule.</p>
+      <p><strong>No borrowed authority.</strong> IAES cites industrial standards where they supply a vocabulary, and <a href="/iaes-iso-alignment/">citation is not conformance</a>. Claims that could not be verified against the cited document were withdrawn rather than kept because they sounded good.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-light" id="what-you-get">
+  <div class="container">
+    <div class="section-header center">
+      <h2>What you get for adopting it</h2>
+    </div>
+    <div class="prose">
+      <p>One integration instead of N&times;M. A producer that emits IAES reaches every consumer that reads it, and a consumer that reads IAES <strong>does not break merely because the producer or the event type is new</strong>: the catalog is open, an unknown <code>event_type</code> MUST NOT cause an error, and an unsupported custom event may be logged and skipped.</p>
+      <p>An open specification under CC BY 4.0, with schemas that resolve at a permanent URI, SDKs in Python and TypeScript, nodes for Node-RED and n8n, and a compatibility policy that says in writing what will not break and for how long.</p>
+      <p>And an unusually blunt account of the limits: the <a href="/spec/">specification</a> publishes what its own schemas do <em>not</em> check, because an event can be schema-valid and still not conform. <a href="https://github.com/wertek-ai/iaes/blob/main/IAES_PHILOSOPHY.md">The philosophy</a> explains why that is a feature.</p>
+    </div>
+  </div>
+</section>
+
 <section class="section-dark" id="cta">
   <div class="container">
     <div class="section-header center">

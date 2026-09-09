@@ -4,6 +4,7 @@ window.IAES_VERSION = '2.0';
 
 const iaesTranslations = {
   en: {
+    "nav.why": "Why IAES",
     "field_timestamp_v2": "RFC 3339, when the event occurred",
     "standards.title_v2": "Standards referenced",
     "nav.standards": "Standards",
@@ -876,6 +877,7 @@ const iaesTranslations = {
   },
 
   es: {
+    "nav.why": "Por que IAES",
     "field_timestamp_v2": "RFC 3339, cuando ocurrio el evento",
     "standards.title_v2": "Normas citadas",
     "nav.standards": "Normas",
@@ -1705,6 +1707,7 @@ const iaesTranslations = {
   },
 
   pt: {
+    "nav.why": "Por que IAES",
     "field_timestamp_v2": "RFC 3339, quando o evento ocorreu",
     "standards.title_v2": "Normas citadas",
     "nav.standards": "Normas",
@@ -2531,6 +2534,7 @@ const iaesTranslations = {
   },
 
   fr: {
+    "nav.why": "Pourquoi IAES",
     "field_timestamp_v2": "RFC 3339, quand l'evenement s'est produit",
     "standards.title_v2": "Normes citées",
     "nav.standards": "Normes",
@@ -3370,6 +3374,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "Installer le SDK",
   },
   de: {
+    "nav.why": "Warum IAES",
     "field_timestamp_v2": "RFC 3339, wann das Ereignis eintrat",
     "standards.title_v2": "Zitierte Normen",
     "nav.standards": "Normen",
@@ -4208,6 +4213,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "SDK installieren",
   },
   it: {
+    "nav.why": "Perche IAES",
     "field_timestamp_v2": "RFC 3339, quando si e verificato l'evento",
     "standards.title_v2": "Norme citate",
     "nav.standards": "Norme",
@@ -5046,6 +5052,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "Installa SDK",
   },
   ko: {
+    "nav.why": "IAES가 필요한 이유",
     "field_timestamp_v2": "RFC 3339, 이벤트가 발생한 시점",
     "standards.title_v2": "참조 표준",
     "nav.standards": "표준",
@@ -5884,6 +5891,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "SDK 설치",
   },
   ru: {
+    "nav.why": "Зачем IAES",
     "field_timestamp_v2": "RFC 3339, когда произошло событие",
     "standards.title_v2": "Упоминаемые стандарты",
     "nav.standards": "Стандарты",
@@ -6727,6 +6735,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "Установить SDK",
   },
   zh: {
+    "nav.why": "为什么需要 IAES",
     "field_timestamp_v2": "RFC 3339，事件发生的时间",
     "standards.title_v2": "引用的标准",
     "nav.standards": "标准",
@@ -7570,6 +7579,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "安装 SDK",
   },
   ja: {
+    "nav.why": "IAES が必要な理由",
     "field_timestamp_v2": "RFC 3339、イベントが発生した時刻",
     "standards.title_v2": "参照規格",
     "nav.standards": "規格",
@@ -8413,6 +8423,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "SDKをインストール",
   },
   ar: {
+    "nav.why": "لماذا IAES",
     "field_timestamp_v2": "RFC 3339، وقت وقوع الحدث",
     "standards.title_v2": "المعايير المُشار إليها",
     "nav.standards": "المعايير",
@@ -9253,6 +9264,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "تثبيت SDK",
   },
   hi: {
+    "nav.why": "IAES क्यों",
     "field_timestamp_v2": "RFC 3339, घटना कब हुई",
     "standards.title_v2": "संदर्भित मानक",
     "nav.standards": "मानक",
@@ -10093,6 +10105,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "SDK इंस्टॉल करें",
   },
   pl: {
+    "nav.why": "Dlaczego IAES",
     "field_timestamp_v2": "RFC 3339, kiedy wystapilo zdarzenie",
     "standards.title_v2": "Przywoływane normy",
     "nav.standards": "Normy",
@@ -10933,6 +10946,7 @@ const iaesTranslations = {
     "uc_alert.cta_install": "Zainstaluj SDK",
   },
   tr: {
+    "nav.why": "Neden IAES",
     "field_timestamp_v2": "RFC 3339, olayin gerceklestigi an",
     "standards.title_v2": "Atıf yapılan standartlar",
     "nav.standards": "Standartlar",
