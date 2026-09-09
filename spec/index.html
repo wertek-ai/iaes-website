@@ -1480,46 +1480,27 @@
 
     <!-- 6. Severity Standard -->
     <section class="spec-section" id="severity">
-      <h2 data-i18n="sec_severity">6. Severity Standard</h2>
-      <p data-i18n="severity_intro">IAES defines 5 severity levels used in <code>asset.health</code> events. These represent the <em>condition</em> of the asset, not the urgency of the maintenance response.</p>
+        <h2 data-i18n="sec_severity">6. Severity Standard</h2>
+        <p>IAES defines five severity levels. They describe the <strong>condition of the asset</strong>, not the urgency of the maintenance response &mdash; <code>priority</code> on <code>maintenance.work_order_intent</code> carries that, and the two catalogues share the words <code>low</code>, <code>medium</code> and <code>high</code> while meaning different things by them. Neither may be presented as the other.</p>
 
-      <table class="spec-table">
-        <thead>
-          <tr>
-            <th>Severity</th>
-            <th>Health Index Range</th>
-            <th>Meaning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>info</code></td>
-            <td>0.90 &ndash; 1.00</td>
-            <td>Normal operating condition. No action needed.</td>
-          </tr>
-          <tr>
-            <td><code>low</code></td>
-            <td>0.70 &ndash; 0.89</td>
-            <td>Minor deviation detected. Monitor and schedule inspection during next planned downtime.</td>
-          </tr>
-          <tr>
-            <td><code>medium</code></td>
-            <td>0.50 &ndash; 0.69</td>
-            <td>Moderate degradation. Plan corrective action within weeks.</td>
-          </tr>
-          <tr>
-            <td><code>high</code></td>
-            <td>0.25 &ndash; 0.49</td>
-            <td>Significant degradation. Schedule maintenance within days.</td>
-          </tr>
-          <tr>
-            <td><code>critical</code></td>
-            <td>0.00 &ndash; 0.24</td>
-            <td>Imminent failure or failed. Immediate action required.</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>info</code></td><td>Informational, no action needed</td></tr>
+            <tr><td><code>low</code></td><td>Minor, schedule for next planned maintenance</td></tr>
+            <tr><td><code>medium</code></td><td>Moderate, plan intervention within weeks</td></tr>
+            <tr><td><code>high</code></td><td>Significant, plan intervention within days</td></tr>
+            <tr><td><code>critical</code></td><td>Immediate action required</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>IAES defines no mapping from <code>health_index</code> to <code>severity</code>.</strong> The schema constrains <code>health_index</code> to the range 0&ndash;1 and <code>severity</code> to those five values, and leaves the relationship to the producer: a vibration model working from published evaluation zones and an oil-analysis model will divide the range differently, and both conform. A page of this site used to publish one such division as though the specification required it. It did not, and the ranges were a vendor's calibration; they are gone.</p>
+      </section>
 
     <!-- 7. Idempotency -->
     <section class="spec-section" id="idempotency">
