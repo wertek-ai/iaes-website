@@ -7,6 +7,11 @@
     { "$ref": "https://iaes.dev/schema/v2/envelope" }
   ],
   "properties": {
+    "spec_version": {
+      "type": "string",
+      "pattern": "^2\\.([1-9][0-9]*)$",
+      "description": "asset.state exists from IAES 2.1 (IAES-RFC-010), so an event of this type declares 2.1 or a later 2.x minor; one that declares 2.0 claims a type 2.0 does not have."
+    },
     "event_type": { "const": "asset.state" },
     "content_hash": {
       "not": {},
@@ -22,9 +27,9 @@
           "description": "The state from this event's timestamp on: able (up) or unable (down) to perform as required (ISO 14224:2016, 3.96 and 3.15)."
         },
         "down_kind": {
-          "type": ["string", "null"],
-          "enum": ["planned", "unplanned", null],
-          "description": "The two branches of down time (ISO 14224:2016, Table 4). Required when state is down."
+          "type": "string",
+          "enum": ["planned", "unplanned"],
+          "description": "The two branches of down time (ISO 14224:2016, Table 4). Required when state is down, absent when state is up. Never null: a down state always knows which branch it is, and an up state has none."
         },
         "down_cause": {
           "type": ["string", "null"],
@@ -58,7 +63,21 @@
       "allOf": [
         {
           "if": { "properties": { "state": { "const": "down" } }, "required": ["state"] },
-          "then": { "required": ["down_kind"], "properties": { "down_kind": { "type": "string" } } }
+          "then": {
+            "required": ["down_kind"],
+            "properties": {
+              "up_mode": { "not": {}, "description": "Absent when state is down: an up mode describes an up state." }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "state": { "const": "up" } }, "required": ["state"] },
+          "then": {
+            "properties": {
+              "down_kind": { "not": {}, "description": "Absent when state is up: a down kind describes a down state." },
+              "down_cause": { "not": {}, "description": "Absent when state is up: a down cause describes a down state." }
+            }
+          }
         },
         {
           "if": { "properties": { "down_cause": { "enum": ["preventive_maintenance", "other_planned"] } }, "required": ["down_cause"] },
