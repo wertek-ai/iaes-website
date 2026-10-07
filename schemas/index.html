@@ -11,7 +11,7 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v1.3 — JSON Schemas</title>
+  <title>IAES v2.1 — JSON Schemas</title>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -81,9 +81,9 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "name": "IAES v2.0 JSON Schemas",
-    "headline": "IAES v1.3 — JSON Schemas",
-    "description": "JSON Schema definitions for the Industrial Asset Event Standard (IAES) v2.0. Validate IAES events against official schemas for measurements, health, diagnostics, and maintenance.",
+    "name": "IAES v2.1 JSON Schemas",
+    "headline": "IAES v2.1 — JSON Schemas",
+    "description": "JSON Schema definitions for the Industrial Asset Event Standard (IAES) v2.1, served at their canonical URIs under /schema/v2/. Validate IAES events against the official schemas for measurements, health, asset state, sensors, and maintenance.",
     "url": "https://iaes.dev/schemas/",
     "datePublished": "2026-03-17",
     "author": {
@@ -96,7 +96,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand">IAES <span>v2.0</span></a>
+  <a href="/" class="nav-brand">IAES <span>v2.1</span></a>
   <div class="nav-links">
     <a href="/why-iaes/" data-i18n="nav.why">Why IAES</a>
       <a href="/spec/">Spec</a>
@@ -111,54 +111,62 @@
 
 <main class="page">
   <h1>JSON Schemas</h1>
-  <p class="subtitle">Machine-readable definitions for all IAES v2.0 event types. Use these to validate events in your pipeline.</p>
+  <p class="subtitle">Machine-readable definitions for the IAES v2.1 envelope and all eight event types. Each schema is served at the URI its <code>$id</code> declares, <code>https://iaes.dev/schema/v2/&lt;event_type&gt;</code>, byte-identical to the specification release. Use these to validate events in your pipeline.</p>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>Common Envelope</h3>
-      <p>Base envelope shared by all IAES v1 events. Defines spec_version, event_type, event_id, correlation_id, timestamp, source, content_hash, and asset identity.</p>
+      <p>Base envelope shared by every IAES 2.x event. Required: spec_version (any 2.x), event_type, event_id, correlation_id, timestamp, source, asset, data. Optional: dataschema, source_event_id, batch_id, content_hash.</p>
     </div>
-    <a href="iaes-envelope.schema.json" class="schema-link">envelope.json</a>
+    <a href="/schema/v2/envelope" class="schema-link">/schema/v2/envelope</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>asset.measurement</h3>
-      <p>Physical sensor reading from an industrial asset. Required fields: measurement_type, value, unit. <em style="color:var(--accent);">v1.2: units_qualifier, sampling_rate_hz, acquisition_duration_s (ISO 17359).</em></p>
+      <p>Physical sensor reading from an industrial asset. Required fields: measurement_type, value, unit.</p>
     </div>
-    <a href="asset-measurement.schema.json" class="schema-link">measurement.json</a>
+    <a href="/schema/v2/asset.measurement" class="schema-link">/schema/v2/asset.measurement</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>asset.health</h3>
-      <p>AI diagnosis, rule engine alert, or human expert health assessment. Required fields: health_index, severity. <em style="color:var(--accent);">v1.2: iso_13374_status, iso_14224 object (ISO 13374/14224).</em></p>
+      <p>AI diagnosis, rule engine alert, or human expert health assessment. Required fields: health_index, severity.</p>
     </div>
-    <a href="asset-health.schema.json" class="schema-link">health.json</a>
+    <a href="/schema/v2/asset.health" class="schema-link">/schema/v2/asset.health</a>
+  </div>
+
+  <div class="schema-card">
+    <div class="schema-info">
+      <h3>asset.state</h3>
+      <p>An asset goes up or down: planned or unplanned, why, and what it was doing while up. Required field: state; down_kind when state is down. content_hash is forbidden. <em style="color:var(--accent);">New in v2.1.</em></p>
+    </div>
+    <a href="/schema/v2/asset.state" class="schema-link">/schema/v2/asset.state</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>maintenance.work_order_intent</h3>
-      <p>Declares intent to create a maintenance work order. Required fields: title, priority.</p>
+      <p>Declares the intent to create a maintenance work order; the consumer decides whether and how to act. Required fields: title, priority.</p>
     </div>
-    <a href="maintenance-work-order-intent.schema.json" class="schema-link">intent.json</a>
+    <a href="/schema/v2/maintenance.work_order_intent" class="schema-link">/schema/v2/maintenance.work_order_intent</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>maintenance.completion</h3>
-      <p>Work order completion acknowledgment with outcome details. Required fields: status, work_order_id. <em style="color:var(--accent);">v1.2: iso_14224 object (ISO 14224).</em></p>
+      <p>Work order completion acknowledgment with outcome details. Required fields: status, work_order_id.</p>
     </div>
-    <a href="maintenance-completion.schema.json" class="schema-link">completion.json</a>
+    <a href="/schema/v2/maintenance.completion" class="schema-link">/schema/v2/maintenance.completion</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>asset.hierarchy</h3>
-      <p>Asset hierarchy structure sync — organizations, plants, areas, and equipment. Required fields: hierarchy_level, relationship_type.</p>
+      <p>Asset hierarchy structure sync &mdash; organizations, plants, areas, and equipment. Required fields: hierarchy_level, relationship_type.</p>
     </div>
-    <a href="asset-hierarchy.schema.json" class="schema-link">hierarchy.json</a>
+    <a href="/schema/v2/asset.hierarchy" class="schema-link">/schema/v2/asset.hierarchy</a>
   </div>
 
   <div class="schema-card">
@@ -166,28 +174,37 @@
       <h3>sensor.registration</h3>
       <p>Sensor discovery, onboarding, and lifecycle events. Required fields: sensor_id, registration_status.</p>
     </div>
-    <a href="sensor-registration.schema.json" class="schema-link">sensor-reg.json</a>
+    <a href="/schema/v2/sensor.registration" class="schema-link">/schema/v2/sensor.registration</a>
   </div>
 
   <div class="schema-card">
     <div class="schema-info">
       <h3>maintenance.spare_part_usage</h3>
-      <p>Spare parts consumed during maintenance activities. Required fields: work_order_id, spare_part_id, quantity_used.</p>
+      <p>Spare parts consumed during a maintenance activity. Required fields: work_order_id, spare_part_id, quantity_used.</p>
     </div>
-    <a href="maintenance-spare-part-usage.schema.json" class="schema-link">spare-parts.json</a>
+    <a href="/schema/v2/maintenance.spare_part_usage" class="schema-link">/schema/v2/maintenance.spare_part_usage</a>
   </div>
 
   <h3 style="margin-top: 2.5rem; color: var(--text-bright);">Validation Example</h3>
-  <p style="font-size: 0.9rem;">Use any JSON Schema validator (Python, Node.js, Go, etc.):</p>
-  <pre>pip install jsonschema
+  <p style="font-size: 0.9rem;">Every event schema references the envelope by its canonical URI, so a validator needs the envelope registered under that URI. With Python&rsquo;s <code>jsonschema</code>:</p>
+  <pre>pip install jsonschema referencing
+curl -sO https://iaes.dev/schema/v2/envelope
+curl -sO https://iaes.dev/schema/v2/asset.state
+curl -sO https://iaes.dev/examples/asset-state.json
 
 python -c "
-import json, jsonschema
-schema = json.load(open('iaes-envelope.schema.json'))
-event  = json.load(open('../examples/asset-health-ai.json'))
-jsonschema.validate(event, schema)
-print('Valid IAES event')
+import json
+from jsonschema import Draft202012Validator
+from referencing import Registry, Resource
+envelope = json.load(open('envelope'))
+schema   = json.load(open('asset.state'))
+registry = Registry().with_resource(envelope['\$id'], Resource.from_contents(envelope))
+for event in json.load(open('asset-state.json')):
+    Draft202012Validator(schema, registry=registry).validate(event)
+print('Valid IAES events')
 "</pre>
+
+  <p style="font-size: 0.85rem; color: var(--text-dim); margin-top: 1.5rem;">Earlier releases stay resolvable: the 1.x schemas are served under <code>/schema/v1/</code>, and the files in this directory (<code>/schemas/*.schema.json</code>) are the frozen 1.4 copies kept so links made before 1.4 keep working. A consumer validates an event against the schemas of the major the event declares.</p>
 
   <div class="footer">
     <a href="/">Home</a> &middot; <a href="/spec/">Specification</a> &middot; <a href="/examples/">Examples</a> &middot; <a href="/install/">Install</a> &middot; <a href="/integrators/">Integrators</a> &middot; <a href="https://github.com/wertek-ai/iaes">GitHub</a>

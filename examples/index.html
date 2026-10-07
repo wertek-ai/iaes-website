@@ -11,7 +11,7 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES v2.0 — Examples</title>
+  <title>IAES v2.1 — Examples</title>
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
@@ -93,9 +93,9 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "name": "IAES v2.0 Examples",
-    "headline": "IAES v2.0 — Examples",
-    "description": "Code examples and JSON payloads for the Industrial Asset Event Standard (IAES) v2.0. Practical demonstrations of event types including measurements, health assessments, and maintenance intents.",
+    "name": "IAES v2.1 Examples",
+    "headline": "IAES v2.1 — Examples",
+    "description": "Code examples and JSON payloads for the Industrial Asset Event Standard (IAES) v2.1. Practical demonstrations of event types including measurements, health assessments, and maintenance intents.",
     "url": "https://iaes.dev/examples/",
     "datePublished": "2026-03-17",
     "author": {
@@ -108,7 +108,7 @@
 </head>
 <body>
 <nav class="nav"><div class="nav-inner">
-  <a href="/" class="nav-brand">IAES <span>v2.0</span></a>
+  <a href="/" class="nav-brand">IAES <span>v2.1</span></a>
   <div class="nav-links">
     <a href="/why-iaes/" data-i18n="nav.why">Why IAES</a>
       <a href="/spec/">Spec</a>
@@ -123,7 +123,7 @@
 
 <main class="page">
   <h1>Examples</h1>
-  <p class="subtitle">Real-world IAES events demonstrating every published event type — from sensor readings to AI diagnoses, work order intents, completion, hierarchy, sensor registration, and spare parts.</p>
+  <p class="subtitle">Real-world IAES events demonstrating every published event type — from sensor readings to AI diagnoses, work order intents, completion, hierarchy, sensor registration, spare parts, and asset up/down state.</p>
 
   <!-- Measurement -->
   <h2>Sensor Reading</h2>
@@ -282,6 +282,34 @@
   <span class="key">"currency"</span>: <span class="str">"USD"</span>
 }</div>
     <div class="example-footer"><a href="spare-part-usage.json">View full event &rarr;</a></div>
+  </div>
+
+  <!-- v2.1 Events -->
+  <h2 style="margin-top:3rem; border-top:1px solid var(--border); padding-top:2rem;">IAES v2.1 Event Types</h2>
+
+  <!-- Asset State -->
+  <div class="example-block">
+    <div class="example-header">
+      <h3>Pump trips, then returns to service</h3>
+      <span class="example-badge" style="background: var(--amber-dim); color: var(--amber);">asset.state</span>
+    </div>
+    <div class="example-desc">Two transitions declared by the system that sees run and stop: a motor protection trip takes the pump <code>down</code> (unplanned), and a later event brings it back <code>up</code>. The second event shares the first one&rsquo;s <code>correlation_id</code> and references it with <code>source_event_id</code>: one down interval, one chain. Neither carries <code>content_hash</code>, which <code>asset.state</code> forbids.</div>
+    <div class="example-code"><span class="key">"source"</span>: <span class="str">"example.plant.line1"</span>
+<span class="comment">// 06:10 &mdash; the asset goes down</span>
+<span class="key">"data"</span>: {
+  <span class="key">"state"</span>: <span class="str">"down"</span>,
+  <span class="key">"down_kind"</span>: <span class="str">"unplanned"</span>,
+  <span class="key">"down_cause"</span>: <span class="str">"other_unplanned"</span>,
+  <span class="key">"previous_state"</span>: <span class="str">"up"</span>,
+  <span class="key">"detail"</span>: <span class="str">"trip"</span>
+}
+<span class="comment">// 07:25 &mdash; the asset is back in service</span>
+<span class="key">"data"</span>: {
+  <span class="key">"state"</span>: <span class="str">"up"</span>,
+  <span class="key">"up_mode"</span>: <span class="str">"running"</span>,
+  <span class="key">"previous_state"</span>: <span class="str">"down"</span>
+}</div>
+    <div class="example-footer"><a href="asset-state.json">View both events &rarr;</a> &middot; <a href="/spec/#asset-state">Rules in the specification &rarr;</a></div>
   </div>
 
   <!-- Full Flow v1.0 -->

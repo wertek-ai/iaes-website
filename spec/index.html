@@ -11,10 +11,10 @@
     gtag('config', 'G-1E1XXH50B6');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IAES Specification v2.0 — Industrial Asset Event Standard</title>
-  <meta name="description" content="Complete technical reference for the Industrial Asset Event Standard (IAES) v2.0. Vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.">
+  <title>IAES Specification v2.1 — Industrial Asset Event Standard</title>
+  <meta name="description" content="Complete technical reference for the Industrial Asset Event Standard (IAES) v2.1. Vendor-neutral event specification for industrial asset measurements, diagnostics, state, and maintenance intents.">
   <meta name="theme-color" content="#1B2024">
-  <meta property="og:title" content="IAES Specification v2.0">
+  <meta property="og:title" content="IAES Specification v2.1">
   <meta property="og:description" content="Complete technical reference for the Industrial Asset Event Standard.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/spec/">
@@ -520,11 +520,12 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "name": "IAES Specification v2.0",
-    "headline": "IAES Specification v2.0 — Industrial Asset Event Standard",
-    "description": "Complete technical reference for the Industrial Asset Event Standard (IAES) v2.0. Vendor-neutral event specification for industrial asset measurements, diagnostics, and maintenance intents.",
+    "name": "IAES Specification v2.1",
+    "headline": "IAES Specification v2.1 — Industrial Asset Event Standard",
+    "description": "Complete technical reference for the Industrial Asset Event Standard (IAES) v2.1. Vendor-neutral event specification for industrial asset measurements, diagnostics, state, and maintenance intents.",
     "url": "https://iaes.dev/spec/",
     "datePublished": "2026-03-17",
+    "dateModified": "2026-10-07",
     "author": {
       "@type": "Organization",
       "name": "IAES",
@@ -574,6 +575,7 @@
       <li class="toc-sub"><a href="#asset-hierarchy">5.5 asset.hierarchy</a></li>
       <li class="toc-sub"><a href="#sensor-registration">5.6 sensor.registration</a></li>
       <li class="toc-sub"><a href="#spare-part-usage">5.7 maintenance.spare_part_usage</a></li>
+      <li class="toc-sub"><a href="#asset-state">5.8 asset.state</a></li>
       <li><a href="#severity" data-i18n="toc_severity">6. Severity Standard</a></li>
       <li><a href="#idempotency" data-i18n="toc_idempotency">7. Idempotency</a></li>
       <li><a href="#producers" data-i18n="toc_producers">8. Producers</a></li>
@@ -597,9 +599,9 @@
 
     <!-- Hero -->
     <div class="spec-hero">
-      <h1>IAES Specification v2.0</h1>
+      <h1>IAES Specification v2.1</h1>
       <p class="subtitle" data-i18n="spec_subtitle">Complete technical reference for the Industrial Asset Event Standard.</p>
-      <p class="date">March 2026</p>
+      <p class="date">October 2026</p>
     </div>
 
     <!-- 1. Purpose -->
@@ -653,7 +655,7 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; Common Envelope</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"uuid"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"uuid"</span>,
@@ -687,7 +689,7 @@
             <td><code>spec_version</code></td>
             <td><code>string</code></td>
             <td class="required">Yes</td>
-            <td>IAES specification version. This release is <code>"2.0"</code>; each major&rsquo;s envelope accepts that major&rsquo;s versions and no others.</td>
+            <td>IAES specification version. This release is <code>"2.1"</code>; each major&rsquo;s envelope accepts that major&rsquo;s versions and no others.</td>
           </tr>
             <tr>
               <td><code>dataschema</code></td>
@@ -699,7 +701,7 @@
             <td><code>event_type</code></td>
             <td><code>string</code></td>
             <td class="required">Yes</td>
-            <td>Dot-notation event type, matching <code>^[a-z][a-z0-9_]*\.[a-z][a-z0-9_.]*$</code>. <strong>Open</strong>: a producer MAY define its own in a namespace it controls, and a consumer MUST NOT error on one it does not recognise. The published types are the interoperability defaults, not the limit.</td>
+            <td>Dot-notation event type, matching <code>^[a-z][a-z0-9_]*\.[a-z][a-z0-9_.]*$</code>. <strong>Open</strong>: a producer MAY define its own in a namespace it controls, and a consumer MUST NOT error on one it does not recognise. The published types are the interoperability defaults, not the limit. They are the ones with a schema under <code>https://iaes.dev/schema/v2/</code>; the <code>examples</code> of <code>event_type</code> in the envelope schema are the 2.0 snapshot, which a published schema cannot change (<code>GOVERNANCE.md</code> &sect;8), so they do not list <code>asset.state</code>.</td>
           </tr>
           <tr>
             <td><code>event_id</code></td>
@@ -721,7 +723,7 @@
           </tr>
           <tr>
             <td><code>batch_id</code></td>
-            <td><code>string | null</code></td>
+            <td><code>string</code></td>
             <td>No</td>
             <td>Optional identifier for grouping events that were produced together (e.g. a batch of measurements from one collection run).</td>
           </tr>
@@ -740,8 +742,8 @@
           <tr>
             <td><code>content_hash</code></td>
             <td><code>string</code></td>
-            <td class="required">Yes</td>
-            <td>First 16 characters of the SHA-256 hash of the canonical JSON <code>data</code> payload. Used for deduplication.</td>
+            <td>No</td>
+            <td>First 16 lowercase hexadecimal characters of the SHA-256 digest of the <code>data</code> payload, for deduplication. Events that declare 2.1 or later serialise <code>data</code> by RFC 8785 (JCS); events that declare 2.0 or earlier keep the 2.0 computation. See <a href="#idempotency">Idempotency</a>. <strong>Forbidden on <code>asset.state</code>.</strong></td>
           </tr>
           <tr>
             <td><code>asset</code></td>
@@ -776,7 +778,7 @@
     <!-- 5. Event Types -->
     <section class="spec-section" id="event-types">
       <h2 data-i18n="sec_events">5. Event Types</h2>
-      <p data-i18n="events_intro">IAES v2.0 defines 7 event types organized into 3 domains: asset signals, maintenance actions, and sensor lifecycle.</p>
+      <p data-i18n="events_intro">IAES v2.1 defines 8 event types organized into 3 domains: asset signals and state, maintenance actions, and sensor lifecycle.</p>
 
       <!-- 5.1 asset.measurement -->
       <h3 id="asset-measurement"><code>asset.measurement</code> <span class="badge badge-green">v1.0</span></h3>
@@ -846,12 +848,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.measurement example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.measurement"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"e7f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a5b"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:00Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.collector"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"a3f8c1e2b4d6f790"</span>,
@@ -960,12 +961,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.health example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.health"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cs">"e7f1a2b3-c4d5-4e6f-8a9b-0c1d2e3f4a5b"</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:05Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.ai_engine"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"f7e6d5c4b3a29180"</span>,
@@ -1049,12 +1049,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.work_order_intent example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.work_order_intent"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cs">"b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e"</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-08T14:32:10Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.vibration.ai_engine"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"d4e5f6a7b8c9d0e1"</span>,
@@ -1154,12 +1153,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.completion example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.completion"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cs">"c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f"</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-09T10:15:00Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.work_orders"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"e5f6a7b8c9d0e1f2"</span>,
@@ -1257,12 +1255,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; asset.hierarchy example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"asset.hierarchy"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f809a1b"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-07T09:00:00Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.asset_registry"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"a7b8c9d0e1f2a3b4"</span>,
@@ -1353,12 +1350,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; sensor.registration example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"sensor.registration"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a8b9c0d1-e2f3-4a4b-5c6d-7e8f9a0b1c2d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cn">null</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-05T11:20:00Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.iot.gateway"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"b8c9d0e1f2a3b4c5"</span>,
@@ -1449,12 +1445,11 @@
       <div class="code-block">
         <div class="code-block-header">JSON &mdash; maintenance.spare_part_usage example</div>
         <pre>{
-  <span class="ck">"spec_version"</span>: <span class="cs">"2.0"</span>,
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
   <span class="ck">"event_type"</span>: <span class="cs">"maintenance.spare_part_usage"</span>,
   <span class="ck">"event_id"</span>: <span class="cs">"e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8091"</span>,
   <span class="ck">"correlation_id"</span>: <span class="cs">"a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d"</span>,
   <span class="ck">"source_event_id"</span>: <span class="cs">"d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f80"</span>,
-  <span class="ck">"batch_id"</span>: <span class="cn">null</span>,
   <span class="ck">"timestamp"</span>: <span class="cs">"2026-03-09T10:15:30Z"</span>,
   <span class="ck">"source"</span>: <span class="cs">"wertek.cmms.inventory"</span>,
   <span class="ck">"content_hash"</span>: <span class="cs">"f6a7b8c9d0e1f2a3"</span>,
@@ -1475,6 +1470,144 @@
     <span class="ck">"total_cost"</span>: <span class="cn">28.50</span>
   }
 }</pre>
+      </div>
+
+      <!-- 5.8 asset.state -->
+      <h3 id="asset-state"><code>asset.state</code> <span class="badge badge-cyan">v2.1</span></h3>
+      <p>Declares that an asset went <strong>up</strong> or <strong>down</strong>: the timeline that MTBF, MTTR and availability are computed from. It carries facts, not indicators. How a consumer turns them into a number is the consumer&rsquo;s, and the consumer states the classification it used.</p>
+      <p>Emitted <strong>once per transition</strong>, never per reading. Schema: <a href="/schema/v2/asset.state"><code>https://iaes.dev/schema/v2/asset.state</code></a>.</p>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Required</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>state</code></td>
+            <td><code>enum</code></td>
+            <td class="required">Yes</td>
+            <td><code>up</code> or <code>down</code>, from this event&rsquo;s <code>timestamp</code> on: able or unable to perform as required (ISO 14224:2016, 3.96 and 3.15).</td>
+          </tr>
+          <tr>
+            <td><code>down_kind</code></td>
+            <td><code>enum</code></td>
+            <td class="required">When <code>state</code> is <code>down</code>; <strong>absent</strong> when <code>state</code> is <code>up</code></td>
+            <td><code>planned</code> or <code>unplanned</code>: the two branches of down time (ISO 14224:2016, Table 4). Never null.</td>
+          </tr>
+          <tr>
+            <td><code>down_cause</code></td>
+            <td><code>string</code></td>
+            <td>No; <strong>absent</strong> when <code>state</code> is <code>up</code></td>
+            <td><strong>Open.</strong> Published values: <code>preventive_maintenance</code> and <code>other_planned</code> (planned), <code>corrective_maintenance</code> and <code>other_unplanned</code> (unplanned), the four branches of Table 4. A published value MUST agree with <code>down_kind</code>.</td>
+          </tr>
+          <tr>
+            <td><code>up_mode</code></td>
+            <td><code>string</code></td>
+            <td>No; <strong>absent</strong> when <code>state</code> is <code>down</code></td>
+            <td><strong>Open.</strong> Published values: <code>start_up</code>, <code>running</code>, <code>run_down</code>, <code>hot_standby</code>, <code>idle</code>, <code>cold_standby</code> (Table 4&rsquo;s up-time leaves) and <code>externally_disabled</code> (3.38, Note 3). Sent when <code>state</code> is <code>up</code> and the producer knows it.</td>
+          </tr>
+          <tr>
+            <td><code>previous_state</code></td>
+            <td><code>enum</code></td>
+            <td>No</td>
+            <td><code>up</code>, <code>down</code> or <code>unknown</code>: what the producer believed the state was just before this event.</td>
+          </tr>
+          <tr>
+            <td><code>detail</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Anything finer: <code>trip</code>, <code>manual_shutdown</code>, <code>modification</code>, <code>reserve</code>, <code>testing</code>, &hellip; (examples, not a published catalog).</td>
+          </tr>
+          <tr>
+            <td><code>work_order_id</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>The work order this down interval is handled under, on any event of the interval once it is known.</td>
+          </tr>
+          <tr>
+            <td><code>reason</code></td>
+            <td><code>string</code></td>
+            <td>No</td>
+            <td>Free text: what the producer observed.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>A field that describes the other state is a contradiction, not extra detail: an <code>up</code> event carries neither <code>down_kind</code> nor <code>down_cause</code> (published or not), a <code>down</code> event carries no <code>up_mode</code>, and the schema rejects them. The type exists from 2.1, so an <code>asset.state</code> event declares <code>spec_version</code> 2.1 or a later 2.x minor; the schema rejects one that declares 2.0.</p>
+
+      <p>The event declares the <strong>mode</strong> and the <strong>cause</strong>, not a verdict. A trip is an <em>other unplanned outage</em>, not corrective maintenance (ISO 14224:2016, Table 4, note d); it becomes corrective maintenance when the item needs repair. Whether an up mode counts as operating time, and whether a down interval counts as a failure, is the consumer&rsquo;s classification. <code>down_cause</code> and <code>up_mode</code> are <strong>open</strong>: a consumer MUST tolerate any other value and treat it as <em>not classified</em>, never as an error.</p>
+
+      <p><strong>Rules.</strong></p>
+      <ol>
+        <li><strong>When to emit.</strong> Once per transition, never per reading. A transition is a change of <code>state</code>, <code>down_kind</code>, <code>down_cause</code> or <code>up_mode</code>, so down &rarr; down is legitimate when the cause changes: a trip that turns out to need repair is two events.</li>
+        <li><strong>When it happened.</strong> The envelope <code>timestamp</code> is the instant of the transition, never the time of sending, in UTC like every timestamp. Consumers order by <code>timestamp</code>, not by arrival. A producer MUST NOT emit two transitions for the same asset with the same <code>timestamp</code>.</li>
+        <li><strong>No <code>content_hash</code>.</strong> <code>data</code> carries no time, so two identical trips on the same asset would hash the same, and a consumer deduplicating by hash would drop the second. <strong>A producer MUST NOT send <code>content_hash</code> on <code>asset.state</code></strong>, and the schema rejects it. Consumers deduplicate this type by <code>event_id</code>.</li>
+        <li><strong>Gaps.</strong> <code>previous_state</code> lets a consumer detect a missed event: a <code>down</code> whose <code>previous_state</code> is <code>down</code> with the same cause, or a <code>previous_state</code> that contradicts the last event the consumer has. A consumer MUST NOT invent the missing interval; it reports the gap.</li>
+        <li><strong>Testing after repair.</strong> Repair and preventive maintenance include testing (ISO 14224:2016, Table 4, notes c and f). A producer that can tell a test run from a return to service SHOULD keep the asset <code>down</code> (<code>detail: testing</code>) until the item is back in its intended service. A producer that cannot tell them apart, such as a SCADA that only sees current, declares <code>up</code> when it sees operation; its down intervals are then shorter, and its <code>reason</code> SHOULD say so.</li>
+        <li><strong>One timeline per source.</strong> A state holds until the next <code>asset.state</code> for the same asset <strong>from the same <code>source</code></strong>. A consumer MUST NOT merge the timelines of different sources into one without stating the precedence it used.</li>
+        <li><strong>Chains.</strong> One down interval is one chain. The event that enters <code>down</code> opens it; every later <code>asset.state</code> while still down, and the event that leaves <code>down</code>, shares its <code>correlation_id</code> and references the previous one with <code>source_event_id</code>. Changes of <code>up_mode</code> outside a down interval use their own. The link between a down interval and its work order is <code>work_order_id</code>, not the chain.</li>
+        <li><strong>Start, and losing track.</strong> A producer that starts, or that loses sight of the asset and regains it, and does not know the state before that instant SHOULD emit the state it sees with <code>previous_state: unknown</code> rather than stay silent until the first transition. A consumer MUST NOT extend the previous state across that event: the span before it, back to the last event it has from that <code>source</code>, is a gap under rule 4. This event is not a transition in the sense of rule 1, and rule 2 still applies: its <code>timestamp</code> is the instant the producer learned the state.</li>
+      </ol>
+
+      <p><strong>Not the record.</strong> <code>asset.hierarchy.is_active</code> says whether the asset is in the register&rsquo;s active set, which is a lifecycle fact, and <code>asset.health.iso_13374_status: failed</code> is a <strong>condition</strong> assessment. Neither declares an up or down interval, and a consumer MUST NOT derive down time from them.</p>
+      <p>The mean operating time between failures (IEC 60050-192:2015, 192-05-13) needs to know what the asset was doing while up, which <code>up_mode</code> declares. Active repair time (ISO 14224:2016, 8.3.3) is not carried by any 2.x event.</p>
+
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; asset.state example: the asset trips (opens the chain)</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.state"</span>,
+  <span class="ck">"dataschema"</span>: <span class="cs">"https://iaes.dev/schema/v2/asset.state"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"6f1c2b9e-3d4a-4e8b-9c7f-1a2b3c4d5e01"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"6f1c2b9e-3d4a-4e8b-9c7f-1a2b3c4d5e01"</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-10-06T06:10:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"plant.scada"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"state"</span>: <span class="cs">"down"</span>,
+    <span class="ck">"down_kind"</span>: <span class="cs">"unplanned"</span>,
+    <span class="ck">"down_cause"</span>: <span class="cs">"other_unplanned"</span>,
+    <span class="ck">"previous_state"</span>: <span class="cs">"up"</span>,
+    <span class="ck">"detail"</span>: <span class="cs">"trip"</span>,
+    <span class="ck">"reason"</span>: <span class="cs">"motor protection trip"</span>
+  }
+}</pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">JSON &mdash; asset.state example: the asset is back in service (closes the chain)</div>
+        <pre>{
+  <span class="ck">"spec_version"</span>: <span class="cs">"2.1"</span>,
+  <span class="ck">"event_type"</span>: <span class="cs">"asset.state"</span>,
+  <span class="ck">"dataschema"</span>: <span class="cs">"https://iaes.dev/schema/v2/asset.state"</span>,
+  <span class="ck">"event_id"</span>: <span class="cs">"6f1c2b9e-3d4a-4e8b-9c7f-1a2b3c4d5e02"</span>,
+  <span class="ck">"correlation_id"</span>: <span class="cs">"6f1c2b9e-3d4a-4e8b-9c7f-1a2b3c4d5e01"</span>,
+  <span class="ck">"source_event_id"</span>: <span class="cs">"6f1c2b9e-3d4a-4e8b-9c7f-1a2b3c4d5e01"</span>,
+  <span class="ck">"timestamp"</span>: <span class="cs">"2026-10-06T07:25:00Z"</span>,
+  <span class="ck">"source"</span>: <span class="cs">"plant.scada"</span>,
+  <span class="ck">"asset"</span>: {
+    <span class="ck">"asset_id"</span>: <span class="cs">"PUMP-001"</span>,
+    <span class="ck">"asset_name"</span>: <span class="cs">"Main Cooling Water Pump"</span>
+  },
+  <span class="ck">"data"</span>: {
+    <span class="ck">"state"</span>: <span class="cs">"up"</span>,
+    <span class="ck">"up_mode"</span>: <span class="cs">"running"</span>,
+    <span class="ck">"previous_state"</span>: <span class="cs">"down"</span>,
+    <span class="ck">"reason"</span>: <span class="cs">"restarted after the trip was reset"</span>
+  }
+}</pre>
+      </div>
+
+      <div class="note-box info">
+        <strong>No <code>content_hash</code>:</strong> neither example carries one, and the schema rejects an <code>asset.state</code> that does (rule 3).
       </div>
     </section>
 
@@ -1509,20 +1642,26 @@
 
       <ol>
         <li><strong><code>event_id</code></strong> &mdash; Every event has a globally unique UUID. Consumers must track processed event IDs to avoid reprocessing.</li>
-        <li><strong><code>content_hash</code></strong> &mdash; A deterministic hash of the <code>data</code> payload. Two events with the same content_hash for the same asset and event type are semantically identical.</li>
+        <li><strong><code>content_hash</code></strong> &mdash; An optional, deterministic hash of the <code>data</code> payload. Two events with the same content_hash for the same asset and event type are semantically identical. <code>asset.state</code> never carries one.</li>
         <li><strong><code>correlation_id</code></strong> &mdash; Links related events. If a consumer already has a work order for a given correlation_id, it should not create a duplicate.</li>
       </ol>
 
       <h3>content_hash Computation</h3>
-      <p>The <code>content_hash</code> is computed as follows:</p>
+      <p><code>content_hash</code> is optional; producers SHOULD compute it. <strong>The rule follows the <code>spec_version</code> the event declares</strong>, so an event built as 2.0 and retried after an upgrade keeps its hash.</p>
+      <p><strong>Events that declare 2.1 or later</strong> (RFC 8785, <code>rfc/IAES-RFC-011.md</code>):</p>
       <ol>
-        <li>Serialize the <code>data</code> object as canonical JSON (keys sorted alphabetically, no whitespace).</li>
-        <li>Compute the SHA-256 hash of the resulting string.</li>
-        <li>Take the first 16 hexadecimal characters.</li>
+        <li>Serialise the <code>data</code> object, with absent optional fields omitted, by RFC 8785 (JSON Canonicalization Scheme). RFC 8785 fixes the order of members (by their names as UTF-16 code units), how strings are escaped (only <code>"</code>, <code>\</code> and control characters) and how numbers are written (the ECMAScript form: <code>1e-7</code>, <code>0.000015</code>, <code>25600</code>).</li>
+        <li>Compute the SHA-256 digest of the UTF-8 encoding of that serialisation.</li>
+        <li>Take the first 16 lowercase hexadecimal characters.</li>
       </ol>
+      <p>A number is hashed as its IEEE-754 double-precision value, which is what RFC 8785 serialises and what every ECMAScript JSON parser reads: an integer a double cannot represent exactly is hashed as the nearest double (<code>9007199254740993</code> as <code>9007199254740992</code>), so producers SHOULD NOT put in <code>data</code> integers that are not exactly representable as a double (beyond &plusmn;2<sup>53</sup>) where two different values must hash differently.</p>
+      <p>A value RFC 8785 cannot serialise (a NaN, an infinity, an integer beyond the largest double, or a string or member name with a lone surrogate, which is not I-JSON) cannot be hashed: the producer omits <code>content_hash</code> rather than invent a form for it.</p>
+      <p><strong>Which rule applies.</strong> RFC 8785 applies when <code>spec_version</code> is <code>2.&lt;minor&gt;</code> with a minor of 1 or more, the minor read as a number (<code>2.10</code> is later than <code>2.9</code>). For any other value &mdash; absent, or not of the form <code>2.&lt;minor&gt;</code> (<code>3</code>, <code>2.1-rc</code>) &mdash; an implementation uses the 2.0 computation below rather than guess the rule of a version it cannot read.</p>
+      <p><strong>Events that declare 2.0 or earlier</strong> keep the computation of the version they declare: canonical JSON with keys sorted and no whitespace, SHA-256, first 16 hexadecimal characters. For <code>data</code> holding non-ASCII text, exponents, integer-like keys or characters outside the BMP, that hash depended on the implementation that produced it; a consumer that recomputes the hashes of mixed-version events gets different values &mdash; a missed duplicate, never a false merge.</p>
+      <p><strong>Exception:</strong> <code>asset.state</code> MUST NOT carry <code>content_hash</code> (see <a href="#asset-state"><code>asset.state</code></a>, rule 3).</p>
 
       <div class="note-box info">
-        <strong>Deduplication rule:</strong> An event is a duplicate if an existing event shares the same <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code> combination.
+        <strong>Deduplication rule:</strong> An event is a duplicate if an existing event shares the same <code>content_hash</code> + <code>asset.asset_id</code> + <code>event_type</code> combination. Without a <code>content_hash</code> &mdash; always the case for <code>asset.state</code> &mdash; fall back to <code>event_id</code> uniqueness.
       </div>
     </section>
 
@@ -1545,6 +1684,7 @@
 <tr><td>Technician assessment</td><td><code>operator.field_assessment</code></td><td><code>asset.health</code></td></tr>
 <tr><td>Lab analysis</td><td><code>lab.oil_analysis</code></td><td><code>asset.measurement</code></td></tr>
 <tr><td>Maintenance application</td><td><code>vendor.cmms</code></td><td><code>maintenance.work_order_intent</code></td></tr>
+<tr><td>Run/stop state (SCADA, MES, edge gateway)</td><td><code>plant.scada</code></td><td><code>asset.state</code></td></tr>
 </tbody>
 </table>
       <h3>Signal sources (upstream of IAES)</h3>
@@ -1569,8 +1709,8 @@
       <h3 data-i18n="producer_required">Required</h3>
       <ol>
         <li>Generate a unique <code>event_id</code> (UUID v4) for every event.</li>
-        <li>Set <code>spec_version</code> to <code>"2.0"</code> (or the version you implement).</li>
-        <li>Compute and include a valid <code>content_hash</code> for every event.</li>
+        <li>Set <code>spec_version</code> to <code>"2.1"</code> (or the version you implement).</li>
+        <li>Never send <code>content_hash</code> on <code>asset.state</code>.</li>
         <li>Use RFC 3339 timestamps in UTC with a timezone designator. RFC 3339 is a profile of ISO 8601: ordinal dates, week dates and some offset forms are valid ISO 8601 and are not valid RFC 3339. No schema enforces this in either direction, because <code>format</code> is an annotation in Draft 2020-12.</li>
         <li>Include all required fields for the chosen <code>event_type</code>.</li>
       </ol>
@@ -1580,6 +1720,7 @@
         <li>Set <code>correlation_id</code> = <code>event_id</code> for the first event in a chain; propagate the same <code>correlation_id</code> for subsequent linked events.</li>
         <li>Set <code>source_event_id</code> to the <code>event_id</code> of the directly upstream event.</li>
         <li>Use the dot-notation format for <code>source</code>: <code>vendor.system.subsystem</code>.</li>
+        <li>Compute <code>content_hash</code> for deduplication, by the rule of the <code>spec_version</code> the event declares (see <a href="#idempotency">Idempotency</a>) &mdash; except on <code>asset.state</code>, which never carries one.</li>
         <li>Use failure modes from Appendix A when applicable.</li>
         <li>Include ISO 14224 and ISO 13374 fields when the data is available to maximize interoperability.</li>
       </ol>
@@ -1592,7 +1733,7 @@
       <h3 data-i18n="consumer_required">Required</h3>
       <ol>
         <li>Validate <code>spec_version</code> and reject events from unsupported versions.</li>
-        <li>Implement deduplication using <code>event_id</code> or <code>content_hash</code> (see Section 7).</li>
+        <li>Implement deduplication using <code>event_id</code> or <code>content_hash</code> (see Section 7). <code>asset.state</code> never carries a <code>content_hash</code>, so it is always deduplicated by <code>event_id</code>.</li>
         <li>Ignore unknown fields in <code>data</code> without raising errors (forward compatibility).</li>
       </ol>
 
@@ -1704,6 +1845,10 @@
     &darr;
 <span class="cs">spare_part</span>   (event_id: <span class="cn">EEE</span>, source_event_id: <span class="cn">DDD</span>)</pre>
       </div>
+
+      <h3 id="recovery-events">Recovery Events</h3>
+      <p>An <code>asset.health</code> event MAY represent recovery &mdash; when a previously abnormal condition returns to acceptable parameters. Recovery events SHOULD reference the original onset event via <code>source_event_id</code> and share the same <code>correlation_id</code>, so that consumers can close open alerts automatically.</p>
+      <p>The interval between an onset and its recovery is how long a <strong>condition</strong> lasted. It is not the restoration of the <strong>asset</strong>: a power factor can drop and recover while the asset keeps running, and a bearing can show an abnormal condition for weeks while the pump keeps pumping. A consumer MUST NOT present that interval as a mean time to repair, to restoration or to recovery. The intervals an asset spent down and up are declared by <a href="#asset-state"><code>asset.state</code></a>.</p>
     </section>
 
     <!-- 13. System Compatibility -->
@@ -1726,6 +1871,7 @@
 <tr><td><code>asset.hierarchy</code></td><td>CMMS, ERP, asset register, BIM system</td><td>Digital twin, dashboard, graph database</td><td>Asset tree structure changes — new equipment, relocation, parent/child relationships</td><td>Routine sync of unchanged hierarchy (use idempotent upsert, not repeated events).</td></tr>
 <tr><td><code>sensor.registration</code></td><td>Edge gateway, IoT platform, device manager</td><td>Asset register, provisioning system, monitoring dashboard</td><td>A sensor is discovered, registered, calibrated, or decommissioned for the first time or changes state</td><td>Every reading cycle. Emit once per state change, not per reading.</td></tr>
 <tr><td><code>maintenance.spare_part_usage</code></td><td>CMMS, warehouse system, technician app</td><td>Inventory system, cost analytics, procurement</td><td>Spare parts were consumed during a maintenance action</td><td>Generic inventory movements unrelated to maintenance (use your ERP).</td></tr>
+<tr><td><code>asset.state</code></td><td>SCADA, MES, PLC or edge gateway that sees run, stop and trip; CMMS for planned outages</td><td>Availability and reliability analytics, dashboard, CMMS</td><td>An asset goes up or down, or its down cause or up mode changes</td><td>Every reading cycle: emit once per transition. Deriving down time from <code>asset.health</code> or <code>asset.hierarchy.is_active</code>.</td></tr>
 </tbody>
 </table>
       <blockquote class="spec-note"><p><strong>Guidance:</strong> <code>asset.measurement</code> and <code>sensor.registration</code> are high-frequency by nature. Consumers building intelligence dashboards SHOULD filter by <code>asset.health</code> and <code>maintenance.*</code> event types for actionable signal. Raw measurements belong in time-series storage, not intelligence layers.</p></blockquote>
@@ -1791,7 +1937,7 @@
     <!-- Appendix A -->
     <section class="spec-section" id="versioning">
       <h2>14. Versioning</h2>
-      <blockquote class="spec-note"><p><strong>Governance, the compatibility policy, and the change process are normative and live in <a href="https://github.com/wertek-ai/iaes/blob/spec-v2.0/GOVERNANCE.md">GOVERNANCE.md</a>.</strong> This section summarises how versions are numbered; GOVERNANCE.md states what implementers may rely on, which changes are compatible, how long a version is supported, and how a change is proposed.</p></blockquote>
+      <blockquote class="spec-note"><p><strong>Governance, the compatibility policy, and the change process are normative and live in <a href="https://github.com/wertek-ai/iaes/blob/spec-v2.1/GOVERNANCE.md">GOVERNANCE.md</a>.</strong> This section summarises how versions are numbered; GOVERNANCE.md states what implementers may rely on, which changes are compatible, how long a version is supported, and how a change is proposed.</p></blockquote>
       <p>IAES uses semantic versioning for the specification itself:</p>
       <ul><li><strong><code>spec_version</code></strong> in every event envelope identifies which version of the spec was used to produce it.</li><li><strong>Minor versions</strong> (1.1, 1.2) add new optional fields, new event types, or new <code>triggered_by</code> values. They never remove existing fields or change required fields. Consumers built for 1.0 SHOULD accept events from 1.x without error.</li><li><strong>Major versions</strong> (2.0) may introduce breaking changes: removing fields, changing required fields, renaming event types, or changing envelope structure. Consumers MAY reject events from unsupported major versions.</li><li><strong>Producers</strong> MUST set <code>spec_version</code> to the version they implement.</li><li><strong>Consumers</strong> SHOULD accept events where the major version matches, even if the minor version is higher than what they support.</li></ul>
       <h3>Version history</h3>
@@ -1806,8 +1952,9 @@
 <tr><td>1.1</td><td>March 2026</td><td>4 new event types (maintenance.completion, asset.hierarchy, sensor.registration, maintenance.spare_part_usage), batch_id envelope field, failure mode taxonomy (Appendix A).</td></tr>
 <tr><td>1.2</td><td>March 2026</td><td>ISO alignment: <code>units_qualifier</code>, <code>sampling_rate_hz</code>, <code>acquisition_duration_s</code> on asset.measurement (ISO 17359); <code>iso_13374_status</code> on asset.health (ISO 13374); <code>iso_14224</code> object on asset.health + maintenance.completion (ISO 14224). All new fields optional — full backward compatibility. Appendix B (ISO 14224 codes), Appendix C (ISO 13374 mapping).</td></tr>
 <tr><td>1.3</td><td>March 2026</td><td>State transition model: <code>condition_trend</code> field on asset.health (<code>worsening</code>, <code>stable</code>, <code>improving</code>) based on ISO 13374-4 §5.3. Formalized recovery event pattern. State Transition Guidance in Architecture Guide (ISO 13374-4, ISO 17359, ISO 14224, ISO 55000). Recovery event example. All new fields optional — full backward compatibility.</td></tr>
-<tr><td>1.4</td><td>September 2026</td><td><strong>Governance and compatibility policy become normative</strong> (<a href="https://github.com/wertek-ai/iaes/blob/spec-v2.0/GOVERNANCE.md">GOVERNANCE.md</a>): stated stewardship, BACKWARD compatibility as the default mode, a 24-month support window, canonical and resolvable <code>$id</code> versioned by URI, and an RFC-based change process. Scope boundaries made explicit: IAES defines no asset hierarchy, no equipment catalog, and no commercial terms. <strong>No schema changed in this release.</strong> <strong>Schema identity corrected</strong> under GOVERNANCE.md §5.1: the eight schemas declared <code>$id</code> under <code>https://iaes.wertek.ai/schema/v1/</code>, a host that has never resolved (verified 2026-09-03: no DNS answer). They now declare <code>https://iaes.dev/schema/v1/</code>, which is served. The old base is permanently reserved and will not be reassigned. Schema content is otherwise unchanged. <strong>New optional envelope field <code>dataschema</code></strong>: the canonical URI of the schema the payload was written against, following the CloudEvents attribute of the same name. Derivable from <code>event_type</code>, so both SDKs set it automatically for published event types and omit it otherwise. Optional and additive: fully backward compatible. <strong><code>event_type</code> opened</strong>: it was a closed enumeration of seven values while this same document ordered consumers to tolerate values they do not recognise — a contradiction that made unknown types impossible to produce. It is now a dot-notation pattern with the published types as examples. Widening, therefore backward compatible: every previously valid value still validates, and the compatibility guard verifies that rather than assuming it.</td></tr>
+<tr><td>1.4</td><td>September 2026</td><td><strong>Governance and compatibility policy become normative</strong> (<a href="https://github.com/wertek-ai/iaes/blob/spec-v2.1/GOVERNANCE.md">GOVERNANCE.md</a>): stated stewardship, BACKWARD compatibility as the default mode, a 24-month support window, canonical and resolvable <code>$id</code> versioned by URI, and an RFC-based change process. Scope boundaries made explicit: IAES defines no asset hierarchy, no equipment catalog, and no commercial terms. <strong>No schema changed in this release.</strong> <strong>Schema identity corrected</strong> under GOVERNANCE.md §5.1: the eight schemas declared <code>$id</code> under <code>https://iaes.wertek.ai/schema/v1/</code>, a host that has never resolved (verified 2026-09-03: no DNS answer). They now declare <code>https://iaes.dev/schema/v1/</code>, which is served. The old base is permanently reserved and will not be reassigned. Schema content is otherwise unchanged. <strong>New optional envelope field <code>dataschema</code></strong>: the canonical URI of the schema the payload was written against, following the CloudEvents attribute of the same name. Derivable from <code>event_type</code>, so both SDKs set it automatically for published event types and omit it otherwise. Optional and additive: fully backward compatible. <strong><code>event_type</code> opened</strong>: it was a closed enumeration of seven values while this same document ordered consumers to tolerate values they do not recognise — a contradiction that made unknown types impossible to produce. It is now a dot-notation pattern with the published types as examples. Widening, therefore backward compatible: every previously valid value still validates, and the compatibility guard verifies that rather than assuming it.</td></tr>
 <tr><td>2.0</td><td>September 2026</td><td><strong>First MAJOR release.</strong> Two things make it major, and only one can affect a producer's existing output. <strong>(1) Timestamps must be RFC 3339</strong>, not merely ISO 8601 — a narrowing, since ordinal dates, week dates and some offset forms are valid ISO 8601 and not valid RFC 3339. No schema enforces it in either direction, because <code>format</code> is an annotation in Draft 2020-12, so it will not surface as a validation failure. <strong>(2) The eight schemas publish under <code>https://iaes.dev/schema/v2/</code></strong>, and the envelope constrains <code>spec_version</code> to <code>^2\.[0-9]+$</code>. The eight <code>/schema/v1/</code> URIs continue to resolve, permanently, to the schemas the 1.x line published: a representation served under a major's URI stays that major's and is never regenerated from a later release. A consumer validates an event against the schemas of the major the event declares, which is how a 2.0 consumer reads a 1.4 event. <strong>Wire contract stabilized</strong> (<code>rfc/IAES-RFC-002.md</code>): <code>severity</code> is not <code>priority</code> and neither may be presented as the other; the ISO 13374 attributions on <code>iso_13374_status</code> and <code>condition_trend</code> are <strong>withdrawn</strong> — the values are IAES's own and the field names are kept for compatibility; an <strong>absent optional field is not an assertion</strong>, so a producer MUST omit rather than substitute and a consumer MUST NOT read absence as a default; <code>measurement_type</code> is <strong>open</strong> and any published list is advisory. None of those invalidates a 1.4 event: everything schema-valid under 1.4 stays schema-valid, and a 1.4 producer that keeps substituting stays conforming to 1.4 — it simply cannot declare 2.0. <strong>Governance became testable</strong> (RFC-003 through RFC-007): a criterion for changes to producer and consumer obligations (§4.4), one for changes to the policy itself and the rule that a release takes the maximum level of the changes it carries (§4.5), two classes of conformance with an SDK profile that is claimed and checked rather than granted (§9), and the ratification of everything that had accumulated since 1.4. <strong>Migration:</strong> declare <code>2.0</code>, point at <code>/schema/v2/</code>, emit RFC 3339 timestamps, take the <code>2.0.x</code> packages, and stop substituting values for optional fields the caller did not supply. <code>from_object</code> is the canonical constructor name; <code>from_dict</code> and <code>fromJSON</code> keep working as deprecated aliases.</td></tr>
+<tr><td>2.1</td><td>October 2026</td><td><strong>MINOR.</strong> Three accepted decisions; none changes the bytes or the meaning of an existing event. <strong>(1) A new event type, <code>asset.state</code></strong> (<code>rfc/IAES-RFC-010.md</code>): whether an asset is up or down, planned or unplanned, why, and what it was doing while up &mdash; the facts MTBF, MTTR and availability are computed from, as ISO 14224:2016 asks them to be collected. It carries no <code>content_hash</code>. Its schema is a new file at a new URI, <code>https://iaes.dev/schema/v2/asset.state</code>; no 2.x schema was edited. <strong>Recovery Events no longer claim MTTR:</strong> the interval between a condition's onset and its recovery is not the restoration of the asset, and a consumer that declares 2.1 MUST NOT present it as one; a 2.0 consumer that does stays conforming to 2.0. <strong>(2) <code>content_hash</code> by RFC 8785 (JCS)</strong> (<code>rfc/IAES-RFC-011.md</code>) for events that declare 2.1 or later; an event that declares 2.0 keeps the 2.0 computation, so a retried 2.0 event keeps its hash. <em>Known risk, disclosed:</em> for 2.0 events whose <code>data</code> holds non-ASCII text, exponents, integer-like keys or characters outside the BMP, the 2.0 hash depended on the implementation that produced it (the Python and TypeScript SDKs disagreed on six of eleven shared cases). A consumer that recomputes the hashes of mixed-version events gets different values: a missed duplicate, never a false merge. <strong>(3) Where an RFC lives</strong> (<code>rfc/IAES-RFC-013.md</code>): a Draft stays in its pull request until it reaches Review. <strong>Migration:</strong> none is required of the wire. One library behaviour to know: the 2.0.x SDKs&rsquo; <code>from_object</code> (Python) and <code>fromObject</code> (TypeScript) raise <code>Unknown IAES event_type</code> on an <code>asset.state</code> event, so a consumer that passes every incoming event through them either guards that call or takes the <code>2.1.x</code> packages. To produce <code>asset.state</code>, declare 2.1 and take the <code>2.1.x</code> packages; a consumer adds the type when it wants the timeline. The SDK profile adds the new builder and five enumerations, and a library that met the 2.0 profile keeps claiming 2.0. The Node-RED route node gains output 8 for <code>asset.state</code>, after the seven a 2.0 flow is wired to.</td></tr>
 </tbody>
 </table>
     </section>
@@ -1829,8 +1976,11 @@
 <tr><td>RFC 4122</td><td><strong>Yes</strong> for <code>event_id</code>, <code>correlation_id</code> and <code>source_event_id</code>.</td><td><strong>No.</strong> Same reason.</td></tr>
 <tr><td>RFC 3986</td><td><strong>Yes</strong> for <code>dataschema</code>, which carries a URI.</td><td><strong>No.</strong> Same reason.</td></tr>
 <tr><td>RFC 2119, RFC 8174</td><td><strong>Yes.</strong> How MUST, SHOULD and MAY are to be read here.</td><td><strong>Not applicable.</strong> Not a schema constraint.</td></tr>
+<tr><td>RFC 8785</td><td><strong>Yes</strong> for <code>content_hash</code> on events that declare 2.1 or later.</td><td><strong>No.</strong> A digest is computed, not validated: the schema checks only that it is a string.</td></tr>
 <tr><td>ISO 4217</td><td><strong>Yes.</strong> <code>currency</code> is an ISO 4217 code.</td><td><strong>Partly.</strong> <code>^[A-Z]{3}$</code> checks the shape, not membership: <code>ZZZ</code> and <code>QQQ</code> pass.</td></tr>
 <tr><td>ISO 14224</td><td>No. Mentioned for the <code>iso_14224</code> object and Appendix B.</td><td>No.</td></tr>
+<tr><td>ISO 14224:2016</td><td>No. Where the vocabulary of <code>asset.state</code> comes from (3.15, 3.38, 3.96, Table 4). This document states what each value means.</td><td>No.</td></tr>
+<tr><td>IEC 60050-192:2015</td><td>No. Mentioned for the operating-time definition of MTBF (192-05-13).</td><td>No.</td></tr>
 <tr><td>ISO 17359</td><td>No. Mentioned for <code>units_qualifier</code> and the acquisition fields.</td><td>No.</td></tr>
 <tr><td>ISO 13374 series</td><td>No. Mentioned for <code>iso_13374_status</code>, <code>condition_trend</code> and Appendix C.</td><td>No.</td></tr>
 <tr><td>ISO 55000</td><td>No. Mentioned as asset management context.</td><td>No.</td></tr>
@@ -2127,6 +2277,7 @@
     <!-- Version History -->
     <section class="spec-section" id="version-history">
       <h2 data-i18n="sec_versions">Version History</h2>
+      <p>Releases from 1.4 onward, including 2.1, are recorded in the specification&rsquo;s own table under <a href="#versioning">Versioning</a>.</p>
 
       <table class="spec-table">
         <thead>
@@ -2164,7 +2315,7 @@
     <section class="spec-section" id="license">
       <h2>License</h2>
       <p>IAES is an open specification licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. Implementations may be proprietary.</p>
-      <p><em>IAES v2.0 — September 2026</em> <em>Created by the <a href="https://wertek.ai">Wertek AI</a> team.</em> <em>Implementations are listed in <a href="https://github.com/wertek-ai/iaes/blob/spec-v2.0/README.md">README.md</a>. None of them is privileged: conformance is measured on the wire, not against any one of them.</em></p>
+      <p><em>IAES v2.1 — October 2026</em> <em>Created by the <a href="https://wertek.ai">Wertek AI</a> team.</em> <em>Implementations are listed in <a href="https://github.com/wertek-ai/iaes/blob/spec-v2.1/README.md">README.md</a>. None of them is privileged: conformance is measured on the wire, not against any one of them.</em></p>
     </section>
 
   </main>
