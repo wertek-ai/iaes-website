@@ -19,7 +19,7 @@
       "note": "The last 1.x release. Kept resolvable permanently."
     },
     "v2": {
-      "tag": "spec-v2.0",
+      "tag": "spec-v2.1",
       "note": "The current line. Moves when a 2.x specification release ships."
     }
   },
@@ -42,7 +42,7 @@
       "Which release /spec/ renders. It is a web rendering, not a second authority: the normative specification is the tagged release.",
       "Moving this line is what makes tools/check_spec_sections.py demand the page catch up, which is the point -- the page fell two releases behind and nothing noticed."
     ],
-    "tag": "spec-v2.0",
+    "tag": "spec-v2.1",
     "path": "spec/index.html",
     "sections": "spec/SECTIONS.json"
   }

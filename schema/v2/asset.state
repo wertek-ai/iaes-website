@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://iaes.dev/schema/v2/asset.state",
+  "title": "IAES asset.state",
+  "description": "A transition of an asset between up and down, declared once per transition and never per reading. The envelope timestamp is the instant of the transition. Carries facts, not indicators: how a consumer turns them into MTBF, MTTR or availability is the consumer's, and it states its classification.",
+  "allOf": [
+    { "$ref": "https://iaes.dev/schema/v2/envelope" }
+  ],
+  "properties": {
+    "event_type": { "const": "asset.state" },
+    "content_hash": {
+      "not": {},
+      "description": "Forbidden on asset.state. data carries no time, so two identical transitions would hash the same and the second would be dropped as a duplicate; consumers deduplicate this type by event_id."
+    },
+    "data": {
+      "type": "object",
+      "required": ["state"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["up", "down"],
+          "description": "The state from this event's timestamp on: able (up) or unable (down) to perform as required (ISO 14224:2016, 3.96 and 3.15)."
+        },
+        "down_kind": {
+          "type": ["string", "null"],
+          "enum": ["planned", "unplanned", null],
+          "description": "The two branches of down time (ISO 14224:2016, Table 4). Required when state is down."
+        },
+        "down_cause": {
+          "type": ["string", "null"],
+          "description": "The four branches of down time (ISO 14224:2016, Table 4). Open: the examples are the published values, and a consumer MUST treat any other as not classified, never as an error. A published value must agree with down_kind: the first two are planned, the last two unplanned. A trip is an other unplanned outage, not corrective maintenance.",
+          "examples": ["preventive_maintenance", "other_planned", "corrective_maintenance", "other_unplanned"]
+        },
+        "up_mode": {
+          "type": ["string", "null"],
+          "description": "What the asset was doing while up, when the producer knows it: the up-time leaves of ISO 14224:2016 Table 4, plus externally disabled time (3.38, Note 3). Open: the examples are the published values, and a consumer MUST treat any other as not classified, never as an error. Whether a mode counts as operating time is the consumer's classification.",
+          "examples": ["start_up", "running", "run_down", "hot_standby", "idle", "cold_standby", "externally_disabled"]
+        },
+        "previous_state": {
+          "type": ["string", "null"],
+          "enum": ["up", "down", "unknown", null],
+          "description": "What the producer believed the state was just before this event. unknown when it starts, or regains sight of the asset, without knowing it."
+        },
+        "detail": {
+          "type": ["string", "null"],
+          "description": "Anything finer than the cause or the mode. Open, and not a published catalog.",
+          "examples": ["trip", "manual_shutdown", "modification", "reserve", "testing"]
+        },
+        "work_order_id": {
+          "type": ["string", "null"],
+          "description": "The work order this down interval is handled under, on any event of the interval once it is known."
+        },
+        "reason": {
+          "type": ["string", "null"],
+          "description": "Free text: what the producer observed."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "state": { "const": "down" } }, "required": ["state"] },
+          "then": { "required": ["down_kind"], "properties": { "down_kind": { "type": "string" } } }
+        },
+        {
+          "if": { "properties": { "down_cause": { "enum": ["preventive_maintenance", "other_planned"] } }, "required": ["down_cause"] },
+          "then": { "properties": { "down_kind": { "const": "planned" } } }
+        },
+        {
+          "if": { "properties": { "down_cause": { "enum": ["corrective_maintenance", "other_unplanned"] } }, "required": ["down_cause"] },
+          "then": { "properties": { "down_kind": { "const": "unplanned" } } }
+        }
+      ]
+    }
+  }
+}

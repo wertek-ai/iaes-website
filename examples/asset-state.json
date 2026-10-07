@@ -1,0 +1,47 @@
+[
+  {
+    "spec_version": "2.1",
+    "event_type": "asset.state",
+    "dataschema": "https://iaes.dev/schema/v2/asset.state",
+    "event_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "correlation_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "timestamp": "2026-10-06T06:10:00Z",
+    "source": "example.plant.line1",
+    "asset": {
+      "asset_id": "PUMP-001",
+      "asset_name": "Cooling Water Pump P-001",
+      "plant": "Plant A",
+      "area": "Line 1"
+    },
+    "data": {
+      "state": "down",
+      "down_kind": "unplanned",
+      "down_cause": "other_unplanned",
+      "previous_state": "up",
+      "detail": "trip",
+      "reason": "motor protection trip"
+    }
+  },
+  {
+    "spec_version": "2.1",
+    "event_type": "asset.state",
+    "dataschema": "https://iaes.dev/schema/v2/asset.state",
+    "event_id": "1b4e28ba-2fa1-4d2a-883f-0016d3cca427",
+    "correlation_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "source_event_id": "7c9e6679-7425-40de-944b-e07fc1f90ae7",
+    "timestamp": "2026-10-06T07:25:00Z",
+    "source": "example.plant.line1",
+    "asset": {
+      "asset_id": "PUMP-001",
+      "asset_name": "Cooling Water Pump P-001",
+      "plant": "Plant A",
+      "area": "Line 1"
+    },
+    "data": {
+      "state": "up",
+      "up_mode": "running",
+      "previous_state": "down",
+      "reason": "restarted after the trip was reset"
+    }
+  }
+]

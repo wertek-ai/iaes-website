@@ -41,6 +41,17 @@
     "Appendix C: ISO 13374 series Health Status Mapping": "appendix-c",
     "License": "license"
   },
+  "event_types": {
+    "$comment": "Which anchor renders each published event type: every '### `type`' under '## Event Types'. 2.1 added asset.state as a subsection of a section the page already had, so the section check alone would have passed a page that never rendered it.",
+    "asset.measurement": "asset-measurement",
+    "asset.health": "asset-health",
+    "maintenance.work_order_intent": "work-order-intent",
+    "maintenance.completion": "maintenance-completion",
+    "asset.hierarchy": "asset-hierarchy",
+    "sensor.registration": "sensor-registration",
+    "maintenance.spare_part_usage": "spare-part-usage",
+    "asset.state": "asset-state"
+  },
   "page_only": {
     "$comment": "Anchors the page carries that the specification has no section for. Version History renders the specification's version table, which lives inside the document rather than under its own '## '.",
     "version-history": "renders the specification's version history table"

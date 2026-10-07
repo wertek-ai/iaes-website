@@ -12,11 +12,11 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>What is IAES? — Industrial Asset Event Standard</title>
-  <meta name="description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.">
+  <meta name="description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 8 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.">
   <meta name="keywords" content="what is iaes, industrial asset event standard, what is the industrial asset event standard, IAES standard, industrial IoT, asset events, SCADA interoperability, CMMS integration">
   <meta name="theme-color" content="#1B2024">
   <meta property="og:title" content="What is IAES? — Industrial Asset Event Standard">
-  <meta property="og:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types with a stable envelope for cross-system interoperability.">
+  <meta property="og:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 8 JSON event types with a stable envelope for cross-system interoperability.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://iaes.dev/what-is-iaes.html">
   <meta property="og:image" content="https://iaes.dev/assets/og-image.png">
@@ -24,7 +24,7 @@
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="What is IAES? — Industrial Asset Event Standard">
-  <meta name="twitter:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 7 JSON event types with a stable envelope for cross-system interoperability.">
+  <meta name="twitter:description" content="IAES is a minimal, vendor-neutral event standard for industrial assets. 8 JSON event types with a stable envelope for cross-system interoperability.">
   <meta name="twitter:image" content="https://iaes.dev/assets/og-image.png">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -644,7 +644,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "What is IAES? — Industrial Asset Event Standard",
-    "description": "IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 7 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.",
+    "description": "IAES is a minimal, vendor-neutral event standard for industrial assets. Learn how 8 JSON event types + a stable envelope alignment enable cross-system interoperability for SCADA, CMMS, and condition monitoring.",
     "author": {
       "@type": "Person",
       "name": "Gilberto Garza"
@@ -775,7 +775,7 @@
       <h2>What IAES Solves</h2>
       <p>IAES defines a minimal JSON envelope plus typed event payloads. Any system can produce and consume IAES events without vendor lock-in or proprietary protocols.</p>
       <ul>
-        <li><strong>One envelope, seven event types</strong> &mdash; measurements, health changes, work orders, completions, hierarchy, sensor registration, spare parts</li>
+        <li><strong>One envelope, eight event types</strong> &mdash; measurements, health changes, work orders, completions, hierarchy, sensor registration, spare parts, asset up/down state</li>
         <li><strong>Vendor-neutral</strong> &mdash; works with any SCADA, CMMS, historian, or custom system</li>
         <li><strong>Standards-aware</strong> &mdash; IAES references ISO 17359, 13374, 14224 and 55000 for context; ISO 4217 is normative for <code>currency</code>. <a href="/iaes-iso-alignment/">Citation is not conformance</a>.</li>
         <li><strong>Human-readable JSON</strong> &mdash; no binary encoding, no schema compilation, no code generation required</li>
@@ -881,7 +881,7 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════════════════════
-     7 EVENT TYPES
+     8 EVENT TYPES
      ══════════════════════════════════════════════════════════════════════════ -->
 <section class="section-light">
   <div class="container">
@@ -917,6 +917,10 @@
       <div class="event-card">
         <div class="event-card-type">maintenance.spare_part_usage</div>
         <p>Parts consumed during maintenance &mdash; part number, quantity, cost, linked work order.</p>
+      </div>
+      <div class="event-card">
+        <div class="event-card-type">asset.state</div>
+        <p>When an asset goes up or down &mdash; planned or unplanned, why, and what it was doing while up. The timeline MTBF, MTTR and availability are computed from. New in 2.1.</p>
       </div>
     </div>
   </div>

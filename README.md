@@ -38,11 +38,19 @@ Pushes to `main` trigger automatic deployment.
 
 ## SDKs Documented
 
-| SDK | Package | Version |
-|-----|---------|---------|
-| Python | [`iaes`](https://pypi.org/project/iaes/) | 0.2.0 |
-| TypeScript | [`@iaes/sdk`](https://www.npmjs.com/package/@iaes/sdk) | 0.2.0 |
-| Node-RED | [`node-red-contrib-iaes`](https://flows.nodered.org/node/node-red-contrib-iaes) | 0.3.0 |
+The packages follow the specification's major and minor: a `2.x.y` package implements
+IAES `2.x`. The registries are the authority for what is published; the table states
+the line, not a release.
+
+| SDK | Package | Line |
+|-----|---------|------|
+| Python | [`iaes`](https://pypi.org/project/iaes/) | 2.x |
+| TypeScript | [`@iaes/sdk`](https://www.npmjs.com/package/@iaes/sdk) | 2.x |
+| Node-RED | [`node-red-contrib-iaes`](https://flows.nodered.org/node/node-red-contrib-iaes) | 2.x |
+| n8n | [`n8n-nodes-iaes`](https://www.npmjs.com/package/n8n-nodes-iaes) | 2.x |
+
+As of 2026-10-07 the registries serve `2.0.2` of all four; producing `asset.state`
+(IAES 2.1) needs the `2.1.x` packages once they are published.
 
 ## Related Repos
 

@@ -68,6 +68,26 @@ def spec_sections(md: str) -> list:
     return [l[3:].strip() for l in md.split("\n") if l.startswith("## ")]
 
 
+def spec_event_types(md: str) -> list:
+    """Every published event type: the '### `type`' headings under '## Event Types'.
+
+    The section check alone could not see these. 2.1 added `asset.state` as a
+    '###' inside a section the page already had, so a page that rendered
+    'Event Types' without the new type would have passed: the section was
+    present, one of its types was not.
+    """
+    out, inside = [], False
+    for line in md.split("\n"):
+        if line.startswith("## "):
+            inside = line[3:].strip() == "Event Types"
+            continue
+        if inside and line.startswith("### "):
+            m = re.match(r"###\s+`([^`]+)`", line)
+            if m:
+                out.append(m.group(1))
+    return out
+
+
 SCHEMA_URI = re.compile(r"https://iaes\.(?:dev|wertek\.ai)/schema/v[0-9]+/")
 
 
@@ -162,6 +182,25 @@ def check(tag: str = None) -> list:
                 f"spec/SECTIONS.json maps '{s}', which {tag} does not have. "
                 f"A stale mapping hides the section it was standing in for.")
 
+    # EVENT TYPES. Same rule one level down: every published type has an
+    # anchor on the page, and every mapped type is published.
+    types = {k: v for k, v in mapping.get("event_types", {}).items()
+             if not k.startswith("$")}
+    published_types = spec_event_types(md)
+    for et in published_types:
+        if et not in types:
+            errors.append(
+                f"{tag} publishes the event type '{et}' and spec/SECTIONS.json "
+                f"does not map it under `event_types`.")
+        elif types[et] not in anchors:
+            errors.append(
+                f"event type '{et}' maps to #{types[et]}, and {cfg['path']} has "
+                f"no such anchor. The page is missing a type {tag} publishes.")
+    for et in sorted(set(types) - set(published_types)):
+        errors.append(
+            f"spec/SECTIONS.json maps the event type '{et}', which {tag} does "
+            f"not publish.")
+
     # HISTORY. A version-history row states what a PAST release did, and its
     # schema URIs belong to that release's major forever -- 2.0 says so in
     # words: a representation served under a major's URI stays that major's and
@@ -213,8 +252,11 @@ def main() -> None:
         raise SystemExit(1)
 
     served = json.loads(SERVED.read_text(encoding="utf-8"))["spec_page"]
-    n = len(json.loads(MAP.read_text(encoding="utf-8"))["sections"])
-    print(f"/spec/  renders all {n} sections of {args.tag or served['tag']}")
+    mapping = json.loads(MAP.read_text(encoding="utf-8"))
+    n = len(mapping["sections"])
+    k = len([t for t in mapping.get("event_types", {}) if not t.startswith("$")])
+    print(f"/spec/  renders all {n} sections and {k} event types of "
+          f"{args.tag or served['tag']}")
     print("not checked here: whether the rendered prose matches the section -- "
           "this catches a lost section, not a stale paragraph")
 
