@@ -5,3 +5,11 @@
 #
 # It is gone. The URL still resolves, to the page that is actually maintained.
 /spec/IAES_SPEC.md    /spec/    301
+
+# Every published event schema references its envelope as "iaes-envelope.schema.json", the file name in the
+# standard's repository. Against an $id of https://iaes.dev/schema/<major>/<type> that resolves to
+# /schema/<major>/iaes-envelope.schema.json, which answered 404: a validator fetching the schemas from this site
+# could not resolve the envelope (the SDKs never noticed, because they validate against copies they ship).
+# Served here as a 200 rewrite of the envelope's canonical path, so no schema's bytes change.
+/schema/v1/iaes-envelope.schema.json    /schema/v1/envelope    200
+/schema/v2/iaes-envelope.schema.json    /schema/v2/envelope    200
